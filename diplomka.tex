@@ -1,0 +1,116 @@
+\documentclass[11pt,,oneside]{fithesis}
+
+\usepackage[english]{babel}
+\usepackage[cp1250]{inputenc}
+\usepackage[IL2]{fontenc}
+\usepackage[plainpages=false, pdfpagelabels, hidelinks]{hyperref}
+\usepackage{amsmath, amssymb, graphicx, amsthm, amsfonts, enumitem, algpseudocode, algorithmicx, wasysym}
+\usepackage[chapter]{algorithm}
+\usepackage{float}
+\newfloat{algorithm}{t}{lop}
+\floatname{algorithm}{Algorithm}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\def\NoNumber#1{{\def\alglinenumber##1{}\State #1}\addtocounter{ALG@line}{-1}}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lemma}[thm]{Lemma}
+\newtheorem{example}[thm]{Example}
+\newtheorem{corollary}[thm]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{mydef}[thm]{Definition}
+\newtheorem{observation}[thm]{Observation}
+
+
+\thesislang{en}
+\thesistitle{Computational Complexity of Patrolling Games on Oriented Graphs}
+\thesissubtitle{Diploma Thesis}
+\thesisstudent{Matúš Abaffy}
+\thesiswoman{false}
+\thesisfaculty{fi}
+\thesisyear{2014}
+\thesisadvisor{doc. RNDr. Tomáš Brázdil, Ph.D.}
+
+\begin{document}
+
+\FrontMatter
+\ThesisTitlePage
+
+\begin{ThesisDeclaration}
+\DeclarationText
+\AdvisorName
+\end{ThesisDeclaration}
+
+\begin{ThesisThanks}
+I would like to thank Blablabla
+\end{ThesisThanks}
+
+\begin{ThesisAbstract}
+Blablabla
+\end{ThesisAbstract}
+
+\begin{ThesisKeyWords}
+patrolling games, game theory, complexity, algorithm, oriented graphs, blablabla
+\end{ThesisKeyWords}
+
+\MainMatter
+\tableofcontents
+\pagestyle{plain}
+
+\chapter{Introduction}
+
+Blablabla
+
+
+\chapter{Overview Blabla}
+
+
+\section{Abeceda a jazyk}
+
+
+\begin{mydef}
+\emph{Gramatika} $\mathcal{G}$ je štvorica $(N, \Sigma, P, S)$, kde
+\begin{itemize}
+	\item $N$ je neprázdna koneèná mnoina \emph{neterminálnych symbolov} (ïalej \emph{neterminálov}).
+	\item $\Sigma$ je koneèná mnoina \emph{terminálnych symbolov} (ïalej \emph{terminálov}) taká, e $N \cap \Sigma = \emptyset$. Symbolom $V = N \cup \Sigma$ budeme znaèi mnoinu \emph{všetkıch symbolov} gramatiky.
+	\item $P \subseteq V^*NV^* \times V^*$ je koneèná mnoina \emph{pravidiel}. Pravidlo $(\alpha, \beta)$ obvykle zapisujeme v tvare $\alpha \rightarrow \beta$ a èítame ``$\alpha$ prepíš na $\beta$''. \emph{¼avou stranou} pravidla $\alpha \rightarrow \beta$ rozumieme jeho prvú zloku ($\alpha$), \emph{pravou stranou} pravidla jeho druhú zloku ($\beta$).
+	\item $S \in N$ je špeciálny \emph{poèiatoènı} neterminál (nazıvanı \emph{koreò gramatiky}).
+\end{itemize}
+\end{mydef}
+
+
+
+
+\chapter{This is the end, my only friend, the end}
+
+
+
+
+\def\us{\char`\_}
+
+\bibliographystyle{plain}
+%\bibliography{mujbisoubor}
+\begin{thebibliography}{9}
+
+\bibitem{fja} ÈERNÁ, I., KØETINSKİ, M., KUÈERA, A.: \emph{Automaty a formální jazyky I}. 1. vyd. Brno: Masarykova univerzita, 2002.
+
+\bibitem{ullman} HOPCROFT, J.E., MOTWANI, R., ULLMAN, J.D.: \emph{Introduction to Automata Theory, Languages, and Computation}. 2. vyd. Boston: Addison Wesley, 2000.
+
+\bibitem{mirek} MIREK, R.: \emph{Generátor príkladov k teórii formálnych jazykov} [online]. 2009 [cit. 2012-05-01]. Bakalárska práca. Masarykova univerzita, Fakulta informatiky. Dostupné z: $<$http://is.muni.cz/th/207730/fi\texttt{\us}b/$>$.
+
+\bibitem{hlineny} HLINÌNİ, P.: \emph{Základy teorie grafù} [online]. 1 vyd. Brno: Masarykova univerzita, 2010 [cit. 2012-05-03]. Elportál. Dostupné~z: $<$http://is.muni.cz/elportal/?id=878389$>$.
+
+\bibitem{topolog} Wikipedia: \emph{Topological sorting} [online]. [cit. 2012-05-03]. Dostupné~z: $<$http://en.wikipedia.org/wiki/index.php?Topological\texttt{\us}sorting$>$.
+
+\bibitem{zbierka} ÈERNÁ, I., BARNAT, J., ØEHÁK, V.: \emph{Pøíklady k cvièením - IB102 a IB005} [online]. 2006 [cit. 2012-05-09]. Masarykova univerzita,  Fakulta informatiky. Dostupné~z: $<$http://www.fi.muni.cz/usr/kretinsky/afj1.ps$>$
+
+\end{thebibliography}
+
+
+\appendix
+\chapter{Ugly Proofs}
+
+
+
+\end{document}
