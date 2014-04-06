@@ -64,9 +64,22 @@ Blablabla
 
 
 \chapter{Overview Blabla}
+In this !!!chapter/section!!!, we give an overview of research in the field of patrolling games in the last years. We address several models. For each model, we state the differences from our model and we mention the most significant results.
 
+GENERAL:
+- On graphs, distance between two neighbour nodes is the same.
+- Adversary (adversarial) settings (attacker knows the defender's strategy and the current position of patrolling unit(s))
+-> holds true unless stated otherwise.
+- + single adversary?
 
-\section{Abeceda a jazyk}
+\subsection{Perimeter Patrol}
+The first reference in almost every robot patrolling paper is \cite{perimeter}. Authors consider a problem of multi-robot patrol around a closed area with the existence of a single adversary trying to enter the area. A real life motivation might be the following scenario. An intruder tries to cross a border while some patrolling units aim to detect this intrusion.
+
+Authors show that in adversial settings non-deterministic defender strategies are needed. They demonstrate it on an example similar to the following situation. A robot moving with velocity ${1m/s}$ is required to patrol around a fence of length 25 meters. Assume that an adversary needs 20 seconds to penetrate the area through the fence. If the robot moves deterministically, in any point of time a fence section of lenght of at least 5 meters will not be visited by the robot in the next 20 seconds. The intruder can guarantee penetration by entering through this section. However, if the robot moves in a non-deterministic way, it can commit to a strategy that does not allow the adversary to penetrate the area with probability one.
+
+\chapter{Preliminaries}
+
+\section{Basic Definitions}
 
 
 \begin{mydef}
@@ -93,7 +106,7 @@ Blablabla
 %\bibliography{mujbisoubor}
 \begin{thebibliography}{9}
 
-\bibitem{fja} ÈERNÁ, I., KØETINSKÝ, M., KUÈERA, A.: \emph{Automaty a formální jazyky I}. 1. vyd. Brno: Masarykova univerzita, 2002.
+\bibitem{perimeter} N. Agmon, S. Kraus, and G. A. Kaminka. Multi-robot perimeter patrol in adversarial settings. In \emph{ICRA}, pages 2339–2345, 2008.
 
 \bibitem{ullman} HOPCROFT, J.E., MOTWANI, R., ULLMAN, J.D.: \emph{Introduction to Automata Theory, Languages, and Computation}. 2. vyd. Boston: Addison Wesley, 2000.
 
