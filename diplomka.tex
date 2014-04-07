@@ -67,15 +67,24 @@ Blablabla
 In this !!!chapter/section!!!, we give an overview of research in the field of patrolling games in the last years. We address several models. For each model, we state the differences from our model and we mention the most significant results.
 
 GENERAL:
-- On graphs, distance between two neighbour nodes is the same.
-- Adversary (adversarial) settings (attacker knows the defender's strategy and the current position of patrolling unit(s))
--> holds true unless stated otherwise.
+- On graphs, distance between any two neighbour nodes is the same.
+- (Strong) Adversarial settings (attacker knows the defender's strategy and the current position of patrolling unit(s))
+=> holds true unless stated otherwise.
 - + single adversary?
 
 \subsection{Perimeter Patrol}
-The first reference in almost every robot patrolling paper is \cite{perimeter}. Authors consider a problem of multi-robot patrol around a closed area with the existence of a single adversary trying to enter the area. A real life motivation might be the following scenario. An intruder tries to cross a border while some patrolling units aim to detect this intrusion.
+The first reference in almost every robot patrolling paper is \cite{perimeter}. The authors consider a problem of multi-robot patrol around a closed area with the existence of a single adversary trying to enter the area. A real life motivation might be the following scenario. An intruder tries to cross a border while some patrolling units aim to detect this intrusion.
 
-Authors show that in adversial settings non-deterministic defender strategies are needed. They demonstrate it on an example similar to the following situation. A robot moving with velocity ${1m/s}$ is required to patrol around a fence of length 25 meters. Assume that an adversary needs 20 seconds to penetrate the area through the fence. If the robot moves deterministically, in any point of time a fence section of lenght of at least 5 meters will not be visited by the robot in the next 20 seconds. The intruder can guarantee penetration by entering through this section. However, if the robot moves in a non-deterministic way, it can commit to a strategy that does not allow the adversary to penetrate the area with probability one.
+The authors show that in adversial settings non-deterministic defender strategies are needed. They demonstrate it on an example similar to the following situation. A robot moving with velocity ${1m/s}$ is required to patrol around a fence of length 25 meters. Assume that an adversary needs 20 seconds to penetrate the area through the fence. If the robot moves deterministically, in any point of time a fence section of lenght of at least 5 meters will not be visited by the robot in the next 20 seconds. The intruder can guarantee penetration by entering through this section. However, if the robot moves in a non-deterministic way, it can commit to a strategy that does not allow the adversary to penetrate the area with probability one.
+
+In the paper, a circular graph is considered. All nodes of the graph are targets with unified attack length (penetration time). A system consisting of $k$ mobile robots is considered. Robots move simultaneously. The model is ??stochastic/markovian/stationary??, where for each node the robot goes to the right with probability $p$ and to the left with probability ${1 - p}$.\footnote{Two other movement models are considered, where the robot has directionality associated with its movement. The achieved results, such as polynomial time algorithm for finding the optimal strategy, apply for these models too.} The authors prove that to maximize the probability of penetration detection (\textsf{ppd}), the robots have to be placed uniformly along the cycle and they have to be coordinated, i.e. all robots move together in the same direction. This reduces the problem to a much simpler instance with smaller graph and only one robot. The main result is a polynomial time algorithm which computes the optimal defender's strategy.
+
+Authors' subsequent papers concerning multi-robot perimiter patrol in adversial settings include \cite{perimeter2} and \cite{perimeter3}. In \cite{perimeter2} it is shown that in the case the adversary has no knowledge of the patrol scheme, a deterministic algorithm is optimal. However, the deterministic algorithm creates high deviations between the  \textsf{ppd} values in the nodes and it is easy to detect. Therefore, the authors present an algorithm that deals with adversary having partial information. This algorithm maximizes the expected \textsf{ppd} along with minimizing the deviation between the \textsf{ppd} values throughout the perimeter. Its performance was verified by experiments with human subjects.
+
+\subsection{dalsie omacky}
+
+
+
 
 \chapter{Preliminaries}
 
@@ -108,7 +117,9 @@ Authors show that in adversial settings non-deterministic defender strategies ar
 
 \bibitem{perimeter} N. Agmon, S. Kraus, and G. A. Kaminka. Multi-robot perimeter patrol in adversarial settings. In \emph{ICRA}, pages 2339–2345, 2008.
 
-\bibitem{ullman} HOPCROFT, J.E., MOTWANI, R., ULLMAN, J.D.: \emph{Introduction to Automata Theory, Languages, and Computation}. 2. vyd. Boston: Addison Wesley, 2000.
+\bibitem{perimeter2} N. Agmon, V. Sadov, S. Kraus, and G. A. Kaminka. The impact of adversarial knowledge on adversarial planning in perimeter patrol. In \emph{AAMAS}, pages 55-62, 2008.
+
+\bibitem{perimeter3} N. Agmon, S. Kraus, G. A. Kaminka, and V. Sadov. Adversarial uncertainty in multi-robot patrol. In \emph{IJCAI}, pages 1811-1817, 2009.
 
 \bibitem{mirek} MIREK, R.: \emph{Generátor príkladov k teórii formálnych jazykov} [online]. 2009 [cit. 2012-05-01]. Bakalárska práca. Masarykova univerzita, Fakulta informatiky. Dostupné z: $<$http://is.muni.cz/th/207730/fi\texttt{\us}b/$>$.
 
