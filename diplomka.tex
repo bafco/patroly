@@ -66,10 +66,14 @@ Blablabla
 \chapter{Overview Blabla}
 In this !!!chapter/section!!!, we give an overview of research in the field of patrolling games in the last years. We address several models. For each model, we state the differences from our model and we mention the most significant results.
 
-GENERAL:
-- On graphs, distance between any two neighbour nodes is the same.
-- (Strong) Adversarial settings (attacker knows the defender's strategy and the current position of patrolling unit(s))
-=> holds true unless stated otherwise.
+GENERAL => holds true unless stated otherwise:
+
+- defender = patroller = robot; attacker = intruder; attack lenght = penetration time
+
+- On directed graphs, distance between any two neighbour nodes is the same.
+
+- Strong adversarial settings (attacker knows the defender's strategy and the current position of patrolling unit(s))
+
 - + single adversary?
 
 \subsection{Perimeter Patrol}
@@ -77,11 +81,48 @@ The first reference in almost every robot patrolling paper is \cite{perimeter}. 
 
 The authors show that in adversial settings non-deterministic defender strategies are needed. They demonstrate it on an example similar to the following situation. A robot moving with velocity ${1m/s}$ is required to patrol around a fence of length 25 meters. Assume that an adversary needs 20 seconds to penetrate the area through the fence. If the robot moves deterministically, in any point of time a fence section of lenght of at least 5 meters will not be visited by the robot in the next 20 seconds. The intruder can guarantee penetration by entering through this section. However, if the robot moves in a non-deterministic way, it can commit to a strategy that does not allow the adversary to penetrate the area with probability one.
 
-In the paper, a circular graph is considered. All nodes of the graph are targets with unified attack length (penetration time). A system consisting of $k$ mobile robots is considered. Robots move simultaneously. The model is ??stochastic/markovian/stationary??, where for each node the robot goes to the right with probability $p$ and to the left with probability ${1 - p}$.\footnote{Two other movement models are considered, where the robot has directionality associated with its movement. The achieved results, such as polynomial time algorithm for finding the optimal strategy, apply for these models too.} The authors prove that to maximize the probability of penetration detection (\textsf{ppd}), the robots have to be placed uniformly along the cycle and they have to be coordinated, i.e. all robots move together in the same direction. This reduces the problem to a much simpler instance with smaller graph and only one robot. The main result is a polynomial time algorithm which computes the optimal defender's strategy.
+In the paper, a circular graph is considered. All nodes of the graph are targets with unified attack length (penetration time). A system consisting of $k$ mobile robots is considered. Robots move simultaneously. The model is ??stochastic/markovian/stationary??, where for each node the robot goes to the right with probability $p$ and to the left with probability ${1 - p}$.\footnote{Two other movement models, where the robot has directionality associated with its movement, are considered. The achieved results, such as polynomial time algorithm for finding the optimal strategy, apply for these models too.} The authors prove that to maximize the probability of penetration detection (\textsf{ppd}), the robots have to be placed uniformly along the cycle and they have to be coordinated, i.e. all robots move together in the same direction. This reduces the problem to a much simpler instance with smaller graph and only one robot. The main result is a polynomial time algorithm which computes the optimal defender's strategy.
 
 Authors' subsequent papers concerning multi-robot perimiter patrol in adversial settings include \cite{perimeter2} and \cite{perimeter3}. In \cite{perimeter2} it is shown that in the case the adversary has no knowledge of the patrol scheme, a deterministic algorithm is optimal. However, the deterministic algorithm creates high deviations between the  \textsf{ppd} values in the nodes and it is easy to detect. Therefore, the authors present an algorithm that deals with adversary having partial information. This algorithm maximizes the expected \textsf{ppd} along with minimizing the deviation between the \textsf{ppd} values throughout the perimeter. Its performance was verified by experiments with human subjects.
 
+\subsection{Arbitrary Graph Topologies}
+
+A more general graph topology is addressed in \cite{arbitrary}. The authors consider a model with a single robot patrolling on an arbitrary directed graph. Not all nodes of the graph are necessarily targets and each target node $i$ requires the intruder ${d_i}$ steps to enter.
+The robot is equipped with a sensor able to detect the intruder. The robot's sensing capabilities are represented by a matrix ${V(n \times n)}$ where ${v_{i,j} = 1}$ iff node $j$ can be sensed from node $i$. The patroller's sensing capabilities in our model are equivalent to the case of $V$ being an identity matrix.
+
+The possible outcomes of the game are defined as follows:
+\emph{intruder-capture}, when the intruder attacks some node $i$ and the robot senses $i$ in the next ${d_i}$ steps;
+\emph{penetration-i}, when the intruder attacks node $i$ and the robot does not sense $i$ in the next ${d_i}$ steps;
+\emph{no-attack}, when the intruder never attacks.
+For each possible outcome, patroller's and intruder's payoffs are defined.\footnote{The game is a general-sum game with some consistency constraints over the players' payoffs.} Explicitly, these values are known to both players. However, the model can capture the case when the intruder's preferences over the targets are uncertain to the patroller.
+
+The authors cope with the presence of the infinite horizon in the game by introducing symmetries. They allow the patroller to choose the next action based only on the last ${|H|}$ actions, where ${|H|}$ is finite and constant during all the game. Higher value of ${|H|}$ leads to possibly higher expected utility of the patroller, but also to higher computational complexity for finding the optimal patrolling strategy. The authors provide a multi-bilinear mathematical programming formulation to find the optimal patroller's strategy when ${|H| = 1}$. They state that formulations with ${|H| > 1}$ can be obtained by extending this one.
+
+Further, the paper is concerned in heuristics for more efficient problem solving. In realistic settings the number of targets is significantly smaller than the number of all nodes. That affords opportunity to reduce the programming problems' searching space, the number of variables and constraints.
+% use dash instead of comma? "- the number of ..."
+First, the authors are interested in a deterministic strategy which detects any attack with probability one. To solve the problem of finding such a strategy, they formulate an integer linear program.
+Second, the authors aim to minimize the number of nodes over which the patroller will randomize when using an optimal strategy. They formulate another integer linear program for that.
+Third, they introduce the concept of action dominance for the intruder.
+For an example setting, the reduction of nodes and the elimination of dominated actions resulted in the following improvement. Both the number of bilinear problems to be solved and the average computational time for solving a single problem decreased from ${29^2}$ to 18 and from more than 30 minutes to less than 5 minutes, respectively.
+
+The rest of the paper discusses the problem of finding an upper bound for ${|H|}$, say ${|\overline{H}|}$, such that there is an optimal strategy, among all the strategies,
+% - among all the strategies -
+which uses no more than length ${|\overline{H}|}$ of the history, i.e.for any ${|H| > |\overline{H}|}$ the patroller's expected utility keeps constant. Throughout the paper it is claimed that this treshold exists. However, in \cite{iti2} this claim has been proven \emph{incorrect}. Moreover, in \cite{arbitrary} they formulate a theorem that for a fully connected topology, ${|\overline{H}| = 0}$. That is also \emph{incorrect}. The proof sketch is done on a complete graph with 3 nodes, each with attack length 2. The authors prove that their algorithm gives the same expected utility when ${|H| = 0}$ and ${|H| = 1}$. Generalization of any kind is omitted. The highest expected utility when ${|H| = 0}$ is ${5/9}$. However, in \cite{iti1} there is a strategy with ${|H| = 2}$ giving expected utility ${(\sqrt{5} - 1)/2}$, which is strictly greater than ${5/9}$.
+
+The authors extend the model from \cite{arbitrary} to more realistic settings in \cite{powerlessIntruder}. They weaken the intruder in two ways. Their first extension introduces the intruder's movement. The intruder does not appear directly at the target, rather he has to traverse the graph along paths connecting \emph{access areas} to targets. The intruder can move infinitely fast. Covering a path takes only one step during which the intruder can be detected on every node of the path. In their second extension, some cells are hidden to the intruder. As he cannot observe the whole environment, he cannot perfectly know the position of the patroller when attacking. A concept of a \emph{state} is introduced, representing when (how many steps ago) and where (in which node) has the patroller been observed for the last time. For both extensions the authors provide mathematical programming formulations, reduction algorithms and experimental evaluations.
+
+\subsection{?? multiple robots}
+
+
+\subsection{?? alarms}
+
+\subsection{?? moving targets}
+
+\subsection{?? modularity}
+
 \subsection{dalsie omacky}
+
+
 
 
 
@@ -121,9 +162,17 @@ Authors' subsequent papers concerning multi-robot perimiter patrol in adversial 
 
 \bibitem{perimeter3} N. Agmon, S. Kraus, G. A. Kaminka, and V. Sadov. Adversarial uncertainty in multi-robot patrol. In \emph{IJCAI}, pages 1811-1817, 2009.
 
-\bibitem{mirek} MIREK, R.: \emph{Generátor príkladov k teórii formálnych jazykov} [online]. 2009 [cit. 2012-05-01]. Bakalárska práca. Masarykova univerzita, Fakulta informatiky. Dostupné z: $<$http://is.muni.cz/th/207730/fi\texttt{\us}b/$>$.
+\bibitem{arbitrary} N. Basilico, N. Gatti, and F. Amigoni. Leader-Follower Strategies for Robotic Patrolling in Environments with Arbitrary Topologies. In \emph{AAMAS}, pages 57-64, 2009.
 
-\bibitem{hlineny} HLINÌNÝ, P.: \emph{Základy teorie grafù} [online]. 1 vyd. Brno: Masarykova univerzita, 2010 [cit. 2012-05-03]. Elportál. Dostupné~z: $<$http://is.muni.cz/elportal/?id=878389$>$.
+\bibitem{powerlessIntruder} N. Basilico, N. Gatti, T. Rossi, S. Ceppi, and F. Amigoni. Extending Algorithms for Mobile Robot Patrolling in the Presence of Adversaries to More Realistic Settings. In \emph{WI-IAT}, pages 557-564, 2009.
+
+\bibitem{multi-robot} N. Basilico, N. Gatti, and F. Villa. Asynchronous Multi-Robot Patrolling against Intrusion in Arbitrary Topologies. In \emph{AAAI}, pages 1224-1229, 2010.
+
+\bibitem{miso} M. Abaffy. Patrolling Games on Graphs [online]. [cit. 2014-05-10] ??? Diploma thesis. Masaryk University, Faculty of Informatics. Available at $<$http://is.muni.cz/th/321758/fi\texttt{\us}m/$>$.
+
+\bibitem{iti1} M. Abaffy, T. Brázdil, V. Øehák, B. Bošanský, A. Kuèera, and J. Krèál. Solving Adversarial Patrolling Games with Bounded Error. Online: ???
+
+\bibitem{iti2} T. Brázdil, P. Hlinìný, A. Kuèera, and V. Øehák. Optimal Strategies in Adversarial Patrolling Games. Online: ???
 
 \bibitem{topolog} Wikipedia: \emph{Topological sorting} [online]. [cit. 2012-05-03]. Dostupné~z: $<$http://en.wikipedia.org/wiki/index.php?Topological\texttt{\us}sorting$>$.
 
