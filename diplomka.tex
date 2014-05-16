@@ -76,6 +76,8 @@ GENERAL => holds true unless stated otherwise:
 
 - + single adversary?
 
+- to intercept an attack, the defender has to come to a node where the attack is taking place
+
 \subsection{Perimeter Patrol}
 The first reference in almost every robot patrolling paper is \cite{perimeter}. The authors consider a problem of multi-robot patrol around a closed area with the existence of a single adversary trying to enter the area. A real life motivation might be the following scenario. An intruder tries to cross a border while some patrolling units aim to detect this intrusion.
 
@@ -88,7 +90,9 @@ Authors' subsequent papers concerning multi-robot perimiter patrol in adversial 
 \subsection{Arbitrary Graph Topologies}
 
 A more general graph topology is addressed in \cite{arbitrary}. The authors consider a model with a single robot patrolling on an arbitrary directed graph. Not all nodes of the graph are necessarily targets and each target node $i$ requires the intruder ${d_i}$ steps to enter.
-The robot is equipped with a sensor able to detect the intruder. The robot's sensing capabilities are represented by a matrix ${V(n \times n)}$ where ${v_{i,j} = 1}$ iff node $j$ can be sensed from node $i$. The patroller's sensing capabilities in our model are equivalent to the case of $V$ being an identity matrix.
+The robot is equipped with a sensor able to detect the intruder. The robot's sensing capabilities are represented by a matrix ${V(n \times n)}$ where ${v_{i,j} = 1}$ iff node $j$ can be sensed from node $i$.
+% footnote?
+The patroller's sensing capabilities in our model are equivalent to the case of $V$ being an identity matrix.
 
 The possible outcomes of the game are defined as follows:
 \emph{intruder-capture}, when the intruder attacks some node $i$ and the robot senses $i$ in the next ${d_i}$ steps;
@@ -114,11 +118,33 @@ The authors extend the model from \cite{arbitrary} to more realistic settings in
 \subsection{?? multiple robots}
 
 
-\subsection{?? alarms}
-
 \subsection{?? moving targets}
 
+So far, the targets carrying value were static. In \cite{movingTargets}, the authors assume that these valuable targets can change their positions in time. This is motivated by real-world scenarios such as protection of vessels transiting waters with high pirate activity and unmanned aerial vehicle-based surveillance protecting moving ground targets.
+
+The model considered in \cite{movingTargets} is based on the model used in \cite{arbitrary}. It assumes unified attack length and stochastic defender's strategy.
+% and identity sensing capabilities matrix.
+In addition, targets are allowed to move through the area according to a deterministic movement schedule. This schedule is a fixed property of the environment and is known to both players.
+
+The game is played in $|T|$ turns, thereafter it is repeated \--- i.e. the targets move in cycles. In each turn, the defender can move to an adjacent node and the targets can move to any node. The movement of the targets is defined by an arbitrary function ${f : Q \times T \mapsto V}$, where $Q$ is the set of targets, $T$ is the set of turns and $V$ is the set of nodes.
+%vynechat formalizmy a skratit to? "In contrast with the defender, the targets can move to any node, not just the adjacent one."
+Note that targets are not nodes anymore, but they are positioned in nodes.
+% rather???
+To cope with the target movement, the defender's strategy is time-dependent. The defender chooses his next action based not only on his current node but also on the current turn.
+
+The authors formulate a multi-bilinear program to find the optimal defender's strategy.
+They experimentally compare the performance of the stationary and time-dependent strategies. They do so in terms of the reached game value and computation time. Evaluation examples have different types of graph structure (grid with holes vs. full grid) and different types of target movement (distance between targets changing or not changing). 
+% dat prec zatvorky a ich obsah
+
+The results of the experiment show that in the game with mobile targets time-dependent strategies lead to significantly higher utility value. In the experimental results presented in the paper, time-dependent strategies preceded the stationary ones by approximately 50--300\%. However, the computational time was 10--1000 times larger. The authors concluded that time-dependent strategies are reasonable to be used.
+
+
+
+
+
 \subsection{?? modularity}
+
+%\subsection{?? alarms}
 
 \subsection{dalsie omacky}
 
@@ -156,11 +182,11 @@ The authors extend the model from \cite{arbitrary} to more realistic settings in
 %\bibliography{mujbisoubor}
 \begin{thebibliography}{9}
 
-\bibitem{perimeter} N. Agmon, S. Kraus, and G. A. Kaminka. Multi-robot perimeter patrol in adversarial settings. In \emph{ICRA}, pages 2339–2345, 2008.
+\bibitem{perimeter} N. Agmon, S. Kraus, and G. A. Kaminka. Multi-Robot Perimeter Patrol in Adversarial Settings. In \emph{ICRA}, pages 2339–2345, 2008.
 
-\bibitem{perimeter2} N. Agmon, V. Sadov, S. Kraus, and G. A. Kaminka. The impact of adversarial knowledge on adversarial planning in perimeter patrol. In \emph{AAMAS}, pages 55-62, 2008.
+\bibitem{perimeter2} N. Agmon, V. Sadov, S. Kraus, and G. A. Kaminka. The Impact of Adversarial Knowledge on Adversarial Planning in Perimeter Patrol. In \emph{AAMAS}, pages 55-62, 2008.
 
-\bibitem{perimeter3} N. Agmon, S. Kraus, G. A. Kaminka, and V. Sadov. Adversarial uncertainty in multi-robot patrol. In \emph{IJCAI}, pages 1811-1817, 2009.
+\bibitem{perimeter3} N. Agmon, S. Kraus, G. A. Kaminka, and V. Sadov. Adversarial Uncertainty in Multi-Robot Patrol. In \emph{IJCAI}, pages 1811-1817, 2009.
 
 \bibitem{arbitrary} N. Basilico, N. Gatti, and F. Amigoni. Leader-Follower Strategies for Robotic Patrolling in Environments with Arbitrary Topologies. In \emph{AAMAS}, pages 57-64, 2009.
 
@@ -168,7 +194,9 @@ The authors extend the model from \cite{arbitrary} to more realistic settings in
 
 \bibitem{multi-robot} N. Basilico, N. Gatti, and F. Villa. Asynchronous Multi-Robot Patrolling against Intrusion in Arbitrary Topologies. In \emph{AAAI}, pages 1224-1229, 2010.
 
-\bibitem{miso} M. Abaffy. Patrolling Games on Graphs [online]. [cit. 2014-05-10] ??? Diploma thesis. Masaryk University, Faculty of Informatics. Available at $<$http://is.muni.cz/th/321758/fi\texttt{\us}m/$>$.
+\bibitem{movingTargets} B. Bošanský, V. Lisý, M. Jakob, and M. Pìchouèek. Computing Time-Dependent Policies for Patrolling Games with Mobile Targets. In \emph{AAMAS}, pages 989-996, 2011.
+
+\bibitem{miso} M. Abaffy. Patrolling Games on Graphs [online]. 2013 [cit. 2014-05-10] ??? Diploma thesis. Masaryk University, Faculty of Informatics. Available at $<$http://is.muni.cz/th/321758/fi\texttt{\us}m/$>$.
 
 \bibitem{iti1} M. Abaffy, T. Brázdil, V. Øehák, B. Bošanský, A. Kuèera, and J. Krèál. Solving Adversarial Patrolling Games with Bounded Error. Online: ???
 
