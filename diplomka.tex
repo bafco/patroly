@@ -115,10 +115,25 @@ which uses no more than length ${|\overline{H}|}$ of the history, i.e.for any ${
 
 The authors extend the model from \cite{arbitrary} to more realistic settings in \cite{powerlessIntruder}. They weaken the intruder in two ways. Their first extension introduces the intruder's movement. The intruder does not appear directly at the target, rather he has to traverse the graph along paths connecting \emph{access areas} to targets. The intruder can move infinitely fast. Covering a path takes only one step during which the intruder can be detected on every node of the path. In their second extension, some cells are hidden to the intruder. As he cannot observe the whole environment, he cannot perfectly know the position of the patroller when attacking. A concept of a \emph{state} is introduced, representing when (how many steps ago) and where (in which node) has the patroller been observed for the last time. For both extensions the authors provide mathematical programming formulations, reduction algorithms and experimental evaluations.
 
-\subsection{?? multiple robots}
+\subsection{Multiple Patrolling Units}
 
+The authors of \cite{arbitrary} generalized their model by introducing multiple patrolling robots in \cite{multi-robot}. On the other hand, they simplified the model in many ways. They assume that the robots' strategy is stochastic, that the robots and the intruder have the same preference ordering over the targets and that the robots can sense only the nodes they are in.
 
-\subsection{?? moving targets}
+The first problem addressed in the paper is finding the smallest number of robots needed to capture any attack with probability greater than zero. With a smaller number of robots the intruder could successfully attack with probability one. The authors show that this problem is equivalent to finding the smallest number of maximal cliques such that each target belongs to at least one clique. A simplified idea behind this is the following.
+% "the following:" - throughout the document
+
+Let us assume a setting with a graph $G$ and a set of targets $T$. Let $T' \subseteq T$ be a subset of targets. If there is a subgraph $G' \subseteq G$
+%such that $T'$ is a subset of nodes of $G'$
+%such that for each $t \in T'$ it holds that
+%$t$ is a node of $G'$
+such that for each $t \in T'$ and for each node $v$ from $G'$ there is a path from $v$ to $t$ in $G'$ of length at most $d_t$, then a single robot can patrol all the targets $T'$. In other words, the robot has a strategy such that in each node of $G'$, for all $t \in T'$ the robot will visit $t$ in at most $d_t$ steps with probability strictly greater than zero.
+The goal is to find the smallest set of such subgraphs that would cover all the targets.
+
+The authors build an abstraction $Q$ of the original graph $G$. They formulate an algorithm to find the set of all maximal \emph{labeled cliques} in $Q$ and a linear program to find the smallest labeled clique cover. The result of the program is the smallest number of robots needed to patrol the environment.
+
+The second problem ...
+
+\subsection{Moving targets}
 
 So far, the targets carrying value were static. In \cite{movingTargets}, the authors assume that these valuable targets can change their positions in time. This is motivated by real-world scenarios such as protection of vessels transiting waters with high pirate activity and unmanned aerial vehicle-based surveillance protecting moving ground targets.
 
