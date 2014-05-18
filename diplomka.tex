@@ -119,6 +119,8 @@ The authors extend the model from \cite{arbitrary} to more realistic settings in
 
 The authors of \cite{arbitrary} generalized their model by introducing multiple patrolling robots in \cite{multi-robot}. On the other hand, they simplified the model in many ways. They assume that the robots' strategy is stochastic, that the robots and the intruder have the same preference ordering over the targets and that the robots can sense only the nodes they are in.
 
+%nejake odsadenie?
+%podnadpis Smallest Number of Robots
 The first problem addressed in the paper is finding the smallest number of robots needed to capture any attack with probability greater than zero. With a smaller number of robots the intruder could successfully attack with probability one. The authors show that this problem is equivalent to finding the smallest number of maximal cliques such that each target belongs to at least one clique. A simplified idea behind this is the following.
 % "the following:" - throughout the document
 
@@ -129,9 +131,39 @@ Let us assume a setting with a graph $G$ and a set of targets $T$. Let $T' \subs
 such that for each $t \in T'$ and for each node $v$ from $G'$ there is a path from $v$ to $t$ in $G'$ of length at most $d_t$, then a single robot can patrol all the targets $T'$. In other words, the robot has a strategy such that in each node of $G'$, for all $t \in T'$ the robot will visit $t$ in at most $d_t$ steps with probability strictly greater than zero.
 The goal is to find the smallest set of such subgraphs that would cover all the targets.
 
-The authors build an abstraction $Q$ of the original graph $G$. They formulate an algorithm to find the set of all maximal \emph{labeled cliques} in $Q$ and a linear program to find the smallest labeled clique cover. The result of the program is the smallest number of robots needed to patrol the environment.
+The authors build an abstraction $Q$ of the original graph $G$. They formulate an algorithm to find the set of all maximal \emph{labeled cliques} in $Q$
+%these cliques represent the beforementioned subgraphs
+and a linear program to find the smallest labeled clique cover. The result of the program is the smallest number of robots needed to patrol the environment.
 
-The second problem ...
+%nejake odsadenie?
+%podnadpis Coordination between Robots
+The second problem studied in the paper regards the coordination between the robots. The authors consider two coordination dimensions,
+%: in computing the patrolling strategy and in partitioning the environment.
+each with three possible values.
+
+The first dimension refers to the degree of \emph{coordination in computing the patrolling strategy}, which can be of one of the following types: 
+
+\emph{Joint strategy}: the strategy of each robot depends on its position and on the position of all the other robots.
+One strategy regarding the movement of all the robots is computed centrally. The solution contains $O(n^{|R|})$ probability variables, where $n$ is the number of nodes and $|R|$ is the number of robots.
+
+\emph{Disjointed strategies}: the strategy of each robot depends only on its position. The strategy of each robot is computed centrally keeping into account the strategy of all the other robots. The solution contains $O(|R|\cdot n^2)$ probability variables.
+
+\emph{Separated strategies}: each single robot computes its own strategy without considering the strategies or positions of the others. This reduces the multi-robot patrolling problem into a set of $|R|$ single-robot patrolling problems, each with $O(n^2)$ probability variables.
+
+The second dimension refers to the degree of \emph{coordination in partitioning the environment}. Each robot is constrained to move within a portion of $G$ assigned to it. Possible levels of this coordination are:
+
+\emph{Full assignment}: each robot can potentially move in every vertex of $G$.
+
+\emph{Maximal clique assignment}: each robot is assinged a maximal labeled clique (in the abstraction $Q$ of $G$). If the cliques overlap, some targets may be patrolled by multiple robots.
+
+\emph{Separated assignment}: as the previous case, but the cliques assigned to the robots may not overlap (they do not have to be maximal cliques). Therefore, each target is patrolled by only one robot.
+
+In the next part of the paper, the authors combine the two mentioned coordination dimensions together. They show that only some combinations are reasonable. For example, joint strategy with separated assignment can be reduced to separated strategy with separated assignment. That is because robots patrolling separated portions of $G$ do not need to cooperate. A mathematical programming formulation is proposed for each reasonable combination of values.
+
+Experimental results show that the higher the degree of coordination, the higher the computational effort and the robots' utilities.
+\footnote{There is one exception to this rule in the case of separated strategies: separated assignment turned out to be more time-consuming and gave higher utilities than maximal clique assignment. This shows that overlapping patrolling areas without any strategy coordination have negative effect on the expected utility.}
+An easy observation was that joint strategies do not scale with large settings (more than 15 nodes) as they require much memory.
+Special attention was paid to two coordination combinations: disjointed strategy with maximal clique assignment ($\mathcal{D}_3$) and separated strategy with separated assignment ($\mathcal{D}_5$). $\mathcal{D}_5$ consumed less time than $\mathcal{D}_3$ just because the number of possible assignments was small. With larger settings, the number of all the possible separated assignments increases drastically faster than the number of maximal cliques. Another interesting observation is that higher number of robots can lead to lower computational time. That is because adding more robots decreases the portion of $G$ assigned to each robot and the computational time strongly depends on the size of this portion. For more conclusions, see \cite{multi-robot}.
 
 \subsection{Moving targets}
 
