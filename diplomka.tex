@@ -4,9 +4,9 @@
 \usepackage[cp1250]{inputenc}
 \usepackage[IL2]{fontenc}
 \usepackage[plainpages=false, pdfpagelabels, hidelinks]{hyperref}
-\usepackage{amsmath, amssymb, graphicx, amsthm, amsfonts, enumitem, algpseudocode, algorithmicx, wasysym}
+\usepackage{amsmath, amssymb, graphicx, amsthm, amsfonts, enumitem, algpseudocode, algorithmicx, wasysym, fixltx2e, float}
+
 \usepackage[chapter]{algorithm}
-\usepackage{float}
 \newfloat{algorithm}{t}{lop}
 \floatname{algorithm}{Algorithm}
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
@@ -63,12 +63,14 @@ patrolling games, game theory, complexity, algorithm, oriented graphs, blablabla
 Blablabla
 
 
-\chapter{Overview Blabla}
+\chapter{Basic Patrolling Literature}
 In this !!!chapter/section!!!, we give an overview of research in the field of patrolling games in the last years. We address several models. For each model, we state the differences from our model and we mention the most significant results.
 
 GENERAL => holds true unless stated otherwise:
 
 - defender = patroller = robot; attacker = intruder; attack lenght = penetration time
+
+?? (In the rest of the paper, we denote the defender with “she” and the attacker with “he”).
 
 - On directed graphs, distance between any two neighbour nodes is the same.
 
@@ -185,8 +187,15 @@ They experimentally compare the performance of the stationary and time-dependent
 
 The results of the experiment show that in the game with mobile targets time-dependent strategies lead to significantly higher utility value. In the experimental results presented in the paper, time-dependent strategies preceded the stationary ones by approximately 50--300\%. However, the computational time was 10--1000 times larger. The authors concluded that time-dependent strategies are reasonable to be used.
 
+\
 
+A noticeably novel game model called MRMT\textsubscript{sg} (multiple Mobile Resources protecting Moving Targets) was introduced in \cite{line}. In MRMT\textsubscript{sg}, the defender's strategy space is descretized and attacker's strategy space is continuous. A major motivation in the paper is the problem of protecting ferries with fast patrol boats.
 
+The authors consider $L$ targets moving along a one-dimensional domain, specifically a straight line between two points $A$ and $B$. The targets have fixed daily schedules known to both players. The targets move in time continuously between points $A$ and $B$.
+%... move continuously ... in time. ???
+The defender has $W$ mobile patrollers that can move between $A$ and $B$. All patrollers have a common maximum speed $v_m$ and a protection radius $r_e$. A patroller is \emph{protecting} a target if the distance between them is no more than $r_e$. The attacker chooses a certain time and a certain target to attack. The probability of attack success depends on the positions of the patrollers at that time, i.e. the attack is instant and there is no attack length. This probability is a decreasing function of the number of patrollers protecting the target. An attack on a target can be successful even if there is a patroller protecting the target. The case when an attack on a target is successful iff the target is not protected by any patroller is just a special case.
+
+The authors provide an efficient linear program called CASS (Solver for Continuous Attacker Strategies) to solve  MRMT\textsubscript{sg}. The effiecency of CASS consists in the represention of the defender's strategies as marginal probability variables and in using \emph{sub-interval analysis} to model the attacker's continuous strategy space.
 
 
 \subsection{?? modularity}
@@ -242,6 +251,8 @@ The results of the experiment show that in the game with mobile targets time-dep
 \bibitem{multi-robot} N. Basilico, N. Gatti, and F. Villa. Asynchronous Multi-Robot Patrolling against Intrusion in Arbitrary Topologies. In \emph{AAAI}, pages 1224-1229, 2010.
 
 \bibitem{movingTargets} B. Bošanský, V. Lisý, M. Jakob, and M. Pìchouèek. Computing Time-Dependent Policies for Patrolling Games with Mobile Targets. In \emph{AAMAS}, pages 989-996, 2011.
+
+\bibitem{line} F. Fang, A. X. Jiang, and M. Tambe. Optimal Patrol Strategy for Protecting Moving Targets with Multiple Mobile Resources. In \emph{AAMAS}, pages 957-964, 2013.
 
 \bibitem{miso} M. Abaffy. Patrolling Games on Graphs [online]. 2013 [cit. 2014-05-10] ??? Diploma thesis. Masaryk University, Faculty of Informatics. Available at $<$http://is.muni.cz/th/321758/fi\texttt{\us}m/$>$.
 
