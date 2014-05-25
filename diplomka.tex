@@ -63,22 +63,39 @@ patrolling games, game theory, complexity, algorithm, oriented graphs, blablabla
 Blablabla
 
 
-\chapter{Basic Patrolling Literature}
-In this !!!chapter/section!!!, we give an overview of research in the field of patrolling games in the last years. We address several models. For each model, we state the differences from our model and we mention the most significant results.
+\chapter{Preliminaries}
+% TODO review after writing the sections
+In order to better understand the nature of patrolling games, we first introduce the concept of game theory.
+Later in this chapter, we introduce security games, a special type of which are patrolling games. We mention some real-world applications of these theoretical models.
+After that, we give an overview of patrolling games. We provide some examples and motivation why to study this field. We familiarize the reader with the basic terminology used throughout this thesis. We describe some special properties of the model of patrolling games we chose to study and we discuss the reasons why we did so.
+The last section of this chapter we dedicate to the pioneers which set important directions of research in the field of patrolling games.
 
-GENERAL => holds true unless stated otherwise:
+\section{Introduction to Game Theory}
 
-- defender = patroller = robot; attacker = intruder; attack lenght = penetration time
 
+
+\section{Security Games}
+
+
+\section{Patrolling Games}
+
+
+\section{Basic Literature on Patrolling Games}
+In this section, we give an overview of the research in the field of the patrolling games in the last years. We address several models. For each model, we state the differences from our model and we mention the most significant results.
+
+In the rest of the section, we use the following assumptions which hold true unless stated otherwise.
+
+Patrolling games are played on directed graphs with distance between any two neighbour nodes being the same.
+The terms \emph{patroller} and \emph{robot} refer to the defender.
+The terms \emph{intruder} and \emph{adversary} refer to the attacker.
+We assume single adversary.
+To intercept an attack, the defender has to come to a node where the attack is taking place.
 ?? (In the rest of the paper, we denote the defender with “she” and the attacker with “he”).
 
-- On directed graphs, distance between any two neighbour nodes is the same.
+We assume strong adversarial setting, i.e. the attacker knows the defender's strategy and the current position of patrolling unit(s).
 
-- Strong adversarial settings (attacker knows the defender's strategy and the current position of patrolling unit(s))
+attack lenght = penetration time
 
-- + single adversary?
-
-- to intercept an attack, the defender has to come to a node where the attack is taking place
 
 \subsection{Perimeter Patrol}
 The first reference in almost every robot patrolling paper is \cite{perimeter}. The authors consider a problem of multi-robot patrol around a closed area with the existence of a single adversary trying to enter the area. A real life motivation might be the following scenario. An intruder tries to cross a border while some patrolling units aim to detect this intrusion.
