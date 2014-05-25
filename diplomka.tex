@@ -71,7 +71,18 @@ After that, we give an overview of patrolling games. We provide some examples an
 The last section of this chapter we dedicate to the pioneers which set important directions of research in the field of patrolling games.
 
 \section{Introduction to Game Theory}
+In this chapter we present the basics of game theory. The definitions and content used here are inspired by \cite{polak} and \cite{gameTheory}.
 
+Game theory is a mathematical study of decision making. It studies games as well-defined mathematical object.
+A game is a played between players $P_1, \dots, P_n, n \geq 2$.
+Each player $P_i$ has a non-empty set $X_i$ of possible \emph{strategies}.
+The outcome of a game is an element from the set $\prod_{i=1}^n S_i$ and is called a \emph{situation}.
+Each situation represents some value for every player.
+Therefore, every player $P_i$ has his own \emph{utility function} $U_i: \prod_{i=1}^n S_i \mapsto \mathbb{R}$ which assigns \emph{payoffs} to situations.
+The higher the player's payoff of a situation, the better the situation for the player.
+The above representation of a game is called normal form and is mostly used when a strategy represents a single action.
+
+The extensive form of a game is appropriate to formalize games with time sequencing of moves.
 
 
 \section{Security Games}
@@ -121,7 +132,7 @@ For each possible outcome, patroller's and intruder's payoffs are defined.\footn
 
 The authors cope with the presence of the infinite horizon in the game by introducing symmetries. They allow the patroller to choose the next action based only on the last ${|H|}$ actions, where ${|H|}$ is finite and constant during all the game. Higher value of ${|H|}$ leads to possibly higher expected utility of the patroller, but also to higher computational complexity for finding the optimal patrolling strategy. The authors provide a multi-bilinear mathematical programming formulation to find the optimal patroller's strategy when ${|H| = 1}$. They state that formulations with ${|H| > 1}$ can be obtained by extending this one.
 
-Further, the paper is concerned in heuristics for more efficient problem solving. In realistic settings the number of targets is significantly smaller than the number of all nodes. That affords opportunity to reduce the programming problems' searching space, the number of variables and constraints.
+Further, the paper is concerned with heuristics for more efficient problem solving. In realistic settings the number of targets is significantly smaller than the number of all nodes. That affords opportunity to reduce the programming problems' searching space, the number of variables and constraints.
 % use dash instead of comma? "- the number of ..."
 First, the authors are interested in a deterministic strategy which detects any attack with probability one. To solve the problem of finding such a strategy, they formulate an integer linear program.
 Second, the authors aim to minimize the number of nodes over which the patroller will randomize when using an optimal strategy. They formulate another integer linear program for that.
