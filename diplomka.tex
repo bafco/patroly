@@ -71,21 +71,48 @@ After that, we give an overview of patrolling games. We provide some examples an
 The last section of this chapter we dedicate to the pioneers which set important directions of research in the field of patrolling games.
 
 \section{Introduction to Game Theory}
-In this chapter we present the basics of game theory. The definitions and content used here are inspired by \cite{polak} and \cite{gameTheory}.
+In this chapter we present the basics of game theory. The definitions and content used here are inspired by \cite{fudenberg}, \cite{polak} and \cite{gameTheory}.
 
 Game theory is a mathematical study of decision making. It studies games as well-defined mathematical object.
-A game is a played between players $P_1, \dots, P_n, n \geq 2$.
-Each player $P_i$ has a non-empty set $X_i$ of possible \emph{strategies}.
-The outcome of a game is an element from the set $\prod_{i=1}^n S_i$ and is called a \emph{situation}.
-Each situation represents some value for every player.
-Therefore, every player $P_i$ has his own \emph{utility function} $U_i: \prod_{i=1}^n S_i \mapsto \mathbb{R}$ which assigns \emph{payoffs} to situations.
-The higher the player's payoff of a situation, the better the situation for the player.
-The above representation of a game is called normal form and is mostly used when a strategy represents a single action.
+A \emph{game} is a played between \emph{players} $P_1, \dots, P_n, n \geq 2$.
+Each player $P_i$ has a non-empty set $S_i$ of \emph{pure strategies}. A strategy can be seen as an algorithm telling the player what to do throughout the game.
+The outcome of the game is an element from the set
+%$\prod_{i=1}^n S_i$
+$\mathcal{S} = \prod_{i=1}^n S_i$
+and is called a \emph{strategy profile}.
+%We will denote this space of all possible strategy profiles by $\mathcal{S}$.
+Each strategy profile represents some value for every player.
+Therefore, every player $P_i$ has his own \emph{utility function} $U_i: \mathcal{S} \mapsto \mathbb{R}$ which assigns \emph{payoffs} to strategy profiles.
+The higher the player's payoff of a strategy profile, the better the profile for the player.
+The above representation of a game is called normal form. The normal game is usually represented by a matrix and is mostly used when a strategy represents a single action.
 
-The extensive form of a game is appropriate to formalize games with time sequencing of moves.
+The extensive form of a game is appropriate to formalize games with time sequencing of \emph{moves}.
+Here, games are played on trees, where each node with its outgoing edges represents a point of choice for a player.
+Examples of both normal- and extensive-form games can be found in \cite{gameTheory}.
 
+A \emph{zero-sum} game is a game such that $\sum_{i=1}^n u_i(s) = 0$ for all $s \in \mathcal{S}$.
+In a two-player zero-sum game, one player's gain is equal to his opponent's loss.
+Non-zero sum games are reffered to as \emph{general-sum} games.
+
+Of great importance is the concept of \emph{mixed strategies}.
+A pure strategy is a strategy which determines the move a player will make for every possible situation that could occur.
+A mixed strategy is a probability distribution
+% odkaz na probability distribution?
+over pure strategies.
+Using a mixed strategy allows a player to randomize.
+This means a player can make different moves under the same game conditions.
+As each pure strategy is also a mixed strategy, we will refer to mixed strategies just as \emph{strategies}.
+
+A player's \emph{best response} is the strategy (or strategies) which yields him the greatest payoff given the other players' strategies.
+
+When it comes to solving the game, some form of equilibrium strategy profile is in demand. The best known solution concept in game theory is \emph{Nash equilibrium}, in which no player can gain anything by changing only his strategy. That is, each player's strategy is a best response to the other players' strategies.
+
+Different solution concepts were designed for specific game models. We are specially interested in Strong Stackelberg Equilibrium, which we describe in the next section.
 
 \section{Security Games}
+
+% The standard solution concept for Stackelberg games is Strong Stackelberg Equilibrium (SSE).
+Another solution concept, which is of great importance in security games, is \emph{Strong Stackelberg Equilibrium} (SSE, also \emph{leader-follower equilibrium}).
 
 
 \section{Patrolling Games}
@@ -283,14 +310,22 @@ The authors provide an efficient linear program called CASS (Solver for Continuo
 \bibitem{line} F. Fang, A. X. Jiang, and M. Tambe. Optimal Patrol Strategy for Protecting Moving Targets with Multiple Mobile Resources. In \emph{AAMAS}, pages 957-964, 2013.
 
 \bibitem{miso} M. Abaffy. Patrolling Games on Graphs [online]. 2013 [cit. 2014-05-10] ??? Diploma thesis. Masaryk University, Faculty of Informatics. Available at $<$http://is.muni.cz/th/321758/fi\texttt{\us}m/$>$.
+%TODO
 
 \bibitem{iti1} M. Abaffy, T. Brázdil, V. Øehák, B. Bošanský, A. Kuèera, and J. Krèál. Solving Adversarial Patrolling Games with Bounded Error. Online: ???
+%TODO
 
 \bibitem{iti2} T. Brázdil, P. Hlinìný, A. Kuèera, and V. Øehák. Optimal Strategies in Adversarial Patrolling Games. Online: ???
+%TODO
 
-\bibitem{topolog} Wikipedia: \emph{Topological sorting} [online]. [cit. 2012-05-03]. Dostupné~z: $<$http://en.wikipedia.org/wiki/index.php?Topological\texttt{\us}sorting$>$.
+\bibitem{fudenberg} D. Fudenberg, and J. Tirole. Game Theory. Cambridge, MA: MIT Press, 1991.
 
-\bibitem{zbierka} ÈERNÁ, I., BARNAT, J., ØEHÁK, V.: \emph{Pøíklady k cvièením - IB102 a IB005} [online]. 2006 [cit. 2012-05-09]. Masarykova univerzita,  Fakulta informatiky. Dostupné~z: $<$http://www.fi.muni.cz/usr/kretinsky/afj1.ps$>$
+\bibitem{polak} L. Polák. Teorie her [Lecture notes]. Masaryk University, Brno.
+
+\bibitem{gameTheory} Game Theory [online]. [cit. 2014-05-23]. Available at
+%\url{http://en.wikipedia.org/w/index.php?title=Game_theory&oldid=610438321}
+% http://en.wikipedia.org/wiki/Game_theory
+$<$http://en.wikipedia.org/w/index.php?title=Game\texttt{\us}theory\&oldid=610438321$>$.
 
 \end{thebibliography}
 
