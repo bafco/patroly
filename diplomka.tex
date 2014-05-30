@@ -105,17 +105,31 @@ As each pure strategy is also a mixed strategy, we will refer to mixed strategie
 
 A player's \emph{best response} is the strategy (or strategies) which yields him the greatest payoff given the other players' strategies.
 
-When it comes to solving the game, some form of equilibrium strategy profile is in demand. The best known solution concept in game theory is \emph{Nash equilibrium}, in which no player can gain anything by changing only his strategy. That is, each player's strategy is a best response to the other players' strategies.
+When it comes to solving the game, some form of equilibrium strategy profile is in demand. The best known solution concept in game theory is \emph{Nash equilibrium} (NE), in which no player can gain anything by changing only his strategy. That is, each player's strategy is a best response to the other players' strategies.
 
-Different solution concepts were designed for specific game models. We are specially interested in Strong Stackelberg Equilibrium, which we describe in the next section.
+% zmazat?
+Different solution concepts were designed for specific game models. We are specially interested in Stackelberg model, which we describe in the next section.
 
 \section{Security Games}
 
-% The standard solution concept for Stackelberg games is Strong Stackelberg Equilibrium (SSE).
-Another solution concept, which is of great importance in security games, is \emph{Strong Stackelberg Equilibrium} (SSE, also \emph{leader-follower equilibrium}).
+Security games are two-player games in which \emph{defender} allocates resources to guard targets against an \emph{attacker} (also \emph{intruder} or \emph{adversary}), who aims to attack some target.
+Players' utilities are determined by the attacked target and the position of defender's resources during the attack.
+If the target is defended (attack is unsuccessful), defender's utility increases and attacker's utility decreases.
+Although one player's gain means other player's loss, security games are non-zero sum games in general.
 
+In security games, it is mostly assumed that the attacker can observe the defender's moves and learn the defender's strategy before attacking.\footnote{In many situations attacker's perfect knowledge about the defender's strategy is at least questionable. Security games in which the attacker has only limited knowledge about the defender's strategy are studied e.g. in \cite{limited1, limited2, limited3, limited4}.}
+This leads to adopting the \emph{Stackelberg} model.
+In a Stackelberg game, the \emph{leader} (defender) first commits to a strategy, and then the \emph{follower} (attacker) chooses when and where to attack.
+The standard solution concept for Stackelberg games is \emph{strong Stackelberg equilibrium} (SSE, also \emph{leader-follower equilibrium}), which gives the leader the maximum expected utility in the worst-case scenario.
+A crucial assumption is that the follower has a perfect knowledge of the defender's strategy and plays a best response to maximize his expected utility.
+One of the advantages of an SSE is that being a Stackelberg leader cannot hurt the defender \cite{convex}. Furthermore, under certain natural assumptions about security games, any SSE is also an NE \cite{interchangability}.
+
+% TODO examples of security games in real world
 
 \section{Patrolling Games}
+
+
+%TODO extensive-form
 
 
 \section{Basic Literature on Patrolling Games}
@@ -217,8 +231,7 @@ The second dimension refers to the degree of \emph{coordination in partitioning 
 
 In the next part of the paper, the authors combine the two mentioned coordination dimensions together. They show that only some combinations are reasonable. For example, joint strategy with separated assignment can be reduced to separated strategy with separated assignment. That is because robots patrolling separated portions of $G$ do not need to cooperate. A mathematical programming formulation is proposed for each reasonable combination of values.
 
-Experimental results show that the higher the degree of coordination, the higher the computational effort and the robots' utilities.
-\footnote{There is one exception to this rule in the case of separated strategies: separated assignment turned out to be more time-consuming and gave higher utilities than maximal clique assignment. This shows that overlapping patrolling areas without any strategy coordination have negative effect on the expected utility.}
+Experimental results show that the higher the degree of coordination, the higher the computational effort and the robots' utilities.\footnote{There is one exception to this rule in the case of separated strategies: separated assignment turned out to be more time-consuming and gave higher utilities than maximal clique assignment. This shows that overlapping patrolling areas without any strategy coordination have negative effect on the expected utility.}
 An easy observation was that joint strategies do not scale with large settings (more than 15 nodes) as they require much memory.
 Special attention was paid to two coordination combinations: disjointed strategy with maximal clique assignment ($\mathcal{D}_3$) and separated strategy with separated assignment ($\mathcal{D}_5$). $\mathcal{D}_5$ consumed less time than $\mathcal{D}_3$ just because the number of possible assignments was small. With larger settings, the number of all the possible separated assignments increases drastically faster than the number of maximal cliques. Another interesting observation is that higher number of robots can lead to lower computational time. That is because adding more robots decreases the portion of $G$ assigned to each robot and the computational time strongly depends on the size of this portion. For more conclusions, see \cite{multi-robot}.
 
@@ -318,14 +331,27 @@ The authors provide an efficient linear program called CASS (Solver for Continuo
 \bibitem{iti2} T. Brázdil, P. Hlinìný, A. Kuèera, and V. Øehák. Optimal Strategies in Adversarial Patrolling Games. Online: ???
 %TODO
 
-\bibitem{fudenberg} D. Fudenberg, and J. Tirole. Game Theory. Cambridge, MA: MIT Press, 1991.
+\bibitem{fudenberg} D. Fudenberg and J. Tirole. Game Theory. Cambridge, MA: MIT Press, 1991.
 
 \bibitem{polak} L. Polák. Teorie her [Lecture notes]. Masaryk University, Brno.
 
 \bibitem{gameTheory} Game Theory [online]. [cit. 2014-05-23]. Available at
 %\url{http://en.wikipedia.org/w/index.php?title=Game_theory&oldid=610438321}
 % http://en.wikipedia.org/wiki/Game_theory
-$<$http://en.wikipedia.org/w/index.php?title=Game\texttt{\us}theory\&oldid=610438321$>$.
+%$<$http://en.wikipedia.org/w/index.php?title=Game\texttt{\us}theory\&oldid=610438321$>$.
+$<$http://en.wikipedia.org/wiki/Game\texttt{\us}theory$>$.
+
+\bibitem{convex} B. von Stengel and S. Zamir. Leadership games with convex strategy sets. \emph{Games and Economic Behavior}, volume 69, pages 446–457, 2010.
+
+\bibitem{interchangability} Z. Yin, D. Korzhyk, C. Kiekintveld, V. Conitzer, and M. Tambe. Stackelberg vs. Nash in security games: Interchangeability, equivalence, and uniqueness. In \emph{AAMAS}, pages 1139–1146, 2010.
+
+\bibitem{limited1} J. Pita, M. Jain, M. Tambe, F. Ordó$\rm{\tilde{n}}$ez, and S. Kraus. Robust solutions to Stackelberg games: Addressing bounded rationality and limited observations in human cognition. \emph{Artificial Intelligence}, volume 174, pages 1142-1171, 2010.
+
+\bibitem{limited2} B. An, D. Kempe, C. Kiekintveld, E. Shieh, S. Singh, M. Tambe, and Y. Vorobeychik. Security games with limited surveillance. In \emph{AAAI}, pages 1241–1248, 2012.
+
+\bibitem{limited3} B. An, M. Brown, Y. Vorobeychik, and M. Tambe. Security games with surveillance cost and optimal timing of attack execution. In \emph{AAMAS}, pages 223–230, 2013.
+
+\bibitem{limited4} Y. Zhang and X. Luo. Security Games with Partial Surveillance. In \emph{AAMAS}, pages 1527-1528, 2014.
 
 \end{thebibliography}
 
