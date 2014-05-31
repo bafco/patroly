@@ -117,6 +117,8 @@ Players' utilities are determined by the attacked target and the position of def
 If the target is defended (attack is unsuccessful), defender's utility increases and attacker's utility decreases.
 Although one player's gain means other player's loss, security games are non-zero sum games in general.
 
+A simple example of a security game is a problem of protecting $n$ banks in a city by $k, k < n$ policemen. Attacker wants to rob some bank and his attack is successful if and only if he attacks a bank without a policeman. The defender's goal is to distribute the security forces in a way that minimizes the probability of a successful attack.
+
 In security games, it is mostly assumed that the attacker can observe the defender's moves and learn the defender's strategy before attacking.\footnote{In many situations attacker's perfect knowledge about the defender's strategy is at least questionable. Security games in which the attacker has only limited knowledge about the defender's strategy are studied e.g. in \cite{limited1, limited2, limited3, limited4}.}
 This leads to adopting the \emph{Stackelberg} model.
 In a Stackelberg game, the \emph{leader} (defender) first commits to a strategy, and then the \emph{follower} (attacker) chooses when and where to attack.
@@ -124,7 +126,35 @@ The standard solution concept for Stackelberg games is \emph{strong Stackelberg 
 A crucial assumption is that the follower has a perfect knowledge of the defender's strategy and plays a best response to maximize his expected utility.
 One of the advantages of an SSE is that being a Stackelberg leader cannot hurt the defender \cite{convex}. Furthermore, under certain natural assumptions about security games, any SSE is also an NE \cite{interchangability}.
 
-% TODO examples of security games in real world
+\
+
+The leader-follower Stackelberg game model is actually utilized in many real-world security situations.
+The first deployed decision-support application is the \emph{ARMOR} (Assistant for Randomized Monitoring over
+Routes) security system \cite{armor}.
+It has been deployed since August 2007 at the Los Angeles International Airport (LAX).
+It is used for randomizing allocation of checkpoints on the roadways and assigning canine patrol routes within the terminals.
+
+The second application, deployed by Federal Air Marshals Service (FAMS), is called \emph{IRIS} (Intelligent Randomization In Scheduling) \cite{iris}.
+IRIS helps to create a flight coverage schedule for armed marshals who can defeat terrorist attacks.
+Scheduling constraints in IRIS are much more complex than in ARMOR as the marshals are limited by their location and timing constraints.
+Although IRIS was developed for FAMS, it provides a general framework for solving patrolling scheduling problems in other transportation networks as well, e.g. in New York City subway system.
+
+Another security application using the Stackelberg game model is the \emph{GUARDS} (Game theoretic Unpredictable and Randomly Deployed Security) system \cite{guards}.
+It helps United States Transportation Security Administration (TSA) in resource allocation tasks for protection of more than 400 airports.
+In constrast with ARMOR and IRIS, which focused on one security activity, GUARDS reasons about hundreds of heterogenous defender activities, large number of diverse potential threads, and hundreds of potential end-users.
+
+Another example of a game-theoretic security system is \emph{PROTECT} (Port Resilience Operational/Tactical Enforcement to Combat Terrorism) \cite{protect}.
+It has been currently deployed by the United States Coast Guard (USCG) in the ports of Boston, New York and Los Angeles \cite{protect_coastguard}.
+In contrast to the three beforementioned security applications, PROTECT relies on a quantal responce (QR) \cite{quantal} model of the adversary's behavior, i.e. attacker has only bounded rationality.
+It was the first time that the QR model has been used in a real-world security application \cite{protect}.
+
+The last real-world security application we mention is \emph{TRUSTS} (Tactical Randomization for Urban Security in Transit Systems) \cite{trusts}, used by the Los Angeles County Sheriff's Department (LASD).
+The main purpose of TRUSTS is fare-evasion deterrence in urban proof-of-payment transit systems, where passengers are legally, but not physically, required to purchase tickets.
+Patrol units move about the system and fine fare-evading passangers.
+The optimization objective is to maximize the total revenue (ticket sales plus fines) to the government.
+In \cite{trusts2}, the authors extend the TRUSTS system to incorporate also crime prevention and counter-terrorism.
+
+
 
 \section{Patrolling Games}
 
@@ -266,11 +296,9 @@ The defender has $W$ mobile patrollers that can move between $A$ and $B$. All pa
 The authors provide an efficient linear program called CASS (Solver for Continuous Attacker Strategies) to solve  MRMT\textsubscript{sg}. The effiecency of CASS consists in the represention of the defender's strategies as marginal probability variables and in using \emph{sub-interval analysis} to model the attacker's continuous strategy space.
 
 
-\subsection{?? modularity}
+% \subsection{?? modularity}
 
-%\subsection{?? alarms}
-
-\subsection{dalsie omacky}
+% \subsection{?? alarms}
 
 
 
@@ -331,7 +359,7 @@ The authors provide an efficient linear program called CASS (Solver for Continuo
 \bibitem{iti2} T. Brázdil, P. Hlinìný, A. Kuèera, and V. Øehák. Optimal Strategies in Adversarial Patrolling Games. Online: ???
 %TODO
 
-\bibitem{fudenberg} D. Fudenberg and J. Tirole. Game Theory. Cambridge, MA: MIT Press, 1991.
+\bibitem{fudenberg} D. Fudenberg and J. Tirole. Game Theory. Cambridge, MA: \emph{MIT Press}, 1991.
 
 \bibitem{polak} L. Polák. Teorie her [Lecture notes]. Masaryk University, Brno.
 
@@ -341,17 +369,34 @@ The authors provide an efficient linear program called CASS (Solver for Continuo
 %$<$http://en.wikipedia.org/w/index.php?title=Game\texttt{\us}theory\&oldid=610438321$>$.
 $<$http://en.wikipedia.org/wiki/Game\texttt{\us}theory$>$.
 
-\bibitem{convex} B. von Stengel and S. Zamir. Leadership games with convex strategy sets. \emph{Games and Economic Behavior}, volume 69, pages 446–457, 2010.
+\bibitem{convex} B. von Stengel and S. Zamir. Leadership Games with Convex Strategy Sets. \emph{Games and Economic Behavior}, volume 69, pages 446–457, 2010.
 
-\bibitem{interchangability} Z. Yin, D. Korzhyk, C. Kiekintveld, V. Conitzer, and M. Tambe. Stackelberg vs. Nash in security games: Interchangeability, equivalence, and uniqueness. In \emph{AAMAS}, pages 1139–1146, 2010.
+\bibitem{interchangability} Z. Yin, D. Korzhyk, C. Kiekintveld, V. Conitzer, and M. Tambe. Stackelberg vs. Nash in Security Games: Interchangeability, Equivalence, and Uniqueness. In \emph{AAMAS}, pages 1139–1146, 2010.
 
-\bibitem{limited1} J. Pita, M. Jain, M. Tambe, F. Ordó$\rm{\tilde{n}}$ez, and S. Kraus. Robust solutions to Stackelberg games: Addressing bounded rationality and limited observations in human cognition. \emph{Artificial Intelligence}, volume 174, pages 1142-1171, 2010.
+\bibitem{limited1} J. Pita, M. Jain, M. Tambe, F. Ordó$\rm{\tilde{n}}$ez, and S. Kraus. Robust Solutions to Stackelberg Games: Addressing Bounded Rationality and Limited Observations in Human Cognition. \emph{Artificial Intelligence}, volume 174, pages 1142-1171, 2010.
 
-\bibitem{limited2} B. An, D. Kempe, C. Kiekintveld, E. Shieh, S. Singh, M. Tambe, and Y. Vorobeychik. Security games with limited surveillance. In \emph{AAAI}, pages 1241–1248, 2012.
+\bibitem{limited2} B. An, D. Kempe, C. Kiekintveld, E. Shieh, S. Singh, M. Tambe, and Y. Vorobeychik. Security Games with Limited Surveillance. In \emph{AAAI}, pages 1241–1248, 2012.
 
-\bibitem{limited3} B. An, M. Brown, Y. Vorobeychik, and M. Tambe. Security games with surveillance cost and optimal timing of attack execution. In \emph{AAMAS}, pages 223–230, 2013.
+\bibitem{limited3} B. An, M. Brown, Y. Vorobeychik, and M. Tambe. Security Games with Surveillance Cost and Optimal Timing of Attack Execution. In \emph{AAMAS}, pages 223–230, 2013.
 
 \bibitem{limited4} Y. Zhang and X. Luo. Security Games with Partial Surveillance. In \emph{AAMAS}, pages 1527-1528, 2014.
+
+\bibitem{quantal} R. D. McKelvey and T. R. Palfrey. Quantal Response Equilibria for Normal Form Games. \emph{Games and Economic Behavior}, volume 10, pages 6–38, 1995.
+
+\bibitem{armor} J. Pita, M. Jain, J. Marecki, F. Ordó$\rm{\tilde{n}}$ez, C. Portway, M. Tambe, C. Western, P. Paruchuri, and S. Kraus. Deployed ARMOR Protection: The Application of a Game Theoretic Model for Security at the Los Angeles International Airport. In \emph{AAMAS}, pages 125–132, 2008.
+
+\bibitem{iris} J. Tsai, S. Rathi, C. Kiekintveld, F. Ordó$\rm{\tilde{n}}$ez, and M. Tambe. IRIS - A Tool for Strategic Security Allocation in Transportation Networks. In \emph{AAMAS}, pages 37-44, 2009.
+
+\bibitem{guards} J. Pita, M. Tambe, C. Kiekintveld, S. Cullen, and E. Steigerwald. GUARDS - Game Theoretic Security Allocation on a National Scale. In \emph{AAMAS}, pages 37-44, 2011.
+
+\bibitem{protect} E. Shieh, B. An, R. Yang, M. Tambe, C. Baldwin, J. DiRenzo, B. Maule, and G. Meyer. PROTECT: A Deployed Game Theoretic System to Protect the Ports of the United States. In \emph{AAMAS}, pages 13-20, 2012.
+
+\bibitem{protect_coastguard} [cit. 2014-06-01] http://teamcore.usc.edu/projects/coastguard/
+%TODO - maybe delete - no citation needed
+
+\bibitem{trusts} Z. Yin, A. X. Jiang, M. P. Johnson, M. Tambe, C. Kiekintveld, K. Leyton-Brown, T. Sandholm, and J. P. Sullivan. TRUSTS: Scheduling Randomized Patrols for Fare Inspection in Transit Systems. In \emph{IAAI}, 2012.
+
+\bibitem{trusts2} F. M. Delle Fave, M. Brown, C. Zhang, E. Shieh, A. X. Jiang, H. Rosoff, M. Tambe, and J. P. Sullivan. Security Games in the Field: an Initial Study on a Transit System. In \emph{AAMAS}, pages 1363-1364, 2014.
 
 \end{thebibliography}
 
