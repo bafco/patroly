@@ -105,7 +105,7 @@ As each pure strategy is also a mixed strategy, we will refer to mixed strategie
 
 A player's \emph{best response} is the strategy (or strategies) which yields him the greatest payoff given the other players' strategies.
 
-When it comes to solving the game, some form of equilibrium strategy profile is in demand. The best known solution concept in game theory is \emph{Nash equilibrium} (NE), in which no player can gain anything by changing only his strategy. That is, each player's strategy is a best response to the other players' strategies.
+When it comes to solving the game, some form of equilibrium strategy profile is in demand. The best known solution concept in game theory is \emph{Nash equilibrium} (NE) \cite{nash}, in which no player can gain anything by changing only his strategy. That is, each player's strategy is a best response to the other players' strategies.
 
 % zmazat?
 Different solution concepts were designed for specific game models. We are specially interested in Stackelberg model, which we describe in the next section.
@@ -124,7 +124,7 @@ This leads to adopting the \emph{Stackelberg} model.
 In a Stackelberg game, the \emph{leader} (defender) first commits to a strategy, and then the \emph{follower} (attacker) chooses when and where to attack.
 The standard solution concept for Stackelberg games is \emph{strong Stackelberg equilibrium} (SSE, also \emph{leader-follower equilibrium}), which gives the leader the maximum expected utility in the worst-case scenario.
 A crucial assumption is that the follower has a perfect knowledge of the defender's strategy and plays a best response to maximize his expected utility.
-One of the advantages of an SSE is that being a Stackelberg leader cannot hurt the defender \cite{convex}. Furthermore, under certain natural assumptions about security games, any SSE is also an NE \cite{interchangability}.
+One of the advantages of an SSE is that being a Stackelberg leader cannot hurt the defender \cite{convex, nashStack}. Furthermore, under certain natural assumptions about security games, any SSE is also an NE \cite{interchangability}.
 
 \
 
@@ -145,19 +145,19 @@ In constrast with ARMOR and IRIS, which focused on one security activity, GUARDS
 
 Another example of a game-theoretic security system is \emph{PROTECT} (Port Resilience Operational/Tactical Enforcement to Combat Terrorism) \cite{protect}.
 It has been currently deployed by the United States Coast Guard (USCG) in the ports of Boston, New York and Los Angeles \cite{protect_coastguard}.
-In contrast to the three beforementioned security applications, PROTECT relies on a quantal responce (QR) \cite{quantal} model of the adversary's behavior, i.e. attacker has only bounded rationality.
+In contrast to the three beforementioned security applications, PROTECT relies on a quantal responce (QR) \cite{quantal} model of the adversary's behavior, i.e. the attacker has only bounded rationality.
 It was the first time that the QR model has been used in a real-world security application \cite{protect}.
 
 The last real-world security application we mention is \emph{TRUSTS} (Tactical Randomization for Urban Security in Transit Systems) \cite{trusts}, used by the Los Angeles County Sheriff's Department (LASD).
-The main purpose of TRUSTS is fare-evasion deterrence in urban proof-of-payment transit systems, where passengers are legally, but not physically, required to purchase tickets.
+The main purpose of TRUSTS is fare-evasion deterrence in urban proof-of-payment transit systems.
+In these systems, passengers are legally, but not physically, required to purchase tickets.
 Patrol units move about the system and fine fare-evading passangers.
 The optimization objective is to maximize the total revenue (ticket sales plus fines) to the government.
 In \cite{trusts2}, the authors extend the TRUSTS system to incorporate also crime prevention and counter-terrorism.
 
-
-
 \section{Patrolling Games}
 
+\footnote{In the rest of the paper, we denote the defender with "she" and the attacker with "he".}
 
 %TODO extensive-form
 
@@ -172,19 +172,18 @@ The terms \emph{patroller} and \emph{robot} refer to the defender.
 The terms \emph{intruder} and \emph{adversary} refer to the attacker.
 We assume single adversary.
 To intercept an attack, the defender has to come to a node where the attack is taking place.
-?? (In the rest of the paper, we denote the defender with “she” and the attacker with “he”).
 
 We assume strong adversarial setting, i.e. the attacker knows the defender's strategy and the current position of patrolling unit(s).
 
 attack lenght = penetration time
-
+??memoryless/Markovian/stationary?? strategy
 
 \subsection{Perimeter Patrol}
 The first reference in almost every robot patrolling paper is \cite{perimeter}. The authors consider a problem of multi-robot patrol around a closed area with the existence of a single adversary trying to enter the area. A real life motivation might be the following scenario. An intruder tries to cross a border while some patrolling units aim to detect this intrusion.
 
 The authors show that in adversial settings non-deterministic defender strategies are needed. They demonstrate it on an example similar to the following situation. A robot moving with velocity ${1m/s}$ is required to patrol around a fence of length 25 meters. Assume that an adversary needs 20 seconds to penetrate the area through the fence. If the robot moves deterministically, in any point of time a fence section of lenght of at least 5 meters will not be visited by the robot in the next 20 seconds. The intruder can guarantee penetration by entering through this section. However, if the robot moves in a non-deterministic way, it can commit to a strategy that does not allow the adversary to penetrate the area with probability one.
 
-In the paper, a circular graph is considered. All nodes of the graph are targets with unified attack length (penetration time). A system consisting of $k$ mobile robots is considered. Robots move simultaneously. The model is ??stochastic/markovian/stationary??, where for each node the robot goes to the right with probability $p$ and to the left with probability ${1 - p}$.\footnote{Two other movement models, where the robot has directionality associated with its movement, are considered. The achieved results, such as polynomial time algorithm for finding the optimal strategy, apply for these models too.} The authors prove that to maximize the probability of penetration detection (\textsf{ppd}), the robots have to be placed uniformly along the cycle and they have to be coordinated, i.e. all robots move together in the same direction. This reduces the problem to a much simpler instance with smaller graph and only one robot. The main result is a polynomial time algorithm which computes the optimal defender's strategy.
+In the paper, a circular graph is considered. All nodes of the graph are targets with unified attack length. A system consisting of $k$ mobile robots is considered. Robots move simultaneously. The model is Markovian, where for each node the robot goes to the right with probability $p$ and to the left with probability ${1 - p}$.\footnote{Two other movement models, where the robot has directionality associated with its movement, are considered. The achieved results, such as polynomial time algorithm for finding the optimal strategy, apply for these models too.} The authors prove that to maximize the probability of penetration detection (\textsf{ppd}), the robots have to be placed uniformly along the cycle and they have to be coordinated, i.e. all robots move together in the same direction. This reduces the problem to a much simpler instance with smaller graph and only one robot. The main result is a polynomial time algorithm which computes the optimal defender's strategy.
 
 Authors' subsequent papers concerning multi-robot perimiter patrol in adversial settings include \cite{perimeter2} and \cite{perimeter3}. In \cite{perimeter2} it is shown that in the case the adversary has no knowledge of the patrol scheme, a deterministic algorithm is optimal. However, the deterministic algorithm creates high deviations between the  \textsf{ppd} values in the nodes and it is easy to detect. Therefore, the authors present an algorithm that deals with adversary having partial information. This algorithm maximizes the expected \textsf{ppd} along with minimizing the deviation between the \textsf{ppd} values throughout the perimeter. Its performance was verified by experiments with human subjects.
 
@@ -218,7 +217,7 @@ The authors extend the model from \cite{arbitrary} to more realistic settings in
 
 \subsection{Multiple Patrolling Units}
 
-The authors of \cite{arbitrary} generalized their model by introducing multiple patrolling robots in \cite{multi-robot}. On the other hand, they simplified the model in many ways. They assume that the robots' strategy is stochastic, that the robots and the intruder have the same preference ordering over the targets and that the robots can sense only the nodes they are in.
+The authors of \cite{arbitrary} generalized their model by introducing multiple patrolling robots in \cite{multi-robot}. On the other hand, they simplified the model in many ways. They assume that the robots' strategy is Markovian, that the robots and the intruder have the same preference ordering over the targets and that the robots can sense only the nodes they are in.
 
 %nejake odsadenie?
 %podnadpis Smallest Number of Robots
@@ -269,7 +268,7 @@ Special attention was paid to two coordination combinations: disjointed strategy
 
 So far, the targets carrying value were static. In \cite{movingTargets}, the authors assume that these valuable targets can change their positions in time. This is motivated by real-world scenarios such as protection of vessels transiting waters with high pirate activity and unmanned aerial vehicle-based surveillance protecting moving ground targets.
 
-The model considered in \cite{movingTargets} is based on the model used in \cite{arbitrary}. It assumes unified attack length and stochastic defender's strategy.
+The model considered in \cite{movingTargets} is based on the model used in \cite{arbitrary}. It assumes unified attack length and first-order Markovian defender's strategy.
 % and identity sensing capabilities matrix.
 In addition, targets are allowed to move through the area according to a deterministic movement schedule. This schedule is a fixed property of the environment and is known to both players.
 
@@ -277,7 +276,7 @@ The game is played in $|T|$ turns, thereafter it is repeated \--- i.e. the targe
 %vynechat formalizmy a skratit to? "In contrast with the defender, the targets can move to any node, not just the adjacent one."
 Note that targets are not nodes anymore, but they are positioned in nodes.
 % rather???
-To cope with the target movement, the defender's strategy is time-dependent. The defender chooses his next action based not only on his current node but also on the current turn.
+To cope with the target movement, the defender's strategy is time-dependent. The defender chooses her next action based not only on her current node but also on the current turn.
 
 The authors formulate a multi-bilinear program to find the optimal defender's strategy.
 They experimentally compare the performance of the stationary and time-dependent strategies. They do so in terms of the reached game value and computation time. Evaluation examples have different types of graph structure (grid with holes vs. full grid) and different types of target movement (distance between targets changing or not changing). 
@@ -369,7 +368,11 @@ The authors provide an efficient linear program called CASS (Solver for Continuo
 %$<$http://en.wikipedia.org/w/index.php?title=Game\texttt{\us}theory\&oldid=610438321$>$.
 $<$http://en.wikipedia.org/wiki/Game\texttt{\us}theory$>$.
 
+\bibitem{nash} J. F. Nash. Equilibrium Points in $n$-Person Games. In \emph{PNAS}, volume 36, pages 48–49, 1950.
+
 \bibitem{convex} B. von Stengel and S. Zamir. Leadership Games with Convex Strategy Sets. \emph{Games and Economic Behavior}, volume 69, pages 446–457, 2010.
+
+\bibitem{nashStack} J. Letchford and V. Conitzer. Computing Optimal Strategies to Commit to in Extensive-Form Games. In \emph{EC}, pages 83–92, 2010.
 
 \bibitem{interchangability} Z. Yin, D. Korzhyk, C. Kiekintveld, V. Conitzer, and M. Tambe. Stackelberg vs. Nash in Security Games: Interchangeability, Equivalence, and Uniqueness. In \emph{AAMAS}, pages 1139–1146, 2010.
 
