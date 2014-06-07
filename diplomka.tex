@@ -62,6 +62,8 @@ patrolling games, game theory, complexity, algorithm, oriented graphs, blablabla
 
 Blablabla
 
+%do not forget motivation!
+
 
 \chapter{Preliminaries}
 % TODO review after writing the sections
@@ -71,7 +73,7 @@ After that, we give an overview of patrolling games. We provide some examples an
 The last section of this chapter we dedicate to the pioneers which set important directions of research in the field of patrolling games.
 
 \section{Introduction to Game Theory}
-In this chapter we present the basics of game theory. The definitions and content used here are inspired by \cite{fudenberg}, \cite{polak} and \cite{gameTheory}.
+In this chapter, we present the basics of game theory. The definitions and content used here are inspired by \cite{fudenberg}, \cite{polak} and \cite{gameTheory}.
 
 Game theory is a mathematical study of decision making. It studies games as well-defined mathematical object.
 A \emph{game} is a played between \emph{players} $P_1, \dots, P_n, n \geq 2$.
@@ -112,7 +114,7 @@ Different solution concepts were designed for specific game models. We are speci
 
 \section{Security Games}
 
-Security games are two-player games in which \emph{defender} allocates resources to guard targets against an \emph{attacker} (also \emph{intruder} or \emph{adversary}), who aims to attack some target.
+Security games are two-player games in which \emph{defender} allocates resources to guard targets against an \emph{attacker} (also called \emph{adversary} or \emph{intruder}), who aims to attack some target.\footnote{In the rest of the paper, we denote the defender with "she" and the attacker with "he".}
 Players' utilities are determined by the attacked target and the position of defender's resources during the attack.
 If the target is defended (attack is unsuccessful), defender's utility increases and attacker's utility decreases.
 Although one player's gain means other player's loss, security games are non-zero sum games in general.
@@ -122,13 +124,15 @@ A simple example of a security game is a problem of protecting $n$ banks in a ci
 In security games, it is mostly assumed that the attacker can observe the defender's moves and learn the defender's strategy before attacking.\footnote{In many situations attacker's perfect knowledge about the defender's strategy is at least questionable. Security games in which the attacker has only limited knowledge about the defender's strategy are studied e.g. in \cite{limited1, limited2, limited3, limited4}.}
 This leads to adopting the \emph{Stackelberg} model.
 In a Stackelberg game, the \emph{leader} (defender) first commits to a strategy, and then the \emph{follower} (attacker) chooses when and where to attack.
-The standard solution concept for Stackelberg games is \emph{strong Stackelberg equilibrium} (SSE, also \emph{leader-follower equilibrium}), which gives the leader the maximum expected utility in the worst-case scenario.
+The standard solution concept for Stackelberg games is \emph{strong Stackelberg equilibrium} (SSE, also called \emph{leader-follower equilibrium}), which gives the leader the maximum expected utility in the worst-case scenario.
 A crucial assumption is that the follower has a perfect knowledge of the defender's strategy and plays a best response to maximize his expected utility.
 One of the advantages of an SSE is that being a Stackelberg leader cannot hurt the defender \cite{convex, nashStack}. Furthermore, under certain natural assumptions about security games, any SSE is also an NE \cite{interchangability}.
 
-\
+\subsection{Secuirty Games in Real World}
 
 The leader-follower Stackelberg game model is actually utilized in many real-world security situations.
+We are aware of five applications based on this model which were already put into use in the United States. We present them in chronological order as they were deployed.
+
 The first deployed decision-support application is the \emph{ARMOR} (Assistant for Randomized Monitoring over
 Routes) security system \cite{armor}.
 It has been deployed since August 2007 at the Los Angeles International Airport (LAX).
@@ -143,7 +147,7 @@ Another security application using the Stackelberg game model is the \emph{GUARD
 It helps United States Transportation Security Administration (TSA) in resource allocation tasks for protection of more than 400 airports.
 In constrast with ARMOR and IRIS, which focused on one security activity, GUARDS reasons about hundreds of heterogenous defender activities, large number of diverse potential threads, and hundreds of potential end-users.
 
-Another example of a game-theoretic security system is \emph{PROTECT} (Port Resilience Operational/Tactical Enforcement to Combat Terrorism) \cite{protect}.
+Other example of a game-theoretic security system is \emph{PROTECT} (Port Resilience Operational/Tactical Enforcement to Combat Terrorism) \cite{protect}.
 It has been currently deployed by the United States Coast Guard (USCG) in the ports of Boston, New York and Los Angeles \cite{protect_coastguard}.
 In contrast to the three beforementioned security applications, PROTECT relies on a quantal responce (QR) \cite{quantal} model of the adversary's behavior, i.e. the attacker has only bounded rationality.
 It was the first time that the QR model has been used in a real-world security application \cite{protect}.
@@ -157,26 +161,93 @@ In \cite{trusts2}, the authors extend the TRUSTS system to incorporate also crim
 
 \section{Patrolling Games}
 
-\footnote{In the rest of the paper, we denote the defender with "she" and the attacker with "he".}
+In this section, we introduce the concept of patrolling games in general and we give a simplified motivational example of what it might look like in real life.
+Later, we informally describe the model adopted by us and we discuss its advantages.
 
-%TODO extensive-form
+Patrolling games are a special type of security games.
+Their unique feature is that the defender's resources can change their position in time.
+Furthermore, the attacker needs some finite time, called \emph{penetration time} (also \emph{attack length}), to succesfully complete an attack on a target.
+During this time, the defender can detect the intrusion in which case the attack is unsuccessful.
+The defender's goal is to commit to a strategy which maximizes the probability of detecting an intrusion.
+The attacker's goal is to maximize the probability of a successful attack.
+The resources controlled by the defender are called \emph{patrollers} (also \emph{robots}).
+As the defender is represented by her resources, we use these two terms interchangably.
+That is, under "defender" we might mean her resources and vice versa.
 
+We illustrate the problem of patrolling on a simple example mentioned in \cite{miso}.
+Let us assume a city with $n$ banks which the police can protect against robbery.
+The police have $k, k < n$ police officers with cars available.
+We assume that banks cannot let the police know that an attack is under way.
+The goal of the police is to create a surveillance plan which minimizes the possilibity of a successful attack.
 
+\
+
+There are many models of patrolling games which differentiate from each other in many ways (see Section \ref{sec:patrolLiterature}).
+We work with a simple model of patrolling games which was introduced in \cite{miso}.
+The results achieved in this thesis can be easily extended to more general models, which is explained later.
+%TODO link where the explanation is
+
+We model a patrolling game as a two-player zero-sum Stackelberg security game in extensive form with infinite horizon.
+The game is played on a directed graph, which represents the possible locations and moves of the defender.
+Some of the nodes of the graph are targets, all of which are equivalent:
+the attacker and the defender have no preferences over the targets and the attacker needs $d \geq 1$ time units to successfully attack any target.
+The defender starts in some initial target node and moves from node to node.
+Every move, consisting of the defender traversing an arbitrary edge, takes one time unit (step).
+The defender chooses the next node randomly and based on the history of all the nodes already visited.
+
+The assumed Stackelberg model implies a strong adversary, i.e. the attacker has complete knowledge of the defender's strategy and her current position.
+As the attacker observers the defender, he may either wait, or attack some target.
+When he attacks a target, he has to stay there for the next $d$ steps, i.e. he cannot leave even if he sees the defender approaching.
+Realize that a strong adversary would never attack a target currently visited by the defender.
+However, he can attack this target right after the defender's departure, long before the attacker arrives to the next node.
+That leads us to the following definition of a detected attack---if the defender is in node $v$ and the attacker attacks a target $u$, the attack is detected and the attacker is captured if and only if the defender visits $u$ in the next $1, \dots, d$ steps, even if $u = v$ \cite{iti1}.
+Otherwise, the attack is successfully completed.
+We assume the game ends after the attack is detected or completed, i.e. no more than one attack is possible.
+The defender aims to minimize the probability of a successful attack, the aim of the attacker is the opposite.
+
+The Stackelberg setting forces the attacker to play the best response to the defender's strategy.
+Therefore, the attacker cannot increase his utility using randomization, so we consider only pure attacker's strategies.
+Note that we model a patrolling game as a zero-sum game, i.e. the higher the attacker's utility, the lower the defender's utility.
+This means the attacker's best response represents the worst case for the defender.
+In other words, the attacker tries to hurt the defender as much as possible.
+Bear in mind that when finding the optimal strategy for the defender, we are concerned with the worst case scenario.
+
+For now, we assume that the defender has only one patrolling unit as we draw on the results achieved in \cite{miso, iti1}.
+We generalize this model by allowing multiple patrolling units in Chapter \ref{chap:multiPatrol}.
+
+From now on we also assume a single adversary who can attack only with a single resource.
+This assumption is adopted by all the works mentioned in Section \ref{sec:patrolLiterature} as well.
+
+%TODO odkaz na formalnu definiciu
+
+The reasons for choosing this model are described in detail in \cite{miso}.
+The basic motive is to consider a model as simple as possible, yet still reasonable enough.
+This motive resulted in opting of the following parameters of our model: graph structure, discrete time, no preference over targets, unified attack length, immobile targets, and only one attack possible.
+
+It turns out that the assumption of all edges being of length one is quite sufficient. Indeed, the case where edges can have different natural lengths can be reduced to our simple model by splitting each edge of length $t$ to $t$ sequentially connected edges of length one. A more general case with rational lengths of edges can be reduced to the previous case by multiplying both the lengths of edges and the attack length by a suitable number.
+
+%TODO sensing capabilities generalization
+
+The motives behind choosing the Stackelberg model are not restricted to simplicity.
+Besides the reasons mentioned in \cite{miso}, the Stackelberg setting together with the game being zero sum lead to one favorable characteristic---the optimal defender's strategy is optimal also with respect to the worst-case scenario.
+
+The motive for absolute optimality led to allowing the defender to make her movement choice based on all the moves she already did.
+This is in contrast with all the other patrolling literature we are aware of, where the defender can decide where to move based only on the last $h$ visited nodes.
+Strategies with $h = 1$ are based only on the current defender's location and we call them \emph{stationary} (or \emph{Markovian}).
+In \cite{arbitrary} there is an example where no optimal defender's strategy is stationary.
+In \cite{iti2} it has been shown that, in general, there might be no optimal defender's strategy which depends only on the last $h$ visited nodes for any $h \in \mathbb{N}$.
+
+%TODO nejake odkazy do dalsich sekcii na examples a pod.
+
+%\section{Related Work}
 \section{Basic Literature on Patrolling Games}
-In this section, we give an overview of the research in the field of the patrolling games in the last years. We address several models. For each model, we state the differences from our model and we mention the most significant results.
+\label{sec:patrolLiterature}
+In this section, we give an overview of the research in the field of the patrolling games in the last years. We address several papers and models. For each paper, we state the differences from our model and we mention the most significant results achieved.
 
-In the rest of the section, we use the following assumptions which hold true unless stated otherwise.
-
-Patrolling games are played on directed graphs with distance between any two neighbour nodes being the same.
-The terms \emph{patroller} and \emph{robot} refer to the defender.
-The terms \emph{intruder} and \emph{adversary} refer to the attacker.
-We assume single adversary.
-To intercept an attack, the defender has to come to a node where the attack is taking place.
-
-We assume strong adversarial setting, i.e. the attacker knows the defender's strategy and the current position of patrolling unit(s).
-
-attack lenght = penetration time
-??memoryless/Markovian/stationary?? strategy
+In the rest of this section, we use the following assumptions which hold true unless stated otherwise.
+A patrolling game is played on a directed graph with distances between any two neighbour nodes being the same.
+We assume a Stackelberg game model, i.e. the attacker knows the defender's strategy and the current position of the patrolling unit(s).
+And to intercept an attack, the defender has to come to the node where the attack is taking place.
 
 \subsection{Perimeter Patrol}
 The first reference in almost every robot patrolling paper is \cite{perimeter}. The authors consider a problem of multi-robot patrol around a closed area with the existence of a single adversary trying to enter the area. A real life motivation might be the following scenario. An intruder tries to cross a border while some patrolling units aim to detect this intrusion.
@@ -211,7 +282,7 @@ For an example setting, the reduction of nodes and the elimination of dominated 
 
 The rest of the paper discusses the problem of finding an upper bound for ${|H|}$, say ${|\overline{H}|}$, such that there is an optimal strategy, among all the strategies,
 % - among all the strategies -
-which uses no more than length ${|\overline{H}|}$ of the history, i.e.for any ${|H| > |\overline{H}|}$ the patroller's expected utility keeps constant. Throughout the paper it is claimed that this treshold exists. However, in \cite{iti2} this claim has been proven \emph{incorrect}. Moreover, in \cite{arbitrary} they formulate a theorem that for a fully connected topology, ${|\overline{H}| = 0}$. That is also \emph{incorrect}. The proof sketch is done on a complete graph with 3 nodes, each with attack length 2. The authors prove that their algorithm gives the same expected utility when ${|H| = 0}$ and ${|H| = 1}$. Generalization of any kind is omitted. The highest expected utility when ${|H| = 0}$ is ${5/9}$. However, in \cite{iti1} there is a strategy with ${|H| = 2}$ giving expected utility ${(\sqrt{5} - 1)/2}$, which is strictly greater than ${5/9}$.
+which uses no more than length ${|\overline{H}|}$ of the history, i.e. for any ${|H| > |\overline{H}|}$ the patroller's expected utility keeps constant. Throughout the paper it is claimed that this treshold exists. However, in \cite{iti2} this claim has been proven \emph{incorrect}. Moreover, in \cite{arbitrary} they formulate a theorem that for a fully connected topology, ${|\overline{H}| = 0}$. That is also \emph{incorrect}. The proof sketch is done on a complete graph with 3 nodes, each with attack length 2. The authors prove that their algorithm gives the same expected utility when ${|H| = 0}$ and ${|H| = 1}$. Generalization of any kind is omitted. The highest expected utility when ${|H| = 0}$ is ${5/9}$. However, in \cite{iti1} there is a strategy with ${|H| = 2}$ giving expected utility ${(\sqrt{5} - 1)/2}$, which is strictly greater than ${5/9}$.
 
 The authors extend the model from \cite{arbitrary} to more realistic settings in \cite{powerlessIntruder}. They weaken the intruder in two ways. Their first extension introduces the intruder's movement. The intruder does not appear directly at the target, rather he has to traverse the graph along paths connecting \emph{access areas} to targets. The intruder can move infinitely fast. Covering a path takes only one step during which the intruder can be detected on every node of the path. In their second extension, some cells are hidden to the intruder. As he cannot observe the whole environment, he cannot perfectly know the position of the patroller when attacking. A concept of a \emph{state} is introduced, representing when (how many steps ago) and where (in which node) has the patroller been observed for the last time. For both extensions the authors provide mathematical programming formulations, reduction algorithms and experimental evaluations.
 
@@ -295,11 +366,10 @@ The defender has $W$ mobile patrollers that can move between $A$ and $B$. All pa
 The authors provide an efficient linear program called CASS (Solver for Continuous Attacker Strategies) to solve  MRMT\textsubscript{sg}. The effiecency of CASS consists in the represention of the defender's strategies as marginal probability variables and in using \emph{sub-interval analysis} to model the attacker's continuous strategy space.
 
 
-% \subsection{?? modularity}
-
-% \subsection{?? alarms}
-
-
+% \subsection{Other}
+% modularity
+% alarms
+% euclidian??
 
 
 
@@ -307,6 +377,12 @@ The authors provide an efficient linear program called CASS (Solver for Continuo
 \chapter{Preliminaries}
 
 \section{Basic Definitions}
+\label{sec:definitions}
+
+optimal strategy = optimal defender's strategy
+
+example -  the defender does not know whether an attack has already started
+
 
 
 \begin{mydef}
@@ -320,7 +396,10 @@ The authors provide an efficient linear program called CASS (Solver for Continuo
 \end{mydef}
 
 
+\chapter{multiple robots}
+\label{chap:multiPatrol}
 
+%vsetci sa hybu rovnako rychlo
 
 \chapter{This is the end, my only friend, the end}
 
