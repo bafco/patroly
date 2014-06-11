@@ -18,8 +18,8 @@
 \newtheorem{example}[thm]{Example}
 \newtheorem{corollary}[thm]{Corollary}
 
-\theoremstyle{definition}
-\newtheorem{mydef}[thm]{Definition}
+%\theoremstyle{definition}
+\newtheorem{definition}[thm]{Definition}
 \newtheorem{observation}[thm]{Observation}
 
 
@@ -84,7 +84,7 @@ $\mathcal{S} = \prod_{i=1}^n S_i$
 and is called a \emph{strategy profile}.
 %We will denote this space of all possible strategy profiles by $\mathcal{S}$.
 Each strategy profile represents some value for every player.
-Therefore, every player $P_i$ has his own \emph{utility function} $U_i: \mathcal{S} \mapsto \mathbb{R}$ which assigns \emph{payoffs} to strategy profiles.
+Therefore, every player $P_i$ has his own \emph{utility function} $U_i: \mathcal{S} \to \mathbb{R}$ which assigns \emph{payoffs} to strategy profiles.
 The higher the player's payoff of a strategy profile, the better the profile for the player.
 The above representation of a game is called normal form. The normal game is usually represented by a matrix and is mostly used when a strategy represents a single action.
 
@@ -160,6 +160,7 @@ The optimization objective is to maximize the total revenue (ticket sales plus f
 In \cite{trusts2}, the authors extend the TRUSTS system to incorporate also crime prevention and counter-terrorism.
 
 \section{Patrolling Games}
+\label{sec:PG}
 
 In this section, we introduce the concept of patrolling games in general and we give a simplified motivational example of what it might look like in real life.
 Later, we informally describe the model adopted by us and we discuss its advantages.
@@ -205,7 +206,7 @@ Otherwise, the attack is successfully completed.
 We assume the game ends after the attack is detected or completed, i.e. no more than one attack is possible.
 The defender aims to minimize the probability of a successful attack, the aim of the attacker is the opposite.
 
-The Stackelberg setting forces the attacker to play the best response to the defender's strategy.
+The Stackelberg setting enables the attacker to play the best response to the defender's strategy.
 Therefore, the attacker cannot increase his utility using randomization, so we consider only pure attacker's strategies.
 Note that we model a patrolling game as a zero-sum game, i.e. the higher the attacker's utility, the lower the defender's utility.
 This means the attacker's best response represents the worst case for the defender.
@@ -343,7 +344,7 @@ The model considered in \cite{movingTargets} is based on the model used in \cite
 % and identity sensing capabilities matrix.
 In addition, targets are allowed to move through the area according to a deterministic movement schedule. This schedule is a fixed property of the environment and is known to both players.
 
-The game is played in $|T|$ turns, thereafter it is repeated \--- i.e. the targets move in cycles. In each turn, the defender can move to an adjacent node and the targets can move to any node. The movement of the targets is defined by an arbitrary function ${f : Q \times T \mapsto V}$, where $Q$ is the set of targets, $T$ is the set of turns and $V$ is the set of nodes.
+The game is played in $|T|$ turns, thereafter it is repeated \--- i.e. the targets move in cycles. In each turn, the defender can move to an adjacent node and the targets can move to any node. The movement of the targets is defined by an arbitrary function ${f : Q \times T \to V}$, where $Q$ is the set of targets, $T$ is the set of turns and $V$ is the set of nodes.
 %vynechat formalizmy a skratit to? "In contrast with the defender, the targets can move to any node, not just the adjacent one."
 Note that targets are not nodes anymore, but they are positioned in nodes.
 % rather???
@@ -371,33 +372,99 @@ The authors provide an efficient linear program called CASS (Solver for Continuo
 % alarms
 % euclidian??
 
-
+%TODO - tabulka!
 
 
 \chapter{Preliminaries}
 
+The definitions we use herein are from \cite{iti1, iti2}. Although we use the model from \cite{iti1}\footnote{In \cite{iti1}, in contrast to \cite{iti2}, not all nodes are necessarily targets and the attack length is unified.}, we prefer some of the novel syntax introduced in \cite{iti2}.
+
 \section{Basic Definitions}
 \label{sec:definitions}
 
-optimal strategy = optimal defender's strategy
+We use $\mathbb{N}$ to denote the set of positive integers.
+% set of non-negative??? do we need it?
+The sets of all finite and infinite words over an alphabet $\Gamma$ are denoted by $\Gamma^*$ and $\Gamma^{\omega}$, respectively.
+The empty word is denoted by $\epsilon$.
+The length of a given word $w \in \Gamma^* \cup \Gamma^{\omega}$ is denoted by $|w|$, the length of an infinite word is $\infty$.
+We write $\Gamma^{\leq k}$ for the set of all words $w \in \Gamma^*$ satisfying $|w| \leq k$.
+The individual letters of a non-empty word $w \in \Gamma^* \cup \Gamma^{\omega}$ are denoted by $w_0w_1\dots$.
+We write $last(w)$ to denote the last letter of a finite non-empty word $w$.
+Given two words $w, w' \in \Gamma^* \cup \Gamma^{\omega}$ we write $w \preceq w'$ iff $w$ is a prefix\footnote{An infinite word is a prefix of another word if and only if they are the same.} of $w'$, i.e. iff there exists a word $w'' \in \Gamma^* \cup \Gamma^{\omega}$ such that $w' = ww''$.
+%TODO do we need the $w$ to be possiblyt infinite?
+Furthermore, we write $w \prec w'$ iff $w \preceq w'$ and $w \neq w'$.
+
+Given an at most countable set $S$, a \emph{probability distribution} over $S$ is a function $\delta : S \to [0,1]$
+such that $\sum_{s \in supp(\delta)} \delta(s) = 1$, where the set $supp(\delta) = \{s \in S \mid \delta(s) \neq 0\}$ is the \emph{support} of $\delta$.
+We denote the set of all probability distributions over $S$ by $\Delta(S)$.
+
+%A \emph{directed graph} is an ordered pair $G = (U, E)$, where $N$ is a finite set of \emph{nodes} and $E \subseteq U \times U$ is a set of \emph{edges}.
+
+\begin{definition}
+A \emph{patrolling game} is a tuple $\mathcal{G} = (U, E, T, \hat{u}, d)$ where $U$ is a finite set of \emph{nodes}, $E \subseteq U \times U$ is a set of \emph{edges}, $T \subseteq U$ is a set of \emph{target nodes}, $\hat{u} \in T$ is the \emph{initial node} and $d$ is the \emph{attack length}.
+\end{definition}
+
+The pair $(U, E)$ is the directed graph on which the game $\mathcal{G}$ is played. 
+Given a node $u \in U$, we define $succ(u) := \{v \in U \mid (u, v) \in E\}$ to be the set of all \emph{successors} of $u$.
+A \emph{path} is a finite or infinite word $w \in U^* \cup U^{\omega}$ such that $w_{i+1}$ is a successor of $w_i$ for all $0 \leq i < |w|$.
+A \emph{history} is a finite non-empty
+%ALLOWING ALSO EMPTY if no initial node
+path whilst a \emph{run} is an infinite path.
+We denote the set of all histories by $\mathcal{H}$ and the set of all runs by $\mathcal{R}$.
+Given a set of histories $H \subseteq \mathcal{H}$, we use $\mathcal{R}(H)$ to denote the set of all runs $\omega \in \mathcal{R}$ such that $h \preceq \omega$ for some history $h \in H$
+%footnote?
+(we write $\mathcal{R}(h)$ instead of $\mathcal{R}(\{h\})$).
+
+\begin{definition}
+A \emph{defender's strategy} is a function $\sigma : \mathcal{H} \to \Delta(U)$ such that $supp(\sigma(h)) \subseteq succ(last(h))$ for every $h \in \mathcal{H}$.
+The set of all defender's strategies is denoted by $\Sigma$.
+
+An \emph{attacker's strategy} is a function $\pi : \mathcal{H} \to T \cup \{\perp\}$ such that whenever $\pi(h) \neq$ $\perp$, then for all $h' \prec h$ we have that $\pi(h') =$ $\perp$.
+The set of all attacker's strategies is denoted by $\Pi$.
+\end{definition}
+
+Let us stop for a while and intuitively explain the meaning of players' strategies.
+In any part of the game, a history describes the order of the nodes which were already visited by the defender.
+After following a history $h$, the defender randomly chooses the next node according to the distribution $\sigma(h)$. At the same time, the attacker chooses whether to attack a target $t$ ($\pi(h) = t$), or wait ($\pi(h) =$ $\perp$).
+Note that the attacker can attack only once during a play.
+Also note that $\Pi$ contains only pure strategies, i.e. the attacker cannot randomize.
+This is because the attacker cannot hurt the defender by randomizing, as is discussed in Section \ref{sec:PG}.
+
+Note that for a given defender's strategy $\sigma$, some histories cannot happen.
+For a given defender's strategy $\sigma$, we define the set $\mathcal{H}(\sigma) \subseteq \mathcal{H}$ of \emph{relevant} histories, consisting of all $h \in \mathcal{H}$ starting in $\hat{u}$ such that if $h'u \preceq h$ for some $h' \in \mathcal{H}$, $u \in U$, then $\sigma(h')(u) > 0$.
+Clearly, only relevant histories can happen with positive probability.
+In the future, we may talk about a defender's strategy $\sigma$ and not define $\sigma(h)$ for irrelevant histories $h$.
+
+%nejake keci okolo probability space?
+Also note that a given defender's strategy $\sigma$ determines a unique probability space over all infinite paths initiated in a given $u \in U$ (see \cite{chung}), and we denote the associated probability measure by $\mathcal{P}_u^{\sigma}$.
+
+Given an attacker's strategy $\pi$, we say that a run $\omega$ \emph{contains a successful attack} if there exist a
+%finite prefix!!! fml! -> history $h \preceq \omega$ ?
+finite prefix $h$ of $\omega$ and a target $t \in T$ such that $\pi(h) = t$ and $t$ is not visited in the first $d$ steps after the history $h$.
+We say that a run is \emph{defended}, if it does not contain a successful attack.
+For every node $u \in U$, we use $\mathcal{D}_u[\pi]$ to denote the set of all defended runs initiated in $u$.
+Hence, $\mathcal{P}_u^{\sigma}(\mathcal{D}_u[\pi])$ is the probability of all defended runs initiated in $u$ when the defender and the attacker use strategies $\sigma$ and $\pi$, respectively. We omit the subscript $u$ in $\mathcal{P}_u^{\sigma}$ and $\mathcal{D}_u[\pi]$ when $u = \hat{u}$.
+
+%TODO - what precision in definition do we really need? (optimality in $u$ - srsly?)
+\begin{definition}
+For all $u \in U$ and $\sigma \in \Sigma$, the \emph{value of $\sigma$} is defined as $val_u(\sigma) = \emph{inf}_{\pi \in \Pi}\mathcal{P}_u^{\sigma}(\mathcal{D}_u[\pi])$.
+The \emph{Stackelberg value} of $u$ is defined as $val_u = \emph{sup}_{\sigma \in \Sigma}val_u(\sigma)$.
+The (Stackelberg) value of the game $\mathcal{G}$ is defined as $val = val_{\hat{u}}$.
+
+Let $\epsilon \geq 0$. A defender's strategy $\sigma^*$ is called \emph{$\epsilon$-optimal} if $val(\sigma^*) \geq val - \epsilon$.
+A $0$-optimal strategy is called just \emph{optimal}.
+\end{definition}
+
+At many places we consider strategies obtained by ìforgettingî some initial prefix of the history. Formally,
+for all $h \in \mathcal{H}$ and $\theta \in \Sigma \cup \Pi$, we define a strategy $\theta_h$ by $\theta_h(h') = \theta(hh')$.
 
 example -  the defender does not know whether an attack has already started
 
 
-
-\begin{mydef}
-\emph{Gramatika} $\mathcal{G}$ je ötvorica $(N, \Sigma, P, S)$, kde
-\begin{itemize}
-	\item $N$ je nepr·zdna koneËn· mnoûina \emph{netermin·lnych symbolov} (Ôalej \emph{netermin·lov}).
-	\item $\Sigma$ je koneËn· mnoûina \emph{termin·lnych symbolov} (Ôalej \emph{termin·lov}) tak·, ûe $N \cap \Sigma = \emptyset$. Symbolom $V = N \cup \Sigma$ budeme znaËiù mnoûinu \emph{vöetk˝ch symbolov} gramatiky.
-	\item $P \subseteq V^*NV^* \times V^*$ je koneËn· mnoûina \emph{pravidiel}. Pravidlo $(\alpha, \beta)$ obvykle zapisujeme v tvare $\alpha \rightarrow \beta$ a ËÌtame ``$\alpha$ prepÌö na $\beta$''. \emph{ºavou stranou} pravidla $\alpha \rightarrow \beta$ rozumieme jeho prv˙ zloûku ($\alpha$), \emph{pravou stranou} pravidla jeho druh˙ zloûku ($\beta$).
-	\item $S \in N$ je öpeci·lny \emph{poËiatoËn˝} netermin·l (naz˝van˝ \emph{koreÚ gramatiky}).
-\end{itemize}
-\end{mydef}
-
-
 \chapter{multiple robots}
 \label{chap:multiPatrol}
+
+%ziadny zaciatocny stav - sucastou strategie je pociatocne rozlozenie - nemusi to vsak nutne byt distribucia! staci ista konfiguracia s pravdepodobnostou 1, pretoze utocnik moze zautocit az potom, t.j. nemoze zneuzit, ze vie, kde bude obranca zacinat
 
 %vsetci sa hybu rovnako rychlo
 
@@ -479,6 +546,8 @@ $<$http://en.wikipedia.org/wiki/Game\texttt{\us}theory$>$.
 \bibitem{trusts} Z. Yin, A. X. Jiang, M. P. Johnson, M. Tambe, C. Kiekintveld, K. Leyton-Brown, T. Sandholm, and J. P. Sullivan. TRUSTS: Scheduling Randomized Patrols for Fare Inspection in Transit Systems. In \emph{IAAI}, 2012.
 
 \bibitem{trusts2} F. M. Delle Fave, M. Brown, C. Zhang, E. Shieh, A. X. Jiang, H. Rosoff, M. Tambe, and J. P. Sullivan. Security Games in the Field: an Initial Study on a Transit System. In \emph{AAMAS}, pages 1363-1364, 2014.
+
+\bibitem{chung} K. L. Chung. Markov Chains with Stationary Transition Probabilities. Springer, 1967.
 
 \end{thebibliography}
 
