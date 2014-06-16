@@ -6,6 +6,10 @@
 \usepackage[plainpages=false, pdfpagelabels, hidelinks]{hyperref}
 \usepackage{amsmath, amssymb, graphicx, amsthm, amsfonts, enumitem, algpseudocode, algorithmicx, wasysym, fixltx2e, float}
 
+\usepackage{tikz}
+\tikzset{ every node/.style={circle,fill=gray!15,draw,minimum size=1.5em,inner sep=2.5pt}}
+\usepackage{array}
+
 \usepackage[chapter]{algorithm}
 \newfloat{algorithm}{t}{lop}
 \floatname{algorithm}{Algorithm}
@@ -15,13 +19,17 @@
 
 \newtheorem{thm}{Theorem}[section]
 \newtheorem{lemma}[thm]{Lemma}
-\newtheorem{example}[thm]{Example}
-\newtheorem{corollary}[thm]{Corollary}
 
-%\theoremstyle{definition}
+\newtheorem{corollary}[thm]{Corollary}
 \newtheorem{definition}[thm]{Definition}
+
+\theoremstyle{definition}
+\newtheorem{example}[thm]{Example}
 \newtheorem{observation}[thm]{Observation}
 
+\setcounter{figure}{0}
+\makeatletter
+\renewcommand{\thefigure}{\arabic{figure}}
 
 \thesislang{en}
 \thesistitle{Computational Complexity of Patrolling Games on Oriented Graphs}
@@ -225,7 +233,7 @@ The reasons for choosing this model are described in detail in \cite{miso}.
 The basic motive is to consider a model as simple as possible, yet still reasonable enough.
 This motive resulted in opting of the following parameters of our model: graph structure, discrete time, no preference over targets, unified attack length, immobile targets, and only one attack possible.
 
-It turns out that the assumption of all edges being of length one is quite sufficient. Indeed, the case where edges can have different natural lengths can be reduced to our simple model by splitting each edge of length $t$ to $t$ sequentially connected edges of length one. A more general case with rational lengths of edges can be reduced to the previous case by multiplying both the lengths of edges and the attack length by a suitable number.
+It turns out that the assumption of all edges being of length 1 is quite sufficient. Indeed, the case where edges can have different natural lengths can be reduced to our simple model by splitting each edge of length $t$ to $t$ sequentially connected edges of length one. A more general case with rational lengths of edges can be reduced to the previous case by multiplying both the lengths of edges and the attack length by a suitable number.
 
 %TODO sensing capabilities generalization
 
@@ -253,7 +261,7 @@ And to intercept an attack, the defender has to come to the node where the attac
 \subsection{Perimeter Patrol}
 The first reference in almost every robot patrolling paper is \cite{perimeter}. The authors consider a problem of multi-robot patrol around a closed area with the existence of a single adversary trying to enter the area. A real life motivation might be the following scenario. An intruder tries to cross a border while some patrolling units aim to detect this intrusion.
 
-The authors show that in adversial settings non-deterministic defender strategies are needed. They demonstrate it on an example similar to the following situation. A robot moving with velocity ${1m/s}$ is required to patrol around a fence of length 25 meters. Assume that an adversary needs 20 seconds to penetrate the area through the fence. If the robot moves deterministically, in any point of time a fence section of lenght of at least 5 meters will not be visited by the robot in the next 20 seconds. The intruder can guarantee penetration by entering through this section. However, if the robot moves in a non-deterministic way, it can commit to a strategy that does not allow the adversary to penetrate the area with probability one.
+The authors show that in adversial settings non-deterministic defender strategies are needed. They demonstrate it on an example similar to the following situation. A robot moving with velocity ${1m/s}$ is required to patrol around a fence of length 25 meters. Assume that an adversary needs 20 seconds to penetrate the area through the fence. If the robot moves deterministically, in any point of time a fence section of lenght of at least 5 meters will not be visited by the robot in the next 20 seconds. The intruder can guarantee penetration by entering through this section. However, if the robot moves in a non-deterministic way, it can commit to a strategy that does not allow the adversary to penetrate the area with probability 1.
 
 In the paper, a circular graph is considered. All nodes of the graph are targets with unified attack length. A system consisting of $k$ mobile robots is considered. Robots move simultaneously. The model is Markovian, where for each node the robot goes to the right with probability $p$ and to the left with probability ${1 - p}$.\footnote{Two other movement models, where the robot has directionality associated with its movement, are considered. The achieved results, such as polynomial time algorithm for finding the optimal strategy, apply for these models too.} The authors prove that to maximize the probability of penetration detection (\textsf{ppd}), the robots have to be placed uniformly along the cycle and they have to be coordinated, i.e. all robots move together in the same direction. This reduces the problem to a much simpler instance with smaller graph and only one robot. The main result is a polynomial time algorithm which computes the optimal defender's strategy.
 
@@ -276,7 +284,7 @@ The authors cope with the presence of the infinite horizon in the game by introd
 
 Further, the paper is concerned with heuristics for more efficient problem solving. In realistic settings the number of targets is significantly smaller than the number of all nodes. That affords opportunity to reduce the programming problems' searching space, the number of variables and constraints.
 % use dash instead of comma? "- the number of ..."
-First, the authors are interested in a deterministic strategy which detects any attack with probability one. To solve the problem of finding such a strategy, they formulate an integer linear program.
+First, the authors are interested in a deterministic strategy which detects any attack with probability 1. To solve the problem of finding such a strategy, they formulate an integer linear program.
 Second, the authors aim to minimize the number of nodes over which the patroller will randomize when using an optimal strategy. They formulate another integer linear program for that.
 Third, they introduce the concept of action dominance for the intruder.
 For an example setting, the reduction of nodes and the elimination of dominated actions resulted in the following improvement. Both the number of bilinear problems to be solved and the average computational time for solving a single problem decreased from ${29^2}$ to 18 and from more than 30 minutes to less than 5 minutes, respectively.
@@ -293,7 +301,7 @@ The authors of \cite{arbitrary} generalized their model by introducing multiple 
 
 %nejake odsadenie?
 %podnadpis Smallest Number of Robots
-The first problem addressed in the paper is finding the smallest number of robots needed to capture any attack with probability greater than zero. With a smaller number of robots the intruder could successfully attack with probability one. The authors show that this problem is equivalent to finding the smallest number of maximal cliques such that each target belongs to at least one clique. A simplified idea behind this is the following.
+The first problem addressed in the paper is finding the smallest number of robots needed to capture any attack with probability greater than zero. With a smaller number of robots the intruder could successfully attack with probability 1. The authors show that this problem is equivalent to finding the smallest number of maximal cliques such that each target belongs to at least one clique. A simplified idea behind this is the following.
 % "the following:" - throughout the document
 
 Let us assume a setting with a graph $G$ and a set of targets $T$. Let $T' \subseteq T$ be a subset of targets. If there is a subgraph $G' \subseteq G$
@@ -332,7 +340,7 @@ The second dimension refers to the degree of \emph{coordination in partitioning 
 
 In the next part of the paper, the authors combine the two mentioned coordination dimensions together. They show that only some combinations are reasonable. For example, joint strategy with separated assignment can be reduced to separated strategy with separated assignment. That is because robots patrolling separated portions of $G$ do not need to cooperate. A mathematical programming formulation is proposed for each reasonable combination of values.
 
-Experimental results show that the higher the degree of coordination, the higher the computational effort and the robots' utilities.\footnote{There is one exception to this rule in the case of separated strategies: separated assignment turned out to be more time-consuming and gave higher utilities than maximal clique assignment. This shows that overlapping patrolling areas without any strategy coordination have negative effect on the expected utility.}
+Experimental results show that the higher the degree of coordination, the higher the computational effort and the robots' utilities.\footnote{There is an exception to this rule in the case of separated strategies: separated assignment turned out to be more time-consuming and gave higher utilities than maximal clique assignment. This shows that overlapping patrolling areas without any strategy coordination have negative effect on the expected utility.}
 An easy observation was that joint strategies do not scale with large settings (more than 15 nodes) as they require much memory.
 Special attention was paid to two coordination combinations: disjointed strategy with maximal clique assignment ($\mathcal{D}_3$) and separated strategy with separated assignment ($\mathcal{D}_5$). $\mathcal{D}_5$ consumed less time than $\mathcal{D}_3$ just because the number of possible assignments was small. With larger settings, the number of all the possible separated assignments increases drastically faster than the number of maximal cliques. Another interesting observation is that higher number of robots can lead to lower computational time. That is because adding more robots decreases the portion of $G$ assigned to each robot and the computational time strongly depends on the size of this portion. For more conclusions, see \cite{multi-robot}.
 
@@ -424,7 +432,7 @@ The set of all attacker's strategies is denoted by $\Pi$.
 \end{definition}
 
 Let us stop for a while and intuitively explain the meaning of players' strategies.
-In any part of the game, a history describes the order of the nodes which were already visited by the defender.
+In any part of the game, the actual history describes the order of the nodes which were already visited by the defender.
 After following a history $h$, the defender randomly chooses the next node according to the distribution $\sigma(h)$. At the same time, the attacker chooses whether to attack a target $t$ ($\pi(h) = t$), or wait ($\pi(h) =$ $\perp$).
 Note that the attacker can attack only once during a play.
 Also note that $\Pi$ contains only pure strategies, i.e. the attacker cannot randomize.
@@ -455,11 +463,78 @@ Let $\epsilon \geq 0$. A defender's strategy $\sigma^*$ is called \emph{$\epsilo
 A $0$-optimal strategy is called just \emph{optimal}.
 \end{definition}
 
+%TODO preformulovat, prip. presunut inam
 At many places we consider strategies obtained by “forgetting” some initial prefix of the history. Formally,
 for all $h \in \mathcal{H}$ and $\theta \in \Sigma \cup \Pi$, we define a strategy $\theta_h$ by $\theta_h(h') = \theta(hh')$.
 
-example -  the defender does not know whether an attack has already started
+\section{Examples}
 
+In this section, we provide a few examples to better understand the nature of patrolling games. Each example illustrates certain characteristic of our model and serves as an explanation for why we have chosen this model.
+Examples \ref{ex:stationary} and \ref{ex:initial} are from \cite{miso}, the setting in Example \ref{ex:triangle} is from \cite{iti1}.
+
+\begin{figure}[h]
+
+\begin{tabular}{ m{4.2cm} m{5.3cm} m{3cm} }
+
+\begin{tikzpicture}
+  \foreach \pos/\name in {{(0,0)/a}, {(1.25,0)/b}, {(2.5,0)/c}}
+        \node (\name) at \pos {$\name$};
+   \foreach \from/\to in {a/b, b/c}
+	\draw [<->] (\from) -- (\to);
+\end{tikzpicture}
+
+&
+
+\begin{tikzpicture}
+  \foreach \pos/\name in {{(0,0)/k}, {(1.25,0)/l}, {(2.5,0)/m}, {(3.75,0)/n}}
+        \node (\name) at \pos {$\name$};
+   \foreach \from/\to in {k/l, l/m, m/n}
+	\draw [<->] (\from) -- (\to);
+\end{tikzpicture}
+
+&
+
+\begin{tikzpicture}
+%[scale=1, transform shape]
+  \foreach \pos/\name in {{(0,0)/s}, {+(0: 1.5)/u}, {+(60: 1.5)/v}}
+        \node (\name) at \pos {$\name$};
+   \foreach \from/\to in {s/u, u/v, v/s}
+	\draw [<->] (\from) -- (\to);
+\end{tikzpicture}
+
+\end{tabular}
+
+\caption{\mbox{Three simple graphs on which example patrolling games are played}}
+\label{fig:examples}
+\end{figure}
+
+\begin{example}
+\label{ex:stationary}
+Consider a patrolling game played on the left graph from Fig.~\ref{fig:examples}, where all nodes are targets, $a$ is the initial node and $d = 4$.
+The defender has to move to the node $b$ from both nodes $a$ and $c$.
+All that the defender has under control is what she does in the node $b$.
+If we restrict the defender's strategies to be stationary, the best value the defender can achieve is 3/4, when she goes from $b$ to $a$ with the same probability as from $b$ to $c$, i.e. with probability 1/2.
+However, the defender can protect all the targets with probability 1 with a simple deterministic strategy $\sigma^*$ resulting in a run $(abcb)^\omega$.
+Note that $\sigma^*$ depends only on the last two nodes---when the defender is in the node $b$, she moves to the node she has not visited in the last two steps.
+\end{example}
+
+
+\begin{example}
+\label{ex:initial}
+
+example - starting node not a target
+
+
+\end{example}
+
+\begin{example}
+\label{ex:triangle}
+
+example - triangle
+-> also: the defender does not know whether an attack has already started (also stationary strategies are not enough)
+
+
+\end{example}
 
 \chapter{multiple robots}
 \label{chap:multiPatrol}
