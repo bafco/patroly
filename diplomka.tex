@@ -518,22 +518,41 @@ However, the defender can protect all the targets with probability 1 with a simp
 Note that $\sigma^*$ depends only on the last two nodes---when the defender is in the node $b$, she moves to the node she has not visited in the last two steps.
 \end{example}
 
-
 \begin{example}
 \label{ex:initial}
+Now consider a patrolling game played on the middle graph from Fig.~\ref{fig:examples}, where $T = {m, n}$ and $d = 2$ and let us suppose that any node can be the starting node, not just the targets.
+The value of the game clearly depends on the starting node.
+If $k$ is the starting node, the attacker attacks $n$ as soon as possible and the defender has no chance to intercept this attack, i.e. $val_k = 0$.
+Otherwise, the defender can defend both targets with probability 1.
 
-example - starting node not a target
-
-
+Considering a general game, an interesting question arises: for which node(s) $u \in U$ does it hold that $val_u =$ max$_{v \in U} val_v$?
+We show that, in general, all target nodes satisfy this condition, i.e. no non-target starting node would yield higher value of a game than any target node.
+%TODO ref-nut lemma - this is a corollary of the lemma ...
+This is why we enforce the starting node to be a target.
 \end{example}
 
 \begin{example}
 \label{ex:triangle}
+Consider a patrolling game played on the right graph from Fig.~\ref{fig:examples}, where all nodes are targets, $s$ is the initial node and $d = 2$.
+This example is rather sofisticated than the previous two, because the defender cannot protect all the targets with probability 1.
+A simple defender's strategy that comes to one's mind is to choose the next node uniformly, i.e. with probability 1/2.
+The value of this strategy is 1/2---attacker's best response is to attack a target when the defender leaves it.
+One can show that this strategy is optimal among all stationary strategies.
+%TODO - ref to proof
+However, consider a strategy $\sigma^*$ which chooses the previously visited node with probability $(\sqrt{5} - 1)/2$ and the other node with the remaining probability $(3-\sqrt{5})/2$.
+In the first step, when there is no previously visited node, $\sigma^*$ chooses the next node uniformly.
+It is easy to show that $val(\sigma^* = (\sqrt{5} - 1)/2$.
+In \cite{iti1}, it has been shown that $val(\sigma^*) = val$ and that all optimal strategies are the same as $\sigma^*$ except for the choice in the first step.
+%TODO - own proof?
+This means that irrational numbers may inevitably occur in both the probability distribution of the defender's strategy and the value of the game.
 
-example - triangle
--> also: the defender does not know whether an attack has already started (also stationary strategies are not enough)
-
-
+The last thing we want to demonstrate on this example is that if the defender had the information whether the attacker has already attacked or not, she could commit to a strategy resulting in a higher value.
+Indeed, assume that the defender chooses the next node uniformly until she gets the information about an initiated attack.
+At that moment, she goes to the previously visited node with probability 2/3 and to the other node with probability 1/3.
+Note that this way the defender intercepts any attack with probability 2/3, which is strictly greater than $(\sqrt{5} - 1)/2$.
+What is interesting about this observation is not that an additional information could help the defender, rather why this particular information would help the defender.
+The reason resides in the nature of patrolling games, specifically that the defender has to think in to the future more than just $d$ steps ahead.
+If she had the information about an initiated attack, she would need not to care about the future and could act in a way that would otherwise afford the attacker the opportunity to successfully attack with higher probability.
 \end{example}
 
 \chapter{multiple robots}
