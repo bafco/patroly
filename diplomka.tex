@@ -555,12 +555,46 @@ The reason resides in the nature of patrolling games, specifically that the defe
 If she had the information about an initiated attack, she would need not to care about the future and could act in a way that would otherwise afford the attacker the opportunity to successfully attack with higher probability.
 \end{example}
 
+\chapter{TODO uz dosiahnute vysledky - translating patrolling games into stochastic games}
+
+%TODO - really this is what we are goind to do?
+In this chapter, we describe the process, presented in \cite{iti1}, of translating patrolling games into stochastic games.
+We summarize the essential achieved results, while we primarily focus on the constructs on which our results are based.
+
+We start by translating a given patrolling game $\mathcal{G}$ into a turn-based perfect-information safety stochastic game $\mathcal{S}$, where the defender corresponds to the maximizer.
+We show that the maximizer has an optimal strategy in $\mathcal{S}$, which can be translated back to $\mathcal{G}$, yielding the same value of the game.
+Then we show that each optimal strategy satisfies some condition which is crucial for argumentation about $\epsilon$-optimality.
+
+%TODO - ^^ sanity content check - nepremiestit lemma do inej sekcie/kapitoly?
+
+3.1.
+\begin{definition}
+Stochastic Game
+\end{definition}
+- zmenit definiciu P: V x A -> ... definovane len pre $A \in E(V)$
+-pridat keci o tom, co to je, definovat value
+- co sa tyka 3.1, nevraviet, preco existuje optimalna - staci sa odkazat
+
+3.2
+- commitmenty
+- hra (definicia S z G)
+
+- ??? preklad medzi strategiami defendera G a stvorceka v S
+- to, ze je hra perfect information, nie je v rozpore s Example, pretoze defender sa uz zaviazal k d-commitmentu (informaciu o tom, ze utocnik zautocil, uz nemoze vyuzit) - a az utok skonci, je uz uplne vsetko jedno (ci defender vie, ci nevie o utoku - na vysledok hry to uz nema vplyv)
+
+3.3. - 
+lemma - omit proof
+
+
 \chapter{multiple robots}
 \label{chap:multiPatrol}
 
 %ziadny zaciatocny stav - sucastou strategie je pociatocne rozlozenie - nemusi to vsak nutne byt distribucia! staci ista konfiguracia s pravdepodobnostou 1, pretoze utocnik moze zautocit az potom, t.j. nemoze zneuzit, ze vie, kde bude obranca zacinat
 
 %vsetci sa hybu rovnako rychlo
+
+
+- co sa tyka 3.1, treba povedat, ze i tu existuje optimalna strategia - t.j. compact and continuous
 
 \chapter{This is the end, my only friend, the end}
 
