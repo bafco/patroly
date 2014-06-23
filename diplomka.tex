@@ -504,10 +504,12 @@ Examples \ref{ex:stationary} and \ref{ex:initial} are from \cite{miso}, the sett
 
 \end{tabular}
 
-\caption{\mbox{Three simple graphs on which example patrolling games are played}}
+\vspace{-5pt}
+\caption{{Simple graphs on which our example patrolling games are played}}
 \label{fig:examples}
 \end{figure}
 
+\vspace{-5pt}
 \begin{example}
 \label{ex:stationary}
 Consider a patrolling game played on the left graph from Fig.~\ref{fig:examples}, where all nodes are targets, $a$ is the initial node and $d = 4$.
@@ -565,24 +567,82 @@ summarize the essential results achieved in \cite{iti1}, while we primarily focu
 We start by translating a given patrolling game $\mathcal{G}$ into a turn-based perfect-information stochastic safety game $\mathcal{S}$, where the defender corresponds to the maximizer.
 We show that the maximizer has an optimal strategy in $\mathcal{S}$, which can be translated back to $\mathcal{G}$, yielding the same value of the game.
 Then, we show that each optimal strategy satisfies a certain condition which is crucial for argumentation about $\epsilon$-optimality.
-
 %TODO - ^^ sanity content check - nepremiestit lemma do inej sekcie/kapitoly?
-
 
 \section{Translating Patrolling Games into Stochastic Games}
 
-\begin{definition}
-A \emph{Stochastic Game}
-\end{definition}
-- zmenit definiciu P: V x A -> ... definovane len pre $A \in E(V)$
--pridat keci o tom, co to je, definovat value
-- co sa tyka 3.1, nevraviet, preco existuje optimalna - staci sa odkazat
+%the content, including definitions etc., is from \cite{iti1}
 
-3.2
-- commitmenty
+\begin{definition}
+%$(V_\Diamond, V_\square)$ - Diamond = Min, Square = Max
+A \emph{stochastic game} is a tuple $\mathcal{S} = (V, (V_{\emph{Min}}, V_{\emph{Max}}), \ell, A, \bold{E}, \bold{P})$ where $V$ is a set of vertices, $(V_{\emph{Min}}, V_{\emph{Max}})$ is a partition of $V$, $\ell \in \mathbb{N}$, $A \subseteq \mathbb{R}^\ell$ is a set of actions, $\mathbf{E} : V \to 2^A$ assigns to each vertex a set of \emph{enabled actions}, and $\bold{P} : V \times A \to \Delta(V)$ assigns to each $(v, a) \in V \times A$ a discrete probability distribution over $V$ with finite support.
+%TODO: each $(v, a), v \in V, a \in E(v)$ 
+
+\end{definition}
+%nikde ziaden zaciatocny stav!!!
+%R^l - vysvetlit, preco?
+
+%TODO: $P(v, a)$ is relevant only for $a \in E(v)$
+
+A stochastic game $\mathcal{S}$ is played between two players, \emph{Min} and \emph{Max}.
+A play of $\mathcal{S}$ starts in some vertex $u \in V$ and then proceeds to other vertices based on the actions chosen.
+Player $\bigcirc \in \{\emph{Min}, \emph{Max}\}$ chooses actions in the vertices of $V_\bigcirc$.
+When the play is in a vertex $v \in V_\bigcirc$ and player $\bigcirc$ selects an action $a \in \bold{E}(v)$, the next node is chosen randomly according to the distribution $\bold{P}(v, a)$.
+%Note that
+Players can choose actions based on all the vertices already visited, not just the current one.
+However, the players cannot randomize.\footnote{As we will see, for our purposes of translation between patrolling and stochastic games, players in stochastic games need not to randomize---for every vertex $v \in V_{Max}$, the set of enabled actions $\bold{E}(v)$ will be closed under convex combination, and the attacker cannot randomize even in patrolling games.}
+Formally, a \emph{strategy} for player $\bigcirc \in \{\emph{Min}, \emph{Max}\}$ is a function $\theta_\bigcirc : V^*V_\bigcirc \to A$ such that $\theta_\bigcirc (wv) \in \bold{E}(v)$ for all $w \in V^*$ and $v \in V_\bigcirc$.
+
+Similarly to patrolling games, every initial vertex $v \in V$ and every pair of players' strategies $(\theta_{Min}, \theta_{Max})$ determine a unique probability space over all infinite sequences of vertices starting in $v$ (see \cite{chung}).
+Given an initial vertex $v \in V$, a target vertex $t \in V$, and a pair of players' strategies $(\theta_{Min}, \theta_{Max})$, we denote by $val^\mathcal{S}(\theta_{Min}, \theta_{Max}, v, t)$ the probability of all infinite sequences of vertices starting in $v$ that \emph{never} visit $t$.
+We define $val^\mathcal{S}(\theta_{Max}, v, t) = \text{inf}_{\theta_{Min}}val^\mathcal{S}(\theta_{Min}, \theta_{Max}, v, t)$. Furthermore, we define $val^\mathcal{S}(v, t) = \text{sup}_{\theta_{Max}}val^\mathcal{S}(\theta_{Max}, v, t)$.
+Given a target $t \in V$, a strategy $\theta_{Max}^*$ is called \emph{optimal} if $val^\mathcal{S}(\theta_{Max}^*, v, t) = val^\mathcal{S}(v, t)$ for all $v \in V$.
+
+\
+
+%3.2
+Now we present the idea behind the translation of imperfect-information patrolling games into perfect-information stochastic games.
+Patrolling \linebreak games employ the Stackelberg model, where the defender first commits to a strategy and has no knowledge about the attacker, whereas the attacker has complete knowledge about the defender's strategy and her current position.
+As we have seen in Example \ref{ex:triangle}, it is crucial that the defender cannot exploit the knowledge that the attacker has already attacked.
+To cope with this setting, we define the stochastic game in a way that the vertices correspond to defender's $d$-step randomized plans, where $d$ is the attack length.
+The actions of player \emph{Max} correspond to selecting and prolonging these plans and the actions of player \emph{Min} correspond to attacker's decisions whether to attack some target or not.
+When player \emph{Min} chooses the action corresponding to attacker's waiting, the first step of the previously fixed $d$-step plan is performed and player \emph{Max} has to prolong the plan by one step for it to remain a $d$-step plan.
+When player \emph{Min} chooses an action corresponding to attacking a target, the outcome of the game is immediately computed based on the fixed $d$-step plan, and the players can make no more choices afterwards.
+
+%TODO - do we need this? if yes, do we need it here?
+%In \cite{iti2}, it has been shown that if the defender uses a given strategy $\sigma$, there is an attacker's best response strategy $\pi$ which attacks with probability 1.
+%Therefore, (in the rest of this chapter/section) we assume that the attacker attacks with probability 1.
+%(plays according to such a strategy)
+
+%definovat $att-val$ - ^^ comes quite obvious from the observation in the paragraph where $att-val$ is defined
+
+
+After informal description of the translation process, let us become more precise.
+We start with formalizing the concept of a $k$-step randomized plan.
+Let us fix a patrolling game $\mathcal{G} = (U, E, T, \hat{u}, d)$.
+
+\begin{definition}
+Let $k \in \mathbb{N}$. A \emph{$k$-commitment} is a function $f : N^{\leq k} \to \Delta(N)$ satisfying the following conditions:
+\vspace{-5pt}
+\begin{itemize}[noitemsep]
+	\item $f(\epsilon)(u) = 1$ for some $u \in U$,
+	\item $supp(f(wu)) \subseteq succ(u)$ for all $w \in U^{\leq k - 1}$ and $u \in U$.
+\end{itemize}
+\vspace{-5pt}
+The \emph{root} of a commitment f, denoted by $r(f)$, is the unique node $u$ satisfying $f(\epsilon)(u) = 1$. We denote by $\mathbf{Comm}_k$ and $\mathbf{Comm}_k(u)$ the sets of all $k$-commitments and of all $k$-commitments $f$ with $r(f) = u$, respectively.
+\end{definition}
+
+A given $d$-commitment $f$ can be interpreted as a Markov chain with $N^{\leq d+1}$ as the set of states and the transition probabilities given by $f$ (the states of $N^{d+1}$ are absorbing).
+Once the defender is in a node $u$ and a $d$-commitment $f \in \mathbf{Comm}_d(u)$ is fixed, the probability of detecting an immediate attack on a target can be computed in the following way.
+For every $d$-commitment $f$ and every target $t \in T$, we define the value $val(f, t)$ of defending target $t$ with commitment $f$ as the probability of reaching a state of the form $wt, w\neq \epsilon$ from state $\epsilon$ in the Markov chain induced by $f$.
+Further, we define $val(f) = \text{min}_{t\in T} ~val(f, t)$.
+
+
+
 - hra (definicia S z G)
 
 - ??? preklad medzi strategiami defendera G a stvorceka v S
+- co sa tyka optimalnej strategie, nevraviet, preco existuje - staci sa odkazat
 - to, ze je hra perfect information, nie je v rozpore s Example, pretoze defender sa uz zaviazal k d-commitmentu (informaciu o tom, ze utocnik zautocil, uz nemoze vyuzit) - a az utok skonci, je uz uplne vsetko jedno (ci defender vie, ci nevie o utoku - na vysledok hry to uz nema vplyv)
 
 3.3. - 
