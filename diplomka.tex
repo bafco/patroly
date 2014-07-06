@@ -566,7 +566,6 @@ summarize the essential results achieved in \cite{iti1}, while we primarily focu
 
 We start by translating a given patrolling game $\mathcal{G}$ into a turn-based perfect-information stochastic safety game $\mathcal{S}$, where the defender corresponds to the maximizer.
 We show that the maximizer has an optimal strategy in $\mathcal{S}$, which can be translated back to $\mathcal{G}$, yielding the same value of the game.
-Then, we show that each optimal strategy satisfies a certain condition which is crucial for argumentation about $\epsilon$-optimality.
 %TODO - ^^ sanity content check - nepremiestit lemma do inej sekcie/kapitoly?
 
 \section{Translating Patrolling Games into Stochastic Games}
@@ -575,12 +574,13 @@ Then, we show that each optimal strategy satisfies a certain condition which is 
 
 \begin{definition}
 %$(V_\Diamond, V_\square)$ - Diamond = Min, Square = Max
-A \emph{stochastic game} is a tuple $\mathcal{S} = (V, (V_{\emph{Min}}, V_{\emph{Max}}), \ell, A, \mathbf{E}, \mathbf{P})$ where $V$ is a set of vertices, $(V_{\emph{Min}}, V_{\emph{Max}})$ is a partition of $V$, $\ell \in \mathbb{N}$, $A \subseteq \mathbb{R}^\ell$ is a set of actions, $\mathbf{E} : V \to 2^A$ assigns to each vertex a set of \emph{enabled actions}, and $\mathbf{P} : V \times A \to \Delta(V)$ assigns to each $(v, a) \in V \times A$ a discrete probability distribution over $V$ with finite support.
+A \emph{stochastic game} is a tuple $\mathcal{S} = (V, (V_{\emph{Min}}, V_{\emph{Max}}), \ell, A, \mathbf{E}, \mathbf{P})$ where $V$ is a set of \emph{vertices}, $(V_{\emph{Min}}, V_{\emph{Max}})$ is a partition of $V$, $\ell \in \mathbb{N}$, $A \subseteq \mathbb{R}^\ell$ is a set of \emph{actions}\footnote{
+The reason why actions are defined as real-valued vectors of a fixed dimension might not be clear at the moment.
+Such a set of actions satisfies some conditions which are used later to prove an existence of an optimal strategy for player \emph{Max}.}, $\mathbf{E} : V \to 2^A$ assigns to each vertex a set of \emph{enabled actions}, and $\mathbf{P} : V \times A \to \Delta(V)$ assigns to each $(v, a) \in V \times A$ a discrete probability distribution over $V$ with finite support.
 %TODO: each $(v, a), v \in V, a \in E(v)$ 
 
 \end{definition}
 %nikde ziaden zaciatocny stav!!!
-%R^l - vysvetlit, preco?
 
 %TODO: $P(v, a)$ is relevant only for $a \in E(v)$
 
@@ -609,6 +609,8 @@ The actions of player \emph{Max} correspond to selecting and prolonging these pl
 When player \emph{Min} chooses an action corresponding to attacking a target, the outcome of the game is immediately computed based on the fixed $d$-step plan, and the players can make no more choices afterwards.
 When player \emph{Min} chooses the action corresponding to attacker's waiting, player \emph{Max} has to prolong 
 the previously fixed $d$-step plan by one step and the first step of the plan is performed, so it remains a $d$-step plan.\footnote{Although it would be sufficient to first perform the first step of the plan, and then prolong it by one step, we prefer to be consistent with the model in \cite{iti1}.}
+%jedine dolezite je, aby bol fixnuty d-commitment, ked ma hrac Min moznost zautocit
+%zlozitost nas absolutne netrapi - SG su len kvoli dokazu existencie 
 %TODO - dat inam footnote? Nerozbilo by to definiciu na 2 strany.
 %the first step of the previously fixed $d$-step plan is performed and player \emph{Max} has to prolong the plan by %one step for it to remain a $d$-step plan.}
 
@@ -684,11 +686,33 @@ players \emph{Min} and \emph{Max}  correspond to attacker and defender in $\math
 \end{itemize}
 \vspace{-5pt}
 
+%Now it becomes more clear why actions are defined as real-valued vectors of a fixed dimension.
+It remains to show that $A$ is a subset of $[0, 1]^{|U|^{d+2}}$.
+Remember that a $d$-commitment can be interpreted as a Markov chain with a tree-like structure ($|U|$-ary tree of depth $d$.)
+Putting the values of a $d+$1-commitment next to each other, the commitment can be seen as a vector of dimension $|U|^{d+2}$.
+Coding the $d$-commitments as such vectors is straightforward and the remaining actions, $T \cup \{\perp\}$, can be mapped to arbitrary distinct vectors of $[0, 1]^{|U|^{d+2}}$ which do not represent commitments.
 
-- ??? preklad medzi strategiami defendera G a stvorceka v S
-- co sa tyka optimalnej strategie, nevraviet, preco existuje - staci sa odkazat
-- to, ze je hra perfect information, nie je v rozpore s Example, pretoze defender sa uz zaviazal k d-commitmentu (informaciu o tom, ze utocnik zautocil, uz nemoze vyuzit) - a az utok skonci, je uz uplne vsetko jedno (ci defender vie, ci nevie o utoku - na vysledok hry to uz nema vplyv)
+The process of translating a defender's strategy $\sigma$ in $\mathcal{G}$ to a strategy $\theta_{\emph{Max}}[\sigma]$ of player \emph{Max} in $\mathcal{S}$, and vice versa ($\theta_{\emph{Max}}$ to $\sigma[\theta_{\emph{Max}}]$), is described in detail in \cite{iti1}.
+There, it has also been proven that this translation preserves the values of the strategies, i.e. $val^\mathcal{S}(\theta_{\emph{Max}}[\sigma], init, fail) = val(\sigma)$ and $val^\mathcal{S}(\theta_{\emph{Max}}, init, fail) = val(\sigma[\theta_{\emph{Max}}])$.
 
+%TODO toto lemma snad ani netreba
+%\begin{lemma}
+%For every defender's strategy $\sigma$ in $\mathcal{G}$ we have that $val^\mathcal{S}(\theta_{\emph{Max}}[\sigma], init, fail) = val(\sigma)$.
+%Further, for every strategy $\theta_{\emph{Max}}$ of player \emph{Max} in $\mathcal{S}$ we have that %$val^\mathcal{S}(\theta_{\emph{Max}}, init, fail) = val(\sigma[\theta_{\emph{Max}}])$.
+%\end{lemma}
+
+In general, optimal strategies for player \emph{Max} in stochastic games may not exist---some extra conditions have to be satisfied.
+In \cite{iti1}, it has been proven that $\mathcal{S}$ satisfies such sufficient conditions and there exists an optimal memoryless strategy for player \emph{Max} in $\mathcal{S}$.
+
+Combining the upper two paragraphs, we get:
+\begin{thm}
+The defender has an optimal strategy in $\mathcal{G}$.
+\end{thm}
+
+For details of the translation process and the mentioned proofs, see \cite{iti1}.
+
+\chapter{Main Result}
+First, we show that each optimal strategy satisfies a certain condition which is crucial for argumentation about $\epsilon$-optimality.
 3.3. - 
 lemma - omit proof
 
