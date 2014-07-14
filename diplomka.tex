@@ -535,7 +535,7 @@ This is why we enforce the starting node to be a target.
 
 \begin{example}
 \label{ex:triangle}
-Consider a patrolling game played on the right graph from Fig.~\ref{fig:examples}, where all nodes are targets, $s$ is the initial node and $d = 2$.
+Consider a patrolling game played on the right graph (triangle) from Fig.~\ref{fig:examples}, where all nodes are targets, $s$ is the initial node and $d = 2$.
 This example is rather sofisticated than the previous two, because the defender cannot protect all the targets with probability 1.
 A simple defender's strategy that comes to one's mind is to choose the next node uniformly, i.e. with probability 1/2.
 The value of this strategy is 1/2---attacker's best response is to attack a target when the defender leaves it.
@@ -714,9 +714,43 @@ For details of the translation process and the mentioned proofs, see \cite{iti1}
 %TODO chapter intro
 First, we show that each optimal strategy satisfies a certain condition which is crucial for argumentation about $\epsilon$-optimality.
 
-3.3. - 
-lemma - omit proof
+%TODO Recall what is $val_u$
+\begin{definition}
+Let $\sigma$ be a defender's strategy and $h$ a history.
+We define a strategy $\sigma_h$ by $\sigma_h(last(h)h') = \sigma(hh')$ for all $h' \in N^*$.
+Further, we define the value of $\sigma$ after the history $h$ has been played by $val(\sigma \mid h) = val_{last(h)}(\sigma_h)$.
+\end{definition}
 
+
+
+\begin{lemma}
+Let $\sigma \in \Sigma$ be an optimal defender's strategy and $h \in \mathcal{H}(\sigma)$ a history.
+We have that $val(\sigma \mid h) = val(\sigma)$.
+\end{lemma}
+%Note that $val(\sigma \mid h \hat{u}) = val_{\hat{u}}(\sigma_{h\hat{u}}) \leq val(\sigma)$.
+
+%TODO - proof? druha cast sa moze zist pri dokazovani pre multiple robots
+%\begin{proof}
+Full proof of this lemma can be found in \cite{iti1}.
+Herein, we just broadly describe the structure and basic idea of the proof.
+First, it is shown by contradiction that $val(\sigma \mid h) \leq val(\sigma)$ for all $h \in \mathcal{H}(\sigma)$.
+Otherwise, one could iteratively construct a history $h''$ such that $val(\sigma \mid h'') > 1$.
+
+One of the key observations used in the proof is that the value of $\sigma$ cannot decrease if we do not allow the attacker to attack in the first $k \in \mathbb{N}$ steps.
+This observation is also used in the second part of the proof to show that $val(\sigma \mid h) = val(\sigma)$ for all $h \in \mathcal{H}(\sigma)$, specifically in the first inequality here:
+$$val(\sigma) \leq \sum_{h' \in {\mathcal{H}(\sigma)} \wedge |h'| = k}(val(\sigma \mid h')) \cdot P^\sigma(\mathcal{R}(h'))) \leq val(\sigma)$$
+%TODO skarede rozdelenie
+The second inequality follows from the first part of the proof, i.e. $val(\sigma~\mid~h) \leq val(\sigma)$ for all $h \in \mathcal{H}(\sigma)$, and the fact that $\sum_{h' \in {\mathcal{H}(\sigma)} \wedge |h'| = k} P^\sigma(\mathcal{R}(h')) = 1$.
+%\end{proof}
+
+%\cite{iti2}
+%A defender’s strategy $\sigma$ is regular if there is a deterministic finite-state automaton $\mathcal{A}$ over the alphabet U (the nodes) such that $\sigma(h)$ depends only on the control state entered by $\mathcal{A}$ after reading h. Hence, $\mathcal{A}$ gathers some finite information about the history of a play which can be used in decision making. Regular strategies are widely used in algorithmic game theory because they are precisely the strategies implementable by finite-memory controllers.
+
+in Step 3:
+\\
+$\sigma_\epsilon^{reg}(h) = f(r(f))$ where $f = \mathcal{A}[h]$ is the state of $\mathcal{A}$ reached after reading the history $h$.
+
+tiez by to slo ako $\sigma_\epsilon^{reg}(h) = \mathcal{A}[h](last(h))$
 
 \chapter{multiple robots}
 \label{chap:multiPatrol}
