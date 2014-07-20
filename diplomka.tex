@@ -19,7 +19,7 @@
 
 \newtheorem{thm}{Theorem}[section]
 \newtheorem{lemma}[thm]{Lemma}
-
+\newtheorem{proposition}[thm]{Proposition}
 \newtheorem{corollary}[thm]{Corollary}
 \newtheorem{definition}[thm]{Definition}
 
@@ -705,6 +705,7 @@ In \cite{iti1}, it has been proven that $\mathcal{S}$ satisfies such sufficient 
 
 Combining the upper two paragraphs, we get:
 \begin{thm}
+\label{thm:existence}
 The defender has an optimal strategy in $\mathcal{G}$.
 \end{thm}
 
@@ -746,7 +747,38 @@ The second inequality follows from the first part of the proof, i.e. $val(\sigma
 %\cite{iti2}
 %A defender’s strategy $\sigma$ is regular if there is a deterministic finite-state automaton $\mathcal{A}$ over the alphabet U (the nodes) such that $\sigma(h)$ depends only on the control state entered by $\mathcal{A}$ after reading h. Hence, $\mathcal{A}$ gathers some finite information about the history of a play which can be used in decision making. Regular strategies are widely used in algorithmic game theory because they are precisely the strategies implementable by finite-memory controllers.
 
-in Step 3:
+\
+%TODO uviest jednotlive kroky + o co sa jedna
+
+\textbf{Step 1.} Let us fix an optimal strategy $\sigma$, whose existence is guaranteed by Theorem \ref{thm:existence}.
+%For a desired precision $\epsilon$
+We discretize $\sigma$ to obtain a strategy $\sigma_\epsilon$ with all probabilities $\sigma_\epsilon(h)(u)$ being integer multiples of an appropriate number $t$ satisfying \mbox{$t = 1/k$} for some $k \in \mathbb{N}$.
+%TODO
+As we will see, to guarantee the $\epsilon$-optimality of $\sigma_\epsilon$ ...
+
+%TODO rounding procedure
+Let $U = \{u_1, u_2, \dots, u_{|U|}\}$ be the set of nodes of $\mathcal{G}$.
+For every history $h$ and every $1 \leq i \leq |U|$, we inductively define $\sigma_\epsilon(h)(u_i) = k_i \cdot t$, where $k_i$  is the 
+%smallest number satisfying $$\sigma(h)(u_i) - k_i \cdot t  $$
+largest number satisfying
+$$ k_i \cdot t \leq \sigma(h)(u_i) + \sum_{j=1}^{i-1}(\sigma(h)(u_j) - \sigma_\epsilon(h)(u_j)).$$
+This rounding procedure guarantees %that the resulting discretized strategy $\sigma_epsilon$ is valid in the sense
+that $\sigma_\epsilon(h)$ is indeed a probability distribution over $U$, i.e. $\sum_{u\in U}\sigma_\epsilon(h)(u) = 1$ (note that simple rounding cannot guarantee this property).
+%TODO preformulovat
+Further, when we realize the invariant $0 \leq \sum_{j=1}^{i-1}(\sigma(h)(u_j) - \sigma_\epsilon(h)(u_j)) < t$ holds for all $1 \leq i \leq |U|$, it is easy to see that $|\sigma(h)(u_i) - \sigma_\epsilon(h)(u_i)| < t$.% (for all $i$)
+%TODO je to strategia - v sucte dava 1
+
+\begin{proposition}
+$\sigma_\epsilon$ is an $\epsilon$-optimal strategy.
+\end{proposition}
+
+\begin{proof}
+\end{proof}
+
+\textbf{Step 2.} 
+
+
+\textbf{Step 3.} 
 \\
 $\sigma_\epsilon^{reg}(h) = f(r(f))$ where $f = \mathcal{A}[h]$ is the state of $\mathcal{A}$ reached after reading the history $h$.
 
