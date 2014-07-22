@@ -575,7 +575,7 @@ We skip some technical parts (mostly proofs) which can be found in \cite{iti1}.
 %$(V_\Diamond, V_\square)$ - Diamond = Min, Square = Max
 A \emph{stochastic game} is a tuple $\mathcal{S} = (V, (V_{\emph{Min}}, V_{\emph{Max}}), \ell, A, \mathbf{E}, \mathbf{P})$ where $V$ is a set of \emph{vertices}, $(V_{\emph{Min}}, V_{\emph{Max}})$ is a partition of $V$, $\ell \in \mathbb{N}$, $A \subseteq \mathbb{R}^\ell$ is a set of \emph{actions}\footnote{
 The reason why actions are defined as real-valued vectors of a fixed dimension might not be clear at the moment.
-Such a set of actions satisfies some conditions which are used later to prove an existence of an optimal strategy for player \emph{Max}.}, $\mathbf{E} : V \to 2^A$ assigns to each vertex a set of \emph{enabled actions}, and $\mathbf{P} : V \times A \to \Delta(V)$ assigns to each $(v, a) \in V \times A$ a discrete probability distribution over $V$ with finite support.
+Such a set of actions satisfies some conditions which are used later to prove the existence of an optimal strategy for player \emph{Max}.}, $\mathbf{E} : V \to 2^A$ assigns to each vertex a set of \emph{enabled actions}, and $\mathbf{P} : V \times A \to \Delta(V)$ assigns to each $(v, a) \in V \times A$ a discrete probability distribution over $V$ with finite support.
 %TODO: each $(v, a), v \in V, a \in E(v)$ 
 
 \end{definition}
@@ -590,7 +590,7 @@ When the play is in a vertex $v \in V_\bigcirc$ and player $\bigcirc$ selects an
 %Note that
 Players can choose actions based on all the vertices already visited, not just the current one.
 However, the players cannot randomize.\footnote{As we will see, for our purposes of translation between patrolling and stochastic games, players in stochastic games need not to randomize---for every vertex $v \in V_{\emph{Max}}$, the set of enabled actions $\mathbf{E}(v)$ will be closed under convex combination, and the attacker cannot randomize even in patrolling games.}
-Formally, a \emph{strategy} for player $\bigcirc \in \{\emph{Min}, \emph{Max}\}$ is a function $\theta_\bigcirc : V^*V_\bigcirc \to A$ such that $\theta_\bigcirc (wv) \in \mathbf{E}(v)$ for all $w \in V^*$ and $v \in V_\bigcirc$.
+Formally, a \emph{strategy} for player $\bigcirc \in \{\emph{Min}, \emph{Max}\}$ is a function $\theta_\bigcirc : V^*V_\bigcirc \to A$ satisfying $\theta_\bigcirc (wv) \in \mathbf{E}(v)$ for all $w \in V^*$ and $v \in V_\bigcirc$.
 
 Similarly to patrolling games, every initial vertex $v \in V$ and every pair of players' strategies $(\theta_{\emph{Min}}, \theta_{\emph{Max}})$ determine a unique probability space over all infinite sequences of vertices starting in $v$ (see \cite{chung}).
 Given an initial vertex $v \in V$, a target vertex $t \in V$, and a pair of players' strategies $(\theta_{\emph{Min}}, \theta_{\emph{Max}})$, we denote by $val^\mathcal{S}(\theta_{\emph{Min}}, \theta_{\emph{Max}}, v, t)$ the probability of all infinite sequences of vertices starting in $v$ that \emph{never} visit $t$.
@@ -692,13 +692,14 @@ Putting the values of a $d+$1-commitment next to each other, the commitment can 
 Coding the $d$-commitments as such vectors is straightforward and the remaining actions, $T \cup \{\perp\}$, can be mapped to arbitrary distinct vectors of $[0, 1]^{|U|^{d+2}}$ which do not represent commitments.
 
 The process of translating a defender's strategy $\sigma$ in $\mathcal{G}$ to a strategy $\theta_{\emph{Max}}[\sigma]$ of player \emph{Max} in $\mathcal{S}$, and vice versa ($\theta_{\emph{Max}}$ to $\sigma[\theta_{\emph{Max}}]$), is described in detail in \cite{iti1}.
-There, it has also been proven that this translation preserves the values of the strategies, i.e. $val^\mathcal{S}(\theta_{\emph{Max}}[\sigma], init, fail) = val(\sigma)$ and $val^\mathcal{S}(\theta_{\emph{Max}}, init, fail) = val(\sigma[\theta_{\emph{Max}}])$.
+There, it has also been proven that this translation preserves the values of the strategies, which is captured by the following lemma.
+%i.e. $val^\mathcal{S}(\theta_{\emph{Max}}[\sigma], init, fail) = val(\sigma)$ and $val^\mathcal{S}(\theta_{\emph{Max}}, init, fail) = val(\sigma[\theta_{\emph{Max}}])$.
 
-%TODO toto lemma snad ani netreba
-%\begin{lemma}
-%For every defender's strategy $\sigma$ in $\mathcal{G}$ we have that $val^\mathcal{S}(\theta_{\emph{Max}}[\sigma], init, fail) = val(\sigma)$.
-%Further, for every strategy $\theta_{\emph{Max}}$ of player \emph{Max} in $\mathcal{S}$ we have that %$val^\mathcal{S}(\theta_{\emph{Max}}, init, fail) = val(\sigma[\theta_{\emph{Max}}])$.
-%\end{lemma}
+\begin{lemma}
+\label{lem:translation}
+For every defender's strategy $\sigma$ in $\mathcal{G}$ we have that $val^\mathcal{S}(\theta_{\emph{Max}}[\sigma], init,$ $fail) = val(\sigma)$.
+Further, for every strategy $\theta_{\emph{Max}}$ of player \emph{Max} in $\mathcal{S}$ we have that $val^\mathcal{S}(\theta_{\emph{Max}}, init, fail) = val(\sigma[\theta_{\emph{Max}}])$.
+\end{lemma}
 
 In general, optimal strategies for player \emph{Max} in stochastic games may not exist---some extra conditions have to be satisfied.
 In \cite{iti1}, it has been proven that $\mathcal{S}$ satisfies such sufficient conditions and there exists an optimal memoryless strategy for player \emph{Max} in $\mathcal{S}$.
@@ -761,7 +762,7 @@ Let $U = \{u_1, u_2, \dots, u_{|U|}\}$ be the set of nodes of $\mathcal{G}$.
 For every history $h$ and every $1 \leq i \leq |U|$, we inductively define $\sigma_\epsilon(h)(u_i) = k_i \cdot t$, where $k_i$  is the 
 %smallest number satisfying $$\sigma(h)(u_i) - k_i \cdot t  $$
 largest number satisfying
-$$ k_i \cdot t \leq \sigma(h)(u_i) + \sum_{j=1}^{i-1}(\sigma(h)(u_j) - \sigma_\epsilon(h)(u_j)).$$
+$$ k_i \cdot t \leq \sigma(h)(u_i) + \sum_{j=1}^{i-1}(\sigma(h)(u_j) - \sigma_\epsilon(h)(u_j))~.$$
 This rounding procedure guarantees %that the resulting discretized strategy $\sigma_epsilon$ is valid in the sense
 that $\sigma_\epsilon(h)$ is indeed a probability distribution over $U$, i.e. $\sum_{u\in U}\sigma_\epsilon(h)(u) = 1$ (note that simple rounding cannot guarantee this property).
 %TODO preformulovat
@@ -776,7 +777,25 @@ $\sigma_\epsilon$ is an $\epsilon$-optimal strategy.
 \end{proof}
 
 \textbf{Step 2.} 
+According to Lemma \ref{lem:translation}, we can translate the strategy $\sigma_\epsilon$ in $\mathcal{G}$ to a strategy $\theta_{\emph{Max}} := \theta_{\emph{Max}}[\sigma_\epsilon]$ in $\mathcal{S}$ such that
+%TODO $...$ or $$...$$ ?
+$$val^\mathcal{S}(\theta_\emph{Max}, init, fail) = val(\sigma_\epsilon)~.$$
+Let us denote by $\mathbf{Reach}(\theta_\emph{Max})$ the set of all vertices in $\mathcal{S}$ that are reachable from $init$ using $\theta_\emph{Max}$.
+%for every 1, every 2 and every 3 (each/all)
+Note that for every $(\bigcirc, f) \in \mathbf{Reach}(\theta_\emph{Max})$, $w \in U^{\leq d}$ and $u \in U$ we have that $f(w)(u)$ is an integer multiple of $t$.
+As there are only finitely many such commitments $f$, the set $\mathbf{Reach}(\theta_\emph{Max})$ is finite.
 
+By restricting the set of vertices of $\mathcal{S}$ to $\mathbf{Reach}(\theta_\emph{Max})$, we obtain a stochastic game $\mathcal{S}_\epsilon$.
+As $\theta_{\emph{Max}}$ is a valid strategy in $\mathcal{S}_\epsilon$, we have
+$$val^{\mathcal{S}_\epsilon}(\theta_\emph{Max}, init, fail) = val^\mathcal{S}(\theta_\emph{Max}, init, fail)~.$$
+Applying results for perfect-information stochastic games with finitely many states (see \cite{kucera}), we obtain an optimal \emph{memoryless} strategy $\theta_\emph{Max}^{ml}$ such that
+$$val^{\mathcal{S}_\epsilon}(\theta_\emph{Max}^{ml}, init, fail) \geq val^{\mathcal{S}_\epsilon}(\theta_\emph{Max}, init, fail)~.$$
+As $\mathbf{Reach}(\theta_\emph{Max})$ is a subset of vertices of $\mathcal{S}$, $\theta_\emph{Max}^{ml}$ is a valid strategy in $\mathcal{S}$ and we have
+$$val^\mathcal{S}(\theta_\emph{Max}^{ml}, init, fail) = val^{\mathcal{S}_\epsilon}(\theta_\emph{Max}^{ml}, init, fail)~.$$
+Summing up, $\theta_\emph{Max}^{ml}$ is a memoryless strategy %in $\mathcal{S}$
+satisfying
+%TODO - consider $ ... $
+$$val^\mathcal{S}(\theta_\emph{Max}^{ml}, init, fail) \geq val(\sigma_\epsilon)~.$$
 
 \textbf{Step 3.} 
 \\
@@ -874,6 +893,8 @@ $<$http://en.wikipedia.org/wiki/Game\texttt{\us}theory$>$.
 \bibitem{trusts2} F. M. Delle Fave, M. Brown, C. Zhang, E. Shieh, A. X. Jiang, H. Rosoff, M. Tambe, and J. P. Sullivan. Security Games in the Field: an Initial Study on a Transit System. In \emph{AAMAS}, pages 1363-1364, 2014.
 
 \bibitem{chung} K. L. Chung. Markov Chains with Stationary Transition Probabilities. Springer, 1967.
+
+\bibitem{kucera} A. Kuèera. Turn-based stochastic games. In \emph{K. R. Apt and E. Grädel. Lectures in Game Theory for Computer Scientists}, pages 146-184, 2011.
 
 \end{thebibliography}
 
