@@ -522,15 +522,14 @@ Note that $\sigma^*$ depends only on the last two nodes---when the defender is i
 
 \begin{example}
 \label{ex:initial}
-Now consider a patrolling game played on the middle graph from Fig.~\ref{fig:examples}, where $T = {m, n}$ and $d = 2$ and let us suppose that any node can be the starting node, not just the targets.
-The value of the game clearly depends on the starting node.
-If $k$ is the starting node, the attacker attacks $n$ as soon as possible and the defender has no chance to intercept this attack, i.e. $val_k = 0$.
+Now consider a patrolling game played on the middle graph from Fig.~\ref{fig:examples}, where $T = {m, n}$ and $d = 2$ and let us suppose that any node can be the initial node, not just the targets.
+The value of the game clearly depends on the initial node.
+If $k$ is the initial node, the attacker attacks $n$ as soon as possible and the defender has no chance to intercept this attack, i.e. $val_k = 0$.
 Otherwise, the defender can defend both targets with probability 1.
 
 Considering a general game, an interesting question arises: for which node(s) $u \in U$ does it hold that $val_u =$ max$_{v \in U} val_v$?
-We show that, in general, all target nodes satisfy this condition, i.e. no non-target starting node would yield higher value of a game than any target node.
-%TODO ref-nut lemma - this is a corollary of the lemma ...
-This is why we enforce the starting node to be a target.
+We show that, in general, all target nodes satisfy this condition, i.e. no initial node would yield higher value of a game than any initial target node.
+This is a corollary of Lemma \ref{lem:value} and the reason why we enforce the initial node to be a target.
 \end{example}
 
 \begin{example}
@@ -599,7 +598,6 @@ Given a target $t \in V$, a strategy $\theta_{\emph{Max}}^*$ is called \emph{opt
 
 \
 
-%3.2
 Now we present the idea behind the translation of imperfect-information patrolling games into perfect-information stochastic games.
 Patrolling \linebreak games employ the Stackelberg model, where the defender first commits to a strategy and has no knowledge about the attacker, whereas the attacker has complete knowledge about the defender's strategy and her current position.
 As we have seen in Example \ref{ex:triangle}, it is crucial that the defender cannot exploit the knowledge that the attacker has already attacked.
@@ -728,6 +726,7 @@ Further, we define the value of $\sigma$ after the history $h$ has been played b
 
 
 \begin{lemma}
+\label{lem:value}
 Let $\sigma \in \Sigma$ be an optimal defender's strategy and $h \in \mathcal{H}(\sigma)$ a history.
 We have that $val(\sigma \mid h) = val(\sigma)$.
 \end{lemma}
@@ -746,6 +745,8 @@ $$val(\sigma) \leq \sum_{h' \in {\mathcal{H}(\sigma)} \wedge |h'| = k}(val(\sigm
 %TODO skarede rozdelenie
 The second inequality follows from the first part of the proof, i.e. $val(\sigma~\mid~h) \leq val(\sigma)$ for all $h \in \mathcal{H}(\sigma)$, and the fact that $\sum_{h' \in {\mathcal{H}(\sigma)} \wedge |h'| = k} P^\sigma(\mathcal{R}(h')) = 1$.
 %\end{proof}
+
+Note that Lemma \ref{lem:value} would not hold without the restriction that the initial node has to be a target (see Example \ref{ex:initial} for counterexample).
 
 \
 %TODO uviest to tu
@@ -829,6 +830,8 @@ It is easy to show that $\sigma_\epsilon^{reg}(h)$ is the same as $\sigma[\theta
 It follows that
 $$val(\sigma_\epsilon^{reg}) = val^\mathcal{S}(\theta_\emph{Max}^{ml}, init, fail) \geq val(\sigma_\epsilon) \geq val(\sigma) - \epsilon~,$$
 i.e. $\sigma_\epsilon^{reg}$ is $\epsilon$-optimal.
+
+\section{Reducing state-space}
 
 \chapter{multiple robots}
 \label{chap:multiPatrol}
