@@ -607,7 +607,7 @@ To cope with this restriction, we define the stochastic game in a way that the v
 The actions of player \emph{Max} correspond to selecting and prolonging these plans and the actions of player \emph{Min} correspond to attacker's decisions whether to attack some target or not.
 When player \emph{Min} chooses an action corresponding to attacking a target, the outcome of the game is immediately computed based on the fixed $d$-step plan, and the players can make no more choices afterwards.
 When player \emph{Min} chooses the action corresponding to attacker's waiting, player \emph{Max} has to prolong 
-the previously fixed $d$-step plan by one step and the first step of the plan is performed, so it remains a $d$-step plan.\footnote{Although it would be sufficient to first perform the first step of the plan, and then prolong it by one step, we prefer to be consistent with the model in \cite{iti1}.}
+the previously fixed $d$-step plan by one step and the first step of the plan is performed, so it remains a $d$-step plan.\footnote{Although it would be sufficient to first perform the first step of the plan, and then prolong it by one step, we prefer to be consistent with \cite{iti1}.}
 %jedine dolezite je, aby bol fixnuty d-commitment, ked ma hrac Min moznost zautocit
 %zlozitost nas absolutne netrapi - SG su len kvoli dokazu existencie 
 %TODO - dat inam footnote? Nerozbilo by to definiciu na 2 strany.
@@ -650,8 +650,7 @@ Player \emph{Max}'s new $d$-step plan is actually a $u$-suffix of an extension o
 
 %TODO delete the first sentence? merge it with the footnote ^^? change its location?
 Now follows the definition of a stochastic game corresponding to the fixed patrolling game $\mathcal{G}$, as presented in \cite{iti1}.
-We define a stochastic game $\mathcal{S} = (V, (V_{\emph{Min}}, V_{\emph{Max}}), |U|^{d+2}, A, \mathbf{E}, \mathbf{P})$ where 
-players \emph{Min} and \emph{Max}  correspond to attacker and defender in $\mathcal{G}$, respectively.
+We define a stochastic game $\mathcal{S} = (V, (V_{\emph{Min}}, V_{\emph{Max}}), |U|^{d+2}, A, \mathbf{E}, \mathbf{P})$ where players \emph{Min} and \emph{Max} correspond to the attacker and defender in $\mathcal{G}$, respectively.
 \vspace{-5pt}
 \begin{itemize}[noitemsep]
 	\item $V = (\{\emph{Min}, \emph{Max}\} \times \mathbf{Comm}_d) \cup \{init, succ, fail\}$
@@ -662,7 +661,7 @@ players \emph{Min} and \emph{Max}  correspond to attacker and defender in $\math
 	\vspace{-4pt}
 	\begin{itemize}[noitemsep]
 		\item $\mathbf{E}(init) = \mathbf{Comm}_d(\hat{u}), \mathbf{E}(succ) = \mathbf{E}(fail) = \{\perp\}$ 
-		\item $\mathbf{E}((\emph{Min}, f)) = U \cup \{\perp\}$ 
+		\item $\mathbf{E}((\emph{Min}, f)) = T \cup \{\perp\}$ 
 		\item $\mathbf{E}((\emph{Max}, f)) = \{g \in \mathbf{Comm}_{d+1} \mid g~\text{extends}~f\}$ 
 	\end{itemize}
 	\vspace{-4pt}
@@ -674,8 +673,8 @@ players \emph{Min} and \emph{Max}  correspond to attacker and defender in $\math
 		\vspace{-2pt}
 		\begin{itemize}[noitemsep]
 			\item $\mathbf{P}((\emph{Min}, f), \perp)((\emph{Max}, f)) = 1$
-			\item $\mathbf{P}((\emph{Min}, f), u)(succ) = val(f, u)$
-			\item $\mathbf{P}((\emph{Min}, f), u)(fail) = 1 - val(f, u)$
+			\item $\mathbf{P}((\emph{Min}, f), t)(succ) = val(f, t)$
+			\item $\mathbf{P}((\emph{Min}, f), t)(fail) = 1 - val(f, t)$
 		\end{itemize}
 		\vspace{-2pt}
 		\item $\mathbf{P}((\emph{\emph{Max}}, f), g)((\emph{Min}, f')) = f(r(f))(u)$ where $f'$ is the $u$-suffix~of~$g$
@@ -788,7 +787,7 @@ As there are only finitely many such commitments $f$, the set $\mathbf{Reach}(\t
 By restricting the set of vertices of $\mathcal{S}$ to $\mathbf{Reach}(\theta_\emph{Max})$, we obtain a stochastic game $\mathcal{S}_\epsilon$.
 As $\theta_{\emph{Max}}$ is a valid strategy in $\mathcal{S}_\epsilon$, we have
 $$val^{\mathcal{S}_\epsilon}(\theta_\emph{Max}, init, fail) = val^\mathcal{S}(\theta_\emph{Max}, init, fail)~.$$
-Applying results for perfect-information stochastic games with finitely many states (see \cite{kucera}), we obtain an optimal \emph{memoryless} strategy $\theta_\emph{Max}^{ml}$ such that
+Applying results for perfect-information stochastic games with finitely many states (see \cite{kucera}), we obtain an optimal memoryless\footnote{A \emph{memoryless} strategy depends only on the current vertice. Therefore, a memoryless strategy for player \emph{Max} can be defined as a function $\theta_\emph{Max}^{ml} : V_\emph{Max} \to A$.} strategy $\theta_\emph{Max}^{ml}$ such that
 $$val^{\mathcal{S}_\epsilon}(\theta_\emph{Max}^{ml}, init, fail) \geq val^{\mathcal{S}_\epsilon}(\theta_\emph{Max}, init, fail)~.$$
 As $\mathbf{Reach}(\theta_\emph{Max})$ is a subset of vertices of $\mathcal{S}$, $\theta_\emph{Max}^{ml}$ is a valid strategy in $\mathcal{S}$ and we have
 $$val^\mathcal{S}(\theta_\emph{Max}^{ml}, init, fail) = val^{\mathcal{S}_\epsilon}(\theta_\emph{Max}^{ml}, init, fail)~.$$
@@ -797,11 +796,26 @@ satisfying
 %TODO - consider $ ... $
 $$val^\mathcal{S}(\theta_\emph{Max}^{ml}, init, fail) \geq val(\sigma_\epsilon)~.$$
 
-\textbf{Step 3.} 
-\\
-$\sigma_\epsilon^{reg}(h) = f(r(f))$ where $f = \mathcal{A}[h]$ is the state of $\mathcal{A}$ reached after reading the history $h$.
+\textbf{Step 3.}
+Using $\theta_\emph{Max}^{ml}$, we construct a finite-state automaton $\mathcal{A}$ for the desired regular $\epsilon$-optimal strategy $\sigma_\epsilon^{reg}$ as follows: $\mathcal{A} = (Q, U, \delta, q_0, \{\})$ where
+\vspace{-5pt}
+\begin{itemize}[noitemsep]
+	\item $Q = \{f \mid (\emph{Max}, f) \in \mathbf{Reach}(\theta_\emph{Max})\} \cup {q_0}$ is the finite set of states,
+	\item $U$ is the alphabet, %a finite set of input symbols,
+	\item $\delta : Q \times U \to Q$ is a transition function such that
+%defined as follows: + spravit "rozdvojku"
+$\delta(q_0, \hat{u}) = \theta_\emph{Max}^{ml}(init)$ and
+$\delta(f, u) = f'$ where $f'$ is the $u$-suffix of $\theta_\emph{Max}^{ml}((\emph{Max}, f))$,\footnote{Note that $\theta_\emph{Max}^{ml}$ takes as an argument only a single vertex. That would not be possible unless it was memoryless.} %IDEA footnote napisat niekam inam? (ako remark?)
+	\item $q_0$ is the initial state.
 
-tiez by to slo ako $\sigma_\epsilon^{reg}(h) = \mathcal{A}[h](last(h))$
+\end{itemize}
+\vspace{-5pt}
+%TODO vybrat len jedno z A[h](last(h)) a f(r(f)) ?
+We define $\sigma_\epsilon^{reg}(h) = \mathcal{A}[h](last(h)) = f(r(f))$ where $f = \mathcal{A}[h]$ is the state of $\mathcal{A}$ reached after reading the history $h$.
+It is easy to show that $\sigma_\epsilon^{reg}(h)$ is the same as $\sigma[\theta_\emph{Max}^{ml}]$ obtained from $\theta_\emph{Max}^{ml}$ using Lemma \ref{lem:translation}.
+It follows that
+$$val(\sigma_\epsilon^{reg}) = val^\mathcal{S}(\theta_\emph{Max}^{ml}, init, fail) \geq val(\sigma_\epsilon) \geq val(\sigma) - \epsilon~,$$
+i.e. $\sigma_\epsilon^{reg}$ is $\epsilon$-optimal.
 
 \chapter{multiple robots}
 \label{chap:multiPatrol}
