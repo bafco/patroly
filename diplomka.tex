@@ -66,6 +66,7 @@ patrolling games, game theory, complexity, algorithm, oriented graphs, blablabla
 \tableofcontents
 \pagestyle{plain}
 
+%TODO male pismena v nazvoch/nadpisoch
 \chapter{Introduction}
 
 Blablabla
@@ -453,7 +454,7 @@ We say that a run is \emph{defended}, if it does not contain a successful attack
 For every node $u \in U$, we use $\mathcal{D}_u[\pi]$ to denote the set of all defended runs initiated in $u$.
 Hence, $\mathcal{P}_u^{\sigma}(\mathcal{D}_u[\pi])$ is the probability of all defended runs initiated in $u$ when the defender and the attacker use strategies $\sigma$ and $\pi$, respectively. We omit the subscript $u$ in $\mathcal{P}_u^{\sigma}$ and $\mathcal{D}_u[\pi]$ when $u = \hat{u}$.
 
-%TODO - what precision in definition do we really need? (optimality in $u$ - srsly?)
+%TODO - what precision in definition do we really need? (optimality in/Stackelberg value of $u$ - srsly?)
 \begin{definition}
 For all $u \in U$ and $\sigma \in \Sigma$, the \emph{value of $\sigma$} is defined as $val_u(\sigma) = \emph{inf}_{\pi \in \Pi}\mathcal{P}_u^{\sigma}(\mathcal{D}_u[\pi])$.
 The \emph{Stackelberg value} of $u$ is defined as $val_u = \emph{sup}_{\sigma \in \Sigma}val_u(\sigma)$.
@@ -711,19 +712,23 @@ For details of the translation process and the mentioned proofs, see \cite{iti1}
 
 \chapter{Main Result}
 %TODO chapter intro
-First, we show that each optimal strategy satisfies a certain condition which is crucial for argumentation about $\epsilon$-optimality.
+In this chapter, we review and extend the results presented in \cite{iti1}.
+We provide an algorithm for computing an $\epsilon$-optimal defender's strategy.
+We encode this strategy using a deterministic finite-state automaton of size ... %TODO
 
-\section{Discretization and $\epsilon$-optimality}
-%TODO section intro?
+\section{Properties of Optimal Strategies in Patrolling Games}
+\label{sec:value}
+In this section, we look at what happens with a defender's strategy after a history has been played.
+%Recall that $val_u(\sigma) = \emph{inf}_{\pi \in \Pi}\mathcal{P}_u^{\sigma}(\mathcal{D}_u[\pi])$.
 
-%TODO Recall what is $val_u$
 \begin{definition}
 Let $\sigma$ be a defender's strategy and $h$ a history.
 We define a strategy $\sigma_h$ by $\sigma_h(last(h)h') = \sigma(hh')$ for all $h' \in N^*$.
 Further, we define the value of $\sigma$ after the history $h$ has been played by $val(\sigma \mid h) = val_{last(h)}(\sigma_h)$.
 \end{definition}
 
-
+The following lemma from \cite{iti1} states that each optimal strategy retains its value throughout a play of the game.
+This knowledge is crucial in our argumentation about $\epsilon$-optimality in the next section.
 
 \begin{lemma}
 \label{lem:value}
@@ -748,7 +753,7 @@ The second inequality follows from the first part of the proof, i.e. $val(\sigma
 
 Note that Lemma \ref{lem:value} would not hold without the restriction that the initial node has to be a target (see Example \ref{ex:initial} for counterexample).
 
-\
+\section{Discretization and $\epsilon$-optimality}
 %TODO uviest to tu
 
 As it is common in algorithmic game theory, we are interested in strategies implementable by finite-memory controllers.
@@ -819,7 +824,7 @@ Using $\theta_\emph{Max}^{ml}$, we construct a finite-state automaton $\mathcal{
 	\item $\delta : Q \times U \to Q$ is a transition function such that
 %defined as follows: + spravit "rozdvojku"
 $\delta(q_0, \hat{u}) = \theta_\emph{Max}^{ml}(init)$ and
-$\delta(f, u) = f'$ where $f'$ is the $u$-suffix of $\theta_\emph{Max}^{ml}((\emph{Max}, f))$,\footnote{Note that $\theta_\emph{Max}^{ml}$ takes as an argument only a single vertex. That would not be possible unless it was memoryless.} %IDEA footnote napisat niekam inam? (ako remark?)
+$\delta(f, u) = f'$ where $f'$ is the $u$-suffix of $\theta_\emph{Max}^{ml}((\emph{Max}, f))$,\footnote{Note that $\theta_\emph{Max}^{ml}$ takes as an argument only a single vertex. That would not be possible unless $\theta_\emph{Max}^{ml}$ was a memoryless strategy.} %IDEA footnote napisat niekam inam? (ako remark?)
 	\item $q_0$ is the initial state.
 
 \end{itemize}
