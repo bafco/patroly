@@ -631,7 +631,9 @@ Let $k \in \mathbb{N}$. A \emph{$k$-commitment} is a function $f : U^{\leq k} \t
 	\item $supp(f(wu)) \subseteq succ(u)$ for all $w \in U^{\leq k - 1}$ and $u \in U$.
 \end{itemize}
 \vspace{-5pt}
-The \emph{root} of a commitment f, denoted by $r(f)$, is the unique node $u$ satisfying $f(\epsilon)(u) = 1$. We denote by $\mathbf{Comm}_k$ and $\mathbf{Comm}_k(u)$ the sets of all $k$-commitments and of all $k$-commitments $f$ with $r(f) = u$, respectively.
+The \emph{root} of a commitment f, denoted by $r(f)$, is the unique node $u$ satisfying $f(\epsilon)(u) = 1$.
+We denote by $\mathbf{Comm}_k$ and $\mathbf{Comm}_k(u)$ the sets of all $k$-commitments and of all $k$-commitments $f$ with $r(f) = u$, respectively.
+Further, we define $\xi(f) = f(r(f))$ to be the probability distribution in the root of $f$.
 \end{definition}
 
 A given $d$-commitment $f$ can be interpreted as a Markov chain with $U^{\leq d+1}$ as the set of states and the transition probabilities given by $f$ (the states of $U^{d+1}$ are absorbing).
@@ -795,7 +797,7 @@ $\sigma_\epsilon$ is an $\epsilon$-optimal strategy.
 \begin{proof}
 \end{proof}
 
-\textbf{Step 2.} 
+\textbf{Step 2.}
 According to Lemma \ref{lem:translation}, we can translate the strategy $\sigma_\epsilon$ in $\mathcal{G}$ to a strategy $\theta_{\emph{Max}} := \theta_{\emph{Max}}[\sigma_\epsilon]$ in $\mathcal{S}$ such that
 $$val^\mathcal{S}(\theta_\emph{Max}, init, fail) = val(\sigma_\epsilon)~.$$
 Let us denote by $\mathbf{Reach}(\theta_\emph{Max})$ the set of all vertices in $\mathcal{S}$ that are reachable from $init$ using $\theta_\emph{Max}$.
@@ -816,27 +818,58 @@ satisfying
 $$val^\mathcal{S}(\theta_\emph{Max}^{ml}, init, fail) \geq val(\sigma_\epsilon)~.$$
 
 \textbf{Step 3.}
-Using $\theta_\emph{Max}^{ml}$, we construct a finite-state automaton $\mathcal{A}$ for the desired regular $\epsilon$-optimal strategy $\sigma_\epsilon^{reg}$ as follows: $\mathcal{A} = (Q, U, \delta, q_0, \{\})$ where
-\vspace{-5pt}
+Using $\theta_\emph{Max}^{ml}$, we construct a finite-state automaton $\mathcal{A}$ for the desired regular $\epsilon$-optimal strategy $\sigma_\epsilon^{reg}$ as follows: $\mathcal{A} = (Q_0, U, \delta, q_0, \{\})$ where
+\vspace{-3pt}
 \begin{itemize}[noitemsep]
-	\item $Q = \{f \mid (\emph{Max}, f) \in \mathbf{Reach}(\theta_\emph{Max})\} \cup {q_0}$ is the finite set of states,
+	\item $Q_0 = Q \cup \{q_0\}$ is the finite set of states, where $Q = \{f \mid (\emph{Max}, f) \in \mathbf{Reach}(\theta_\emph{Max})\}$
 	\item $U$ is the alphabet, %a finite set of input symbols,
-	\item $\delta : Q \times U \to Q$ is a transition function such that
+	\item $\delta : Q_0 \times U \to Q$ is a transition function such that
 %defined as follows: + spravit "rozdvojku"
 $\delta(q_0, \hat{u}) = \theta_\emph{Max}^{ml}(init)$ and
 $\delta(f, u) = f'$ where $f'$ is the $u$-suffix of $\theta_\emph{Max}^{ml}((\emph{Max}, f))$,\footnote{Note that $\theta_\emph{Max}^{ml}$ takes as an argument only a single vertex. That would not be possible unless $\theta_\emph{Max}^{ml}$ was a memoryless strategy.} %IDEA footnote napisat niekam inam? (ako remark?)
-	\item $q_0$ is the initial state.
-
+	\item $q_0$ is the initial state.\footnote{The initial state ${q_0}$ is just an auxiliary state for reading $h_0$, which represents no information as it is always $\hat{u}$.}
 \end{itemize}
-\vspace{-5pt}
-%TODO mention that $\mathcal{A}[h](last(h)) = f(r(f))$ ?
-We define $\sigma_\epsilon^{reg}(h) = f(r(f))$ where $f$ is the state of $\mathcal{A}$ reached after reading the history $h$.
-It is easy to show that $\sigma_\epsilon^{reg}(h)$ is the same as $\sigma[\theta_\emph{Max}^{ml}]$ obtained from $\theta_\emph{Max}^{ml}$ using Lemma \ref{lem:translation}.
+\vspace{-3pt}
+We denote by $\mathcal{A}[h]$ the state of $\mathcal{A}$ reached after reading the history $h$.
+%TODO dat definiciu $\xi(f)$ sem? nikde sa doteraz nepouzila
+We define $\sigma_\epsilon^{reg}(h) = \xi(\mathcal{A}[h])$ (recall that $\xi(f) = f(r(f))$ for a commitment $f$).
+It is easy to show that $\sigma_\epsilon^{reg}$ is the same as $\sigma[\theta_\emph{Max}^{ml}]$ obtained from $\theta_\emph{Max}^{ml}$ using Lemma \ref{lem:translation}.
 It follows that
 $$val(\sigma_\epsilon^{reg}) = val^\mathcal{S}(\theta_\emph{Max}^{ml}, init, fail) \geq val(\sigma_\epsilon) \geq val(\sigma) - \epsilon~,$$
 i.e. $\sigma_\epsilon^{reg}$ is $\epsilon$-optimal.
 
-\section{Reducing state-space}
+%TODO zmenit nazov?
+\section{Reducing the State Space}
+
+%TODO keci
+%TODO treba mat automat \mathcal{A} zo Step 3.
+
+%IDEA zamenit znacenie: 'f' namiesto 'p' ??? Radsej nie: f, g, h -> nemozem pouzit 'h' ako historiu
+\begin{definition}
+Given $p \in Q$, we define the characteristics $\mathbf{Char}_p$ of $p$ to be a function which to every pair $(k, u) \in \{0, \dots, d\} \times U$ assigns the probability of reaching $u$ in at most $k$ steps whenever the strategy is in the state $p$ (recall that $p$ determines the current state of the game).
+\end{definition}
+
+Given $q \in Q$, we denote by $\mathcal{A}_{p \leftarrow q} = (Q_0', U, \delta', q_0, \{\})$ the DFA defined as follows:
+\vspace{-5pt}
+\begin{itemize}[noitemsep]
+	\item $Q_0' = Q_0 \smallsetminus \{q\}$
+	\item $\delta'(r, u) =
+  \begin{cases}
+   p		& \text{if } \delta(r, u) = q \\
+   \delta(r, u)	& \text{otherwise.}
+  \end{cases}$
+\end{itemize}
+\vspace{-5pt}
+
+Intuitively, $\mathcal{A}_{p \leftarrow q}$ is obtained from $\mathcal{A}$ by redirecting all transitions going to $q$ to $p$ and then removing $q$.
+
+We denote by $\sigma_{p \leftarrow q}$ the strategy determined by $\mathcal{A}_{p \leftarrow q}$.
+
+%TODO potrebujem mat zadefinovane $att-val$ - malo by byt v ramci dokazu $\epsilon$-optimality
+$att\text{-}val(\iota \mid h) = \text{inf}_{t \in T} \mathcal{P}_{last(h)}^{\iota_h}(D_t)$
+\begin{lemma}
+
+\end{lemma}
 
 \chapter{multiple robots}
 \label{chap:multiPatrol}
