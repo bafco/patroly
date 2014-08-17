@@ -456,8 +456,8 @@ Hence, $\mathcal{P}_u^{\sigma}(\mathcal{D}_u[\pi])$ is the probability of all de
 
 %TODO - what precision in definition do we really need? (optimality in/Stackelberg value of $u$ - srsly?)
 \begin{definition}
-For all $u \in U$ and $\sigma \in \Sigma$, the \emph{value of $\sigma$} is defined as $val_u(\sigma) = \emph{inf}_{\pi \in \Pi}\mathcal{P}_u^{\sigma}(\mathcal{D}_u[\pi])$.
-The \emph{Stackelberg value} of $u$ is defined as $val_u = \emph{sup}_{\sigma \in \Sigma}val_u(\sigma)$.
+For all $u \in U$ and $\sigma \in \Sigma$, the \emph{value of $\sigma$} is defined as $val_u(\sigma) = \inf_{\pi \in \Pi}\mathcal{P}_u^{\sigma}(\mathcal{D}_u[\pi])$.
+The \emph{Stackelberg value} of $u$ is defined as $val_u = \sup_{\sigma \in \Sigma}val_u(\sigma)$.
 The (Stackelberg) value of the game $\mathcal{G}$ is defined as $val = val_{\hat{u}}$.
 
 Let $\epsilon \geq 0$. A defender's strategy $\sigma^*$ is called \emph{$\epsilon$-optimal} if $val(\sigma^*) \geq val - \epsilon$.
@@ -594,7 +594,7 @@ Formally, a \emph{strategy} for player $\bigcirc \in \{\emph{Min}, \emph{Max}\}$
 
 Similarly to patrolling games, every initial vertex $v \in V$ and every pair of players' strategies $(\theta_{\emph{Min}}, \theta_{\emph{Max}})$ determine a unique probability space over all infinite sequences of vertices starting in $v$ (see \cite{chung}).
 Given an initial vertex $v \in V$, a target vertex $t \in V$, and a pair of players' strategies $(\theta_{\emph{Min}}, \theta_{\emph{Max}})$, we denote by $val^\mathcal{S}(\theta_{\emph{Min}}, \theta_{\emph{Max}}, v, t)$ the probability of all infinite sequences of vertices starting in $v$ that \emph{never} visit $t$.
-We define $val^\mathcal{S}(\theta_{\emph{\emph{Max}}}, v, t) = \text{inf}_{\theta_{\emph{Min}}}val^\mathcal{S}(\theta_{\emph{Min}}, \theta_{\emph{Max}}, v, t)$. Furthermore, we define $val^\mathcal{S}(v, t) = \text{sup}_{\theta_{\emph{Max}}}val^\mathcal{S}(\theta_{\emph{Max}}, v, t)$.
+We define $val^\mathcal{S}(\theta_{\emph{\emph{Max}}}, v, t) = \inf_{\theta_{\emph{Min}}}val^\mathcal{S}(\theta_{\emph{Min}}, \theta_{\emph{Max}}, v, t)$. Furthermore, we define $val^\mathcal{S}(v, t) = \sup_{\theta_{\emph{Max}}}val^\mathcal{S}(\theta_{\emph{Max}}, v, t)$.
 Given a target $t \in V$, a strategy $\theta_{\emph{Max}}^*$ is called \emph{optimal} if $val^\mathcal{S}(\theta_{\emph{Max}}^*, v, t) = val^\mathcal{S}(v, t)$ for all $v \in V$.
 
 \
@@ -721,7 +721,7 @@ We encode this strategy using a deterministic finite-state automaton of size ...
 \section{Properties of Optimal Strategies in Patrolling Games}
 \label{sec:value}
 In this section, we look at what happens with a defender's strategy after a history has been played.
-%Recall that $val_u(\sigma) = \emph{inf}_{\pi \in \Pi}\mathcal{P}_u^{\sigma}(\mathcal{D}_u[\pi])$.
+%Recall that $val_u(\sigma) = \inf_{\pi \in \Pi}\mathcal{P}_u^{\sigma}(\mathcal{D}_u[\pi])$.
 
 \begin{definition}
 Let $\sigma$ be a defender's strategy and $h$ a history.
@@ -763,7 +763,7 @@ In order to formalize this concept, we define a \emph{regular} strategy.
 %TODO foonote? %We prefer the definition from... for its simplicity.
 %We use the definition from \cite{iti2} as we find the definition from \cite{iti1} too complex for our purposes.
 %As stated in / According to \cite{iti2}
-A defender’s strategy $\sigma$ is \emph{regular} if there is a deterministic finite-state automaton $\mathcal{A}$ over the alphabet $U$ (the nodes) such that $\sigma(h)$ depends only on the control state entered by $\mathcal{A}$ after reading $h$ \cite{iti2}.
+A defender’s strategy $\sigma$ is \emph{regular} if there is a deterministic finite-state automaton (DFA) $\mathcal{A}$ over the alphabet $U$ (the nodes) such that $\sigma(h)$ depends only on the control state entered by $\mathcal{A}$ after reading $h$ \cite{iti2}.
 %TODO zacitovat to nejak?
 
 In the rest of this section, we prove the existence of a regular $\epsilon$-optimal defender's strategy.
@@ -773,7 +773,7 @@ First, we discretize $\sigma$ to obtain an $\epsilon$-optimal strategy $\sigma_\
 Second, using translation process from the previous chapter, we translate $\sigma_\epsilon$ from $\mathcal{G}$ to a strategy $\theta_\emph{Max}$ in the corresponding stochastic game $\mathcal{S}$.
 As $\theta_\emph{Max}$ stays in finitely many vertices, we restrict the set of vertices of $\mathcal{S}$ to be finite.
 We apply standard results for finite-state stochastic games to obtain an optimal memoryless strategy $\theta_\emph{Max}^{ml}$.
-Third, using $\theta_\emph{Max}^{ml}$, we construct a finite-state automaton which encodes an $\epsilon$-optimal strategy.
+Third, using $\theta_\emph{Max}^{ml}$, we construct a DFA which encodes an $\epsilon$-optimal strategy.
 
 \textbf{Step 1.} Let us fix an optimal defender's strategy $\sigma$, whose existence is guaranteed by Theorem \ref{thm:existence}.
 %For a desired precision $\epsilon$
@@ -790,10 +790,31 @@ that $\sigma_\epsilon(h)$ is indeed a probability distribution over $U$, i.e. $\
 %TODO preformulovat ?
 Further, when we realize the invariant $0 \leq \sum_{j=1}^{i-1}(\sigma(h)(u_j) - \sigma_\epsilon(h)(u_j)) < t$ holds for all $1 \leq i \leq |U|$, it is easy to see that $|\sigma(h)(u_i) - \sigma_\epsilon(h)(u_i)| < t$.% (for all $i$)
 
+%TODO - obkecat
+
+\begin{definition}
+Let $\iota$ be a defender's strategy and $h$ a history. We define
+$$att\text{-}val(\iota \mid h) = \inf_{t \in T} \mathcal{P}_{last(h)}^{\iota_h}(D_t)$$
+where $D_t$ is the set of all runs that visit $t$ in the first $d$ steps.
+\end{definition}
+
+%we prove even stronger proposition
+\begin{lemma}
+\label{lem:epsilon}
+%Let $h \in \mathcal{H}(\sigma_\epsilon)$ be a history.
+For every $h \in \mathcal{H}(\sigma_\epsilon)$ we have that $att\text{-}val(\sigma_\epsilon \mid h) \geq val(\sigma) - \epsilon$.
+%$\inf_{h \in \mathcal{H}(\sigma_\epsilon)} att\text{-}val(\sigma_\epsilon \mid h) \geq val(\sigma) - \epsilon$
+\end{lemma}
+
+\begin{proof}
+\end{proof}
+
+%TODO zmazat
 \begin{proposition}
 $\sigma_\epsilon$ is an $\epsilon$-optimal strategy.
 \end{proposition}
 
+%TODO zmazat
 \begin{proof}
 \end{proof}
 
@@ -814,11 +835,10 @@ As $\mathbf{Reach}(\theta_\emph{Max})$ is a subset of vertices of $\mathcal{S}$,
 $$val^\mathcal{S}(\theta_\emph{Max}^{ml}, init, fail) = val^{\mathcal{S}_\epsilon}(\theta_\emph{Max}^{ml}, init, fail)~.$$
 Summing up, $\theta_\emph{Max}^{ml}$ is a memoryless strategy %in $\mathcal{S}$
 satisfying
-%TODO - consider $ ... $
 $$val^\mathcal{S}(\theta_\emph{Max}^{ml}, init, fail) \geq val(\sigma_\epsilon)~.$$
 
 \textbf{Step 3.}
-Using $\theta_\emph{Max}^{ml}$, we construct a finite-state automaton $\mathcal{A}$ for the desired regular $\epsilon$-optimal strategy $\sigma_\epsilon^{reg}$ as follows: $\mathcal{A} = (Q_0, U, \delta, q_0, \{\})$ where
+Using $\theta_\emph{Max}^{ml}$, we construct a DFA $\mathcal{A}$ encoding the desired regular \hbox{$\epsilon$-optimal} strategy $\sigma_\epsilon^{reg}$ as follows: $\mathcal{A} = (Q_0, U, \delta, q_0, \{\})$ where
 \vspace{-3pt}
 \begin{itemize}[noitemsep]
 	\item $Q_0 = Q \cup \{q_0\}$ is the finite set of states, where $Q = \{f \mid (\emph{Max}, f) \in \mathbf{Reach}(\theta_\emph{Max})\}$
@@ -837,6 +857,18 @@ It is easy to show that $\sigma_\epsilon^{reg}$ is the same as $\sigma[\theta_\e
 It follows that
 $$val(\sigma_\epsilon^{reg}) = val^\mathcal{S}(\theta_\emph{Max}^{ml}, init, fail) \geq val(\sigma_\epsilon) \geq val(\sigma) - \epsilon~,$$
 i.e. $\sigma_\epsilon^{reg}$ is $\epsilon$-optimal.
+
+%TODO
+\
+
+The following observation follows from Lemma \ref{lem:epsilon} and the properties of the translation process from $\mathcal{G}$ to $\mathcal{S}$.
+
+%Realizing that $Q$ is the set of all $d$-commitments $f$ occuring in vertices of $\mathbf{Reach}(\theta_\emph{Max})$:
+\begin{lemma}
+\label{lem:epsilon_commitment}
+%All $d$-commitments $f$ occuring in vertices of $\mathbf{Reach}(\theta_\emph{Max})$ satisfy
+For every $d$-commitment $f \in Q$, we have that $val(f) \geq val(\sigma) - \epsilon$.
+\end{lemma}
 
 %TODO zmenit nazov?
 \section{Reducing the State Space}
@@ -863,13 +895,41 @@ Given $q \in Q$, we denote by $\mathcal{A}_{p \leftarrow q} = (Q_0', U, \delta',
 
 Intuitively, $\mathcal{A}_{p \leftarrow q}$ is obtained from $\mathcal{A}$ by redirecting all transitions going to $q$ to $p$ and then removing $q$.
 
+%TODO - zmazat? - toto znacenie nikde nepotrebujem - len v Lemma-tku + v dokaze uz pouzivam $\iota_{nieco}$
 We denote by $\sigma_{p \leftarrow q}$ the strategy determined by $\mathcal{A}_{p \leftarrow q}$.
 
-%TODO potrebujem mat zadefinovane $att-val$ - malo by byt v ramci dokazu $\epsilon$-optimality
-$att\text{-}val(\iota \mid h) = \text{inf}_{t \in T} \mathcal{P}_{last(h)}^{\iota_h}(D_t)$
 \begin{lemma}
-
+%myslim, ze chcem "obmenu" Lemma \ref{lem:epsilon} pre pozmenenu (novu) strategiu $\sigma_{p \leftarrow q}$
+%TODO co to ma splnat ta funkcia? za akeho predpokladu?
 \end{lemma}
+
+\begin{proof}
+%na dokaz by nam malo stacit \ref{lem:epsilon} a \ref{lem:epsilon_commitment} - to prve plati aj pre pozmenenu (to dokazujem) a to druhe plati "vseobecne" (netyka sa strategie) -> cize mozem iterovat
+Given a defender's strategy $\iota$ and a history $h$ we denote by $\mathbf{Char}_h^\iota$ the function which to every $(k, u)
+%TODO {1, ..., d}
+\in \{0, \dots, d\} \times U$ assigns the probability of reaching $u$ in at most $k$ steps using the strategy $\iota_h$ and starting in $last(h)$.
+%Note that for $\iota$ being equal to $\sigma_\epsilon^{reg}$ (determined by $\mathcal{A}$) we have that $\mathbf{Char}_h^\iota((k, u)) = \mathbf{Char}_p((k, u))$ for $p = \mathcal{A}[h]$.
+Let $\iota$ be equal to $\sigma_\epsilon^{reg}$ (determined by $\mathcal{A}$) and $\iota_{p \leftarrow q}$ be the same as $\sigma_{p \leftarrow q}$. %(determined by $\mathcal{A}_{p \leftarrow q}$).
+%Note that $\mathbf{Char}_h^\iota((k, u)) = \mathbf{Char}_p((k, u))$ for $p = \mathcal{A}[h]$.
+Given $p \in Q$, we denote by $\mathcal{A}_p$ the DFA obtained from $\mathcal{A}$ by changing the initial state to $p$, and by $\iota_p$ the regular strategy determined by $\mathcal{A}_p$.
+Note that for $p = \mathcal{A}[h]$, we have that $\iota_p = \iota_h$, therefore $\mathbf{Char}_h^\iota((k, u)) = \mathbf{Char}_p((k, u))$.
+
+We define a sequence of strategies $\sigma_0$, $\sigma_1$, $\sigma_2$, $\dots$ as follows:
+\vspace{-5pt}
+\begin{itemize}[noitemsep]
+	\item for every history $h$ where $|h| \leq i$ we have that $\sigma_i(h) = \iota_{p \leftarrow q}(h)$
+	\item for every history $hh'$ where $|h| = i$ and $|h'| \geq 1$ we have that $\sigma_i(hh') = \iota_r(h')$ where $r = \mathcal{A}_{p \leftarrow q}[w]$.
+\end{itemize}
+\vspace{-5pt}
+Intuitively, $\sigma_i$ is determined by $\mathcal{A}_{p \leftarrow q}$ in the first $i$ steps.
+Then, $\sigma_i$ is determined by $\mathcal{A}_r$ where $r$ is the state reached by $\mathcal{A}_{p \leftarrow q}$ after reading the first $i$ steps of the history.
+
+For each $i \geq 0$, we prove that for all histories $h$ we have 
+$$att\text{-}val(\sigma_i | h) \geq val(\sigma) - \epsilon~.$$
+
+For $i = 0$ this follows from Lemma \ref{lem:epsilon_commitment}.
+\end{proof}
+
 
 \chapter{multiple robots}
 \label{chap:multiPatrol}
