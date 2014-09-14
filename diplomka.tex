@@ -864,22 +864,42 @@ i.e. $\sigma_\epsilon^{reg}$ is $\epsilon$-optimal.
 The following observation follows from Lemma \ref{lem:epsilon} and the properties of the translation process from $\mathcal{G}$ to $\mathcal{S}$.
 
 %Realizing that $Q$ is the set of all $d$-commitments $f$ occuring in vertices of $\mathbf{Reach}(\theta_\emph{Max})$:
+%TODO treba mi to?
 \begin{lemma}
 \label{lem:epsilon_commitment}
 %All $d$-commitments $f$ occuring in vertices of $\mathbf{Reach}(\theta_\emph{Max})$ satisfy
 For every $d$-commitment $f \in Q$, we have that $val(f) \geq val(\sigma) - \epsilon$.
 \end{lemma}
 
+%TODO pozmenit to tu cele - vratane predchadzajucich Lemmatov
+From the definitions of $\delta$ and $\sigma_\epsilon^{reg}$ it follows that
+%Lemma \ref{lem:epsilon} also holds for $\sigma_\epsilon^{reg}$
+$att\text{-}val(\sigma_\epsilon^{reg} \mid h) = val(\mathcal{A}[h])$.
+%summarized in the following:
+\begin{corollary}
+\label{cor:epsilon_reg}
+For every $h \in \mathcal{H}(\sigma_\epsilon^{reg})$ we have $att\text{-}val(\sigma_\epsilon^{reg} \mid h) \geq val(\sigma) - \epsilon$.
+\end{corollary}
+
 %TODO zmenit nazov?
 \section{Reducing the State Space}
+To reduce the number of possible states of an automaton encoding the $\epsilon$-optimal strategy, we introduce the concept of some specific \emph{characteristics} of a state.
+These characteristics represent less information than a $d$-commitment.
+However, as we will see, they are enough to find the desired strategy.
 
-%TODO keci
 %TODO treba mat automat \mathcal{A} zo Step 3.
 
 %IDEA zamenit znacenie: 'f' namiesto 'p' ??? Radsej nie: f, g, h -> nemozem pouzit 'h' ako historiu
 \begin{definition}
 Given $p \in Q$, we define the characteristics $\mathbf{Char}_p$ of $p$ to be a function which to every pair $(k, u) \in \{0, \dots, d\} \times U$ assigns the probability of reaching $u$ in at most $k$ steps whenever the strategy is in the state $p$ (recall that $p$ determines the current state of the game).
 \end{definition}
+
+%TODO premiestit do dokazu?
+For every state $p \in Q$, we define the value of its characteristics by $val(\mathbf{Char}_p) = \min_{t \in T} \mathbf{Char}_p(d, t)$.
+Note that if $p = \mathcal{A}[h]$ for some history $h$, %and $\iota$ is the strategy determined by $\mathcal{A}$
+then $val(\mathbf{Char}_p) = att\text{-}val(\sigma_\epsilon^{reg} \mid h)$.
+
+\
 
 Given $q \in Q$, we denote by $\mathcal{A}_{p \leftarrow q} = (Q_0', U, \delta', q_0, \{\})$ the DFA defined as follows:
 \vspace{-5pt}
@@ -896,13 +916,22 @@ Given $q \in Q$, we denote by $\mathcal{A}_{p \leftarrow q} = (Q_0', U, \delta',
 Intuitively, $\mathcal{A}_{p \leftarrow q}$ is obtained from $\mathcal{A}$ by redirecting all transitions going to $q$ to $p$ and then removing $q$.
 
 %TODO - zmazat? - toto znacenie nikde nepotrebujem - len v Lemma-tku + v dokaze uz pouzivam $\iota_{nieco}$
-We denote by $\sigma_{p \leftarrow q}$ the strategy determined by $\mathcal{A}_{p \leftarrow q}$.
+%We denote by $\sigma_{p \leftarrow q}$ the strategy determined by $\mathcal{A}_{p \leftarrow q}$.
 
 \begin{lemma}
-%myslim, ze chcem "obmenu" Lemma \ref{lem:epsilon} pre pozmenenu (novu) strategiu $\sigma_{p \leftarrow q}$
-%TODO co to ma splnat ta funkcia? za akeho predpokladu?
+Given $p, q \in Q$ such that $\mathbf{Char}_p = \mathbf{Char}_q$, we have that for all $r \in Q \smallsetminus \{q\}$
+$$\mathbf{Char}_r^{\mathcal{A}_{p \leftarrow q}} = \mathbf{Char}_r^\mathcal{A}~.$$
 \end{lemma}
 
+\begin{proof}
+% automat je Markov Chain!
+
+
+$\mathbf{Char}_p(1, u) = \xi(p)(u)$.
+for $2 \leq k \leq d$ we have that $\mathbf{Char}_p(k, u) = \xi(p)(u) + \sum_{v \neq u}\xi(p)(v) \cdot \mathbf{Char}_{\delta(p, v)}(k - 1, u)$.
+\end{proof}
+
+%TODO zmazat
 \begin{proof}
 %na dokaz by nam malo stacit \ref{lem:epsilon} a \ref{lem:epsilon_commitment} - to prve plati aj pre pozmenenu (to dokazujem) a to druhe plati "vseobecne" (netyka sa strategie) -> cize mozem iterovat
 Given a defender's strategy $\iota$ and a history $h$ we denote by $\mathbf{Char}_h^\iota$ the function which to every $(k, u)
