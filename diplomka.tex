@@ -861,25 +861,28 @@ i.e. $\sigma_\epsilon^{reg}$ is $\epsilon$-optimal.
 %TODO
 \
 
-The following observation follows from Lemma \ref{lem:epsilon} and the properties of the translation process from $\mathcal{G}$ to $\mathcal{S}$.
+%%%%%%%%%%%
+%COMMENT OUT
+%The following observation follows from Lemma \ref{lem:epsilon} and the properties of the translation process from $\mathcal{G}$ to $\mathcal{S}$.
 
 %Realizing that $Q$ is the set of all $d$-commitments $f$ occuring in vertices of $\mathbf{Reach}(\theta_\emph{Max})$:
 %TODO treba mi to?
-\begin{lemma}
-\label{lem:epsilon_commitment}
-%All $d$-commitments $f$ occuring in vertices of $\mathbf{Reach}(\theta_\emph{Max})$ satisfy
-For every $d$-commitment $f \in Q$, we have that $val(f) \geq val(\sigma) - \epsilon$.
-\end{lemma}
+%\begin{lemma}
+%\label{lem:epsilon_commitment}
+%%All $d$-commitments $f$ occuring in vertices of $\mathbf{Reach}(\theta_\emph{Max})$ satisfy
+%For every $d$-commitment $f \in Q$, we have that $val(f) \geq val(\sigma) - \epsilon$.
+%\end{lemma}
 
-%TODO pozmenit to tu cele - vratane predchadzajucich Lemmatov
-From the definitions of $\delta$ and $\sigma_\epsilon^{reg}$ it follows that
-%Lemma \ref{lem:epsilon} also holds for $\sigma_\epsilon^{reg}$
-$att\text{-}val(\sigma_\epsilon^{reg} \mid h) = val(\mathcal{A}[h])$.
-%summarized in the following:
-\begin{corollary}
-\label{cor:epsilon_reg}
-For every $h \in \mathcal{H}(\sigma_\epsilon^{reg})$ we have $att\text{-}val(\sigma_\epsilon^{reg} \mid h) \geq val(\sigma) - \epsilon$.
-\end{corollary}
+%%TODO pozmenit to tu cele - vratane predchadzajucich Lemmatov
+%From the definitions of $\delta$ and $\sigma_\epsilon^{reg}$ it follows that
+%%Lemma \ref{lem:epsilon} also holds for $\sigma_\epsilon^{reg}$
+%$att\text{-}val(\sigma_\epsilon^{reg} \mid h) = val(\mathcal{A}[h])$.
+%%summarized in the following:
+%\begin{corollary}
+%\label{cor:epsilon_reg}
+%For every $h \in \mathcal{H}(\sigma_\epsilon^{reg})$ we have $att\text{-}val(\sigma_\epsilon^{reg} \mid h) \geq val(\sigma) - \epsilon$.
+%\end{corollary}
+%%%%%%%%%%%
 
 %TODO zmenit nazov?
 \section{Reducing the State Space}
@@ -931,33 +934,36 @@ $\mathbf{Char}_p(1, u) = \xi(p)(u)$.
 for $2 \leq k \leq d$ we have that $\mathbf{Char}_p(k, u) = \xi(p)(u) + \sum_{v \neq u}\xi(p)(v) \cdot \mathbf{Char}_{\delta(p, v)}(k - 1, u)$.
 \end{proof}
 
+%%%%%%%%%%%
+%COMMENT OUT
 %TODO zmazat
-\begin{proof}
-%na dokaz by nam malo stacit \ref{lem:epsilon} a \ref{lem:epsilon_commitment} - to prve plati aj pre pozmenenu (to dokazujem) a to druhe plati "vseobecne" (netyka sa strategie) -> cize mozem iterovat
-Given a defender's strategy $\iota$ and a history $h$ we denote by $\mathbf{Char}_h^\iota$ the function which to every $(k, u)
+%\begin{proof}
+%%na dokaz by nam malo stacit \ref{lem:epsilon} a \ref{lem:epsilon_commitment} - to prve plati aj pre pozmenenu (to dokazujem) a to druhe plati "vseobecne" (netyka sa strategie) -> cize mozem iterovat
+%Given a defender's strategy $\iota$ and a history $h$ we denote by $\mathbf{Char}_h^\iota$ the function which to every $(k, u)
 %TODO {1, ..., d}
-\in \{0, \dots, d\} \times U$ assigns the probability of reaching $u$ in at most $k$ steps using the strategy $\iota_h$ and starting in $last(h)$.
-%Note that for $\iota$ being equal to $\sigma_\epsilon^{reg}$ (determined by $\mathcal{A}$) we have that $\mathbf{Char}_h^\iota((k, u)) = \mathbf{Char}_p((k, u))$ for $p = \mathcal{A}[h]$.
-Let $\iota$ be equal to $\sigma_\epsilon^{reg}$ (determined by $\mathcal{A}$) and $\iota_{p \leftarrow q}$ be the same as $\sigma_{p \leftarrow q}$. %(determined by $\mathcal{A}_{p \leftarrow q}$).
-%Note that $\mathbf{Char}_h^\iota((k, u)) = \mathbf{Char}_p((k, u))$ for $p = \mathcal{A}[h]$.
-Given $p \in Q$, we denote by $\mathcal{A}_p$ the DFA obtained from $\mathcal{A}$ by changing the initial state to $p$, and by $\iota_p$ the regular strategy determined by $\mathcal{A}_p$.
-Note that for $p = \mathcal{A}[h]$, we have that $\iota_p = \iota_h$, therefore $\mathbf{Char}_h^\iota((k, u)) = \mathbf{Char}_p((k, u))$.
+%\in \{0, \dots, d\} \times U$ assigns the probability of reaching $u$ in at most $k$ steps using the strategy $\iota_h$ and starting in $last(h)$.
+%%Note that for $\iota$ being equal to $\sigma_\epsilon^{reg}$ (determined by $\mathcal{A}$) we have that $\mathbf{Char}_h^\iota((k, u)) = \mathbf{Char}_p((k, u))$ for $p = \mathcal{A}[h]$.
+%Let $\iota$ be equal to $\sigma_\epsilon^{reg}$ (determined by $\mathcal{A}$) and $\iota_{p \leftarrow q}$ be the same as $\sigma_{p \leftarrow q}$. %(determined by $\mathcal{A}_{p \leftarrow q}$).
+%%Note that $\mathbf{Char}_h^\iota((k, u)) = \mathbf{Char}_p((k, u))$ for $p = \mathcal{A}[h]$.
+%Given $p \in Q$, we denote by $\mathcal{A}_p$ the DFA obtained from $\mathcal{A}$ by changing the initial state to $p$, and by $\iota_p$ the regular strategy determined by $\mathcal{A}_p$.
+%Note that for $p = \mathcal{A}[h]$, we have that $\iota_p = \iota_h$, therefore $\mathbf{Char}_h^\iota((k, u)) = \mathbf{Char}_p((k, u))$.
 
-We define a sequence of strategies $\sigma_0$, $\sigma_1$, $\sigma_2$, $\dots$ as follows:
-\vspace{-5pt}
-\begin{itemize}[noitemsep]
-	\item for every history $h$ where $|h| \leq i$ we have that $\sigma_i(h) = \iota_{p \leftarrow q}(h)$
-	\item for every history $hh'$ where $|h| = i$ and $|h'| \geq 1$ we have that $\sigma_i(hh') = \iota_r(h')$ where $r = \mathcal{A}_{p \leftarrow q}[w]$.
-\end{itemize}
-\vspace{-5pt}
-Intuitively, $\sigma_i$ is determined by $\mathcal{A}_{p \leftarrow q}$ in the first $i$ steps.
-Then, $\sigma_i$ is determined by $\mathcal{A}_r$ where $r$ is the state reached by $\mathcal{A}_{p \leftarrow q}$ after reading the first $i$ steps of the history.
+%We define a sequence of strategies $\sigma_0$, $\sigma_1$, $\sigma_2$, $\dots$ as follows:
+%\vspace{-5pt}
+%\begin{itemize}[noitemsep]
+%	\item for every history $h$ where $|h| \leq i$ we have that $\sigma_i(h) = \iota_{p \leftarrow q}(h)$
+%	\item for every history $hh'$ where $|h| = i$ and $|h'| \geq 1$ we have that $\sigma_i(hh') = \iota_r(h')$ where %$r = \mathcal{A}_{p \leftarrow q}[w]$.
+%\end{itemize}
+%\vspace{-5pt}
+%Intuitively, $\sigma_i$ is determined by $\mathcal{A}_{p \leftarrow q}$ in the first $i$ steps.
+%Then, $\sigma_i$ is determined by $\mathcal{A}_r$ where $r$ is the state reached by $\mathcal{A}_{p \leftarrow q}$ after reading the first $i$ steps of the history.
+%
+%For each $i \geq 0$, we prove that for all histories $h$ we have 
+%$$att\text{-}val(\sigma_i | h) \geq val(\sigma) - \epsilon~.$$
 
-For each $i \geq 0$, we prove that for all histories $h$ we have 
-$$att\text{-}val(\sigma_i | h) \geq val(\sigma) - \epsilon~.$$
-
-For $i = 0$ this follows from Lemma \ref{lem:epsilon_commitment}.
-\end{proof}
+%For $i = 0$ this follows from Lemma \ref{lem:epsilon_commitment}.
+%\end{proof}
+%%%%%%%%%%%
 
 
 \chapter{multiple robots}
