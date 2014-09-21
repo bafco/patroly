@@ -557,6 +557,7 @@ The reason resides in the nature of patrolling games, specifically that the defe
 If she had the information about an initiated attack, she would need not to care about the future and could act in a way that would otherwise afford the attacker the opportunity to successfully attack with higher probability.
 \end{example}
 
+%TODO The Existence?
 \chapter{Existence of Optimal Strategies}
 
 In this chapter, we summarize the essential results achieved in \cite{iti1}, while we primarily focus on the constructs on which our results are based.
@@ -858,9 +859,6 @@ It follows that
 $$val(\sigma_\epsilon^{reg}) = val^\mathcal{S}(\theta_\emph{Max}^{ml}, init, fail) \geq val(\sigma_\epsilon) \geq val(\sigma) - \epsilon~,$$
 i.e. $\sigma_\epsilon^{reg}$ is $\epsilon$-optimal.
 
-%TODO
-\
-
 %%%%%%%%%%%
 %COMMENT OUT
 %The following observation follows from Lemma \ref{lem:epsilon} and the properties of the translation process from $\mathcal{G}$ to $\mathcal{S}$.
@@ -885,7 +883,15 @@ i.e. $\sigma_\epsilon^{reg}$ is $\epsilon$-optimal.
 %%%%%%%%%%%
 
 %TODO zmenit nazov?
-\section{Reducing the State Space}
+%\section{Reducing the State Space}
+\section{Characteristics}
+
+As you may noticed, the above proof of existence of an $\epsilon$-optimal strategy is not constructive.
+In \cite{iti1}, the authors provide an algorithm which computes the desired strategy.
+They introduce the concept of a \emph{discretized} $d$-commitment $f$ for which it holds that for all $w \in U^{\leq d}$ and $u \in U$ the number $f(w)(u)$ is an integer multiple of $t$.
+The algorithm is based on searching for a \emph{closed} set of such commitments (the defender stays within this set by prolonging her plans) that maximizes the minimal value of all commitments.
+The algorithm runs in time polynomial in the number of all discretized $d$-commitments, i.e. in time ${\left({{|N|d}\over \epsilon}\right)}^{|N|^{\mathcal{O}(d)}}$.
+
 To reduce the number of possible states of an automaton encoding the $\epsilon$-optimal strategy, we introduce the concept of some specific \emph{characteristics} of a state.
 These characteristics represent less information than a $d$-commitment.
 However, as we will see, they are enough to find the desired strategy.
