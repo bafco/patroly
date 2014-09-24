@@ -839,6 +839,7 @@ satisfying
 $$val^\mathcal{S}(\theta_\emph{Max}^{ml}, init, fail) \geq val(\sigma_\epsilon)~.$$
 
 \textbf{Step 3.}
+%TODO %IDEA $q_0$ spravit ako "nelegalny" commitment
 Using $\theta_\emph{Max}^{ml}$, we construct a DFA $\mathcal{A}$ encoding the desired regular \hbox{$\epsilon$-optimal} strategy $\sigma_\epsilon^{reg}$ as follows: $\mathcal{A} = (Q_0, U, \delta, q_0, \{\})$ where
 \vspace{-3pt}
 \begin{itemize}[noitemsep]
@@ -889,24 +890,21 @@ i.e. $\sigma_\epsilon^{reg}$ is $\epsilon$-optimal.
 As you may noticed, the above proof of existence of an $\epsilon$-optimal strategy is not constructive.
 In \cite{iti1}, the authors provide an algorithm which computes the desired strategy.
 They introduce the concept of a \emph{discretized} $d$-commitment $f$ for which it holds that for all $w \in U^{\leq d}$ and $u \in U$ the number $f(w)(u)$ is an integer multiple of $t$.
-The algorithm is based on searching for a \emph{closed} set of such commitments (the defender stays within this set by prolonging her plans) that maximizes the minimal value of all commitments.
+Their algorithm is based on searching for a \emph{closed} set of such commitments (the defender stays within this set by prolonging her plans) that maximizes the minimal value of all commitments.
 The algorithm runs in time polynomial in the number of all discretized $d$-commitments, i.e. in time ${\left({{|N|d}\over \epsilon}\right)}^{|N|^{\mathcal{O}(d)}}$.
 
-To reduce the number of possible states of an automaton encoding the $\epsilon$-optimal strategy, we introduce the concept of some specific \emph{characteristics} of a state.
-These characteristics represent less information than a $d$-commitment.
-However, as we will see, they are enough to find the desired strategy.
+%TODO zmienit sa o nasom algoritme / jeho zlozitosti?
+To reduce the number of possible states of the automaton $\mathcal{A}$ encoding the $\epsilon$-optimal strategy, we define an equivalence relation on the states of $\mathcal{A}$ which we use to factorize the state-space of $\mathcal{A}$.
+The equivalence relation is based on the ability to defend an attack which started somewhen in the last $d$ steps. % $d-1$ steps
+We call this ability the \emph{characteristics} of a given state.
+We prove that states with the same characteristics are equivalent, i.e. they can be merged into a single state without influencing the value of the resulting strategy.
 
-%TODO treba mat automat \mathcal{A} zo Step 3.
+In the following definition, we assume the automaton $\mathcal{A}$ constructed in Step 3 in the previous section.
 
-%IDEA zamenit znacenie: 'f' namiesto 'p' ??? Radsej nie: f, g, h -> nemozem pouzit 'h' ako historiu
 \begin{definition}
 Given $p \in Q$, we define the characteristics $\mathbf{Char}_p$ of $p$ to be a function which to every pair $(k, u) \in \{0, \dots, d\} \times U$ assigns the probability of reaching $u$ in at most $k$ steps whenever the strategy is in the state $p$ (recall that $p$ determines the current state of the game).
+%We omit the superscript $\mathcal{A}$ in $\mathbf{Char}_p^{\mathcal{A}}$ when it is clear from the context.
 \end{definition}
-
-%TODO premiestit do dokazu?
-For every state $p \in Q$, we define the value of its characteristics by $val(\mathbf{Char}_p) = \min_{t \in T} \mathbf{Char}_p(d, t)$.
-Note that if $p = \mathcal{A}[h]$ for some history $h$, %and $\iota$ is the strategy determined by $\mathcal{A}$
-then $val(\mathbf{Char}_p) = att\text{-}val(\sigma_\epsilon^{reg} \mid h)$.
 
 \
 
@@ -929,16 +927,36 @@ Intuitively, $\mathcal{A}_{p \leftarrow q}$ is obtained from $\mathcal{A}$ by re
 
 \begin{lemma}
 Given $p, q \in Q$ such that $\mathbf{Char}_p = \mathbf{Char}_q$, we have that for all $r \in Q \smallsetminus \{q\}$
-$$\mathbf{Char}_r^{\mathcal{A}_{p \leftarrow q}} = \mathbf{Char}_r^\mathcal{A}~.$$
+$$\mathbf{Char}_r^{\mathcal{A}_{p \leftarrow q}} = \mathbf{Char}_r~,$$
+where $\mathbf{Char}_r^{\mathcal{A}_{p \leftarrow q}}$ denotes the characteristics of $r$ in the automaton $\mathcal{A}_{p \leftarrow q}$.
 \end{lemma}
 
 \begin{proof}
 % automat je Markov Chain!
+Our first observation is that the automaton $\mathcal{A}$ together with the strategy it determines can be seen as a Markov Chain.
+%TODO premenovat $f$ a $g$ na $r$ a $s$
+Indeed, when the game is in a state $f$, the next state $g$ is chosen with probability $\sum_{u \in U, g = \delta(f, u)} \xi(f)(u)$.
+%TODO remove the reasoning
+This is because the next node $u$ visited by the defender is selected based on $\xi(f)$, and $g$ is determined by $\delta(f, u)$.
 
+Notice that although the states of $\mathcal{A}$ are $d$-commitments, only the probability distribution in their root affects the strategy.
+%We do not know whether, in general, the state-space can be bounded by the number of possible probability distributions in a root, but we strongly believe it cannot. %dost by to ale pomohlo, lebo najmensia mozna pravdepodobnost v charakteristikach by nebola $t^d$, ale "len" $t$
 
-$\mathbf{Char}_p(1, u) = \xi(p)(u)$.
-for $2 \leq k \leq d$ we have that $\mathbf{Char}_p(k, u) = \xi(p)(u) + \sum_{v \neq u}\xi(p)(v) \cdot \mathbf{Char}_{\delta(p, v)}(k - 1, u)$.
+This brings us to the main idea of the proof, particularly that the characteristics of a state $r$ are determined by the distribution in its root, by the transitions from it, and by the characteristics of all states to which there is a transition from $r$ under some node $u$.
+
+%Characteristics can be inductively defined as follows: (based on their semantics)
+$\mathbf{Char}_r(1, v) = \xi(r)(v)$.
+
+for $2 \leq k \leq d$ we have that
+
+$\mathbf{Char}_r(k, v) = \xi(r)(v) + \sum_{u \neq v}\xi(r)(u) \cdot \mathbf{Char}_{\delta(r, u)}(k - 1, v)$.
 \end{proof}
+
+\
+
+For every state $p \in Q$, we define the value of its characteristics by $val(\mathbf{Char}_p) = \min_{t \in T} \mathbf{Char}_p(d, t)$.
+Note that for $p = \mathcal{A}[h]$ for some history $h$, %and $\iota$ is the strategy determined by $\mathcal{A}$
+we have that $val(\mathbf{Char}_p) = att\text{-}val(\sigma_\epsilon^{reg} \mid h)$.
 
 %%%%%%%%%%%
 %COMMENT OUT
