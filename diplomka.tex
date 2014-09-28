@@ -839,7 +839,7 @@ satisfying
 $$val^\mathcal{S}(\theta_\emph{Max}^{ml}, init, fail) \geq val(\sigma_\epsilon)~.$$
 
 \textbf{Step 3.}
-%TODO %IDEA $q_0$ spravit ako "nelegalny" commitment
+%TODO %IDEA $q_0$ spravit ako "nelegalny" commitment - stav musi ale splnat vsetko potrebne!
 Using $\theta_\emph{Max}^{ml}$, we construct a DFA $\mathcal{A}$ encoding the desired regular \hbox{$\epsilon$-optimal} strategy $\sigma_\epsilon^{reg}$ as follows: $\mathcal{A} = (Q_0, U, \delta, q_0, \{\})$ where
 \vspace{-3pt}
 \begin{itemize}[noitemsep]
@@ -902,7 +902,8 @@ We prove that states with the same characteristics are equivalent, i.e. they can
 In the following definition, we assume the automaton $\mathcal{A}$ constructed in Step 3 in the previous section.
 
 \begin{definition}
-Given $p \in Q$, we define the characteristics $\mathbf{Char}_p$ of $p$ to be a function which to every pair $(k, u) \in \{0, \dots, d\} \times U$ assigns the probability of reaching $u$ in at most $k$ steps whenever the strategy is in the state $p$ (recall that $p$ determines the current state of the game).
+%TODO Let $\mathcal{A}$ be the automaton constructed in Step 3 in the previous section.
+Given $p \in Q$, we define the characteristics $\mathbf{Char}_p$ of $p$ to be a function which to every pair $(k, u) \in \{1, \dots, d\} \times U$ assigns the probability of reaching $u$ in at most $k$ steps whenever the strategy is in the state $p$ (recall that $p$ determines the current state of the game).
 %We omit the superscript $\mathcal{A}$ in $\mathbf{Char}_p^{\mathcal{A}}$ when it is clear from the context.
 \end{definition}
 
@@ -922,17 +923,17 @@ Given $q \in Q$, we denote by $\mathcal{A}_{p \leftarrow q} = (Q_0', U, \delta',
 
 Intuitively, $\mathcal{A}_{p \leftarrow q}$ is obtained from $\mathcal{A}$ by redirecting all transitions going to $q$ to $p$ and then removing $q$.
 
-%TODO - zmazat? - toto znacenie nikde nepotrebujem - len v Lemma-tku + v dokaze uz pouzivam $\iota_{nieco}$
-%We denote by $\sigma_{p \leftarrow q}$ the strategy determined by $\mathcal{A}_{p \leftarrow q}$.
+This change in the transition function might influence the characteristics of all the states from which $q$ was reachable in less than $d$ steps.
+%To be able to distinguish between the old and new characteristics of a state $r$,
+For $r \in Q$, we denote by $\mathbf{Char}_r^{\mathcal{A}_{p \leftarrow q}}$ the characteristics of $r$ in the automaton $\mathcal{A}_{p \leftarrow q}$.
 
+%IDEA - The following lemma states that ...
 \begin{lemma}
 Given $p, q \in Q$ such that $\mathbf{Char}_p = \mathbf{Char}_q$, we have that for all $r \in Q \smallsetminus \{q\}$
-$$\mathbf{Char}_r^{\mathcal{A}_{p \leftarrow q}} = \mathbf{Char}_r~,$$
-where $\mathbf{Char}_r^{\mathcal{A}_{p \leftarrow q}}$ denotes the characteristics of $r$ in the automaton $\mathcal{A}_{p \leftarrow q}$.
+$$\mathbf{Char}_r^{\mathcal{A}_{p \leftarrow q}} = \mathbf{Char}_r~.$$
 \end{lemma}
 
 \begin{proof}
-% automat je Markov Chain!
 Our first observation is that the automaton $\mathcal{A}$ together with the strategy it determines can be seen as a Markov Chain.
 %TODO premenovat $f$ a $g$ na $r$ a $s$
 Indeed, when the game is in a state $f$, the next state $g$ is chosen with probability $\sum_{u \in U, g = \delta(f, u)} \xi(f)(u)$.
@@ -942,14 +943,15 @@ This is because the next node $u$ visited by the defender is selected based on $
 Notice that although the states of $\mathcal{A}$ are $d$-commitments, only the probability distribution in their root affects the strategy.
 %We do not know whether, in general, the state-space can be bounded by the number of possible probability distributions in a root, but we strongly believe it cannot. %dost by to ale pomohlo, lebo najmensia mozna pravdepodobnost v charakteristikach by nebola $t^d$, ale "len" $t$
 
-This brings us to the main idea of the proof, particularly that the characteristics of a state $r$ are determined by the distribution in its root, by the transitions from it, and by the characteristics of all states to which there is a transition from $r$ under some node $u$.
-
+This brings us to the main idea of the proof, particularly that the characteristics of a state $r$ are completely determined by the probability distribution in its root, by the transitions from it, and by the characteristics of all the states to which there is a transition from $r$ under some node $u$.
 %Characteristics can be inductively defined as follows: (based on their semantics)
-$\mathbf{Char}_r(1, v) = \xi(r)(v)$.
-
-for $2 \leq k \leq d$ we have that
-
+%Note that the characteristics of a state preserve the information about probability distribution in its root.
+Formally, let $v \in U$ be an arbitrary node.
+We have that
+$\mathbf{Char}_r(1, v) = \xi(r)(v)$
+and for all $2 \leq k \leq d$ we have that
 $\mathbf{Char}_r(k, v) = \xi(r)(v) + \sum_{u \neq v}\xi(r)(u) \cdot \mathbf{Char}_{\delta(r, u)}(k - 1, v)$.
+This follows from the definition of the characteristics.
 \end{proof}
 
 \
