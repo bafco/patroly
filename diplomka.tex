@@ -925,33 +925,64 @@ Intuitively, $\mathcal{A}_{p \leftarrow q}$ is obtained from $\mathcal{A}$ by re
 
 This change in the transition function might influence the characteristics of all the states from which $q$ was reachable in less than $d$ steps.
 %To be able to distinguish between the old and new characteristics of a state $r$,
-For $r \in Q$, we denote by $\mathbf{Char}_r^{\mathcal{A}_{p \leftarrow q}}$ the characteristics of $r$ in the automaton $\mathcal{A}_{p \leftarrow q}$.
+For $r \in Q$, we denote by $\mathbf{Char}'_r$ the characteristics of $r$ in the automaton $\mathcal{A}_{p \leftarrow q}$.
 
 %IDEA - The following lemma states that ...
 \begin{lemma}
 Given $p, q \in Q$ such that $\mathbf{Char}_p = \mathbf{Char}_q$, we have that for all $r \in Q \smallsetminus \{q\}$
-$$\mathbf{Char}_r^{\mathcal{A}_{p \leftarrow q}} = \mathbf{Char}_r~.$$
+$$\mathbf{Char}'_r = \mathbf{Char}_r~.$$
 \end{lemma}
 
 \begin{proof}
-Our first observation is that the automaton $\mathcal{A}$ together with the strategy it determines can be seen as a Markov Chain.
+Observe that the automaton $\mathcal{A}$ together with the strategy it determines can be seen as a Markov Chain.
 %TODO premenovat $f$ a $g$ na $r$ a $s$
 Indeed, when the game is in a state $f$, the next state $g$ is chosen with probability $\sum_{u \in U, g = \delta(f, u)} \xi(f)(u)$.
 %TODO remove the reasoning
 This is because the next node $u$ visited by the defender is selected based on $\xi(f)$, and $g$ is determined by $\delta(f, u)$.
 
-Notice that although the states of $\mathcal{A}$ are $d$-commitments, only the probability distribution in their root affects the strategy.
+That means that although the states of $\mathcal{A}$ are $d$-commitments, only the probability distribution in their root affects the strategy. %(the rest of the commitment just distinguishes it from other states)
 %We do not know whether, in general, the state-space can be bounded by the number of possible probability distributions in a root, but we strongly believe it cannot. %dost by to ale pomohlo, lebo najmensia mozna pravdepodobnost v charakteristikach by nebola $t^d$, ale "len" $t$
-
-This brings us to the main idea of the proof, particularly that the characteristics of a state $r$ are completely determined by the probability distribution in its root, by the transitions from it, and by the characteristics of all the states to which there is a transition from $r$ under some node $u$.
-%Characteristics can be inductively defined as follows: (based on their semantics)
+The idea of the proof is that the characteristics of a state $r$ are completely determined by
+(1) the probability distribution in its root and by
+%, by the transitions from it,
+(2) the characteristics of all the states to which there is a transition from $r$ under particular node~$u$.
+\
+%TODO dat to ako odrazky?
+%\vspace{-20pt}
+%\begin{itemize}[noitemsep, label=(1)]
+%	\item the probability distribution in its root
+%\end{itemize}
+%\vspace{-35pt}
+%\begin{itemize}[noitemsep, label=(2)]
+%	\item the characteristics of all the states to which there is a transition from $r$ under particular node $u$.
+%\end{itemize}
+%\vspace{-20pt}
+\
+Substitution of $q$ by $p$ does not have any influence on (1) and because $\mathbf{Char}_p = \mathbf{Char}_q$, neither has it any influence on (2).
 %Note that the characteristics of a state preserve the information about probability distribution in its root.
-Formally, let $v \in U$ be an arbitrary node.
-We have that
-$\mathbf{Char}_r(1, v) = \xi(r)(v)$
-and for all $2 \leq k \leq d$ we have that
-$\mathbf{Char}_r(k, v) = \xi(r)(v) + \sum_{u \neq v}\xi(r)(u) \cdot \mathbf{Char}_{\delta(r, u)}(k - 1, v)$.
-This follows from the definition of the characteristics.
+
+%IDEA change the order of $r, v, k$
+Formally, we prove by induction on $k$ that for all $r \in Q \smallsetminus \{q\}$, $v \in U$, $1 \leq k \leq d$ we have that $\mathbf{Char}'_r(k, v) = \mathbf{Char}_r(k, v)$.
+All we need is to realize that $\xi(r)$ is the same in $\mathcal{A}$ and $\mathcal{A}_{p \leftarrow q}$.
+%for all $r \in Q \smallsetminus \{q\}$.
+
+For $k = 1$, we have that $$\mathbf{Char}'_r(1, v) = \xi(r)(v) = \mathbf{Char}_r(1, v)~.$$
+
+For $2 \leq k \leq d$, we have
+\begin{align}
+\mathbf{Char}'_r(k, v)
+  &= \xi(r)(v) + \sum_{u \neq v}\xi(r)(u) \cdot \mathbf{Char}'_{\delta'(r, u)}(k - 1, v)\label{eq:first} \\
+  &= \xi(r)(v) + \sum_{u \neq v}\xi(r)(u) \cdot \mathbf{Char}_{\delta'(r, u)}(k - 1, v)\label{eq:second} \\
+  &= \xi(r)(v) + \sum_{u \neq v}\xi(r)(u) \cdot \mathbf{Char}_{\delta(r, u)}(k - 1, v)\label{eq:third} \\
+  &= \mathbf{Char}_r(k, v)\label{eq:fourth}~.
+\end{align}
+\vspace{-20pt}
+\begin{itemize}[noitemsep, label=--]
+	\item The equalities \eqref{eq:first} and \eqref{eq:fourth} follow directly from the definition of characteristics.
+	\item The equality \eqref{eq:second} holds by the induction hypothesis.
+	\item To prove the equality \eqref{eq:third}, note that the only case when $\delta'(r, u) \neq \delta(r, u)$ is when $\delta'(r, u) = p$ and $\delta(r, u) = q$. However, $\mathbf{Char}_p = \mathbf{Char}_q$.
+\end{itemize}
+\vspace{-5pt}
 \end{proof}
 
 \
