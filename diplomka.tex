@@ -26,6 +26,7 @@
 \theoremstyle{definition}
 \newtheorem{example}[thm]{Example}
 \newtheorem{observation}[thm]{Observation}
+%\newtheorem{remark}[thm]{Remark}
 
 \setcounter{figure}{0}
 \makeatletter
@@ -203,7 +204,7 @@ Some of the nodes of the graph are targets, all of which are equivalent:
 the attacker and the defender have no preferences over the targets and the attacker needs $d \geq 1$ time units to successfully attack any target.
 The defender starts in some initial target node and moves from node to node.
 Every move, consisting of the defender traversing an arbitrary edge, takes one time unit (step).
-The defender chooses the next node randomly and based on the history of all the nodes already visited.
+The defender chooses the next node randomly and based on the history of all already visited nodes.
 
 The assumed Stackelberg model implies a strong adversary, i.e. the attacker has complete knowledge of the defender's strategy and her current position.
 As the attacker observers the defender, he may either wait, or attack some target.
@@ -226,7 +227,7 @@ For now, we assume that the defender has only one patrolling unit as we draw on 
 We generalize this model by allowing multiple patrolling units in Chapter \ref{chap:multiPatrol}.
 
 From now on we also assume a single adversary who can attack only with a single resource.
-This assumption is adopted by all the works mentioned in Section \ref{sec:patrolLiterature} as well.
+This assumption is adopted by all of the works mentioned in Section \ref{sec:patrolLiterature} as well.
 
 %TODO odkaz na formalnu definiciu
 
@@ -281,7 +282,7 @@ The possible outcomes of the game are defined as follows:
 \emph{no-attack}, when the intruder never attacks.
 For each possible outcome, patroller's and intruder's payoffs are defined.\footnote{The game is a general-sum game with some consistency constraints over the players' payoffs.} Explicitly, these values are known to both players. However, the model can capture the case when the intruder's preferences over the targets are uncertain to the patroller.
 
-The authors cope with the presence of the infinite horizon in the game by introducing symmetries. They allow the patroller to choose the next action based only on the last ${|H|}$ actions, where ${|H|}$ is finite and constant during all the game. Higher value of ${|H|}$ leads to possibly higher expected utility of the patroller, but also to higher computational complexity for finding the optimal patrolling strategy. The authors provide a multi-bilinear mathematical programming formulation to find the optimal patroller's strategy when ${|H| = 1}$. They state that formulations with ${|H| > 1}$ can be obtained by extending this one.
+The authors cope with the presence of the infinite horizon in the game by introducing symmetries. They allow the patroller to choose the next action based only on the last ${|H|}$ actions, where ${|H|}$ is finite and constant during the whole game. Higher value of ${|H|}$ leads to possibly higher expected utility of the patroller, but also to higher computational complexity for finding the optimal patrolling strategy. The authors provide a multi-bilinear mathematical programming formulation to find the optimal patroller's strategy when ${|H| = 1}$. They state that formulations with ${|H| > 1}$ can be obtained by extending this one.
 
 Further, the paper is concerned with heuristics for more efficient problem solving. In realistic settings the number of targets is significantly smaller than the number of all nodes. That affords opportunity to reduce the programming problems' searching space, the number of variables and constraints.
 % use dash instead of comma? "- the number of ..."
@@ -903,7 +904,7 @@ In the following definition, we assume the automaton $\mathcal{A}$ constructed i
 
 \begin{definition}
 %TODO Let $\mathcal{A}$ be the automaton constructed in Step 3 in the previous section.
-Given $p \in Q$, we define the characteristics $\mathbf{Char}_p$ of $p$ to be a function which to every pair $(k, u) \in \{0, \dots, d\} \times U$ assigns the probability of reaching $u$ in at most $k$ steps whenever the strategy is in the state $p$ (recall that $p$ determines the current state of the game).
+Given $p \in Q$, we define the characteristics $\mathbf{Char}_p$ of $p$ to be a function which to every pair $(k, u) \in \{0, \dots, d\} \times U$ assigns the probability of reaching $u$ in at most $k$ steps whenever the strategy is in the state $p$ (recall that $p$ determines the current state of the play).
 %We omit the superscript $\mathcal{A}$ in $\mathbf{Char}_p^{\mathcal{A}}$ when it is clear from the context.
 \end{definition}
 %Values for $k = 0$ contain the information about the current location of the defender and 
@@ -932,6 +933,7 @@ For $r \in Q$, we denote by $\mathbf{Char}'_r$ the characteristics of $r$ in the
 
 %IDEA - The following lemma states that ...
 \begin{lemma}
+\label{lem:characteristics}
 Given $p, q \in Q$ such that $\mathbf{Char}_p = \mathbf{Char}_q$, we have that for all $r \in Q \smallsetminus \{q\}$
 $$\mathbf{Char}'_r = \mathbf{Char}_r~.$$
 \end{lemma}
@@ -939,7 +941,7 @@ $$\mathbf{Char}'_r = \mathbf{Char}_r~.$$
 \begin{proof}
 Observe that the automaton $\mathcal{A}$ together with the strategy it determines can be seen as a Markov Chain.
 %TODO premenovat $f$ a $g$ na $r$ a $s$
-Indeed, when the game is in a state $f$, the next state $g$ is chosen with probability $\sum_{u \in U, g = \delta(f, u)} \xi(f)(u)$.
+Indeed, when the play is in a state $f$, the next state $g$ is chosen with probability $\sum_{u \in U, g = \delta(f, u)} \xi(f)(u)$.
 %TODO remove the reasoning
 This is because the next node $u$ visited by the defender is selected based on $\xi(f)$, and $g$ is determined by $\delta(f, u)$.
 
@@ -957,7 +959,7 @@ The idea of the proof is that the characteristics of a state $r$ are completely 
 %\end{itemize}
 %\vspace{-35pt}
 %\begin{itemize}[noitemsep, label=(2)]
-%	\item the characteristics of all the states to which there is a transition from $r$ under particular node $u$.
+%	\item the characteristics of all the states to which there is a transition from $r$ under a particular node $u$.
 %\end{itemize}
 %\vspace{-20pt}
 \
@@ -987,15 +989,22 @@ For $2 \leq k \leq d$ we have
 \end{itemize}
 \vspace{-5pt}
 \end{proof}
-%TODO
-Note that the case $k = 1$ in the proof is just a special case of the latter case as $\mathbf{Char}_{\delta(r, u)}(0, v) = 0$ for all $u \neq v$.
+%\begin{remark}
+%\textsl{Remark 1.~}
+%Note that the case $k = 1$ in the proof is just a special case of the latter case as $\mathbf{Char}_{\delta(r, u)}(0, v) = 0$ for all $u \neq v$.
+%\end{remark}
+
+Lemma \ref{lem:characteristics} shows that removal of one of the "equivalent" states does not influence the characteristics of the other states.
+Of great importance is that the lemma holds also for the reduced automaton $\mathcal{A}_{p \leftarrow q}$.
+Indeed, the proof is based only on general properties of the characteristics and the definition of $\mathcal{A}_{p \leftarrow q}$.
+This means we can repeat the process of removing equivalent states until all the states have different characteristics.
 
 \
 
 For every state $p \in Q$, we define the value of its characteristics by $val(\mathbf{Char}_p) = \min_{t \in T} \mathbf{Char}_p(d, t)$.
 Note that for $p = \mathcal{A}[h]$ for some history $h$, %and $\iota$ is the strategy determined by $\mathcal{A}$
 we have that $val(\mathbf{Char}_p) = att\text{-}val(\sigma_\epsilon^{reg} \mid h)$.
-
+In other words, if the attacker attacks when the play is in a state $p$, he is caught with probability $val(\mathbf{Char}_p)$.
 
 %crucial that if there is a transition from $c_1$ to $c_2$ under $u$, then $c_2(0, u) = 1$.
 
