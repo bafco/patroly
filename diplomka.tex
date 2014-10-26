@@ -68,6 +68,7 @@ patrolling games, game theory, complexity, algorithm, oriented graphs, blablabla
 \pagestyle{plain}
 
 %TODO male pismena v nazvoch/nadpisoch
+%TODO pisat bodky/ciarky za rovnicami?
 \chapter{Introduction}
 
 Blablabla
@@ -826,11 +827,26 @@ att\text{-}val(\sigma_\epsilon \mid h)
   &\geq val(\sigma \mid h) - \epsilon\label{eq1:second} \\
   &= val(\sigma) - \epsilon\label{eq1:third}~.
 \end{align}
-\begin{itemize}[noitemsep, label=--]
-	\item \eqref{eq1:first}
+\begin{itemize}[noitemsep]
+	\item To prove the first inequality, we have to analyze the impact of the rounding in the definition of $\sigma_\epsilon$.
+Denote by $R[\iota, u, t, k]$ the probability of reaching $t \in T$ from $u \in U$ in up to $k$ steps using the strategy $\iota$.
+Note that
+$$att\text{-}val(\iota \mid h) = \inf_{t \in T} R[\iota_h, last(h), t, d]~.$$
+Also remember that for all $h \in \mathcal{H}$ and $u \in U$ we have
+$$|\sigma(h)(u) - \sigma_\epsilon(h)(u)| < t~.$$
+We prove by induction that
+\begin{align}
+| R[\sigma_h, last(h), t, k] - R[{\sigma_\epsilon}_h, last(h), t, k]| \leq k|U|t\label{eq:induction}
+\end{align}
+and therefore
+$$| att\text{-}val(\sigma_\epsilon \mid h) - att\text{-}val(\sigma \mid h) \leq d|U|t \leq \epsilon~.$$
+
+%TODO To prove \eqref{eq:induction}
+
+
 	\item The inequality \eqref{eq1:second} clearly holds as restricting the attacker to attack immediately cannot decrease the value of the game.
 Formally, it follows from the fact that $D_{last(h)}[t] = D_{last(h)}[\pi]$ for $\pi(last(h)) = t$.
-	\item The equality \eqref{eq1:third} follows from Lemma \ref{lem:value}.
+	\item The equality \eqref{eq1:third} directly follows from Lemma \ref{lem:value} as $\sigma$ is an optimal strategy and $h \in \mathcal{H}(\sigma)$.
 \end{itemize}
 
 \end{proof}
@@ -1007,7 +1023,7 @@ For $2 \leq k \leq d$ we have
   &= \mathbf{Char}_r(k, v)\label{eq2:fourth}~.
 \end{align}
 \vspace{-20pt}
-\begin{itemize}[noitemsep, label=--]
+\begin{itemize}[noitemsep]
 	\item The equalities \eqref{eq2:first} and \eqref{eq2:fourth} follow directly from the definition of the characteristics. %and the fact that $\mathbf{Char}_{\delta(r, u)}(0, v) = 0$ for all $u \neq v$.
 	\item The equality \eqref{eq2:second} holds by the induction hypothesis.
 	\item To prove the equality \eqref{eq2:third}, note that the only case when $\delta'(r, u) \neq \delta(r, u)$ is when $\delta'(r, u) = p$ and $\delta(r, u) = q$. However, $\mathbf{Char}_p = \mathbf{Char}_q$.
