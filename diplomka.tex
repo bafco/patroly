@@ -465,9 +465,12 @@ Let $\epsilon \geq 0$. A defender's strategy $\sigma^*$ is called \emph{$\epsilo
 A $0$-optimal strategy is called just \emph{optimal}.
 \end{definition}
 
+Note that because only relevant histories can happen, the knowledge that a strategy $\sigma$ is optimal provides no informative value on $\sigma(h)$ for $h \notin \mathcal{H}(\sigma)$.
+This means that even an optimal strategy may "play" anything in histories irrelevant to it.
+
 %TODO preformulovat, prip. presunut inam
-At many places we consider strategies obtained by “forgetting” some initial prefix of the history. Formally,
-for all $h \in \mathcal{H}$ and $\theta \in \Sigma \cup \Pi$, we define a strategy $\theta_h$ by $\theta_h(h') = \theta(hh')$.
+%At many places we consider strategies obtained by “forgetting” some initial prefix of the history.
+%Formally, for all $h \in \mathcal{H}$ and $\theta \in \Sigma \cup \Pi$, we define a strategy $\theta_h$ by $\theta_h(last(h)h') = \theta(hh')$ for all $h' \in U*$.
 
 \section{Examples}
 
@@ -727,7 +730,7 @@ In this section, we look at what happens with a defender's strategy after a hist
 
 \begin{definition}
 Let $\sigma$ be a defender's strategy and $h$ a history.
-We define a strategy $\sigma_h$ by $\sigma_h(last(h)h') = \sigma(hh')$ for all $h' \in N^*$.
+We define a strategy $\sigma_h$ by $\sigma_h(last(h)h') = \sigma(hh')$ for all $h' \in U^*$.
 Further, we define the value of $\sigma$ after the history $h$ has been played by $val(\sigma \mid h) = val_{last(h)}(\sigma_h)$.
 \end{definition}
 
@@ -793,26 +796,43 @@ that $\sigma_\epsilon(h)$ is indeed a probability distribution over $U$, i.e. $\
 Further, when we realize the invariant $0 \leq \sum_{j=1}^{i-1}(\sigma(h)(u_j) - \sigma_\epsilon(h)(u_j)) < t$ holds for all $1 \leq i \leq |U|$, it is easy to see that $|\sigma(h)(u_i) - \sigma_\epsilon(h)(u_i)| < t$.% (for all $i$)
 
 We base the proof of the $\epsilon$-optimality of $\sigma_\epsilon$ on the following two observations.
-First, we observe that whenever the attacker attacks, the defender will capture him using $\sigma$ with probability at least as large as $val(\sigma)$.
+First, it follows from Lemma \ref{lem:value} that whenever the attacker attacks, the defender will capture him using $\sigma$ with probability at least as large as $val(\sigma)$.
 And second, we argue that the probability of capturing the attacker in the same moment using $\sigma_\epsilon$ is at least as large as using $\sigma$ minus $\epsilon$.
 
-To formulate this, let us start with a formal definition of the defender's value against an immediate attack after a given history.
+To formulate this, let us start with a formal definition of the defender's value against an immediate attack after a given relevant history.
 
 \begin{definition}
-Let $\iota$ be a defender's strategy and $h$ a history. We define
-$$att\text{-}val(\iota \mid h) = \inf_{t \in T} \mathcal{P}_{last(h)}^{\iota_h}(D_t)$$
-where $D_t$ is the set of all runs that visit $t$ in the first $d$ steps.
+Let $\iota$ be a defender's strategy and $h \in \mathcal{H}(\iota)$ a history.
+We define
+$$att\text{-}val(\iota \mid h) = \inf_{t \in T} \mathcal{P}_{last(h)}^{\iota_h}(D_{last(h)}[t])$$
+where $D_{last(h)}[t]$ is the set of all runs initiated in $last(h)$ that visit $t$ in the first $d$ steps.
 \end{definition}
 
 %we prove even stronger proposition
+The following lemma states that any attack at any moment is captured using $\sigma_\epsilon$ with probability at least $val(\sigma) - \epsilon$.
 \begin{lemma}
 \label{lem:epsilon}
 %Let $h \in \mathcal{H}(\sigma_\epsilon)$ be a history.
 For every $h \in \mathcal{H}(\sigma_\epsilon)$ we have that $att\text{-}val(\sigma_\epsilon \mid h) \geq val(\sigma) - \epsilon$.
-%$\inf_{h \in \mathcal{H}(\sigma_\epsilon)} att\text{-}val(\sigma_\epsilon \mid h) \geq val(\sigma) - \epsilon$
 \end{lemma}
 
 \begin{proof}
+It follows from the definition of $\sigma_\epsilon$ that whenever $\sigma(h)(u) = 0$, then also $\sigma_\epsilon(h)(u) = 0$.
+This means that any history executable using $\sigma_\epsilon$ is also executable using $\sigma$, i.e. $\mathcal{H}(\sigma_\epsilon) \subseteq \mathcal{H}(\sigma)$.
+Now, knowing that $att\text{-}val(\sigma \mid h)$ is defined if $att\text{-}val(\sigma_\epsilon \mid h)$ is defined, we prove the following:
+\begin{align}
+att\text{-}val(\sigma_\epsilon \mid h)
+  &\geq att\text{-}val(\sigma \mid h) - \epsilon\label{eq1:first} \\
+  &\geq val(\sigma \mid h) - \epsilon\label{eq1:second} \\
+  &= val(\sigma) - \epsilon\label{eq1:third}~.
+\end{align}
+\begin{itemize}[noitemsep, label=--]
+	\item \eqref{eq1:first}
+	\item The inequality \eqref{eq1:second} clearly holds as restricting the attacker to attack immediately cannot decrease the value of the game.
+Formally, it follows from the fact that $D_{last(h)}[t] = D_{last(h)}[\pi]$ for $\pi(last(h)) = t$.
+	\item The equality \eqref{eq1:third} follows from Lemma \ref{lem:value}.
+\end{itemize}
+
 \end{proof}
 
 %TODO zmazat
@@ -822,6 +842,7 @@ $\sigma_\epsilon$ is an $\epsilon$-optimal strategy.
 
 %TODO zmazat
 \begin{proof}
+%$val(\sigma_\epsilon) \geq \inf_{h \in \mathcal{H}(\sigma_\epsilon)} att\text{-}val(\sigma_\epsilon \mid h) \geq val(\sigma) - \epsilon$
 \end{proof}
 
 \textbf{Step 2.}
@@ -980,16 +1001,16 @@ For $k = 1$ we have that $$\mathbf{Char}'_r(1, v) = \xi(r)(v) = \mathbf{Char}_r(
 For $2 \leq k \leq d$ we have
 \begin{align}
 \mathbf{Char}'_r(k, v)
-  &= \xi(r)(v) + \sum_{u \neq v}\xi(r)(u) \cdot \mathbf{Char}'_{\delta'(r, u)}(k - 1, v)\label{eq:first} \\
-  &= \xi(r)(v) + \sum_{u \neq v}\xi(r)(u) \cdot \mathbf{Char}_{\delta'(r, u)}(k - 1, v)\label{eq:second} \\
-  &= \xi(r)(v) + \sum_{u \neq v}\xi(r)(u) \cdot \mathbf{Char}_{\delta(r, u)}(k - 1, v)\label{eq:third} \\
-  &= \mathbf{Char}_r(k, v)\label{eq:fourth}~.
+  &= \xi(r)(v) + \sum_{u \neq v}\xi(r)(u) \cdot \mathbf{Char}'_{\delta'(r, u)}(k - 1, v)\label{eq2:first} \\
+  &= \xi(r)(v) + \sum_{u \neq v}\xi(r)(u) \cdot \mathbf{Char}_{\delta'(r, u)}(k - 1, v)\label{eq2:second} \\
+  &= \xi(r)(v) + \sum_{u \neq v}\xi(r)(u) \cdot \mathbf{Char}_{\delta(r, u)}(k - 1, v)\label{eq2:third} \\
+  &= \mathbf{Char}_r(k, v)\label{eq2:fourth}~.
 \end{align}
 \vspace{-20pt}
 \begin{itemize}[noitemsep, label=--]
-	\item The equalities \eqref{eq:first} and \eqref{eq:fourth} follow directly from the definition of the characteristics. %and the fact that $\mathbf{Char}_{\delta(r, u)}(0, v) = 0$ for all $u \neq v$.
-	\item The equality \eqref{eq:second} holds by the induction hypothesis.
-	\item To prove the equality \eqref{eq:third}, note that the only case when $\delta'(r, u) \neq \delta(r, u)$ is when $\delta'(r, u) = p$ and $\delta(r, u) = q$. However, $\mathbf{Char}_p = \mathbf{Char}_q$.
+	\item The equalities \eqref{eq2:first} and \eqref{eq2:fourth} follow directly from the definition of the characteristics. %and the fact that $\mathbf{Char}_{\delta(r, u)}(0, v) = 0$ for all $u \neq v$.
+	\item The equality \eqref{eq2:second} holds by the induction hypothesis.
+	\item To prove the equality \eqref{eq2:third}, note that the only case when $\delta'(r, u) \neq \delta(r, u)$ is when $\delta'(r, u) = p$ and $\delta(r, u) = q$. However, $\mathbf{Char}_p = \mathbf{Char}_q$.
 \end{itemize}
 \vspace{-5pt}
 \end{proof}
