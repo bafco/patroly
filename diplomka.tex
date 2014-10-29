@@ -783,18 +783,18 @@ Third, using $\theta_\emph{Max}^{ml}$, we construct a DFA which encodes an $\eps
 
 \textbf{Step 1.} Let us fix an optimal defender's strategy $\sigma$, whose existence is guaranteed by Theorem \ref{thm:existence}.
 %For a desired precision $\epsilon$
-We discretize $\sigma$ to obtain a strategy $\sigma_\epsilon$ with all probabilities $\sigma_\epsilon(h)(u)$ being integer multiples of an appropriate number $t$ satisfying \mbox{$t = 1/l$} for some $l \in \mathbb{N}$.
+We discretize $\sigma$ to obtain a strategy $\sigma_\epsilon$ with all probabilities $\sigma_\epsilon(h)(u)$ being integer multiples of an appropriate number $c$ satisfying \mbox{$c = 1/l$} for some $l \in \mathbb{N}$.
 %TODO
 As we will see, to guarantee the $\epsilon$-optimality of $\sigma_\epsilon$, it suffices that $|\sigma(h)(u) - \sigma_\epsilon(h)(u)| \leq {\epsilon\over{|N|d}}$.
-We can guarantee this property for $t = \lceil(|N|d)/\epsilon\rceil^{-1}$ using the following rounding procedure.
+We can guarantee this property for $c = \lceil(|N|d)/\epsilon\rceil^{-1}$ using the following rounding procedure.
 
 Let $U = \{u_1, u_2, \dots, u_{|U|}\}$ be the set of nodes of $\mathcal{G}$.
-For every history $h$ and every $1 \leq i \leq |U|$, we inductively define $\sigma_\epsilon(h)(u_i) = k_i \cdot t$, where $k_i$  is the largest number satisfying
-$$ k_i \cdot t \leq \sigma(h)(u_i) + \sum_{j=1}^{i-1}(\sigma(h)(u_j) - \sigma_\epsilon(h)(u_j))~.$$
+For every history $h$ and every $1 \leq i \leq |U|$, we inductively define $\sigma_\epsilon(h)(u_i) = k_i \cdot c$, where $k_i$  is the largest number satisfying
+$$ k_i \cdot c \leq \sigma(h)(u_i) + \sum_{j=1}^{i-1}(\sigma(h)(u_j) - \sigma_\epsilon(h)(u_j))~.$$
 This rounding procedure guarantees %that the resulting discretized strategy $\sigma_epsilon$ is valid in the sense
 that $\sigma_\epsilon(h)$ is indeed a probability distribution over $U$, i.e. $\sum_{u\in U}\sigma_\epsilon(h)(u) = 1$ (note that simple rounding would not guarantee this property).
 %TODO preformulovat ?
-Further, when we realize the invariant $0 \leq \sum_{j=1}^{i-1}(\sigma(h)(u_j) - \sigma_\epsilon(h)(u_j)) < t$ holds for all $1 \leq i \leq |U|$, it is easy to see that $|\sigma(h)(u_i) - \sigma_\epsilon(h)(u_i)| < t$.% (for all $i$)
+Further, when we realize the invariant $0 \leq \sum_{j=1}^{i-1}(\sigma(h)(u_j) - \sigma_\epsilon(h)(u_j)) < c$ holds for all $1 \leq i \leq |U|$, it is easy to see that $|\sigma(h)(u_i) - \sigma_\epsilon(h)(u_i)| < c$.% (for all $i$)
 
 We base the proof of the $\epsilon$-optimality of $\sigma_\epsilon$ on the following two observations.
 First, it follows from Lemma \ref{lem:value} that whenever the attacker attacks, the defender will capture him using $\sigma$ with probability at least as large as $val(\sigma)$.
@@ -828,27 +828,28 @@ att\text{-}val(\sigma_\epsilon \mid h)
   &= val(\sigma) - \epsilon\label{eq1:third}~.
 \end{align}
 \begin{itemize}[noitemsep]
-	\item To prove the first inequality, we have to analyze the impact of the rounding in the definition of $\sigma_\epsilon$.
+	\item The equality \eqref{eq1:third} directly follows from Lemma \ref{lem:value} as $\sigma$ is an optimal strategy and $h \in \mathcal{H}(\sigma)$.
+	\item The inequality \eqref{eq1:second} clearly holds as restricting the attacker to attack immediately cannot decrease the value of the game.
+Formally, it follows from the fact that $D_{last(h)}[t] = D_{last(h)}[\pi]$ for $\pi(last(h)) = t$.
+	\item To prove the first inequality \eqref{eq1:first}, we have to analyze the impact of the rounding in the definition of $\sigma_\epsilon$.
 Denote by $R[\iota, u, t, k]$ the probability of reaching $t \in T$ from $u \in U$ in up to $k$ steps using the strategy $\iota$.
 Note that
 $$att\text{-}val(\iota \mid h) = \inf_{t \in T} R[\iota_h, last(h), t, d]~.$$
 Also remember that for all $h \in \mathcal{H}$ and $u \in U$ we have
-$$|\sigma(h)(u) - \sigma_\epsilon(h)(u)| < t~.$$
-We prove by induction that
+$$|\sigma(h)(u) - \sigma_\epsilon(h)(u)| < c~.$$
+Using this inequality, we prove by induction on $k$ that
 \begin{align}
-| R[\sigma_h, last(h), t, k] - R[{\sigma_\epsilon}_h, last(h), t, k]| \leq k|U|t\label{eq:induction}
+| R[\sigma_h, last(h), t, k] - R[{\sigma_\epsilon}_h, last(h), t, k]| \leq k|U|c\label{eq1:induction}
 \end{align}
 and therefore
-$$| att\text{-}val(\sigma_\epsilon \mid h) - att\text{-}val(\sigma \mid h) \leq d|U|t \leq \epsilon~.$$
+$$| att\text{-}val(\sigma_\epsilon \mid h) - att\text{-}val(\sigma \mid h)| \leq d|U|c \leq \epsilon~.$$
 
-%TODO To prove \eqref{eq:induction}
+Now, we prove that the inequality \eqref{eq1:induction} holds for all $h \in \mathcal{H}$, $t \in T$, and $k \in \mathbb{N}$. The base case ($k = 1$) is trivial as $R[\iota_h, last(h), u, 1] = \iota(h)(u)$ and $|\sigma(h)(u) - \sigma_\epsilon(h)(u)| < c$.
 
+For $k \geq 2$, we have
+%TODO
 
-	\item The inequality \eqref{eq1:second} clearly holds as restricting the attacker to attack immediately cannot decrease the value of the game.
-Formally, it follows from the fact that $D_{last(h)}[t] = D_{last(h)}[\pi]$ for $\pi(last(h)) = t$.
-	\item The equality \eqref{eq1:third} directly follows from Lemma \ref{lem:value} as $\sigma$ is an optimal strategy and $h \in \mathcal{H}(\sigma)$.
 \end{itemize}
-
 \end{proof}
 
 %TODO zmazat
