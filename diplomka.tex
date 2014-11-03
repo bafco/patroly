@@ -795,6 +795,10 @@ This rounding procedure guarantees %that the resulting discretized strategy $\si
 that $\sigma_\epsilon(h)$ is indeed a probability distribution over $U$, i.e. $\sum_{u\in U}\sigma_\epsilon(h)(u) = 1$ (note that simple rounding would not guarantee this property).
 %TODO preformulovat ?
 Further, when we realize the invariant $0 \leq \sum_{j=1}^{i-1}(\sigma(h)(u_j) - \sigma_\epsilon(h)(u_j)) < c$ holds for all $1 \leq i \leq |U|$, it is easy to see that $|\sigma(h)(u_i) - \sigma_\epsilon(h)(u_i)| < c$.% (for all $i$)
+\begin{proposition}
+\label{prop:difference}
+For all $h \in \mathcal{H}$ and $u \in U$ we have $|\sigma(h)(u) - \sigma_\epsilon(h)(u)| < c$.
+\end{proposition}
 
 We base the proof of the $\epsilon$-optimality of $\sigma_\epsilon$ on the following two observations.
 First, it follows from Lemma \ref{lem:value} that whenever the attacker attacks, the defender will capture him using $\sigma$ with probability at least as large as $val(\sigma)$.
@@ -835,16 +839,15 @@ Formally, it follows from the fact that $D_{last(h)}[t] = D_{last(h)}[\pi]$ for 
 Denote by $R[\iota, u, t, k]$ the probability of reaching $t \in T$ from $u \in U$ in up to $k$ steps using the strategy $\iota$.
 Note that
 $$att\text{-}val(\iota \mid h) = \inf_{t \in T} R[\iota_h, last(h), t, d]~.$$
-Also remember that for all $h \in \mathcal{H}$ and $u \in U$ we have
-$$|\sigma(h)(u) - \sigma_\epsilon(h)(u)| < c~.$$
-Using this inequality, we prove by induction on $k$ that
+Using Proposition \ref{prop:difference}, we prove by induction on $k$ that
 \begin{align}
 | R[\sigma_h, last(h), t, k] - R[{\sigma_\epsilon}_h, last(h), t, k]| \leq k|U|c\label{eq1:induction}
 \end{align}
 and therefore
 $$| att\text{-}val(\sigma_\epsilon \mid h) - att\text{-}val(\sigma \mid h)| \leq d|U|c \leq \epsilon~.$$
 
-Now, we prove that the inequality \eqref{eq1:induction} holds for all $h \in \mathcal{H}$, $t \in T$, and $k \in \mathbb{N}$. The base case ($k = 1$) is trivial as $R[\iota_h, last(h), u, 1] = \iota(h)(u)$ and $|\sigma(h)(u) - \sigma_\epsilon(h)(u)| < c$.
+Now, we prove that the inequality \eqref{eq1:induction} holds for all $h \in \mathcal{H}$, $t \in T$, and $k \in \mathbb{N}$.
+The base case ($k = 1$) directly follows from Proposition \ref{prop:difference} and the fact that $R[\iota_h, last(h), u, 1] = \iota(h)(u)$.
 
 For $k \geq 2$, we have
 %TODO
