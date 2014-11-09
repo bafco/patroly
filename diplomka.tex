@@ -813,6 +813,26 @@ $$att\text{-}val(\iota \mid h) = \inf_{t \in T} \mathcal{P}_{last(h)}^{\iota_h}(
 where $D_{last(h)}[t]$ is the set of all runs initiated in $last(h)$ that visit $t$ in the first $d$ steps.
 \end{definition}
 
+%TODO zmazat, vobec netreba!
+%TODO presunut niekam prec - do apendixu?; je to vskutku "lemma"?
+%In a later proof, we will need this ancillary lemma.
+%%TODO absolutnu hodnotu mi nalavo netreba
+%\begin{lemma}
+%\label{lem:inequality}
+%For all $a, a', b, b' \in [0, 1]$ we have
+%$$|ab - a'b'| \leq |a - a'| + |b - b'|~.$$
+%\end{lemma}
+%
+%\begin{proof}
+%\begin{align}
+%|ab - a'b'| 
+%  &= |ab - a'b + a'b - a'b'| \nonumber\\
+%  &= |b(a - a') + a'(b - b')| \nonumber\\
+%  &\leq b|a - a'| + a'|b - b'|\nonumber~.
+%\end{align}
+%%$|ab - a'b'| = |ab - a'b + a'b - a'b'| = |b(a - a') + a'(b - b')| \leq b|a - a'| + a'|b - b'|$
+%\end{proof}
+
 %we prove even stronger proposition
 The following lemma states that any attack at any moment is captured using $\sigma_\epsilon$ with probability at least $val(\sigma) - \epsilon$.
 \begin{lemma}
@@ -821,6 +841,7 @@ The following lemma states that any attack at any moment is captured using $\sig
 For every $h \in \mathcal{H}(\sigma_\epsilon)$ we have that $att\text{-}val(\sigma_\epsilon \mid h) \geq val(\sigma) - \epsilon$.
 \end{lemma}
 
+%TODO - presunut dokaz niekam inam?
 \begin{proof}
 It follows from the definition of $\sigma_\epsilon$ that whenever $\sigma(h)(u) = 0$, then also $\sigma_\epsilon(h)(u) = 0$.
 This means that any history executable using $\sigma_\epsilon$ is also executable using $\sigma$, i.e. $\mathcal{H}(\sigma_\epsilon) \subseteq \mathcal{H}(\sigma)$.
@@ -841,29 +862,26 @@ Note that
 $$att\text{-}val(\iota \mid h) = \inf_{t \in T} R[\iota, h, t, d]~.$$
 Using Lemma \ref{lem:difference}, we prove by induction on $k$ that
 \begin{align}
-| R[\sigma, h, t, k] - R[\sigma_\epsilon, h, t, k]| \leq k|U|c\label{eq1:induction}
+R[\sigma, h, t, k] - R[\sigma_\epsilon, h, t, k] \leq k|U|c\label{eq1:induction}
 \end{align}
 and therefore
-$$| att\text{-}val(\sigma_\epsilon \mid h) - att\text{-}val(\sigma \mid h)| \leq d|U|c \leq \epsilon~.$$
+$$att\text{-}val(\sigma \mid h) - att\text{-}val(\sigma_\epsilon \mid h) \leq d|U|c \leq \epsilon~.$$
 
 Finally, we prove that the inequality \eqref{eq1:induction} holds for all $h \in \mathcal{H}$, $t \in T$, and $k \in \mathbb{N}$.
 The base case ($k = 1$) directly follows from Lemma \ref{lem:difference} and the fact that $R[\iota, h, u, 1] = \iota(h)(u)$.
 
-For $k \geq 2$, we have
+For $k \geq 2$, from the definition of $R[\iota, h, t, k]$ we have
+$$R[\iota, h, t, k] = \sum_{u \in U} \iota(h)(u) \cdot R[\iota, hu, t, k - 1]~.$$
+
+%From Lemma \ref{lem:inequality}
 %TODO
 
 \end{itemize}
 \end{proof}
 
-%TODO zmazat
-\begin{proposition}
-$\sigma_\epsilon$ is an $\epsilon$-optimal strategy.
-\end{proposition}
-
-%TODO zmazat
-\begin{proof}
-%$val(\sigma_\epsilon) \geq \inf_{h \in \mathcal{H}(\sigma_\epsilon)} att\text{-}val(\sigma_\epsilon \mid h) \geq val(\sigma) - \epsilon$
-\end{proof}
+A trivial implication of Lemma \ref{lem:epsilon} is that 
+$\sigma_\epsilon$ is an $\epsilon$-optimal strategy,
+as $val(\sigma_\epsilon) \geq \inf_{h \in \mathcal{H}(\sigma_\epsilon)} att\text{-}val(\sigma_\epsilon \mid h) \geq val(\sigma) - \epsilon$.
 
 \textbf{Step 2.}
 According to Lemma \ref{lem:translation}, we can translate the strategy $\sigma_\epsilon$ in $\mathcal{G}$ to a strategy $\theta_{\emph{Max}} := \theta_{\emph{Max}}[\sigma_\epsilon]$ in $\mathcal{S}$ such that
