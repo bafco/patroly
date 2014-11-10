@@ -858,23 +858,38 @@ att\text{-}val(\sigma_\epsilon \mid h)
 Formally, it follows from the fact that $D_{last(h)}[t] = D_{last(h)}[\pi]$ for $\pi(last(h)) = t$.
 	\item To prove the first inequality \eqref{eq1:first}, we have to analyze the impact of the rounding in the definition of $\sigma_\epsilon$.
 Denote by $R[\iota, h, t, k]$ the probability of reaching $t \in T$ from $last(h), h \in \mathcal{H}$ in up to $k$ steps using the strategy $\iota_h$.
-Note that
-$$att\text{-}val(\iota \mid h) = \inf_{t \in T} R[\iota, h, t, d]~.$$
-Using Lemma \ref{lem:difference}, we prove by induction on $k$ that
+We prove by induction on $k$ that for all $h \in \mathcal{H}$, $t \in T$, and $k \in \mathbb{N}_0$ we have that
 \begin{align}
-R[\sigma, h, t, k] - R[\sigma_\epsilon, h, t, k] \leq k|U|c\label{eq1:induction}
+R[\sigma, h, t, k] - R[\sigma_\epsilon, h, t, k] \leq k|U|c~.\label{eq1:induction}
 \end{align}
-and therefore
-$$att\text{-}val(\sigma \mid h) - att\text{-}val(\sigma_\epsilon \mid h) \leq d|U|c \leq \epsilon~.$$
 
-Finally, we prove that the inequality \eqref{eq1:induction} holds for all $h \in \mathcal{H}$, $t \in T$, and $k \in \mathbb{N}$.
-The base case ($k = 1$) directly follows from Lemma \ref{lem:difference} and the fact that $R[\iota, h, u, 1] = \iota(h)(u)$.
+%The base case ($k = 1$) directly follows from Lemma \ref{lem:difference} and the fact that $R[\iota, h, u, 1] = \iota(h)(u)$.
+The base case ($k = 0$) clearly holds as the value $R[\iota, h, u, 0]$ is independent of the strategy $\iota$ --- it is $1$ if $last(h) = u$, and it is $0$ otherwise.
 
-For $k \geq 2$, from the definition of $R[\iota, h, t, k]$ we have
-$$R[\iota, h, t, k] = \sum_{u \in U} \iota(h)(u) \cdot R[\iota, hu, t, k - 1]~.$$
+For $k \geq 1$, we have
+\begin{align}
+%TODO double-check once it is splitted across multiple lines
+R[\sigma, h, t, k] - R[\sigma_\epsilon, h, t, k]
+  &= \sum_{u\in U}\sigma(h)(u)\cdot R[\sigma, hu, t, k - 1]
+- \sigma_\epsilon(h)(u)\cdot R[\sigma_\epsilon, hu, t, k - 1]	\label{eq1b:first} \\
+  &= \sum_{u\in U} R[\sigma, hu, t, k - 1]\cdot (\sigma(h)(u) - \sigma_\epsilon(h)(u))
++ \sigma_\epsilon(h)(u))\cdot (R[\sigma, hu, t, k - 1] - R[\sigma_\epsilon, hu, t, k - 1])	\label{eq1b:second} \\
+  &\leq \sum_{u\in U} R[\sigma, hu, t, k - 1]\cdot c
++ \sum_{u\in U} \sigma_\epsilon(h)(u)\cdot (k - 1)|U|c	\label{eq1b:third} \\
+  &\leq |U|c + (k - 1)|U|c	\label{eq1b:fourth} \\
+  &\leq k|U|c\label{eq1b:fifth}~.
+\end{align}
+
+% It follows from the definition of $R[\iota, h, t, k]$ that 
+- By definition, we have $R[\iota, h, t, k] = \sum_{u \in U} \iota(h)(u) \cdot R[\iota, hu, t, k - 1]$.
 
 %From Lemma \ref{lem:inequality}
 %TODO
+
+Note that
+$$att\text{-}val(\iota \mid h) = \inf_{t \in T} R[\iota, h, t, d]$$
+and therefore
+$$att\text{-}val(\sigma \mid h) - att\text{-}val(\sigma_\epsilon \mid h) \leq d|U|c \leq \epsilon~.$$
 
 \end{itemize}
 \end{proof}
