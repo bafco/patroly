@@ -994,6 +994,8 @@ The current location of the defender is determined by the only node $u$ for whic
 
 \
 
+%TODO namiesto $Q_0'$ napisat v definicii automatu rovno $Q_0 \smallsetminus \{q\}$
+%IDEA pripadne zadefinovat $Q'$
 Given $q \in Q$, we denote by $\mathcal{A}_{p \leftarrow q} = (Q_0', U, \delta', q_0, \{\})$ the DFA defined as follows:
 \vspace{-5pt}
 \begin{itemize}[noitemsep]
@@ -1008,15 +1010,17 @@ Given $q \in Q$, we denote by $\mathcal{A}_{p \leftarrow q} = (Q_0', U, \delta',
 
 Intuitively, $\mathcal{A}_{p \leftarrow q}$ is obtained from $\mathcal{A}$ by redirecting all transitions going to $q$ to $p$ and then removing $q$.
 
-This change in the transition function might influence the characteristics of the states from which $q$ was reachable in less than $d$ steps.
-%To be able to distinguish between the old and new characteristics of a state $r$,
-For $r \in Q$, we denote by $\mathbf{Char}'_r$ the characteristics of $r$ in the automaton $\mathcal{A}_{p \leftarrow q}$.
+In general, this change in the transition function might influence the characteristics of the states from which $q$ was reachable in less than $d$ steps.
+%However, we prove that the states' characteristics are preserved if the two merged states have the same characteristics.
+%For $r \in Q \smallsetminus \{q\}$, we denote by $\mathbf{Char}'_r$ the characteristics of $r$ in the automaton $\mathcal{A}_{p \leftarrow q}$.
+However, the states' characteristics are preserved if the two merged states have the same characteristics, as is formulated in the following lemma.
 
 %IDEA - The following lemma states that ...
 \begin{lemma}
 \label{lem:characteristics}
 Given $p, q \in Q$ such that $\mathbf{Char}_p = \mathbf{Char}_q$, we have that for all $r \in Q \smallsetminus \{q\}$
-$$\mathbf{Char}'_r = \mathbf{Char}_r~.$$
+$$\mathbf{Char}'_r = \mathbf{Char}_r$$
+where $\mathbf{Char}'_r$ denotes the characteristics of $r$ in the automaton $\mathcal{A}_{p \leftarrow q}$.
 \end{lemma}
 
 \begin{proof}
@@ -1031,7 +1035,7 @@ That means that although the states of $\mathcal{A}$ are $d$-commitments, only t
 The idea of the proof is that the characteristics of a state $r$ are completely determined by
 (1) the probability distribution in its root and by
 %, by the transitions from it,
-(2) the characteristics of all the states to which there is a transition from $r$ under particular node~$u$.
+(2) the characteristics of all the states to which there is a transition from $r$ under a particular node~$u$.
 \
 %TODO dat to ako odrazky?
 %\vspace{-20pt}
@@ -1053,7 +1057,6 @@ For $k = 0$ this clearly holds as the root of any state remains unchanged.
 
 Now all we need is to realize that $\xi(r)$ is the same in both $\mathcal{A}$ and $\mathcal{A}_{p \leftarrow q}$.
 For $k = 1$ we have that $$\mathbf{Char}'_r(1, v) = \xi(r)(v) = \mathbf{Char}_r(1, v)~.$$
-
 For $2 \leq k \leq d$ we have
 \begin{align}
 \mathbf{Char}'_r(k, v)
@@ -1077,7 +1080,7 @@ For $2 \leq k \leq d$ we have
 
 Lemma \ref{lem:characteristics} shows that removal of one of the "equivalent" states does not influence the characteristics of the other states.
 Of great importance is that the lemma holds also for the reduced automaton $\mathcal{A}_{p \leftarrow q}$.
-Indeed, the proof is based only on general properties of the characteristics and the definition of $\mathcal{A}_{p \leftarrow q}$.
+Indeed, the proof is based only on general properties of the characteristics and on the definition of $\mathcal{A}_{p \leftarrow q}$.
 %This justifies us to
 This means we can repeat the process of removing equivalent states until all the states have mutually different, yet still unchanged characteristics.
 
