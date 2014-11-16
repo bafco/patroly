@@ -769,7 +769,7 @@ In order to formalize this concept, we define a \emph{regular} strategy.
 %TODO foonote? %We prefer the definition from... for its simplicity.
 %We use the definition from \cite{iti2} as we find the definition from \cite{iti1} too complex for our purposes.
 %As stated in / According to \cite{iti2}
-A defender’s strategy $\sigma$ is \emph{regular} if there is a deterministic finite-state automaton (DFA) $\mathcal{A}$ over the alphabet $U$ (the nodes) such that $\sigma(h)$ depends only on the control state entered by $\mathcal{A}$ after reading $h$ \cite{iti2}.
+A defender’s strategy $\sigma$ is \emph{regular} if there is a deterministic finite-state automaton (DFA) $\mathcal{A}$ over the alphabet $U$ (the set of nodes) such that $\sigma(h)$ depends only on the control state entered by $\mathcal{A}$ after reading $h$ \cite{iti2}.
 %TODO zacitovat to nejak?
 
 In the rest of this section, we prove the existence of a regular $\epsilon$-optimal defender's strategy.
@@ -944,15 +944,15 @@ i.e. $\sigma_\epsilon^{reg}$ is $\epsilon$-optimal.
 
 %%%%%%%%%%%
 %COMMENT OUT
-%The following observation follows from Lemma \ref{lem:epsilon} and the properties of the translation process from $\mathcal{G}$ to $\mathcal{S}$.
+Before we move to the next section, we show one important observation about the states of the automaton $\mathcal{A}$.
+Based on the properties of the translation process from $\mathcal{G}$ to $\mathcal{S}$, we know that $\theta_{\emph{Max}}$ encodes exactly the same defender's strategy as $\sigma_\epsilon$.
+When we realize that $Q$ is the set of all $d$-commitments $f$ occuring in vertices of $\mathbf{Reach}(\theta_\emph{Max})$, it is easy to get the following statement using Lemma \ref{lem:epsilon}.
 
-%Realizing that $Q$ is the set of all $d$-commitments $f$ occuring in vertices of $\mathbf{Reach}(\theta_\emph{Max})$:
-%TODO treba mi to?
-%\begin{lemma}
-%\label{lem:epsilon_commitment}
-%%All $d$-commitments $f$ occuring in vertices of $\mathbf{Reach}(\theta_\emph{Max})$ satisfy
-%For every $d$-commitment $f \in Q$, we have that $val(f) \geq val(\sigma) - \epsilon$.
-%\end{lemma}
+\begin{lemma}
+\label{lem:epsilon_commitment}
+%All $d$-commitments $f$ occuring in vertices of $\mathbf{Reach}(\theta_\emph{Max})$ satisfy
+For every $d$-commitment $f \in Q$, we have that $val(f) \geq val(\sigma) - \epsilon$.
+\end{lemma}
 
 %%TODO pozmenit to tu cele - vratane predchadzajucich Lemmatov
 %From the definitions of $\delta$ and $\sigma_\epsilon^{reg}$ it follows that
@@ -1015,7 +1015,6 @@ In general, this change in the transition function might influence the character
 %For $r \in Q \smallsetminus \{q\}$, we denote by $\mathbf{Char}'_r$ the characteristics of $r$ in the automaton $\mathcal{A}_{p \leftarrow q}$.
 However, the states' characteristics are preserved if the two merged states have the same characteristics, as is formulated in the following lemma.
 
-%IDEA - The following lemma states that ...
 \begin{lemma}
 \label{lem:characteristics}
 Given $p, q \in Q$ such that $\mathbf{Char}_p = \mathbf{Char}_q$, we have that for all $r \in Q \smallsetminus \{q\}$
@@ -1084,12 +1083,33 @@ Indeed, the proof is based only on general properties of the characteristics and
 %This justifies us to
 This means we can repeat the process of removing equivalent states until all the states have mutually different, yet still unchanged characteristics.
 
-\
+Let us denote by $\mathcal{A}_{red}$ %= (Q_{red} \cup \{q_0\}, U, \delta_{red}, q_0, \{\})$
+the resulting automaton which cannot be further reduced by applying Lemma \ref{lem:characteristics}.\footnote{BLABLABLA non-deterministic} %TODO
+We denote by $Q_{red}$ the set of non-initial states of $\mathcal{A}_{red}$ (without $q_0$) and
+by $\sigma_{red}$ the defender's strategy determined by $\mathcal{A}_{red}$.
+%By comparing the automata $\mathcal{A}$ and $\mathcal{A}_{red}$, we will now prove that $\sigma_{red}$ is $\epsilon$-optimal.
+In what follows, we prove that $\sigma_{red}$ is $\epsilon$-optimal.
 
-For every state $p \in Q$, we define the value of its characteristics by $val(\mathbf{Char}_p) = \min_{t \in T} \mathbf{Char}_p(d, t)$.
-Note that for $p = \mathcal{A}[h]$ for some history $h$, %and $\iota$ is the strategy determined by $\mathcal{A}$
-we have that $val(\mathbf{Char}_p) = att\text{-}val(\sigma_\epsilon^{reg} \mid h)$.
-In other words, if the attacker attacks when the play is in a state $p$, he is caught with probability $val(\mathbf{Char}_p)$.
+We start by defining the probability of detecting an immediate attack when the play is in a state $p$.
+\begin{definition}
+Given a state $p \in Q$, we define the value of its characteristics by $$val(\mathbf{Char}_p) = \min_{t \in T} \mathbf{Char}_p(d, t)~.$$
+\end{definition}
+
+%Consider the automaton $\mathcal{A}$ and some $d$-commitment $p \in Q$.
+%Based on the definition of $\mathcal{A}$ and $\sigma_\epsilon^{reg}$, the next $d$ steps of the play are completely determined by $p$.
+%TODO vypustit historiu $h$, ak ju nepotrebujem
+%Note that for a $d$-commitment $p = \mathcal{A}[h]$ for some history $h$, we have that $val(\mathbf{Char}_p) = val(p)$. %att\text{-}val(\sigma_\epsilon^{reg} \mid h)$.
+%In other words, if the attacker attacks when the play is in a state $p$, he is caught with probability $val(\mathbf{Char}_p)$.
+
+\begin{lemma}
+For each state $p \in Q_{red}$ we have $val(\mathbf{Char}_p) \geq val(\sigma) - \epsilon$.
+\end{lemma}
+\begin{proof}
+Recall that the states are $d$-commitments and each state of the automaton $\mathcal{A}$ completely determines the next $d$ steps of the defender's strategy.\footnote{This is not true for the automaton $\mathcal{A}_{red}$ where each state determines only the next step of the defender's strategy, and the latter steps cannot be determined without the transition function.}
+Therefore, we have that $val(\mathbf{Char}_q) = val(q)$ for each $d$-commitment $q \in Q$.
+Further, from Lemma \ref{lem:epsilon_commitment} we have that $val(q) \geq val(\sigma) - \epsilon$ for each $q \in Q$.
+However, $Q_{red} \subseteq Q$ and the characteristics of $p$ are the same in both $\mathcal{A}$ and $\mathcal{A}_{red}$ based on Lemma \ref{lem:characteristics}.
+\end{proof}
 
 %crucial that if there is a transition from $c_1$ to $c_2$ under $u$, then $c_2(0, u) = 1$.
 
@@ -1165,7 +1185,7 @@ In other words, if the attacker attacks when the play is in a state $p$, he is c
 \bibitem{miso} M. Abaffy. Patrolling Games on Graphs [online]. 2013 [cit. 2014-05-10] ??? Diploma thesis. Masaryk University, Faculty of Informatics. Available at $<$http://is.muni.cz/th/321758/fi\texttt{\us}m/$>$.
 %TODO
 
-\bibitem{iti1} M. Abaffy, T. Brázdil, V. Øehák, B. Bošanský, A. Kuèera, and J. Krèál. Solving Adversarial Patrolling Games with Bounded Error. Online: ???
+\bibitem{iti1} M. Abaffy, T. Brázdil, V. Øehák, B. Bošanský, A. Kuèera, and J. Krèál. Solving Adversarial Patrolling Games with Bounded Error. Online: ??? $<$http://goo.gl/ueKS79$>$
 %TODO
 
 \bibitem{iti2} T. Brázdil, P. Hlinìný, A. Kuèera, and V. Øehák. Optimal Strategies in Adversarial Patrolling Games. Online: ???
