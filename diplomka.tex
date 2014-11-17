@@ -4,7 +4,7 @@
 \usepackage[cp1250]{inputenc}
 \usepackage[IL2]{fontenc}
 \usepackage[plainpages=false, pdfpagelabels, hidelinks]{hyperref}
-\usepackage{amsmath, amssymb, graphicx, amsthm, amsfonts, enumitem, algpseudocode, algorithmicx, wasysym, fixltx2e, float}
+\usepackage{amsmath, amssymb, graphicx, amsthm, amsfonts, enumitem, algpseudocode, algorithmicx, wasysym, fixltx2e, float, etoolbox}
 
 \usepackage{tikz}
 \tikzset{ every node/.style={circle,fill=gray!15,draw,minimum size=1.5em,inner sep=2.5pt}}
@@ -22,6 +22,7 @@
 \newtheorem{proposition}[thm]{Proposition}
 \newtheorem{corollary}[thm]{Corollary}
 \newtheorem{definition}[thm]{Definition}
+\AfterEndEnvironment{definition}{\noindent\ignorespaces}
 
 \theoremstyle{definition}
 \newtheorem{example}[thm]{Example}
@@ -170,7 +171,7 @@ Patrol units move about the system and fine fare-evading passangers.
 The optimization objective is to maximize the total revenue (ticket sales plus fines) to the government.
 In \cite{trusts2}, the authors extend the TRUSTS system to incorporate also crime prevention and counter-terrorism.
 
-\section{Patrolling Games}
+\section{Introduction to Patrolling Games}
 \label{sec:PG}
 
 In this section, we introduce the concept of patrolling games in general and we give a simplified motivational example of what it might look like in real life.
@@ -386,7 +387,7 @@ The authors provide an efficient linear program called CASS (Solver for Continuo
 %TODO - tabulka!
 
 
-\chapter{Preliminaries}
+\chapter{Patrolling Games}
 
 The definitions we use herein are from \cite{iti1, iti2}. Although we use the model from \cite{iti1}\footnote{In \cite{iti1}, in contrast to \cite{iti2}, not all nodes are necessarily targets and the attack length is unified.}, we prefer some of the novel syntax introduced in \cite{iti2}.
 
@@ -414,7 +415,6 @@ We denote the set of all probability distributions over $S$ by $\Delta(S)$.
 \begin{definition}
 A \emph{patrolling game} is a tuple $\mathcal{G} = (U, E, T, \hat{u}, d)$ where $U$ is a finite set of \emph{nodes}, $E \subseteq U \times U$ is a set of \emph{edges}, $T \subseteq U$ is a set of \emph{target nodes}, $\hat{u} \in T$ is the \emph{initial node} and $d$ is the \emph{attack length}.
 \end{definition}
-
 The pair $(U, E)$ is the directed graph on which the game $\mathcal{G}$ is played. 
 Given a node $u \in U$, we define $succ(u) := \{v \in U \mid (u, v) \in E\}$ to be the set of all \emph{successors} of $u$.
 A \emph{path} is a finite or infinite word $w \in U^* \cup U^{\omega}$ such that $w_{i+1}$ is a successor of $w_i$ for all $0 \leq i < |w|$.
@@ -433,9 +433,8 @@ The set of all defender's strategies is denoted by $\Sigma$.
 An \emph{attacker's strategy} is a function $\pi : \mathcal{H} \to T \cup \{\perp\}$ such that whenever $\pi(h) \neq$ $\perp$, then for all $h' \prec h$ we have that $\pi(h') =$ $\perp$.
 The set of all attacker's strategies is denoted by $\Pi$.
 \end{definition}
-
 Let us stop for a while and intuitively explain the meaning of players' strategies.
-In any part of the game, the actual history describes the order of the nodes which were already visited by the defender.
+In any moment of the play, the actual history describes the order of the nodes which were already visited by the defender.
 After following a history $h$, the defender randomly chooses the next node according to the distribution $\sigma(h)$. At the same time, the attacker chooses whether to attack a target $t$ ($\pi(h) = t$), or wait ($\pi(h) =$ $\perp$).
 Note that the attacker can attack only once during a play.
 Also note that $\Pi$ contains only pure strategies, i.e. the attacker cannot randomize.
@@ -583,12 +582,9 @@ A \emph{stochastic game} is a tuple $\mathcal{S} = (V, (V_{\emph{Min}}, V_{\emph
 The reason why actions are defined as real-valued vectors of a fixed dimension might not be clear at the moment.
 Such a set of actions satisfies some conditions which are used later to prove the existence of an optimal strategy for player \emph{Max}.}, $\mathbf{E} : V \to 2^A$ assigns to each vertex a set of \emph{enabled actions}, and $\mathbf{P} : V \times A \to \Delta(V)$ assigns to each $(v, a) \in V \times A$ a discrete probability distribution over $V$ with finite support.
 %TODO: each $(v, a), v \in V, a \in E(v)$ 
-
 \end{definition}
 %nikde ziaden zaciatocny stav!!!
-
 %TODO: $P(v, a)$ is relevant only for $a \in E(v)$
-
 A stochastic game $\mathcal{S}$ is played between two players, \emph{Min} and \emph{Max}.
 A play of $\mathcal{S}$ starts in some vertex $u \in V$ and then proceeds to other vertices based on the actions chosen.
 Player $\bigcirc \in \{\emph{Min}, \emph{Max}\}$ chooses actions in the vertices of $V_\bigcirc$.
@@ -716,7 +712,7 @@ Combining the upper two paragraphs, we get:
 The defender has an optimal strategy in $\mathcal{G}$.
 \end{thm}
 
-For details of the translation process and the mentioned proofs, see \cite{iti1}.
+For details of the translation process and the omitted proofs, see \cite{iti1}.
 
 \chapter{Main Result}
 %TODO chapter intro
@@ -744,9 +740,9 @@ Let $\sigma \in \Sigma$ be an optimal defender's strategy and $h \in \mathcal{H}
 We have that $val(\sigma \mid h) = val(\sigma)$.
 \end{lemma}
 %Note that $val(\sigma \mid h \hat{u}) = val_{\hat{u}}(\sigma_{h\hat{u}}) \leq val(\sigma)$.
-
 %TODO - proof? druha cast sa moze zist pri dokazovani pre multiple robots
 %\begin{proof}
+\noindent
 Full proof of this lemma can be found in \cite{iti1}.
 Herein, we just broadly describe the structure and basic idea of the proof.
 First, it is shown by contradiction that $val(\sigma \mid h) \leq val(\sigma)$ for all $h \in \mathcal{H}(\sigma)$.
@@ -1065,15 +1061,15 @@ For $2 \leq k \leq d$ we have
 %\textsl{Remark 1.~}
 %Note that the case $k = 1$ in the proof is just a special case of the latter case as $\mathbf{Char}_{\delta(r, u)}(0, v) = 0$ for all $u \neq v$.
 %\end{remark}
-
+\noindent
 Lemma \ref{lem:characteristics} shows that removal of one of the "equivalent" states does not influence the characteristics of the other states.
 Of great importance is that the lemma holds also for the reduced automaton $\mathcal{A}_{p \leftarrow q}$.
 Indeed, the proof is based only on general properties of the characteristics and on the definition of $\mathcal{A}_{p \leftarrow q}$.
 %This justifies us to
 This means we can repeat the process of removing equivalent states until all the states have mutually different, yet still unchanged characteristics.
 
-Let us denote by $\mathcal{A}_{red}$ %= (Q_{red} \cup \{q_0\}, U, \delta_{red}, q_0, \{\})$
-the resulting automaton which cannot be further reduced by applying Lemma \ref{lem:characteristics}.\footnote{BLABLABLA non-deterministic} %TODO
+Let us fix and denote by $\mathcal{A}_{red}$ %= (Q_{red} \cup \{q_0\}, U, \delta_{red}, q_0, \{\})$
+the resulting automaton which cannot be further reduced by applying Lemma \ref{lem:characteristics}.\footnote{Note that the process of merging equivalent states is non-deterministic, so the resulting reduced automaton is not uniquely determined.}
 We denote by $Q_{red}$ the set of non-initial states of $\mathcal{A}_{red}$ (without $q_0$) and
 by $\sigma_{red}$ the defender's strategy determined by $\mathcal{A}_{red}$.
 %By comparing the automata $\mathcal{A}$ and $\mathcal{A}_{red}$, we will now prove that $\sigma_{red}$ is $\epsilon$-optimal.
@@ -1083,6 +1079,7 @@ We start by defining the probability of detecting an immediate attack when the p
 \begin{definition}
 Given a state $p \in Q$, we define the value of its characteristics by $$val(\mathbf{Char}_p) = \min_{t \in T} \mathbf{Char}_p(d, t)~.$$
 \end{definition}
+Note that $att\text{-}val(\sigma_{red} \mid h) = val(\mathbf{Char}_p)$ where $p = \mathcal{A}[h]$.
 
 %Consider the automaton $\mathcal{A}$ and some $d$-commitment $p \in Q$.
 %Based on the definition of $\mathcal{A}$ and $\sigma_\epsilon^{reg}$, the next $d$ steps of the play are completely determined by $p$.
@@ -1091,14 +1088,29 @@ Given a state $p \in Q$, we define the value of its characteristics by $$val(\ma
 %In other words, if the attacker attacks when the play is in a state $p$, he is caught with probability $val(\mathbf{Char}_p)$.
 
 \begin{lemma}
-For each state $p \in Q_{red}$ we have $val(\mathbf{Char}_p) \geq val(\sigma) - \epsilon$.
+\label{lem:char_value}
+For each state $p \in Q$ we have $val(\mathbf{Char}_p) \geq val(\sigma) - \epsilon$.
 \end{lemma}
 \begin{proof}
 Recall that the states are $d$-commitments and each state of the automaton $\mathcal{A}$ completely determines the next $d$ steps of the defender's strategy.\footnote{This is not true for the automaton $\mathcal{A}_{red}$ where each state determines only the next step of the defender's strategy, and the latter steps cannot be determined without the transition function.}
-Therefore, we have that $val(\mathbf{Char}_q) = val(q)$ for each $d$-commitment $q \in Q$.
-Further, from Lemma \ref{lem:epsilon_commitment} we have that $val(q) \geq val(\sigma) - \epsilon$ for each $q \in Q$.
-However, $Q_{red} \subseteq Q$ and the characteristics of $p$ are the same in both $\mathcal{A}$ and $\mathcal{A}_{red}$ based on Lemma \ref{lem:characteristics}.
+Therefore, we have that $val(\mathbf{Char}_p) = val(p)$.
+However, $val(p) \geq val(\sigma) - \epsilon$ according to Lemma \ref{lem:epsilon_commitment}.
 \end{proof}
+
+As $Q_{red} \subseteq Q$ and the characteristics of all the states in $\mathcal{A}_{red}$ are the same as in $\mathcal{A}$ (see Lemma \ref{lem:characteristics}), Lemma \ref{lem:char_value} provides a lower bound on the value of the characteristics of all the states of the automaton $\mathcal{A}_{red}$.
+It follows that
+\begin{align*}
+val(\sigma_{red})
+  &\geq \inf_{h \in \mathcal{H}(\sigma_{red})} att\text{-}val(\sigma_{red} \mid h) \\
+  &= \inf_{h \in \mathcal{H}(\sigma_{red})} val(\mathbf{Char}_{\mathcal{A}[h]}) \\
+  &\geq \inf_{p \in Q_{red}} val(\mathbf{Char}_p) \\
+  &= \inf_{p \in Q_{red}} val(p) \\
+  &\geq val(\sigma) - \epsilon~.
+\end{align*}
+
+\begin{proposition}
+$\sigma_{red}$ is an $\epsilon$-optimal strategy.
+\end{proposition}
 
 
 
