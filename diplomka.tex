@@ -10,11 +10,13 @@
 \tikzset{ every node/.style={circle,fill=gray!15,draw,minimum size=1.5em,inner sep=2.5pt}}
 \usepackage{array}
 
-\usepackage[chapter]{algorithm}
+\usepackage[document]{algorithm}
 \newfloat{algorithm}{t}{lop}
 \floatname{algorithm}{Algorithm}
-\renewcommand{\algorithmicrequire}{\textbf{Input:}}
-\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\renewcommand{\algorithmicrequire}{\textbf{Input:	}}
+\renewcommand{\algorithmicensure}{\textbf{Output:	}}
+\renewcommand{\algorithmicforall}{\textbf{for each}}
+\let\ForEach\ForAll
 \def\NoNumber#1{{\def\alglinenumber##1{}\State #1}\addtocounter{ALG@line}{-1}}
 
 \newtheorem{thm}{Theorem}[section]
@@ -779,21 +781,21 @@ Third, using $\theta_\emph{Max}^{ml}$, we construct a DFA which encodes an $\eps
 
 \textbf{Step 1.} Let us fix an optimal defender's strategy $\sigma$, whose existence is guaranteed by Theorem \ref{thm:existence}.
 %For a desired precision $\epsilon$
-We discretize $\sigma$ to obtain a strategy $\sigma_\epsilon$ with all probabilities $\sigma_\epsilon(h)(u)$ being integer multiples of an appropriate number $c$ satisfying \mbox{$c = 1/l$} for some $l \in \mathbb{N}$.
+We discretize $\sigma$ to obtain a strategy $\sigma_\epsilon$ with all probabilities $\sigma_\epsilon(h)(u)$ being integer multiples of an appropriate number $s$ satisfying \mbox{$s = 1/l$} for some $l \in \mathbb{N}$.
 %TODO
 As we will see, to guarantee the $\epsilon$-optimality of $\sigma_\epsilon$, it suffices that $|\sigma(h)(u) - \sigma_\epsilon(h)(u)| \leq {\epsilon\over{|N|d}}$.
-We can guarantee this property for $c = \lceil(|N|d)/\epsilon\rceil^{-1}$ using the following rounding procedure.
+We can guarantee this property for $s = \lceil(|N|d)/\epsilon\rceil^{-1}$ using the following rounding procedure.
 
 Let $U = \{u_1, u_2, \dots, u_{|U|}\}$ be the set of nodes of $\mathcal{G}$.
-For every history $h$ and every $1 \leq i \leq |U|$, we inductively define $\sigma_\epsilon(h)(u_i) = k_i \cdot c$, where $k_i$  is the largest number satisfying
-$$ k_i \cdot c \leq \sigma(h)(u_i) + \sum_{j=1}^{i-1}(\sigma(h)(u_j) - \sigma_\epsilon(h)(u_j))~.$$
+For every history $h$ and every $1 \leq i \leq |U|$, we inductively define $\sigma_\epsilon(h)(u_i) = k_i \cdot s$, where $k_i$  is the largest number satisfying
+$$ k_i \cdot s \leq \sigma(h)(u_i) + \sum_{j=1}^{i-1}(\sigma(h)(u_j) - \sigma_\epsilon(h)(u_j))~.$$
 This rounding procedure guarantees %that the resulting discretized strategy $\sigma_epsilon$ is valid in the sense
 that $\sigma_\epsilon(h)$ is indeed a probability distribution over $U$, i.e. $\sum_{u\in U}\sigma_\epsilon(h)(u) = 1$ (note that simple rounding would not guarantee this property).
 %TODO preformulovat ?
-Further, when we realize the invariant $0 \leq \sum_{j=1}^{i-1}(\sigma(h)(u_j) - \sigma_\epsilon(h)(u_j)) < c$ holds for all $1 \leq i \leq |U|$, it is easy to see that $|\sigma(h)(u_i) - \sigma_\epsilon(h)(u_i)| < c$, which is captured by the following lemma.% (for all $i$)
+Further, when we realize the invariant $0 \leq \sum_{j=1}^{i-1}(\sigma(h)(u_j) - \sigma_\epsilon(h)(u_j)) < s$ holds for all $1 \leq i \leq |U|$, it is easy to see that $|\sigma(h)(u_i) - \sigma_\epsilon(h)(u_i)| < s$, which is captured by the following lemma.% (for all $i$)
 \begin{lemma}
 \label{lem:difference}
-For all $h \in \mathcal{H}$ and $u \in U$ we have $|\sigma(h)(u) - \sigma_\epsilon(h)(u)| < c$.
+For all $h \in \mathcal{H}$ and $u \in U$ we have $|\sigma(h)(u) - \sigma_\epsilon(h)(u)| < s$.
 \end{lemma}
 
 We base the proof of the $\epsilon$-optimality of $\sigma_\epsilon$ on the following two observations.
@@ -856,7 +858,7 @@ Formally, it follows from the fact that $D_{last(h)}[t] = D_{last(h)}[\pi]$ for 
 Denote by $R[\iota, h, t, k]$ the probability of reaching $t \in T$ from $last(h), h \in \mathcal{H}$ in up to $k$ steps using the strategy $\iota_h$.
 We prove by induction on $k$ that for all $h \in \mathcal{H}$, $t \in T$, and $k \in \mathbb{N}_0$ we have that
 \begin{align}
-R[\sigma, h, t, k] - R[\sigma_\epsilon, h, t, k] \leq k|U|c~.\nonumber %\label{eq1:induction}
+R[\sigma, h, t, k] - R[\sigma_\epsilon, h, t, k] \leq k|U|s~.\nonumber %\label{eq1:induction}
 \end{align}
 
 %The base case ($k = 1$) directly follows from Lemma \ref{lem:difference} and the fact that $R[\iota, h, u, 1] = \iota(h)(u)$.
@@ -872,11 +874,11 @@ For $k \geq 1$, we have
   & &\hspace{7.6pt} -~\sigma_\epsilon(h)(u)\cdot R[\sigma_\epsilon, hu, t, k - 1]	\nonumber \\
   &=& \sum_{u\in U} R[\sigma, hu, t, k - 1]\cdot (\sigma(h)(u) - \sigma_\epsilon(h)(u)) \label{eq1b:second} +	\\
   & &\hspace{7.6pt} +~\sigma_\epsilon(h)(u)\cdot (R[\sigma, hu, t, k - 1] - R[\sigma_\epsilon, hu, t, k - 1]) \nonumber	 \\
-  &\leq& \sum_{u\in U} R[\sigma, hu, t, k - 1]\cdot c + \sum_{u\in U} \sigma_\epsilon(h)(u)\cdot (k - 1)|U|c	\label{eq1b:third} \\
-	%  &\leq& \sum_{u\in U} R[\sigma, hu, t, k - 1]\cdot c +	\label{eq1b:third} \\
-	%  &\hspace{5pt}+\hspace{-5pt}& \sum_{u\in U} \sigma_\epsilon(h)(u)\cdot (k - 1)|U|c \nonumber \\
-  &\leq& |U|c + (k - 1)|U|c	\label{eq1b:fourth} \\
-  &=& k|U|c\nonumber~.
+  &\leq& \sum_{u\in U} R[\sigma, hu, t, k - 1]\cdot s + \sum_{u\in U} \sigma_\epsilon(h)(u)\cdot (k - 1)|U|s	\label{eq1b:third} \\
+	%  &\leq& \sum_{u\in U} R[\sigma, hu, t, k - 1]\cdot s +	\label{eq1b:third} \\
+	%  &\hspace{5pt}+\hspace{-5pt}& \sum_{u\in U} \sigma_\epsilon(h)(u)\cdot (k - 1)|U|s \nonumber \\
+  &\leq& |U|s + (k - 1)|U|s	\label{eq1b:fourth} \\
+  &=& k|U|s\nonumber~.
 %\end{align}
 \end{eqnarray}
 \begin{itemize}[noitemsep]
@@ -885,11 +887,11 @@ For $k \geq 1$, we have
 	\item The inequality \eqref{eq1b:third} follows from Lemma \ref{lem:difference} and from the induction hypothesis.
 	\item The inequality \eqref{eq1b:fourth} holds because $R[\sigma, hu, t, k - 1] \leq 1$ and $\sum_{u\in U} \sigma_\epsilon(h)(u) = 1$.
 \end{itemize}
-So we have that $R[\sigma, h, t, d] - R[\sigma_\epsilon, h, t, d] \leq d|U|c$.
+So we have that $R[\sigma, h, t, d] - R[\sigma_\epsilon, h, t, d] \leq d|U|s$.
 However, note that
 $$att\text{-}val(\iota \mid h) = \inf_{t \in T} R[\iota, h, t, d]$$
 and therefore
-$$att\text{-}val(\sigma \mid h) - att\text{-}val(\sigma_\epsilon \mid h) \leq d|U|c \leq \epsilon~.$$
+$$att\text{-}val(\sigma \mid h) - att\text{-}val(\sigma_\epsilon \mid h) \leq d|U|s \leq \epsilon~.$$
 \end{itemize}
 \end{proof}
 
@@ -1112,6 +1114,34 @@ val(\sigma_{red})
 $\sigma_{red}$ is an $\epsilon$-optimal strategy.
 \end{proposition}
 
+\section{The Algorithm}
+
+%TODO uviest to tu
+
+%TODO algoritmus podobny tomu z \cite{iti1}
+\begin{algorithm}[H]
+\caption{~Compute an $\epsilon$-optimal strategy $\sigma_\epsilon^{alg}$}
+\label{alg:algorithm1}
+\begin{algorithmic}[1]
+\par\vspace{0.5mm}
+	\Require	Patrolling game $\mathcal{G} = (U, E, T, \hat{u}, d)$, $\epsilon > 0$
+	\Ensure	a regular $\epsilon$-optimal strategy $\sigma_\epsilon^{alg}$
+\par\vspace{3.5mm}
+
+\State $C \leftarrow$ empty priority queue; $D \leftarrow \emptyset$
+\ForEach {$c \in \mathbf{Char}_d^s$}
+	\If {$c$ is \emph{representable}}	%{$representable(c)$}
+		add $c$ to $C$ with priority $val(c)$
+	\EndIf
+\EndFor
+
+\Repeat
+	\State pull from $C$ the item $c$ with highest priority
+	\State $D \leftarrow D \cup \{c\}$
+\Until {$D$ is \emph{closed}}	%{$closed(D)$}
+\State $\sigma_\epsilon^{alg} \leftarrow$ the strategy induced by ... %TODO
+\end{algorithmic}
+\end{algorithm}
 
 
 \chapter{multiple robots}
