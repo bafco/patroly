@@ -93,10 +93,8 @@ Game theory is a mathematical study of decision making. It studies games as well
 A \emph{game} is a played between \emph{players} $P_1, \dots, P_n, n \geq 2$.
 Each player $P_i$ has a non-empty set $S_i$ of \emph{pure strategies}. A strategy can be seen as an algorithm telling the player what to do throughout the game.
 The outcome of the game is an element from the set
-%$\prod_{i=1}^n S_i$
 $\mathcal{S} = \prod_{i=1}^n S_i$
 and is called a \emph{strategy profile}.
-%We will denote this space of all possible strategy profiles by $\mathcal{S}$.
 Each strategy profile represents some value for every player.
 Therefore, every player $P_i$ has his own \emph{utility function} $U_i: \mathcal{S} \to \mathbb{R}$ which assigns \emph{payoffs} to strategy profiles.
 The higher the player's payoff of a strategy profile, the better the profile for the player.
@@ -113,7 +111,7 @@ Non-zero sum games are reffered to as \emph{general-sum} games.
 Of great importance is the concept of \emph{mixed strategies}.
 A pure strategy is a strategy which determines the move a player will make for every possible situation that could occur.
 A mixed strategy is a probability distribution
-% odkaz na probability distribution?
+%TODO odkaz na probability distribution?
 over pure strategies.
 Using a mixed strategy allows a player to randomize.
 This means a player can make different moves under the same game conditions.
@@ -123,8 +121,7 @@ A player's \emph{best response} is the strategy (or strategies) which yields him
 
 When it comes to solving the game, some form of equilibrium strategy profile is in demand. The best known solution concept in game theory is \emph{Nash equilibrium} (NE) \cite{nash}, in which no player can gain anything by changing only his strategy. That is, each player's strategy is a best response to the other players' strategies.
 
-% zmazat?
-Different solution concepts were designed for specific game models. We are specially interested in Stackelberg model, which we describe in the next section.
+Different solution concepts were designed for specific game models. We are specially interested in the Stackelberg model, which we describe in the next section.
 
 \section{Security Games}
 
@@ -233,15 +230,11 @@ We generalize this model by allowing multiple patrolling units in Chapter \ref{c
 From now on we also assume a single adversary who can attack only with a single resource.
 This assumption is adopted by all of the works mentioned in Section \ref{sec:patrolLiterature} as well.
 
-%TODO odkaz na formalnu definiciu
-
 The reasons for choosing this model are described in detail in \cite{miso}.
 The basic motive is to consider a model as simple as possible, yet still reasonable enough.
 This motive resulted in opting of the following parameters of our model: graph structure, discrete time, no preference over targets, unified attack length, immobile targets, and only one attack possible.
 
 It turns out that the assumption of all edges being of length 1 is quite sufficient. Indeed, the case where edges can have different natural lengths can be reduced to our simple model by splitting each edge of length $t$ to $t$ sequentially connected edges of length one. A more general case with rational lengths of edges can be reduced to the previous case by multiplying both the lengths of edges and the attack length by a suitable number.
-
-%TODO sensing capabilities generalization
 
 The motives behind choosing the Stackelberg model are not restricted to simplicity.
 Besides the reasons mentioned in \cite{miso}, the Stackelberg setting together with the game being zero sum lead to one favorable characteristic---the optimal defender's strategy is optimal also with respect to the worst-case scenario.
@@ -252,9 +245,7 @@ Strategies with $h = 1$ are based only on the current defender's location and we
 In \cite{arbitrary} there is an example where no optimal defender's strategy is stationary.
 In \cite{iti2} it has been shown that, in general, there might be no optimal defender's strategy which depends only on the last $h$ visited nodes for any $h \in \mathbb{N}$.
 
-%TODO nejake odkazy do dalsich sekcii na examples a pod.
-
-%\section{Related Work}
+%TODO \section{Related Work}
 \section{Basic Literature on Patrolling Games}
 \label{sec:patrolLiterature}
 In this section, we give an overview of the research in the field of the patrolling games in the last years. We address several papers and models. For each paper, we state the differences from our model and we mention the most significant results achieved.
@@ -277,7 +268,7 @@ Authors' subsequent papers concerning multi-robot perimiter patrol in adversial 
 
 A more general graph topology is addressed in \cite{arbitrary}. The authors consider a model with a single robot patrolling on an arbitrary directed graph. Not all nodes of the graph are necessarily targets and each target node $i$ requires the intruder ${d_i}$ steps to enter.
 The robot is equipped with a sensor able to detect the intruder. The robot's sensing capabilities are represented by a matrix ${V(n \times n)}$ where ${v_{i,j} = 1}$ iff node $j$ can be sensed from node $i$.
-% footnote?
+%TODO footnote?
 The patroller's sensing capabilities in our model are equivalent to the case of $V$ being an identity matrix.
 
 The possible outcomes of the game are defined as follows:
@@ -288,15 +279,13 @@ For each possible outcome, patroller's and intruder's payoffs are defined.\footn
 
 The authors cope with the presence of the infinite horizon in the game by introducing symmetries. They allow the patroller to choose the next action based only on the last ${|H|}$ actions, where ${|H|}$ is finite and constant during the whole game. Higher value of ${|H|}$ leads to possibly higher expected utility of the patroller, but also to higher computational complexity for finding the optimal patrolling strategy. The authors provide a multi-bilinear mathematical programming formulation to find the optimal patroller's strategy when ${|H| = 1}$. They state that formulations with ${|H| > 1}$ can be obtained by extending this one.
 
-Further, the paper is concerned with heuristics for more efficient problem solving. In realistic settings the number of targets is significantly smaller than the number of all nodes. That affords opportunity to reduce the programming problems' searching space, the number of variables and constraints.
-% use dash instead of comma? "- the number of ..."
+Further, the paper is concerned with heuristics for more efficient problem solving. In realistic settings, the number of targets is significantly smaller than the number of all nodes. That affords the opportunity to reduce the searching space, the number of variables and constraints, of the programming problems.
 First, the authors are interested in a deterministic strategy which detects any attack with probability 1. To solve the problem of finding such a strategy, they formulate an integer linear program.
 Second, the authors aim to minimize the number of nodes over which the patroller will randomize when using an optimal strategy. They formulate another integer linear program for that.
 Third, they introduce the concept of action dominance for the intruder.
 For an example setting, the reduction of nodes and the elimination of dominated actions resulted in the following improvement. Both the number of bilinear problems to be solved and the average computational time for solving a single problem decreased from ${29^2}$ to 18 and from more than 30 minutes to less than 5 minutes, respectively.
 
-The rest of the paper discusses the problem of finding an upper bound for ${|H|}$, say ${|\overline{H}|}$, such that there is an optimal strategy, among all the strategies,
-% - among all the strategies -
+The rest of the paper discusses the problem of finding an upper bound for ${|H|}$, say ${|\overline{H}|}$, such that among all the strategies, there is an optimal strategy
 which uses no more than length ${|\overline{H}|}$ of the history, i.e. for any ${|H| > |\overline{H}|}$ the patroller's expected utility keeps constant. Throughout the paper it is claimed that this treshold exists. However, in \cite{iti2} this claim has been proven \emph{incorrect}. Moreover, in \cite{arbitrary} they formulate a theorem that for a fully connected topology, ${|\overline{H}| = 0}$. That is also \emph{incorrect}. The proof sketch is done on a complete graph with 3 nodes, each with attack length 2. The authors prove that their algorithm gives the same expected utility when ${|H| = 0}$ and ${|H| = 1}$. Generalization of any kind is omitted. The highest expected utility when ${|H| = 0}$ is ${5/9}$. However, in \cite{iti1} there is a strategy with ${|H| = 2}$ giving expected utility ${(\sqrt{5} - 1)/2}$, which is strictly greater than ${5/9}$.
 
 The authors extend the model from \cite{arbitrary} to more realistic settings in \cite{powerlessIntruder}. They weaken the intruder in two ways. Their first extension introduces the intruder's movement. The intruder does not appear directly at the target, rather he has to traverse the graph along paths connecting \emph{access areas} to targets. The intruder can move infinitely fast. Covering a path takes only one step during which the intruder can be detected on every node of the path. In their second extension, some cells are hidden to the intruder. As he cannot observe the whole environment, he cannot perfectly know the position of the patroller when attacking. A concept of a \emph{state} is introduced, representing when (how many steps ago) and where (in which node) has the patroller been observed for the last time. For both extensions the authors provide mathematical programming formulations, reduction algorithms and experimental evaluations.
@@ -308,7 +297,6 @@ The authors of \cite{arbitrary} generalized their model by introducing multiple 
 %nejake odsadenie?
 %podnadpis Smallest Number of Robots
 The first problem addressed in the paper is finding the smallest number of robots needed to capture any attack with probability greater than zero. With a smaller number of robots the intruder could successfully attack with probability 1. The authors show that this problem is equivalent to finding the smallest number of maximal cliques such that each target belongs to at least one clique. A simplified idea behind this is the following.
-% "the following:" - throughout the document
 
 Let us assume a setting with a graph $G$ and a set of targets $T$. Let $T' \subseteq T$ be a subset of targets. If there is a subgraph $G' \subseteq G$
 %such that $T'$ is a subset of nodes of $G'$
@@ -355,18 +343,15 @@ Special attention was paid to two coordination combinations: disjointed strategy
 So far, the targets carrying value were static. In \cite{movingTargets}, the authors assume that these valuable targets can change their positions in time. This is motivated by real-world scenarios such as protection of vessels transiting waters with high pirate activity and unmanned aerial vehicle-based surveillance protecting moving ground targets.
 
 The model considered in \cite{movingTargets} is based on the model used in \cite{arbitrary}. It assumes unified attack length and first-order Markovian defender's strategy.
-% and identity sensing capabilities matrix.
 In addition, targets are allowed to move through the area according to a deterministic movement schedule. This schedule is a fixed property of the environment and is known to both players.
 
 The game is played in $|T|$ turns, thereafter it is repeated \--- i.e. the targets move in cycles. In each turn, the defender can move to an adjacent node and the targets can move to any node. The movement of the targets is defined by an arbitrary function ${f : Q \times T \to V}$, where $Q$ is the set of targets, $T$ is the set of turns and $V$ is the set of nodes.
-%vynechat formalizmy a skratit to? "In contrast with the defender, the targets can move to any node, not just the adjacent one."
-Note that targets are not nodes anymore, but they are positioned in nodes.
-% rather???
+%TODO vynechat formalizmy a skratit to? "In contrast with the defender, the targets can move to any node, not just the adjacent one."
+Note that the targets are not nodes anymore, but they are rather positioned in the nodes.
 To cope with the target movement, the defender's strategy is time-dependent. The defender chooses her next action based not only on her current node but also on the current turn.
 
 The authors formulate a multi-bilinear program to find the optimal defender's strategy.
-They experimentally compare the performance of the stationary and time-dependent strategies. They do so in terms of the reached game value and computation time. Evaluation examples have different types of graph structure (grid with holes vs. full grid) and different types of target movement (distance between targets changing or not changing). 
-% dat prec zatvorky a ich obsah
+They experimentally compare the performance of the stationary and time-dependent strategies. They do so in terms of the reached game value and computation time. Evaluation examples have different types of graph structure (grid with holes vs. full grid) and different types of target movement (the distance between targets is either changing, or not).
 
 The results of the experiment show that in the game with mobile targets time-dependent strategies lead to significantly higher utility value. In the experimental results presented in the paper, time-dependent strategies preceded the stationary ones by approximately 50--300\%. However, the computational time was 10--1000 times larger. The authors concluded that time-dependent strategies are reasonable to be used.
 
@@ -375,7 +360,6 @@ The results of the experiment show that in the game with mobile targets time-dep
 A noticeably novel game model called MRMT\textsubscript{sg} (multiple Mobile Resources protecting Moving Targets) was introduced in \cite{line}. In MRMT\textsubscript{sg}, the defender's strategy space is descretized and attacker's strategy space is continuous. A major motivation in the paper is the problem of protecting ferries with fast patrol boats.
 
 The authors consider $L$ targets moving along a one-dimensional domain, specifically a straight line between two points $A$ and $B$. The targets have fixed daily schedules known to both players. The targets move in time continuously between points $A$ and $B$.
-%... move continuously ... in time. ???
 The defender has $W$ mobile patrollers that can move between $A$ and $B$. All patrollers have a common maximum speed $v_m$ and a protection radius $r_e$. A patroller is \emph{protecting} a target if the distance between them is no more than $r_e$. The attacker chooses a certain time and a certain target to attack. The probability of attack success depends on the positions of the patrollers at that time, i.e. the attack is instant and there is no attack length. This probability is a decreasing function of the number of patrollers protecting the target. An attack on a target can be successful even if there is a patroller protecting the target. The case when an attack on a target is successful iff the target is not protected by any patroller is just a special case.
 
 The authors provide an efficient linear program called CASS (Solver for Continuous Attacker Strategies) to solve  MRMT\textsubscript{sg}. The effiecency of CASS consists in the represention of the defender's strategies as marginal probability variables and in using \emph{sub-interval analysis} to model the attacker's continuous strategy space.
@@ -396,8 +380,7 @@ The definitions we use herein are from \cite{iti1, iti2}. Although we use the mo
 \section{Basic Definitions}
 \label{sec:definitions}
 
-We use $\mathbb{N}$ to denote the set of positive integers.
-% set of non-negative??? do we need it?
+We use $\mathbb{N}$ and $\mathbb{N}_0$ to denote the set of positive and non-negative integers, respectively.
 The sets of all finite and infinite words over an alphabet $\Gamma$ are denoted by $\Gamma^*$ and $\Gamma^{\omega}$, respectively.
 The empty word is denoted by $\epsilon$.
 The length of a given word $w \in \Gamma^* \cup \Gamma^{\omega}$ is denoted by $|w|$, the length of an infinite word is $\infty$.
@@ -405,7 +388,6 @@ We write $\Gamma^{\leq k}$ for the set of all words $w \in \Gamma^*$ satisfying 
 The individual letters of a non-empty word $w \in \Gamma^* \cup \Gamma^{\omega}$ are denoted by $w_0w_1\dots$.
 We write $last(w)$ to denote the last letter of a finite non-empty word $w$.
 Given two words $w, w' \in \Gamma^* \cup \Gamma^{\omega}$ we write $w \preceq w'$ iff $w$ is a prefix\footnote{An infinite word is a prefix of another word if and only if they are the same.} of $w'$, i.e. iff there exists a word $w'' \in \Gamma^* \cup \Gamma^{\omega}$ such that $w' = ww''$.
-%TODO do we need the $w$ to be possiblyt infinite?
 Furthermore, we write $w \prec w'$ iff $w \preceq w'$ and $w \neq w'$.
 
 Given an at most countable set $S$, a \emph{probability distribution} over $S$ is a function $\delta : S \to [0,1]$
@@ -421,11 +403,9 @@ The pair $(U, E)$ is the directed graph on which the game $\mathcal{G}$ is playe
 Given a node $u \in U$, we define $succ(u) := \{v \in U \mid (u, v) \in E\}$ to be the set of all \emph{successors} of $u$.
 A \emph{path} is a finite or infinite word $w \in U^* \cup U^{\omega}$ such that $w_{i+1}$ is a successor of $w_i$ for all $0 \leq i < |w|$.
 A \emph{history} is a finite non-empty
-%ALLOWING ALSO EMPTY if no initial node
 path whilst a \emph{run} is an infinite path.
 We denote the set of all histories by $\mathcal{H}$ and the set of all runs by $\mathcal{R}$.
 Given a set of histories $H \subseteq \mathcal{H}$, we use $\mathcal{R}(H)$ to denote the set of all runs $\omega \in \mathcal{R}$ such that $h \preceq \omega$ for some history $h \in H$
-%footnote?
 (we write $\mathcal{R}(h)$ instead of $\mathcal{R}(\{h\})$).
 
 \begin{definition}
@@ -469,10 +449,6 @@ A $0$-optimal strategy is called just \emph{optimal}.
 
 Note that because only relevant histories can happen, the knowledge that a strategy $\sigma$ is optimal provides no informative value on $\sigma(h)$ for $h \notin \mathcal{H}(\sigma)$.
 This means that even an optimal strategy may "play" anything in histories irrelevant to it.
-
-%TODO preformulovat, prip. presunut inam
-%At many places we consider strategies obtained by “forgetting” some initial prefix of the history.
-%Formally, for all $h \in \mathcal{H}$ and $\theta \in \Sigma \cup \Pi$, we define a strategy $\theta_h$ by $\theta_h(last(h)h') = \theta(hh')$ for all $h' \in U*$.
 
 \section{Examples}
 
@@ -563,7 +539,6 @@ The reason resides in the nature of patrolling games, specifically that the defe
 If she had the information about an initiated attack, she would need not to care about the future and could act in a way that would otherwise afford the attacker the opportunity to successfully attack with higher probability.
 \end{example}
 
-%TODO The Existence?
 \chapter{Existence of Optimal Strategies}
 
 In this chapter, we summarize the essential results achieved in \cite{iti1}, while we primarily focus on the constructs on which our results are based.
@@ -573,32 +548,29 @@ Then, we translate a given patrolling game $\mathcal{G}$ into a turn-based perfe
 We state that the maximizer has an optimal strategy in $\mathcal{S}$, which can be translated back to $\mathcal{G}$, yielding the same value of the game.
 We skip some technical parts (mostly proofs) which can be found in \cite{iti1}.
 
-%TODO jedina sekcia - nezmazat/nespravit dve?
 \section{Translating Patrolling Games into Stochastic Games}
-
-%the content, including definitions etc., is from \cite{iti1}
 
 \begin{definition}
 %$(V_\Diamond, V_\square)$ - Diamond = Min, Square = Max
+%TODO Min / Max v definiciach/lemmatoch je sam o sebe \emph, takze neviem, ci to treba znova
 A \emph{stochastic game} is a tuple $\mathcal{S} = (V, (V_{\emph{Min}}, V_{\emph{Max}}), \ell, A, \mathbf{E}, \mathbf{P})$ where $V$ is a set of \emph{vertices}, $(V_{\emph{Min}}, V_{\emph{Max}})$ is a partition of $V$, $\ell \in \mathbb{N}$, $A \subseteq \mathbb{R}^\ell$ is a set of \emph{actions}\footnote{
-The reason why actions are defined as real-valued vectors of a fixed dimension might not be clear at the moment.
-Such a set of actions satisfies some conditions which are used later to prove the existence of an optimal strategy for player \emph{Max}.}, $\mathbf{E} : V \to 2^A$ assigns to each vertex a set of \emph{enabled actions}, and $\mathbf{P} : V \times A \to \Delta(V)$ assigns to each $(v, a) \in V \times A$ a discrete probability distribution over $V$ with finite support.
-%TODO: each $(v, a), v \in V, a \in E(v)$ 
+The reason why actions are defined as real-valued vectors of a fixed dimension becomes clear later.
+Such a set of actions satisfies certain conditions which are used to prove the existence of an optimal strategy for player \emph{Max}.}, $\mathbf{E} : V \to 2^A$ assigns to each vertex a set of \emph{enabled actions}, and $\mathbf{P} : V \times A \to \Delta(V)$ assigns to each $(v, a) \in V \times A$ a discrete probability distribution over $V$ with finite support.
+%TODONE: each $(v, a), v \in V, a \in E(v)$ 
 \end{definition}
-%nikde ziaden zaciatocny stav!!!
-%TODO: $P(v, a)$ is relevant only for $a \in E(v)$
+%TODONE: $P(v, a)$ is relevant only for $a \in E(v)$
 A stochastic game $\mathcal{S}$ is played between two players, \emph{Min} and \emph{Max}.
 A play of $\mathcal{S}$ starts in some vertex $u \in V$ and then proceeds to other vertices based on the actions chosen.
 Player $\bigcirc \in \{\emph{Min}, \emph{Max}\}$ chooses actions in the vertices of $V_\bigcirc$.
 When the play is in a vertex $v \in V_\bigcirc$ and player $\bigcirc$ selects an action $a \in \mathbf{E}(v)$, the next node is chosen randomly according to the distribution $\mathbf{P}(v, a)$.
-%Note that
 Players can choose actions based on all the vertices already visited, not just the current one.
 However, the players cannot randomize.\footnote{As we will see, for our purposes of translation between patrolling and stochastic games, players in stochastic games need not to randomize---for every vertex $v \in V_{\emph{Max}}$, the set of enabled actions $\mathbf{E}(v)$ will be closed under convex combination, and the attacker cannot randomize even in patrolling games.}
 Formally, a \emph{strategy} for player $\bigcirc \in \{\emph{Min}, \emph{Max}\}$ is a function $\theta_\bigcirc : V^*V_\bigcirc \to A$ satisfying $\theta_\bigcirc (wv) \in \mathbf{E}(v)$ for all $w \in V^*$ and $v \in V_\bigcirc$.
 
 Similarly to patrolling games, every initial vertex $v \in V$ and every pair of players' strategies $(\theta_{\emph{Min}}, \theta_{\emph{Max}})$ determine a unique probability space over all infinite sequences of vertices starting in $v$ (see \cite{chung}).
 Given an initial vertex $v \in V$, a target vertex $t \in V$, and a pair of players' strategies $(\theta_{\emph{Min}}, \theta_{\emph{Max}})$, we denote by $val^\mathcal{S}(\theta_{\emph{Min}}, \theta_{\emph{Max}}, v, t)$ the probability of all infinite sequences of vertices starting in $v$ that \emph{never} visit $t$.
-We define $val^\mathcal{S}(\theta_{\emph{\emph{Max}}}, v, t) = \inf_{\theta_{\emph{Min}}}val^\mathcal{S}(\theta_{\emph{Min}}, \theta_{\emph{Max}}, v, t)$. Furthermore, we define $val^\mathcal{S}(v, t) = \sup_{\theta_{\emph{Max}}}val^\mathcal{S}(\theta_{\emph{Max}}, v, t)$.
+We define $val^\mathcal{S}(\theta_{\emph{Max}}, v, t) = \inf_{\theta_{\emph{Min}}}val^\mathcal{S}(\theta_{\emph{Min}}, \theta_{\emph{Max}}, v, t)$. Furthermore, we define \linebreak
+$val^\mathcal{S}(v, t) = \sup_{\theta_{\emph{Max}}}val^\mathcal{S}(\theta_{\emph{Max}}, v, t)$.
 Given a target $t \in V$, a strategy $\theta_{\emph{Max}}^*$ is called \emph{optimal} if $val^\mathcal{S}(\theta_{\emph{Max}}^*, v, t) = val^\mathcal{S}(v, t)$ for all $v \in V$.
 
 \
@@ -612,19 +584,15 @@ When player \emph{Min} chooses an action corresponding to attacking a target, th
 When player \emph{Min} chooses the action corresponding to attacker's waiting, player \emph{Max} has to prolong 
 the previously fixed $d$-step plan by one step and the first step of the plan is performed, so it remains a $d$-step plan.\footnote{Although it would be sufficient to first perform the first step of the plan, and then prolong it by one step, we prefer to be consistent with \cite{iti1}.}
 %jedine dolezite je, aby bol fixnuty d-commitment, ked ma hrac Min moznost zautocit
-%zlozitost nas absolutne netrapi - SG su len kvoli dokazu existencie 
 %TODO - dat inam footnote? Nerozbilo by to definiciu na 2 strany.
-%the first step of the previously fixed $d$-step plan is performed and player \emph{Max} has to prolong the plan by %one step for it to remain a $d$-step plan.}
 
-%TODO - do we need this? if yes, do we need it here?
+%TODONE - do we need this? if yes, do we need it here?
 %In \cite{iti2}, it has been shown that if the defender uses a given strategy $\sigma$, there is an attacker's best response strategy $\pi$ which attacks with probability 1.
 %Therefore, (in the rest of this chapter/section) we assume that the attacker attacks with probability 1.
 %(plays according to such a strategy)
 
-%definovat $att-val$ - ^^ comes quite obvious from the observation in the paragraph where $att-val$ is defined
-
 After informal description of the translation process, let us become more precise.
-We start with formalizing the concept of a $k$-step randomized plan.
+We start by formalizing the concept of a $k$-step randomized plan.
 Let us fix a patrolling game $\mathcal{G} = (U, E, T, \hat{u}, d)$.
 
 \begin{definition}
@@ -642,20 +610,17 @@ Further, we define $\xi(f) = f(r(f))$ to be the probability distribution in the 
 
 A given $d$-commitment $f$ can be interpreted as a Markov chain with $U^{\leq d+1}$ as the set of states and the transition probabilities given by $f$ (the states of $U^{d+1}$ are absorbing).
 Once the defender is in a node $u$ and a $d$-commitment $f \in \mathbf{Comm}_d(u)$ is fixed, the probability of detecting an immediate attack on a target can be computed in the following way.
-For every $d$-commitment $f$ and every target $t \in T$, we define the value $val(f, t)$ of defending target $t$ with commitment $f$ as the probability of reaching a state of the form $wt, w\neq \epsilon$
-%TODO for some $w \neq \epsilon$ / where $w$ is a non-empty word
+For every $d$-commitment $f$ and every target $t \in T$, we define the value $val(f, t)$ of defending target $t$ with commitment $f$ as the probability of reaching a state of the form $wt, w\neq \epsilon$,
 from state $\epsilon$ in the Markov chain induced by $f$.
 Further, we define $val(f) = \text{min}_{t\in T} ~val(f, t)$.
 
 The concept of extending a $d$-commitment is quite intuitive.
 Given a $d$-commitment $f$ and a $d+$1-commitment $g$, we say that $g$ \emph{extends} $f$ if for every $w \in U^{\leq d}$ we have that $g(w) = f(w)$.
 Further, we say that a $d$-commitment $f'$ is the \emph{$u$-suffix} of $g$ if $r(f') = u$ and for every $w \in U^{\leq d-1}$ we have that $f'(uw) = g(r(g)uw)$.
-%TODO priblizit, co je to u-suffix
 Player \emph{Max}'s new $d$-step plan is actually a $u$-suffix of an extension of her original plan.
 
-%TODO delete the first sentence? merge it with the footnote ^^? change its location?
-Now follows the definition of a stochastic game corresponding to the fixed patrolling game $\mathcal{G}$, as presented in \cite{iti1}.
-We define a stochastic game $\mathcal{S} = (V, (V_{\emph{Min}}, V_{\emph{Max}}), |U|^{d+2}, A, \mathbf{E}, \mathbf{P})$ where players \emph{Min} and \emph{Max} correspond to the attacker and defender in $\mathcal{G}$, respectively.
+Now follows the translation of the patrolling game $\mathcal{G}$ to a stochastic game, as presented in \cite{iti1}.
+We define a stochastic game $\mathcal{S} = (V, (V_{\emph{Min}}, V_{\emph{Max}}),$ $|U|^{d+2}, A, \mathbf{E}, \mathbf{P})$ where players \emph{Min} and \emph{Max} correspond to the attacker and defender in $\mathcal{G}$, respectively.
 \vspace{-5pt}
 \begin{itemize}[noitemsep]
 	\item $V = (\{\emph{Min}, \emph{Max}\} \times \mathbf{Comm}_d) \cup \{init, succ, fail\}$
@@ -682,14 +647,13 @@ We define a stochastic game $\mathcal{S} = (V, (V_{\emph{Min}}, V_{\emph{Max}}),
 			\item $\mathbf{P}((\emph{Min}, f), t)(fail) = 1 - val(f, t)$
 		\end{itemize}
 		\vspace{-2pt}
-		\item $\mathbf{P}((\emph{\emph{Max}}, f), g)((\emph{Min}, f')) = f(r(f))(u)$ where $f'$ is the $u$-suffix~of~$g$
+		\item $\mathbf{P}((\emph{Max}, f), g)((\emph{Min}, f')) = f(r(f))(u)$ where $f'$ is the $u$-suffix~of~$g$
 		\item $\mathbf{P}(succ, \perp)(succ) = \mathbf{P}(fail, \perp)(fail) = 1$
 	\end{itemize}
 	\vspace{-4pt}
 \end{itemize}
 \vspace{-5pt}
 
-%Now it becomes more clear why actions are defined as real-valued vectors of a fixed dimension.
 It remains to show that $A$ is a subset of $[0, 1]^{|U|^{d+2}}$.
 Remember that a $d$-commitment can be interpreted as a Markov chain with a tree-like structure ($|U|$-ary tree of depth $d$.)
 Putting the values of a $d+$1-commitment next to each other, the commitment can be seen as a vector of dimension $|U|^{d+2}$.
@@ -697,7 +661,6 @@ Coding the $d$-commitments as such vectors is straightforward and the remaining 
 
 The process of translating a defender's strategy $\sigma$ in $\mathcal{G}$ to a strategy $\theta_{\emph{Max}}[\sigma]$ of player \emph{Max} in $\mathcal{S}$, and vice versa ($\theta_{\emph{Max}}$ to $\sigma[\theta_{\emph{Max}}]$), is described in detail in \cite{iti1}.
 There, it has also been proven that this translation preserves the values of the strategies, which is captured by the following lemma.
-%i.e. $val^\mathcal{S}(\theta_{\emph{Max}}[\sigma], init, fail) = val(\sigma)$ and $val^\mathcal{S}(\theta_{\emph{Max}}, init, fail) = val(\sigma[\theta_{\emph{Max}}])$.
 
 \begin{lemma}
 \label{lem:translation}
@@ -724,8 +687,7 @@ We encode this strategy using a deterministic finite-state automaton of size ...
 
 \section{Properties of Optimal Strategies in Patrolling Games}
 \label{sec:value}
-In this section, we look at what happens with a defender's strategy after a history has been played.
-%Recall that $val_u(\sigma) = \inf_{\pi \in \Pi}\mathcal{P}_u^{\sigma}(\mathcal{D}_u[\pi])$.
+In this section, we examine the properties of a defender's strategy after a history has been played.
 
 \begin{definition}
 Let $\sigma$ be a defender's strategy and $h$ a history.
@@ -752,7 +714,7 @@ Otherwise, one could iteratively construct a history $h''$ such that $val(\sigma
 
 One of the key observations used in the proof is that the value of $\sigma$ cannot decrease if we do not allow the attacker to attack in the first $k \in \mathbb{N}$ steps.
 This observation is also used in the second part of the proof to show that $val(\sigma \mid h) = val(\sigma)$ for all $h \in \mathcal{H}(\sigma)$, specifically in the first inequality here:
-$$val(\sigma) \leq \sum_{h' \in {\mathcal{H}(\sigma)} \wedge |h'| = k}(val(\sigma \mid h')) \cdot P^\sigma(\mathcal{R}(h'))) \leq val(\sigma)$$
+$$val(\sigma) \leq \sum_{h' \in {\mathcal{H}(\sigma)} \wedge |h'| = k}(val(\sigma \mid h')) \cdot P^\sigma(\mathcal{R}(h'))) \leq val(\sigma)~.$$
 %TODO skarede rozdelenie
 The second inequality follows from the first part of the proof, i.e. $val(\sigma~\mid~h) \leq val(\sigma)$ for all $h \in \mathcal{H}(\sigma)$, and the fact that $\sum_{h' \in {\mathcal{H}(\sigma)} \wedge |h'| = k} P^\sigma(\mathcal{R}(h')) = 1$.
 %\end{proof}
@@ -760,8 +722,6 @@ The second inequality follows from the first part of the proof, i.e. $val(\sigma
 Note that Lemma \ref{lem:value} would not hold without the restriction that the initial node has to be a target (see Example \ref{ex:initial} for counterexample).
 
 \section{Discretization and $\epsilon$-optimality}
-%TODO uviest to tu
-
 As it is common in algorithmic game theory, we are interested in strategies implementable by finite-memory controllers.
 In order to formalize this concept, we define a \emph{regular} strategy.
 %TODO foonote? %We prefer the definition from... for its simplicity.
@@ -780,19 +740,16 @@ We apply standard results for finite-state stochastic games to obtain an optimal
 Third, using $\theta_\emph{Max}^{ml}$, we construct a DFA which encodes an $\epsilon$-optimal strategy.
 
 \textbf{Step 1.} Let us fix an optimal defender's strategy $\sigma$, whose existence is guaranteed by Theorem \ref{thm:existence}.
-%For a desired precision $\epsilon$
-We discretize $\sigma$ to obtain a strategy $\sigma_\epsilon$ with all probabilities $\sigma_\epsilon(h)(u)$ being integer multiples of an appropriate number $s$ satisfying \mbox{$s = 1/l$} for some $l \in \mathbb{N}$.
-%TODO
+For a desired precision $\epsilon$, we discretize $\sigma$ to obtain a strategy $\sigma_\epsilon$ with all probabilities $\sigma_\epsilon(h)(u)$ being integer multiples of an appropriate number $s$ satisfying \mbox{$s = 1/l$} for some $l \in \mathbb{N}$.
 As we will see, to guarantee the $\epsilon$-optimality of $\sigma_\epsilon$, it suffices that $|\sigma(h)(u) - \sigma_\epsilon(h)(u)| \leq {\epsilon\over{|N|d}}$.
 We can guarantee this property for $s = \lceil(|N|d)/\epsilon\rceil^{-1}$ using the following rounding procedure.
 
 Let $U = \{u_1, u_2, \dots, u_{|U|}\}$ be the set of nodes of $\mathcal{G}$.
 For every history $h$ and every $1 \leq i \leq |U|$, we inductively define $\sigma_\epsilon(h)(u_i) = k_i \cdot s$, where $k_i$  is the largest number satisfying
 $$ k_i \cdot s \leq \sigma(h)(u_i) + \sum_{j=1}^{i-1}(\sigma(h)(u_j) - \sigma_\epsilon(h)(u_j))~.$$
-This rounding procedure guarantees %that the resulting discretized strategy $\sigma_epsilon$ is valid in the sense
+This rounding procedure guarantees
 that $\sigma_\epsilon(h)$ is indeed a probability distribution over $U$, i.e. $\sum_{u\in U}\sigma_\epsilon(h)(u) = 1$ (note that simple rounding would not guarantee this property).
-%TODO preformulovat ?
-Further, when we realize the invariant $0 \leq \sum_{j=1}^{i-1}(\sigma(h)(u_j) - \sigma_\epsilon(h)(u_j)) < s$ holds for all $1 \leq i \leq |U|$, it is easy to see that $|\sigma(h)(u_i) - \sigma_\epsilon(h)(u_i)| < s$, which is captured by the following lemma.% (for all $i$)
+Further, when we realize the invariant $0 \leq \sum_{j=1}^{i-1}(\sigma(h)(u_j) - \sigma_\epsilon(h)(u_j)) < s$ holds for all $1 \leq i \leq |U|$, it is easy to see that $|\sigma(h)(u_i) - \sigma_\epsilon(h)(u_i)| < s$, which is captured by the following lemma. %TODO zmazat "which is captured..."
 \begin{lemma}
 \label{lem:difference}
 For all $h \in \mathcal{H}$ and $u \in U$ we have $|\sigma(h)(u) - \sigma_\epsilon(h)(u)| < s$.
@@ -811,31 +768,9 @@ $$att\text{-}val(\iota \mid h) = \inf_{t \in T} \mathcal{P}_{last(h)}^{\iota_h}(
 where $D_{last(h)}[t]$ is the set of all runs initiated in $last(h)$ that visit $t$ in the first $d$ steps.
 \end{definition}
 
-%TODO zmazat, vobec netreba!
-%TODO presunut niekam prec - do apendixu?; je to vskutku "lemma"?
-%In a later proof, we will need this ancillary lemma.
-%%TODO absolutnu hodnotu mi nalavo netreba
-%\begin{lemma}
-%\label{lem:inequality}
-%For all $a, a', b, b' \in [0, 1]$ we have
-%$$|ab - a'b'| \leq |a - a'| + |b - b'|~.$$
-%\end{lemma}
-%
-%\begin{proof}
-%\begin{align}
-%|ab - a'b'| 
-%  &= |ab - a'b + a'b - a'b'| \nonumber\\
-%  &= |b(a - a') + a'(b - b')| \nonumber\\
-%  &\leq b|a - a'| + a'|b - b'|\nonumber~.
-%\end{align}
-%%$|ab - a'b'| = |ab - a'b + a'b - a'b'| = |b(a - a') + a'(b - b')| \leq b|a - a'| + a'|b - b'|$
-%\end{proof}
-
-%we prove even stronger proposition
 The following lemma states that any attack at any moment is captured using $\sigma_\epsilon$ with probability at least $val(\sigma) - \epsilon$.
 \begin{lemma}
 \label{lem:epsilon}
-%Let $h \in \mathcal{H}(\sigma_\epsilon)$ be a history.
 For every $h \in \mathcal{H}(\sigma_\epsilon)$ we have that $att\text{-}val(\sigma_\epsilon \mid h) \geq val(\sigma) - \epsilon$.
 \end{lemma}
 
@@ -866,7 +801,6 @@ The base case ($k = 0$) clearly holds as the value of $R[\iota, h, u, 0]$ is ind
 
 Let us denote the difference $R[\sigma, h, t, k] - R[\sigma_\epsilon, h, t, k]$ by $\Delta$.
 For $k \geq 1$, we have
-%\begin{align}
 \begin{eqnarray}
 %TODO pridat zatvorku za sumu? viac odsadit?
 \Delta
@@ -879,7 +813,6 @@ For $k \geq 1$, we have
 	%  &\hspace{5pt}+\hspace{-5pt}& \sum_{u\in U} \sigma_\epsilon(h)(u)\cdot (k - 1)|U|s \nonumber \\
   &\leq& |U|s + (k - 1)|U|s	\label{eq1b:fourth} \\
   &=& k|U|s\nonumber~.
-%\end{align}
 \end{eqnarray}
 \begin{itemize}[noitemsep]
 	\item The equality \eqref{eq1b:first} follows from the definition of $R[\iota, h, t, k]$ as $R[\iota, h, t, k] = \sum_{u \in U} \iota(h)(u) \cdot R[\iota, hu, t, k - 1]$ for all $k \in \mathbb{N}$. %$k \geq 1$.
@@ -919,7 +852,6 @@ satisfying
 $$val^\mathcal{S}(\theta_\emph{Max}^{ml}, init, fail) \geq val(\sigma_\epsilon)~.$$
 
 \textbf{Step 3.}
-%TODO %IDEA $q_0$ spravit ako "nelegalny" commitment - stav musi ale splnat vsetko potrebne!
 Using $\theta_\emph{Max}^{ml}$, we construct a DFA $\mathcal{A}$ encoding the desired regular \hbox{$\epsilon$-optimal} strategy $\sigma_\epsilon^{reg}$ as follows: $\mathcal{A} = (Q_0, U, \delta, q_0, \{\})$ where
 \vspace{-3pt}
 \begin{itemize}[noitemsep]
@@ -948,12 +880,11 @@ When we realize that $Q$ is the set of all $d$-commitments $f$ occuring in verti
 
 \begin{lemma}
 \label{lem:epsilon_commitment}
-%All $d$-commitments $f$ occuring in vertices of $\mathbf{Reach}(\theta_\emph{Max})$ satisfy
 For every $d$-commitment $f \in Q$, we have that $val(f) \geq val(\sigma) - \epsilon$.
 \end{lemma}
 
 %TODO zmenit nazov?
-%\section{Reducing the State Space}
+%\section{Reducing the State Space} / The Characteristics?
 \section{Characteristics}
 
 As you may noticed, the above proof of existence of an $\epsilon$-optimal strategy is not constructive.
@@ -970,14 +901,16 @@ We prove that states with the same characteristics are equivalent, i.e. they can
 
 In the following definition, we assume the automaton $\mathcal{A}$ constructed in Step 3 in the previous section.
 
+%TODO zadefinovat rigorozne
 \begin{definition}
-%TODO Let $\mathcal{A}$ be the automaton constructed in Step 3 in the previous section.
 Given $p \in Q$, we define the characteristics $\mathbf{Char}_p$ of $p$ to be a function which to every pair $(k, u) \in \{0, \dots, d\} \times U$ assigns the probability of reaching $u$ in at most $k$ steps whenever the strategy is in the state $p$ (recall that $p$ determines the current state of the play).
 %We omit the superscript $\mathcal{A}$ in $\mathbf{Char}_p^{\mathcal{A}}$ when it is clear from the context.
 \end{definition}
 %Values for $k = 0$ contain the information about the current location of the defender and 
 %values for $k = 1$ represent the probability distribution over the nodes in the next step.
 The current location of the defender is determined by the only node $u$ for which $\mathbf{Char}_p(0, u) = 1$ and the probability distribution over the nodes in the next step is represented by values of $\mathbf{Char}_p(1, u)$.
+%Note that inevitably $\mathbf{Char}_p(k, u) \leq \mathbf{Char}_p(k + 1, u)$ except for the case when $k = 0$ and $\mathbf{Char}_p(k, u) = 1$.
+%TODO zmienit, ze Char(0, _) sluzi LEN na urcenie aktualnej polohy defendera, ze to ide aj bez nej (a ze do "at most k steps" nezaratavame tuto pravdepodobnost)
 
 \
 
@@ -999,7 +932,6 @@ Intuitively, $\mathcal{A}_{p \leftarrow q}$ is obtained from $\mathcal{A}$ by re
 
 In general, this change in the transition function might influence the characteristics of the states from which $q$ was reachable in less than $d$ steps.
 %However, we prove that the states' characteristics are preserved if the two merged states have the same characteristics.
-%For $r \in Q \smallsetminus \{q\}$, we denote by $\mathbf{Char}'_r$ the characteristics of $r$ in the automaton $\mathcal{A}_{p \leftarrow q}$.
 However, the states' characteristics are preserved if the two merged states have the same characteristics, as is formulated in the following lemma.
 
 \begin{lemma}
@@ -1011,7 +943,6 @@ where $\mathbf{Char}'_r$ denotes the characteristics of $r$ in the automaton $\m
 
 \begin{proof}
 Observe that the automaton $\mathcal{A}$ together with the strategy it determines can be seen as a Markov Chain.
-%TODO premenovat $f$ a $g$ na $r$ a $s$
 Indeed, when the play is in a state $f$, the next state $g$ is chosen with probability $\sum_{u \in U, g = \delta(f, u)} \xi(f)(u)$.
 %TODO remove the reasoning
 This is because the next node $u$ visited by the defender is selected based on $\xi(f)$, and $g$ is determined by $\delta(f, u)$.
@@ -1074,7 +1005,6 @@ Let us fix and denote by $\mathcal{A}_{red}$ %= (Q_{red} \cup \{q_0\}, U, \delta
 the resulting automaton which cannot be further reduced by applying Lemma \ref{lem:characteristics}.\footnote{Note that the process of merging equivalent states is non-deterministic, so the resulting reduced automaton is not uniquely determined.}
 We denote by $Q_{red}$ the set of non-initial states of $\mathcal{A}_{red}$ (without $q_0$) and
 by $\sigma_{red}$ the defender's strategy determined by $\mathcal{A}_{red}$.
-%By comparing the automata $\mathcal{A}$ and $\mathcal{A}_{red}$, we will now prove that $\sigma_{red}$ is $\epsilon$-optimal.
 In what follows, we prove that $\sigma_{red}$ is $\epsilon$-optimal.
 
 We start by defining the probability of detecting an immediate attack when the play is in a state $p$.
@@ -1083,6 +1013,7 @@ Given a state $p \in Q$, we define the value of its characteristics by $$val(\ma
 \end{definition}
 Note that $att\text{-}val(\sigma_{red} \mid h) = val(\mathbf{Char}_p)$ where $p = \mathcal{A}[h]$.
 
+%%% COMMENTED OUT %%%
 %Consider the automaton $\mathcal{A}$ and some $d$-commitment $p \in Q$.
 %Based on the definition of $\mathcal{A}$ and $\sigma_\epsilon^{reg}$, the next $d$ steps of the play are completely determined by $p$.
 %TODO vypustit historiu $h$, ak ju nepotrebujem
@@ -1132,6 +1063,7 @@ $\sigma_{red}$ is an $\epsilon$-optimal strategy.
 \ForEach {$c \in \mathbf{Char}_d^s$}
 	\If {$c$ is \emph{representable}}	%{$representable(c)$}
 		add $c$ to $C$ with priority $val(c)$
+%IDEA: nepridavat tie, ktore su ostro horsie nez nejake ine (uz pridane)
 	\EndIf
 \EndFor
 
