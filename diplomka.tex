@@ -863,6 +863,7 @@ $\delta(q_0, \hat{u}) = \theta_\emph{Max}^{ml}(init)$ and
 $\delta(f, u) = f'$ where $f'$ is the $u$-suffix of $\theta_\emph{Max}^{ml}((\emph{Max}, f))$,\footnote{Note that $\theta_\emph{Max}^{ml}$ takes as an argument only a single vertex. That would not be possible unless $\theta_\emph{Max}^{ml}$ was a memoryless strategy.} %IDEA footnote napisat niekam inam? (ako remark?)
 	\item $q_0$ is the initial state.\footnote{The initial state ${q_0}$ is just an auxiliary state for reading $h_0$, which represents no information as it is always $\hat{u}$.}
 \end{itemize}
+%TODO niekde sa zmienit, ze 'in the future, by \emph{states} we refer to $Q$'
 \vspace{-3pt}
 We denote by $\mathcal{A}[h]$ the state of $\mathcal{A}$ reached after reading the history $h$.
 %TODO dat definiciu $\xi(f)$ sem? nikde sa doteraz nepouzila
@@ -901,16 +902,44 @@ We prove that states with the same characteristics are equivalent, i.e. they can
 
 In the following definition, we assume the automaton $\mathcal{A}$ constructed in Step 3 in the previous section.
 
-%TODO zadefinovat rigorozne
 \begin{definition}
 Given $p \in Q$, we define the characteristics $\mathbf{Char}_p$ of $p$ to be a function which to every pair $(k, u) \in \{0, \dots, d\} \times U$ assigns the probability of reaching $u$ in at most $k$ steps whenever the strategy is in the state $p$ (recall that $p$ determines the current state of the play).
-%We omit the superscript $\mathcal{A}$ in $\mathbf{Char}_p^{\mathcal{A}}$ when it is clear from the context.
 \end{definition}
-%Values for $k = 0$ contain the information about the current location of the defender and 
-%values for $k = 1$ represent the probability distribution over the nodes in the next step.
-The current location of the defender is determined by the only node $u$ for which $\mathbf{Char}_p(0, u) = 1$ and the probability distribution over the nodes in the next step is represented by values of $\mathbf{Char}_p(1, u)$.
-%Note that inevitably $\mathbf{Char}_p(k, u) \leq \mathbf{Char}_p(k + 1, u)$ except for the case when $k = 0$ and $\mathbf{Char}_p(k, u) = 1$.
-%TODO zmienit, ze Char(0, _) sluzi LEN na urcenie aktualnej polohy defendera, ze to ide aj bez nej (a ze do "at most k steps" nezaratavame tuto pravdepodobnost)
+The values for $k = 0$ contain the information about the current location of the defender and we put\\
+\[\mathbf{Char}_p(0, u) =
+   \begin{cases}
+   1		& \text{if } r(p) = u \\
+   0		& \text{otherwise.}
+   \end{cases}
+\]
+%TODO inductive definition
+For $1 \leq k \leq d$ we put
+$$\mathbf{Char}_p(k, u) = \xi(p)(u) + \sum_{v \neq u}\xi(p)(v) \cdot \mathbf{Char}_{\delta(p, v)}(k - 1, u)~.$$
+Note that the values for $k = 1$ represent the probability distribution over the nodes in the next step as $\mathbf{Char}_{\delta(r, u)}(0, v) = 0$ for all $u \neq v$.
+
+%The current location of the defender is determined by the only node $u$ for which $\mathbf{Char}_p(0, u) = 1$ and the probability distribution over the nodes in the next step is represented by values of $\mathbf{Char}_p(1, u)$.
+
+%%%%%%%%%%%%%%
+%%% COMMENTED OUT %%%
+%\noindent$
+%\mathbf{Char}_p(k, u) =
+%   \begin{cases}
+%      \begin{cases}
+%         1	& \text{if } r(p) = u \\
+%         0	& \text{if } r(p) \neq u \\
+%      \end{cases}
+%		& \text{if } k = 0 \\
+%   \xi(p)(u) + \sum_{v \neq u}\xi(p)(v) \cdot \mathbf{Char}_{\delta(p, v)}(k - 1, u)	& \text{otherwise.}
+%   \end{cases}
+%$
+%
+%\noindent$
+%\mathbf{Char}_p(k, u) =
+%   \begin{cases}
+%   \text{the boolean value of } r(p) = u		& \text{if } k = 0 \\
+%   \xi(p)(u) + \sum_{v \neq u}\xi(p)(v) \cdot \mathbf{Char}_{\delta(p, v)}(k - 1, u)	& \text{otherwise.}
+%   \end{cases}
+%$
 
 \
 
@@ -1047,6 +1076,8 @@ $\sigma_{red}$ is an $\epsilon$-optimal strategy.
 
 \section{The Algorithm}
 
+So far, we have shown that there is a DFA $\mathcal{A}_{red}$ encoding an $\epsilon$-optimal strategy.
+Moreover, this automaton
 %TODO uviest to tu
 
 %TODO algoritmus podobny tomu z \cite{iti1}
