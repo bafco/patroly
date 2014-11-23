@@ -6,6 +6,8 @@
 \usepackage[plainpages=false, pdfpagelabels, hidelinks]{hyperref}
 \usepackage{amsmath, amssymb, graphicx, amsthm, amsfonts, enumitem, algpseudocode, algorithmicx, wasysym, fixltx2e, float, etoolbox}
 
+\setlist{noitemsep}
+
 \usepackage{tikz}
 \tikzset{ every node/.style={circle,fill=gray!15,draw,minimum size=1.5em,inner sep=2.5pt}}
 \usepackage{array}
@@ -598,7 +600,7 @@ Let us fix a patrolling game $\mathcal{G} = (U, E, T, \hat{u}, d)$.
 \begin{definition}
 Let $k \in \mathbb{N}$. A \emph{$k$-commitment} is a function $f : U^{\leq k} \to \Delta(U)$ satisfying the following conditions:
 \vspace{-5pt}
-\begin{itemize}[noitemsep]
+\begin{itemize}
 	\item $f(\epsilon)(u) = 1$ for some $u \in U$,
 	\item $supp(f(wu)) \subseteq succ(u)$ for all $w \in U^{\leq k - 1}$ and $u \in U$.
 \end{itemize}
@@ -622,14 +624,14 @@ Player \emph{Max}'s new $d$-step plan is actually a $u$-suffix of an extension o
 Now follows the translation of the patrolling game $\mathcal{G}$ to a stochastic game, as presented in \cite{iti1}.
 We define a stochastic game $\mathcal{S} = (V, (V_{\emph{Min}}, V_{\emph{Max}}),$ $|U|^{d+2}, A, \mathbf{E}, \mathbf{P})$ where players \emph{Min} and \emph{Max} correspond to the attacker and defender in $\mathcal{G}$, respectively.
 \vspace{-5pt}
-\begin{itemize}[noitemsep]
+\begin{itemize}
 	\item $V = (\{\emph{Min}, \emph{Max}\} \times \mathbf{Comm}_d) \cup \{init, succ, fail\}$
 	\item $V_{\emph{Min}} = (\{\emph{Min}\} \times \mathbf{Comm}_d)$
 	\item $V_{\emph{Max}} = (\{\emph{Max}\} \times \mathbf{Comm}_d) \cup \{init, succ, fail\}$
 	\item $A = \mathbf{Comm}_d \cup \mathbf{Comm}_{d+1} \cup T \cup \{\perp\}$
 	\item the action enabling function $\mathbf{E}$ is defined as follows:
 	\vspace{-4pt}
-	\begin{itemize}[noitemsep]
+	\begin{itemize}
 		\item $\mathbf{E}(init) = \mathbf{Comm}_d(\hat{u}), \mathbf{E}(succ) = \mathbf{E}(fail) = \{\perp\}$ 
 		\item $\mathbf{E}((\emph{Min}, f)) = T \cup \{\perp\}$ 
 		\item $\mathbf{E}((\emph{Max}, f)) = \{g \in \mathbf{Comm}_{d+1} \mid g~\text{extends}~f\}$ 
@@ -637,11 +639,11 @@ We define a stochastic game $\mathcal{S} = (V, (V_{\emph{Min}}, V_{\emph{Max}}),
 	\vspace{-4pt}
 	\item the function $\mathbf{P}$ is defined as follows:
 	\vspace{-4pt}
-	\begin{itemize}[noitemsep]
+	\begin{itemize}
 		\item $\mathbf{P}(init, f)((\emph{Min}, f)) = 1$
 		\item for $(\emph{Min}, f) \in V_{\emph{Min}}$ we put
 		\vspace{-2pt}
-		\begin{itemize}[noitemsep]
+		\begin{itemize}
 			\item $\mathbf{P}((\emph{Min}, f), \perp)((\emph{Max}, f)) = 1$
 			\item $\mathbf{P}((\emph{Min}, f), t)(succ) = val(f, t)$
 			\item $\mathbf{P}((\emph{Min}, f), t)(fail) = 1 - val(f, t)$
@@ -785,7 +787,7 @@ att\text{-}val(\sigma_\epsilon \mid h)
   &\geq val(\sigma \mid h) - \epsilon\label{eq1:second} \\
   &= val(\sigma) - \epsilon\label{eq1:third}~.
 \end{align}
-\begin{itemize}[noitemsep]
+\begin{itemize}
 	\item The equality \eqref{eq1:third} directly follows from Lemma \ref{lem:value} as $\sigma$ is an optimal strategy and $h \in \mathcal{H}(\sigma)$.
 	\item The inequality \eqref{eq1:second} clearly holds as restricting the attacker to attack immediately cannot decrease the value of the game.
 Formally, it follows from the fact that $D_{last(h)}[t] = D_{last(h)}[\pi]$ for $\pi(last(h)) = t$.
@@ -797,7 +799,7 @@ R[\sigma, h, t, k] - R[\sigma_\epsilon, h, t, k] \leq k|U|s~.\nonumber %\label{e
 \end{align}
 
 %The base case ($k = 1$) directly follows from Lemma \ref{lem:difference} and the fact that $R[\iota, h, u, 1] = \iota(h)(u)$.
-The base case ($k = 0$) clearly holds as the value of $R[\iota, h, u, 0]$ is independent of the strategy $\iota$ --- it is $1$ if $last(h) = u$, and it is $0$ otherwise.
+The base case ($k = 0$) clearly holds as the value of $R[\iota, h, u, 0]$ is independent of the strategy $\iota$---it is $1$ if $last(h) = u$, and it is $0$ otherwise.
 
 Let us denote the difference $R[\sigma, h, t, k] - R[\sigma_\epsilon, h, t, k]$ by $\Delta$.
 For $k \geq 1$, we have
@@ -814,7 +816,7 @@ For $k \geq 1$, we have
   &\leq& |U|s + (k - 1)|U|s	\label{eq1b:fourth} \\
   &=& k|U|s\nonumber~.
 \end{eqnarray}
-\begin{itemize}[noitemsep]
+\begin{itemize}
 	\item The equality \eqref{eq1b:first} follows from the definition of $R[\iota, h, t, k]$ as $R[\iota, h, t, k] = \sum_{u \in U} \iota(h)(u) \cdot R[\iota, hu, t, k - 1]$ for all $k \in \mathbb{N}$. %$k \geq 1$.
 	\item The equality \eqref{eq1b:second} is just an application of the formula $ab - a'b' = b(a -  a') + a'(b - b')$.
 	\item The inequality \eqref{eq1b:third} follows from Lemma \ref{lem:difference} and from the induction hypothesis.
@@ -854,7 +856,7 @@ $$val^\mathcal{S}(\theta_\emph{Max}^{ml}, init, fail) \geq val(\sigma_\epsilon)~
 \textbf{Step 3.}
 Using $\theta_\emph{Max}^{ml}$, we construct a DFA $\mathcal{A}$ encoding the desired regular \hbox{$\epsilon$-optimal} strategy $\sigma_\epsilon^{reg}$ as follows: $\mathcal{A} = (Q_0, U, \delta, q_0, \{\})$ where
 \vspace{-3pt}
-\begin{itemize}[noitemsep]
+\begin{itemize}
 	\item $Q_0 = Q \cup \{q_0\}$ is the finite set of states, where $Q = \{f \mid (\emph{Max}, f) \in \mathbf{Reach}(\theta_\emph{Max})\}$
 	\item $U$ is the alphabet, %a finite set of input symbols,
 	\item $\delta : Q_0 \times U \to Q$ is a transition function such that
@@ -915,7 +917,7 @@ The values for $k = 0$ contain the information about the current location of the
 %TODO inductive definition
 For $1 \leq k \leq d$ we put
 $$\mathbf{Char}_p(k, u) = \xi(p)(u) + \sum_{v \neq u}\xi(p)(v) \cdot \mathbf{Char}_{\delta(p, v)}(k - 1, u)~.$$
-Note that the values for $k = 1$ represent the probability distribution over the nodes in the next step as $\mathbf{Char}_{\delta(r, u)}(0, v) = 0$ for all $u \neq v$.
+Note that the values for $k = 1$ represent the probability distribution over the nodes in the next step as $\mathbf{Char}_{\delta(r, u)}(0, v) = 0$ for all $v \neq u$.
 
 %The current location of the defender is determined by the only node $u$ for which $\mathbf{Char}_p(0, u) = 1$ and the probability distribution over the nodes in the next step is represented by values of $\mathbf{Char}_p(1, u)$.
 
@@ -947,7 +949,7 @@ Note that the values for $k = 1$ represent the probability distribution over the
 %IDEA pripadne zadefinovat $Q'$
 Given $q \in Q$, we denote by $\mathcal{A}_{p \leftarrow q} = (Q_0', U, \delta', q_0, \{\})$ the DFA defined as follows:
 \vspace{-5pt}
-\begin{itemize}[noitemsep]
+\begin{itemize}
 	\item $Q_0' = Q_0 \smallsetminus \{q\}$
 	\item $\delta'(r, u) =
   \begin{cases}
@@ -976,24 +978,18 @@ Indeed, when the play is in a state $f$, the next state $g$ is chosen with proba
 %TODO remove the reasoning
 This is because the next node $u$ visited by the defender is selected based on $\xi(f)$, and $g$ is determined by $\delta(f, u)$.
 
-That means that although the states of $\mathcal{A}$ are $d$-commitments, only the probability distribution in their root affects the strategy. %(the rest of the commitment just distinguishes it from other states)
-%We do not know whether, in general, the state-space can be bounded by the number of possible probability distributions in a root, but we strongly believe it cannot. %dost by to ale pomohlo, lebo najmensia mozna pravdepodobnost v charakteristikach by nebola $t^d$, ale "len" $t$
+That means that although the states of $\mathcal{A}$ are $d$-commitments, only the probability distribution in their root affects the strategy.
 The idea of the proof is that the characteristics of a state $r$ are completely determined by
 (1) the probability distribution in its root and by
 %, by the transitions from it,
 (2) the characteristics of all the states to which there is a transition from $r$ under a particular node~$u$.
-\
 %TODO dat to ako odrazky?
-%\vspace{-20pt}
-%\begin{itemize}[noitemsep, label=(1)]
-%	\item the probability distribution in its root
-%\end{itemize}
-%\vspace{-35pt}
-%\begin{itemize}[noitemsep, label=(2)]
+%\vspace{-6.1pt}
+%\begin{enumerate}
+%	\item the probability distribution in its root, and
 %	\item the characteristics of all the states to which there is a transition from $r$ under a particular node $u$.
-%\end{itemize}
-%\vspace{-20pt}
-\
+%\end{enumerate}
+%\vspace{-6.1pt}
 Substitution of $q$ by $p$ does not have any influence on (1) and because $\mathbf{Char}_p = \mathbf{Char}_q$, neither has it any influence on (2).
 %Note that the characteristics of a state preserve the information about probability distribution in its root.
 
@@ -1002,8 +998,7 @@ Formally, we prove by induction on $k$ that for all $r \in Q \smallsetminus \{q\
 For $k = 0$ this clearly holds as the root of any state remains unchanged.
 
 Now all we need is to realize that $\xi(r)$ is the same in both $\mathcal{A}$ and $\mathcal{A}_{p \leftarrow q}$.
-For $k = 1$ we have that $$\mathbf{Char}'_r(1, v) = \xi(r)(v) = \mathbf{Char}_r(1, v)~.$$
-For $2 \leq k \leq d$ we have
+For $1 \leq k \leq d$ we have
 \begin{align}
 \mathbf{Char}'_r(k, v)
   &= \xi(r)(v) + \sum_{u \neq v}\xi(r)(u) \cdot \mathbf{Char}'_{\delta'(r, u)}(k - 1, v)\label{eq2:first} \\
@@ -1012,17 +1007,13 @@ For $2 \leq k \leq d$ we have
   &= \mathbf{Char}_r(k, v)\label{eq2:fourth}~.
 \end{align}
 \vspace{-20pt}
-\begin{itemize}[noitemsep]
+\begin{itemize}
 	\item The equalities \eqref{eq2:first} and \eqref{eq2:fourth} follow directly from the definition of the characteristics. %and the fact that $\mathbf{Char}_{\delta(r, u)}(0, v) = 0$ for all $u \neq v$.
 	\item The equality \eqref{eq2:second} holds by the induction hypothesis.
 	\item To prove the equality \eqref{eq2:third}, note that the only case when $\delta'(r, u) \neq \delta(r, u)$ is when $\delta'(r, u) = p$ and $\delta(r, u) = q$. However, $\mathbf{Char}_p = \mathbf{Char}_q$.
 \end{itemize}
 \vspace{-5pt}
 \end{proof}
-%\begin{remark}
-%\textsl{Remark 1.~}
-%Note that the case $k = 1$ in the proof is just a special case of the latter case as $\mathbf{Char}_{\delta(r, u)}(0, v) = 0$ for all $u \neq v$.
-%\end{remark}
 \noindent
 Lemma \ref{lem:characteristics} shows that removal of one of the "equivalent" states does not influence the characteristics of the other states.
 Of great importance is that the lemma holds also for the reduced automaton $\mathcal{A}_{p \leftarrow q}$.
@@ -1058,7 +1049,7 @@ Recall that the states are $d$-commitments and each state of the automaton $\mat
 Therefore, we have that $val(\mathbf{Char}_p) = val(p)$.
 However, $val(p) \geq val(\sigma) - \epsilon$ according to Lemma \ref{lem:epsilon_commitment}.
 \end{proof}
-
+\noindent
 As $Q_{red} \subseteq Q$ and the characteristics of all the states in $\mathcal{A}_{red}$ are the same as in $\mathcal{A}$ (see Lemma \ref{lem:characteristics}), Lemma \ref{lem:char_value} provides a lower bound on the value of the characteristics of all the states of the automaton $\mathcal{A}_{red}$.
 It follows that
 \begin{align*}
@@ -1074,13 +1065,44 @@ val(\sigma_{red})
 $\sigma_{red}$ is an $\epsilon$-optimal strategy.
 \end{proposition}
 
+We can further substitute each state $p \in Q_{red}$ by its characteristics $\mathbf{Char}_p$ to obtain an automaton $\mathcal{A}_{Char}$.
+%One can easily prove that $\mathcal{A}_{Char}$ and $\mathcal{A}_{red}$ encode exactly the same defender's %strategy.
+%It suffices to put
+By putting
+\vspace{-5pt}
+\begin{itemize}[label=-]
+	\item $\delta_{Char}(\mathbf{Char}_p)(u) = \mathbf{Char}_q$ iff $\delta_{red}(p)(u) = q$, and
+	\item $\sigma_{Char}(h)(u) = \mathcal{A}_{Char}[h](1, u)$ %$ = \xi(\mathcal{A}_{red}[h])(u)$
+\end{itemize}
+\vspace{-5pt}
+one can easily see that $\sigma_{Char} = \sigma_{red}$.
+
+%\noindent
+%\textit{Remark 1. }
+%We do not know whether, in general, the state-space can be bounded by the number of different probability distributions in a root, but we strongly believe it cannot.
+%TODO %IDEA Napisat o $\mathcal{A}_{Char}$?
+
 \section{The Algorithm}
 
-So far, we have shown that there is a DFA $\mathcal{A}_{red}$ encoding an $\epsilon$-optimal strategy.
-Moreover, this automaton
-%TODO uviest to tu
+So far, we have shown that there is a DFA $\mathcal{A}_{Char}$ encoding an $\epsilon$-optimal strategy such that its states $Q_{Char}$ are mutually different characteristics.
+Furthermore, each $c \in Q_{Char}$ satisfies:
+\vspace{-5pt}
+\begin{enumerate}[label=(\Alph*)]
+	\item $c = \mathbf{Char}_c$\footnote{We identify a state with its characteristics to reflect that it is the only quality of a state we are interested in.} \label{a}
+	\item $c(1, u)$ is an integer multiple of $t$ for all $u \in U$ \label{b}
+	\item $val(c) \geq val(\sigma) - \epsilon~$. \label{c}
+%%% COMMENTED OUT the bullets for the existence of $\mathcal{A}_{red}$ %%%
+%	\item its states are $d$-commitments with all their function values (elements of probability distribution) being integer multiples of $t$,
+%	\item no two states have the same characteristics, and
+%	\item the value of the characteristics of each state is at least $val(\sigma) - \epsilon$.
+\end{enumerate}
+\vspace{-5pt}
+In order to find such an automaton, we consider the set of all discretized characteristics
+$\emph{Char}^t$ that consists of all characteristics $c$ such that $c(k, u)$ is an integer multiple of $t^k$ for all $0 \leq k \leq d$ and $u \in U$.
+It follows from \ref{a} and \ref{b} that $Q_{Char} \subseteq \emph{Char}^t$.
 
-%TODO algoritmus podobny tomu z \cite{iti1}
+The algorithm we provide to compute the desired $\epsilon$-optimal strategy is a modification of the algorithm from \cite{iti1}---instead of searching the set of discretized $d$-commitments, we search the set of discretized characteristics.
+
 \begin{algorithm}[H]
 \caption{~Compute an $\epsilon$-optimal strategy $\sigma_\epsilon^{alg}$}
 \label{alg:algorithm1}
