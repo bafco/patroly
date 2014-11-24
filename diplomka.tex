@@ -914,7 +914,7 @@ The values for $k = 0$ contain the information about the current location of the
    0		& \text{otherwise.}
    \end{cases}
 \]
-%TODO inductive definition
+%TODO inductive definition - slovna definicia sa zide, ked budem d-commitmentom priradovat charakteristiky
 For $1 \leq k \leq d$ we put
 $$\mathbf{Char}_p(k, u) = \xi(p)(u) + \sum_{v \neq u}\xi(p)(v) \cdot \mathbf{Char}_{\delta(p, v)}(k - 1, u)~.$$
 Note that the values for $k = 1$ represent the probability distribution over the nodes in the next step as $\mathbf{Char}_{\delta(r, u)}(0, v) = 0$ for all $v \neq u$.
@@ -1071,14 +1071,21 @@ We can further substitute each state $p \in Q_{red}$ by its characteristics $\ma
 By putting
 \vspace{-5pt}
 \begin{itemize}[label=-]
+%	\item $Q_{Char} = \{\mathbf{Char}_p \mid p \in Q_{red}\}$,
 	\item $\delta_{Char}(\mathbf{Char}_p)(u) = \mathbf{Char}_q$ iff $\delta_{red}(p)(u) = q$, and
 	\item $\sigma_{Char}(h)(u) = \mathcal{A}_{Char}[h](1, u)$ %$ = \xi(\mathcal{A}_{red}[h])(u)$
 \end{itemize}
 \vspace{-5pt}
 one can easily see that $\sigma_{Char} = \sigma_{red}$.
 
+%TODO delete? dal som to k zdovodneniu pre "representable" charakteristik
 %\noindent
 %\textit{Remark 1. }
+%When a play in is a state $p \in Q_{Char}$, there is exactly one unique $d$-commitment $f$ (determined by $\sigma_{Char}$) which represents the current $d$-step randomized plan for the defender.
+%Note that it might be the case that $f \notin Q$.
+
+%\noindent
+%\textit{Remark 2. }
 %We do not know whether, in general, the state-space can be bounded by the number of different probability distributions in a root, but we strongly believe it cannot.
 %TODO %IDEA Napisat o $\mathcal{A}_{Char}$?
 
@@ -1101,9 +1108,7 @@ In order to find such an automaton, we consider the set of all discretized chara
 $\emph{Char}^t$ that consists of all characteristics $c$ such that $c(k, u)$ is an integer multiple of $t^k$ for all $0 \leq k \leq d$ and $u \in U$.
 It follows from \ref{a} and \ref{b} that $Q_{Char} \subseteq \emph{Char}^t$.
 
-The algorithm we provide to compute the desired $\epsilon$-optimal strategy is a modification of the algorithm from \cite{iti1}---instead of searching the set of discretized $d$-commitments, we search the set of discretized characteristics.
-
-\begin{algorithm}[H]
+\begin{algorithm}[t]
 \caption{~Compute an $\epsilon$-optimal strategy $\sigma_\epsilon^{alg}$}
 \label{alg:algorithm1}
 \begin{algorithmic}[1]
@@ -1128,6 +1133,15 @@ The algorithm we provide to compute the desired $\epsilon$-optimal strategy is a
 \end{algorithmic}
 \end{algorithm}
 
+The algorithm we provide to compute the desired $\epsilon$-optimal strategy is a modification of the algorithm from \cite{iti1}---instead of searching the set of discretized $d$-commitments, we search the set of discretized characteristics.
+From these characteristics, we aim to build a DFA encoding an $\epsilon$-optimal strategy.
+%TODO characteristics - singular or plural?
+Each discretized characteristics represent a possible state of the automaton.
+When a play in is any state, there is exactly one unique $d$-commitment which represents the current $d$-step randomized plan for the defender.
+Therefore, we consider only characteristics that are \emph{representable} by some $d$-commitment---otherwise, they could not be the characteristics of any state.
+%TODO is representable!
+
+%proof of $c = \mathbf{Char}_c$ by induction on $k$  that for all characteristics $c$ and all nodes $u$ it holds that $c(k, u) = \mathbf(Char}_c(k, u)$
 
 \chapter{multiple robots}
 \label{chap:multiPatrol}
