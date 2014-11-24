@@ -1106,7 +1106,7 @@ Furthermore, each $c \in Q_{Char}$ satisfies:
 \vspace{-5pt}
 In order to find such an automaton, we consider the set of all discretized characteristics
 $\emph{Char}^t$ that consists of all characteristics $c$ such that $c(k, u)$ is an integer multiple of $t^k$ for all $0 \leq k \leq d$ and $u \in U$.
-It follows from \ref{a} and \ref{b} that $Q_{Char} \subseteq \emph{Char}^t$.
+From \ref{a} and \ref{b} it follows that $Q_{Char} \subseteq \emph{Char}^t$.
 
 \begin{algorithm}[t]
 \caption{~Compute an $\epsilon$-optimal strategy $\sigma_\epsilon^{alg}$}
@@ -1126,27 +1126,42 @@ It follows from \ref{a} and \ref{b} that $Q_{Char} \subseteq \emph{Char}^t$.
 \EndFor
 
 \Repeat
-	\State pull from $C$ the item $c$ with highest priority
+	\State pull from $C$ the item $c$ with the highest priority
 	\State $D \leftarrow D \cup \{c\}$
-\Until {$D$ is \emph{closed}}	%{$closed(D)$}
-\State $\sigma_\epsilon^{alg} \leftarrow$ the strategy induced by ... %TODO
+\Until {$D$ is \emph{complete}}	%{$complete(D)$}
+\State $\sigma_\epsilon^{alg} \leftarrow$ the strategy induced by a closed subset of $D$
 \end{algorithmic}
 \end{algorithm}
 
-The algorithm we provide to compute the desired $\epsilon$-optimal strategy is a modification of the algorithm from \cite{iti1}---instead of searching the set of discretized $d$-commitments, we search the set of discretized characteristics.
+The algorithm we provide to compute the desired $\epsilon$-optimal strategy is a modification of the algorithm from \cite{iti1}, but instead of searching the set of discretized $d$-commitments, we search the set of discretized characteristics.
 From these characteristics, we aim to build a DFA encoding an $\epsilon$-optimal strategy.
 %TODO characteristics - singular or plural?
 Each discretized characteristics represent a possible state of the automaton.
 When a play in is any state, there is exactly one unique $d$-commitment which represents the current $d$-step randomized plan for the defender.
 Therefore, we consider only characteristics that are \emph{representable} by some $d$-commitment---otherwise, they could not be the characteristics of any state.
+The problem of how to determine whether characteristics are representable will be addressed later.
 %TODO is representable!
 
+Let $U = \{u_1, \dots, u_n\}$ be the set of nodes of $\mathcal{G}$
+and let $c, c_1, \dots, c_n \in Char^t$ be some discretized characteristics (not necessarily different).
+We say that $\{c_1, \dots, c_n\}$ is a set of \emph{successors} of $c$ if
+$c(k, u) = \sum_{i = 1}^n c(1, u_i) \cdot c_i(k - 1, u_i)$
+for all $1 \leq k \leq d$ and $u \in U$.
+The meaning of this is that if, for all $i$, $c_i = \mathbf{Char}_{c_i}$ and there is a transition from state $c$ to $c_i$ under $u_i$, then also $c = \mathbf{Char}_{c}$.
+
+We say that a non-empty set $E \subseteq Char^t$ is \emph{closed} if for all $c \in E$ there is a set $S \subseteq E$ of successors of $c$. %if ... there is a set $S$ of successors of $c$ such that $S \subseteq E$.
+Finally, we say that a set $D \subseteq Char^t$ is \emph{complete} if it contains a closed subset.
+
 %proof of $c = \mathbf{Char}_c$ by induction on $k$  that for all characteristics $c$ and all nodes $u$ it holds that $c(k, u) = \mathbf(Char}_c(k, u)$
+
+%TODO $x \ leq k \ leq y$  nahradit $k \in \{x, \dots, y\}$
 
 \chapter{multiple robots}
 \label{chap:multiPatrol}
 
 %ziadny zaciatocny stav - sucastou strategie je pociatocne rozlozenie - nemusi to vsak nutne byt distribucia! staci ista konfiguracia s pravdepodobnostou 1, pretoze utocnik moze zautocit az potom, t.j. nemoze zneuzit, ze vie, kde bude obranca zacinat
+
+%centralne riadena strategia
 
 %vsetci sa hybu rovnako rychlo
 
