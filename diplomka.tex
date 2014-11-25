@@ -1081,7 +1081,7 @@ one can easily see that $\sigma_{Char} = \sigma_{red}$.
 %TODO delete? dal som to k zdovodneniu pre "representable" charakteristik
 %\noindent
 %\textit{Remark 1. }
-%When a play in is a state $p \in Q_{Char}$, there is exactly one unique $d$-commitment $f$ (determined by $\sigma_{Char}$) which represents the current $d$-step randomized plan for the defender.
+%When a play is in a state $p \in Q_{Char}$, there is exactly one unique $d$-commitment $f$ (determined by $\sigma_{Char}$) which represents the current $d$-step randomized plan for the defender.
 %Note that it might be the case that $f \notin Q$.
 
 %\noindent
@@ -1137,10 +1137,11 @@ The algorithm we provide to compute the desired $\epsilon$-optimal strategy is a
 From these characteristics, we aim to build a DFA encoding an $\epsilon$-optimal strategy.
 %TODO characteristics - singular or plural?
 Each discretized characteristics represent a possible state of the automaton.
-When a play in is any state, there is exactly one unique $d$-commitment which represents the current $d$-step randomized plan for the defender.
+When a play is in any state, there is exactly one unique $d$-commitment which represents the current $d$-step randomized plan for the defender.
 Therefore, we consider only characteristics that are \emph{representable} by some $d$-commitment---otherwise, they could not be the characteristics of any state.
 The problem of how to determine whether characteristics are representable will be addressed later.
 %TODO is representable!
+%vobec netreba, aby boli charakteristiky REPRESENTABLE! staci, ak budu legalne v prvom kroku
 
 Let $U = \{u_1, \dots, u_n\}$ be the set of nodes of $\mathcal{G}$
 and let $c, c_1, \dots, c_n \in Char^t$ be some discretized characteristics (not necessarily different).
@@ -1152,7 +1153,14 @@ The meaning of this is that if, for all $i$, $c_i = \mathbf{Char}_{c_i}$ and the
 We say that a non-empty set $E \subseteq Char^t$ is \emph{closed} if for all $c \in E$ there is a set $S \subseteq E$ of successors of $c$. %if ... there is a set $S$ of successors of $c$ such that $S \subseteq E$.
 Finally, we say that a set $D \subseteq Char^t$ is \emph{complete} if it contains a closed subset.
 
-%proof of $c = \mathbf{Char}_c$ by induction on $k$  that for all characteristics $c$ and all nodes $u$ it holds that $c(k, u) = \mathbf(Char}_c(k, u)$
+%TODO
+Note that each closed set $E$ represents a set of states of an automaton, whose transition function can be built from the states' successors (not deterministic).
+\\ $Q = E$
+\\ $q_0 = c$ such that $c(0, \hat{u} = 1$ (there has to be such $c$ unless the value of all characteristics from $E$ is 0), resp. prechod z $q_0$ do $c$ pod $\hat{u}$
+\\ $\sigma(c, u_i) = c_i$ where $\{c_1, \dots, c_n\}$ is a set of successors of $c$ such that $c_i(0, u_i) = 1$
+\\ We prove that this automaton determines an $\epsilon$-optimal strategy.
+
+%proof of $c = \mathbf{Char}_c$: by induction on $k$ that for all characteristics $c$ and all nodes $u$ it holds that $c(k, u) = \mathbf{Char}_c(k, u)$
 
 %TODO $x \ leq k \ leq y$  nahradit $k \in \{x, \dots, y\}$
 
@@ -1160,6 +1168,7 @@ Finally, we say that a set $D \subseteq Char^t$ is \emph{complete} if it contain
 \label{chap:multiPatrol}
 
 %ziadny zaciatocny stav - sucastou strategie je pociatocne rozlozenie - nemusi to vsak nutne byt distribucia! staci ista konfiguracia s pravdepodobnostou 1, pretoze utocnik moze zautocit az potom, t.j. nemoze zneuzit, ze vie, kde bude obranca zacinat
+%mozno mozeme povolit, aby mohol zautocit aj hned - strategia to zvladne bez znizenia hodnoty hry
 
 %centralne riadena strategia
 
