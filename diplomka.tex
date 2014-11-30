@@ -625,14 +625,14 @@ Now follows the translation of the patrolling game $\mathcal{G}$ to a stochastic
 We define a stochastic game $\mathcal{S} = (V, (V_{\emph{Min}}, V_{\emph{Max}}),$ $|U|^{d+2}, A, \mathbf{E}, \mathbf{P})$ where players \emph{Min} and \emph{Max} correspond to the attacker and defender in $\mathcal{G}$, respectively.
 \vspace{-5pt}
 \begin{itemize}
-	\item $V = (\{\emph{Min}, \emph{Max}\} \times \mathbf{Comm}_d) \cup \{init, succ, fail\}$
+	\item $V = (\{\emph{Min}, \emph{Max}\} \times \mathbf{Comm}_d) \cup \{\mathit{init}, \mathit{succ}, \mathit{fail}\}$
 	\item $V_{\emph{Min}} = (\{\emph{Min}\} \times \mathbf{Comm}_d)$
-	\item $V_{\emph{Max}} = (\{\emph{Max}\} \times \mathbf{Comm}_d) \cup \{init, succ, fail\}$
+	\item $V_{\emph{Max}} = (\{\emph{Max}\} \times \mathbf{Comm}_d) \cup \{\mathit{init}, \mathit{succ}, \mathit{fail}\}$
 	\item $A = \mathbf{Comm}_d \cup \mathbf{Comm}_{d+1} \cup T \cup \{\perp\}$
 	\item the action enabling function $\mathbf{E}$ is defined as follows:
 	\vspace{-4pt}
 	\begin{itemize}
-		\item $\mathbf{E}(init) = \mathbf{Comm}_d(\hat{u}), \mathbf{E}(succ) = \mathbf{E}(fail) = \{\perp\}$ 
+		\item $\mathbf{E}(\mathit{init}) = \mathbf{Comm}_d(\hat{u}), \mathbf{E}(\mathit{succ}) = \mathbf{E}(\mathit{fail}) = \{\perp\}$ 
 		\item $\mathbf{E}((\emph{Min}, f)) = T \cup \{\perp\}$ 
 		\item $\mathbf{E}((\emph{Max}, f)) = \{g \in \mathbf{Comm}_{d+1} \mid g~\text{extends}~f\}$ 
 	\end{itemize}
@@ -640,17 +640,17 @@ We define a stochastic game $\mathcal{S} = (V, (V_{\emph{Min}}, V_{\emph{Max}}),
 	\item the function $\mathbf{P}$ is defined as follows:
 	\vspace{-4pt}
 	\begin{itemize}
-		\item $\mathbf{P}(init, f)((\emph{Min}, f)) = 1$
+		\item $\mathbf{P}(\mathit{init}, f)((\emph{Min}, f)) = 1$
 		\item for $(\emph{Min}, f) \in V_{\emph{Min}}$ we put
 		\vspace{-2pt}
 		\begin{itemize}
 			\item $\mathbf{P}((\emph{Min}, f), \perp)((\emph{Max}, f)) = 1$
-			\item $\mathbf{P}((\emph{Min}, f), t)(succ) = val(f, t)$
-			\item $\mathbf{P}((\emph{Min}, f), t)(fail) = 1 - val(f, t)$
+			\item $\mathbf{P}((\emph{Min}, f), t)(\mathit{succ}) = val(f, t)$
+			\item $\mathbf{P}((\emph{Min}, f), t)(\mathit{fail}) = 1 - val(f, t)$
 		\end{itemize}
 		\vspace{-2pt}
 		\item $\mathbf{P}((\emph{Max}, f), g)((\emph{Min}, f')) = f(r(f))(u)$ where $f'$ is the $u$-suffix~of~$g$
-		\item $\mathbf{P}(succ, \perp)(succ) = \mathbf{P}(fail, \perp)(fail) = 1$
+		\item $\mathbf{P}(\mathit{succ}, \perp)(\mathit{succ}) = \mathbf{P}(\mathit{fail}, \perp)(\mathit{fail}) = 1$
 	\end{itemize}
 	\vspace{-4pt}
 \end{itemize}
@@ -666,8 +666,8 @@ There, it has also been proven that this translation preserves the values of the
 
 \begin{lemma}
 \label{lem:translation}
-For every defender's strategy $\sigma$ in $\mathcal{G}$ we have that $val^\mathcal{S}(\theta_{\emph{Max}}[\sigma], init,$ $fail) = val(\sigma)$.
-Further, for every strategy $\theta_{\emph{Max}}$ of player \emph{Max} in $\mathcal{S}$ we have that $val^\mathcal{S}(\theta_{\emph{Max}}, init, fail) = val(\sigma[\theta_{\emph{Max}}])$.
+For every defender's strategy $\sigma$ in $\mathcal{G}$ we have that $val^\mathcal{S}(\theta_{\emph{Max}}[\sigma], \mathit{init},$ $\mathit{fail}) = val(\sigma)$.
+Further, for every strategy $\theta_{\emph{Max}}$ of player \emph{Max} in $\mathcal{S}$ we have that $val^\mathcal{S}(\theta_{\emph{Max}}, \mathit{init}, \mathit{fail}) = val(\sigma[\theta_{\emph{Max}}])$.
 \end{lemma}
 
 In general, optimal strategies for player \emph{Max} in stochastic games may not exist---some extra conditions have to be satisfied.
@@ -837,22 +837,22 @@ as $val(\sigma_\epsilon) \geq \inf_{h \in \mathcal{H}(\sigma_\epsilon)} att\text
 
 \textbf{Step 2.}
 According to Lemma \ref{lem:translation}, we can translate the strategy $\sigma_\epsilon$ in $\mathcal{G}$ to a strategy $\theta_{\emph{Max}} := \theta_{\emph{Max}}[\sigma_\epsilon]$ in $\mathcal{S}$ such that
-$$val^\mathcal{S}(\theta_\emph{Max}, init, fail) = val(\sigma_\epsilon)~.$$
-Let us denote by $\mathbf{Reach}(\theta_\emph{Max})$ the set of all vertices in $\mathcal{S}$ that are reachable from $init$ using $\theta_\emph{Max}$.
+$$val^\mathcal{S}(\theta_\emph{Max}, \mathit{init}, \mathit{fail}) = val(\sigma_\epsilon)~.$$
+Let us denote by $\mathbf{Reach}(\theta_\emph{Max})$ the set of all vertices in $\mathcal{S}$ that are reachable from $\mathit{init}$ using $\theta_\emph{Max}$.
 %for every 1, every 2 and every 3 (each/all)
 Note that for every $(\bigcirc, f) \in \mathbf{Reach}(\theta_\emph{Max})$, $w \in U^{\leq d}$ and $u \in U$ we have that $f(w)(u)$ is an integer multiple of $t$.
 As there are only finitely many such commitments $f$, the set $\mathbf{Reach}(\theta_\emph{Max})$ is finite.
 
 By restricting the set of vertices of $\mathcal{S}$ to $\mathbf{Reach}(\theta_\emph{Max})$, we obtain a stochastic game $\mathcal{S}_\epsilon$.
 As $\theta_{\emph{Max}}$ is a valid strategy in $\mathcal{S}_\epsilon$, we have
-$$val^{\mathcal{S}_\epsilon}(\theta_\emph{Max}, init, fail) = val^\mathcal{S}(\theta_\emph{Max}, init, fail)~.$$
+$$val^{\mathcal{S}_\epsilon}(\theta_\emph{Max}, \mathit{init}, \mathit{fail}) = val^\mathcal{S}(\theta_\emph{Max}, \mathit{init}, \mathit{fail})~.$$
 Applying results for perfect-information stochastic games with finitely many states (see \cite{kucera}), we obtain an optimal memoryless\footnote{A \emph{memoryless} strategy depends only on the current vertice. Therefore, a memoryless strategy for player \emph{Max} can be defined as a function $\theta_\emph{Max}^{ml} : V_\emph{Max} \to A$.} strategy $\theta_\emph{Max}^{ml}$ such that
-$$val^{\mathcal{S}_\epsilon}(\theta_\emph{Max}^{ml}, init, fail) \geq val^{\mathcal{S}_\epsilon}(\theta_\emph{Max}, init, fail)~.$$
+$$val^{\mathcal{S}_\epsilon}(\theta_\emph{Max}^{ml}, \mathit{init}, \mathit{fail}) \geq val^{\mathcal{S}_\epsilon}(\theta_\emph{Max}, \mathit{init}, \mathit{fail})~.$$
 As $\mathbf{Reach}(\theta_\emph{Max})$ is a subset of vertices of $\mathcal{S}$, $\theta_\emph{Max}^{ml}$ is a valid strategy in $\mathcal{S}$ and we have
-$$val^\mathcal{S}(\theta_\emph{Max}^{ml}, init, fail) = val^{\mathcal{S}_\epsilon}(\theta_\emph{Max}^{ml}, init, fail)~.$$
+$$val^\mathcal{S}(\theta_\emph{Max}^{ml}, \mathit{init}, \mathit{fail}) = val^{\mathcal{S}_\epsilon}(\theta_\emph{Max}^{ml}, \mathit{init}, \mathit{fail})~.$$
 Summing up, $\theta_\emph{Max}^{ml}$ is a memoryless strategy %in $\mathcal{S}$
 satisfying
-$$val^\mathcal{S}(\theta_\emph{Max}^{ml}, init, fail) \geq val(\sigma_\epsilon)~.$$
+$$val^\mathcal{S}(\theta_\emph{Max}^{ml}, \mathit{init}, \mathit{fail}) \geq val(\sigma_\epsilon)~.$$
 
 \textbf{Step 3.}
 Using $\theta_\emph{Max}^{ml}$, we construct a DFA $\mathcal{A}$ encoding the desired regular \hbox{$\epsilon$-optimal} strategy $\sigma_\epsilon^{reg}$ as follows: $\mathcal{A} = (Q_0, U, \delta, q_0, \{\})$ where
@@ -862,7 +862,7 @@ Using $\theta_\emph{Max}^{ml}$, we construct a DFA $\mathcal{A}$ encoding the de
 	\item $U$ is the alphabet, %a finite set of input symbols,
 	\item $\delta : Q_0 \times U \to Q$ is a transition function such that
 %defined as follows: + spravit "rozdvojku"
-$\delta(q_0, \hat{u}) = \theta_\emph{Max}^{ml}(init)$ and
+$\delta(q_0, \hat{u}) = \theta_\emph{Max}^{ml}(\mathit{init})$ and
 $\delta(f, u) = f'$ where $f'$ is the $u$-suffix of $\theta_\emph{Max}^{ml}((\emph{Max}, f))$,\footnote{Note that $\theta_\emph{Max}^{ml}$ takes as an argument only a single vertex. That would not be possible unless $\theta_\emph{Max}^{ml}$ was a memoryless strategy.} %IDEA footnote napisat niekam inam? (ako remark?)
 	\item $q_0$ is the initial state.\footnote{The initial state ${q_0}$ is just an auxiliary state for reading $h_0$, which represents no information as it is always $\hat{u}$.}
 \end{itemize}
@@ -873,7 +873,7 @@ We denote by $\mathcal{A}[h]$ the state of $\mathcal{A}$ reached after reading t
 We define $\sigma_\epsilon^{reg}(h) = \xi(\mathcal{A}[h])$ (recall that $\xi(f) = f(r(f))$ for a commitment $f$).
 It is easy to show that $\sigma_\epsilon^{reg}$ is the same as $\sigma[\theta_\emph{Max}^{ml}]$ obtained from $\theta_\emph{Max}^{ml}$ using Lemma \ref{lem:translation}.
 It follows that
-$$val(\sigma_\epsilon^{reg}) = val^\mathcal{S}(\theta_\emph{Max}^{ml}, init, fail) \geq val(\sigma_\epsilon) \geq val(\sigma) - \epsilon~,$$
+$$val(\sigma_\epsilon^{reg}) = val^\mathcal{S}(\theta_\emph{Max}^{ml}, \mathit{init}, \mathit{fail}) \geq val(\sigma_\epsilon) \geq val(\sigma) - \epsilon~,$$
 i.e. $\sigma_\epsilon^{reg}$ is $\epsilon$-optimal.
 
 %TODO \ - oddelit riadkom navyse
@@ -1187,7 +1187,6 @@ Note that each closed set $E$ represents a set of states of an automaton, whose 
 %TODO jednoduchy dokaz Lemma value (5.1.2) - vezmem (pociatocny) vrchol, pre kt. ma hra (opt. strategia) najvacsiu hodnotu -> val(\sigma | h) potom nemoze byt vacsia pre ziadne h / vsetko, kam pridem, ma mensiu alebo rovnu hodnotu
 %TODO oddelat q_0 -> pouzit nieco ako $h^+$ - bez pociatocneho symbolu -> sigma(h) = A[h^+], kde h_0.h^+ = h
 %TODO kedykolvek je nieco nove - preco je to nove/lepsie/hlbsi dokaz -> aby bolo vidiet, co som urobil
-%TODO pouzit \mathit{fail}, ...
 %TODO charakteristika - zadefinovat bez stavu; a potom 2. definicia so stavom, v ktorej spojim slovnu definiciu s induktivnou			- taktiez najst ine angl. slovo pre slovenske "charakteristika"
 %TODO successors => sequence (c_1, ..., c_n su successormi), prip. c_i je u_i-successor of c
 
