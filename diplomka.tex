@@ -683,6 +683,7 @@ For details of the translation process and the omitted proofs, see \cite{iti1}.
 
 \chapter{Main Result}
 %TODO chapter intro
+%2 odstavce: 1) co uz bolo dosiahnute; 2) v com som lepsi
 In this chapter, we review and extend the results presented in \cite{iti1}.
 We provide an algorithm for computing an $\epsilon$-optimal defender's strategy.
 We encode this strategy using a deterministic finite-state automaton of size ... %TODO
@@ -1097,7 +1098,7 @@ Furthermore, each $c \in Q_{Char}$ satisfies:
 \begin{enumerate}[label=(\Alph*)]
 	\item $c = \mathbf{Char}_c$\footnote{We identify a state with its characteristics to reflect that it is the only quality of a state we are interested in.} \label{a}
 	\item $c(1, u)$ is an integer multiple of $t$ for all $u \in U$ \label{b}
-	\item $val(c) \geq val(\sigma) - \epsilon~$. \label{c}
+	\item $val(c) \geq val(\sigma) - \epsilon$. \label{c}
 %%% COMMENTED OUT the bullets for the existence of $\mathcal{A}_{red}$ %%%
 %	\item its states are $d$-commitments with all their function values (elements of probability distribution) being integer multiples of $t$,
 %	\item no two states have the same characteristics, and
@@ -1118,8 +1119,8 @@ From \ref{a} and \ref{b} it follows that $Q_{Char} \subseteq \emph{Char}^t$.
 \par\vspace{3.5mm}
 
 \State $C \leftarrow$ empty priority queue; $D \leftarrow \emptyset$
-\ForEach {$c \in \mathbf{Char}_d^s$}
-	\If {$c$ is \emph{representable}}	%{$representable(c)$}
+\ForEach {$c \in \mathbf{Char}^t$}
+	\If {$c$ is \emph{representable}}	%TODO {\sum_{u \in U} $c(1, u) = 1$}, taktiez musi byt len jeden root
 		add $c$ to $C$ with priority $val(c)$
 %IDEA: nepridavat tie, ktore su ostro horsie nez nejake ine (uz pridane)
 	\EndIf
@@ -1143,7 +1144,7 @@ The problem of how to determine whether characteristics are representable will b
 %TODO is representable!
 %vobec netreba, aby boli charakteristiky REPRESENTABLE! staci, ak budu legalne v prvom kroku
 
-Let $U = \{u_1, \dots, u_n\}$ be the set of nodes of $\mathcal{G}$
+Let $U = \{u_1, \dots, u_n\}$ be the set of nodes of $\mathcal{G}$ %TODO $|U| = n$
 and let $c, c_1, \dots, c_n \in Char^t$ be some discretized characteristics (not necessarily different).
 We say that $\{c_1, \dots, c_n\}$ is a set of \emph{successors} of $c$ if
 $c(k, u) = \sum_{i = 1}^n c(1, u_i) \cdot c_i(k - 1, u_i)$
@@ -1156,7 +1157,7 @@ Finally, we say that a set $D \subseteq Char^t$ is \emph{complete} if it contain
 %TODO
 Note that each closed set $E$ represents a set of states of an automaton, whose transition function can be built from the states' successors (not deterministic).
 \\ $Q = E$
-\\ $q_0 = c$ such that $c(0, \hat{u} = 1$ (there has to be such $c$ unless the value of all characteristics from $E$ is 0), resp. prechod z $q_0$ do $c$ pod $\hat{u}$
+\\ $q_0 = c$ such that $c(0, \hat{u}) = 1$ (there has to be such $c$ unless the value of all characteristics from $E$ is 0), resp. prechod z $q_0$ do $c$ pod $\hat{u}$
 \\ $\sigma(c, u_i) = c_i$ where $\{c_1, \dots, c_n\}$ is a set of successors of $c$ such that $c_i(0, u_i) = 1$
 \\ We prove that this automaton determines an $\epsilon$-optimal strategy.
 
@@ -1171,6 +1172,7 @@ Note that each closed set $E$ represents a set of states of an automaton, whose 
 %mozno mozeme povolit, aby mohol zautocit aj hned - strategia to zvladne bez znizenia hodnoty hry
 
 %centralne riadena strategia
+%^^-> remark - diskusia k tomu, ze inak by nebola taka hodnota + future work sa moze ubrat tymto (inym) smerom + ze to nie je len trivialne rozsirenie 1 defendera
 
 %vsetci sa hybu rovnako rychlo
 
@@ -1180,6 +1182,14 @@ Note that each closed set $E$ represents a set of states of an automaton, whose 
 \chapter{This is the end, my only friend, the end}
 
 
+%TODO list
+%TODO game -> strategic form
+%TODO jednoduchy dokaz Lemma value (5.1.2) - vezmem (pociatocny) vrchol, pre kt. ma hra (opt. strategia) najvacsiu hodnotu -> val(\sigma | h) potom nemoze byt vacsia pre ziadne h / vsetko, kam pridem, ma mensiu alebo rovnu hodnotu
+%TODO oddelat q_0 -> pouzit nieco ako $h^+$ - bez pociatocneho symbolu -> sigma(h) = A[h^+], kde h_0.h^+ = h
+%TODO kedykolvek je nieco nove - preco je to nove/lepsie/hlbsi dokaz -> aby bolo vidiet, co som urobil
+%TODO pouzit \mathit{fail}, ...
+%TODO charakteristika - zadefinovat bez stavu; a potom 2. definicia so stavom, v ktorej spojim slovnu definiciu s induktivnou			- taktiez najst ine angl. slovo pre slovenske "charakteristika"
+%TODO successors => sequence (c_1, ..., c_n su successormi), prip. c_i je u_i-successor of c
 
 
 \def\us{\char`\_}
