@@ -683,7 +683,7 @@ For details of the translation process and the omitted proofs, see \cite{iti1}.
 
 \chapter{Main Result}
 %TODO chapter intro
-%2 odstavce: 1) co uz bolo dosiahnute; 2) v com som lepsi
+%TODO 2 odstavce: 1) co uz bolo dosiahnute; 2) v com som lepsi
 In this chapter, we review and extend the results presented in \cite{iti1}.
 We provide an algorithm for computing an $\epsilon$-optimal defender's strategy.
 We encode this strategy using a deterministic finite-state automaton of size ... %TODO
@@ -703,9 +703,21 @@ This knowledge is crucial in our argumentation about $\epsilon$-optimality in th
 
 \begin{lemma}
 \label{lem:value}
-Let $\sigma \in \Sigma$ be an optimal defender's strategy and $h \in \mathcal{H}(\sigma)$ a history.
+Let $\sigma$ be an optimal defender's strategy and $h \in \mathcal{H}(\sigma)$ a history.
 We have that $val(\sigma \mid h) = val(\sigma)$.
 \end{lemma}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%TODO BETTER
+%\begin{proof}
+%TODO jednoduchy dokaz Lemma value (5.1.2) - vezmem (pociatocny) vrchol, pre kt. ma hra (opt. strategia) najvacsiu hodnotu -> val(\sigma | h) potom nemoze byt vacsia pre ziadne h / vsetko, kam pridem, ma mensiu alebo rovnu hodnotu
+%We provide much shorter proof as the one in \cite{iti1}.
+%The main idea of our proof is that we consider a history $h_{max}$ after which the strategy $\sigma$ has the largest value.
+%We show that after $h_{max}$ is played, the value of $\sigma$ cannot increase, nor decrease.
+%From that, we can derive an optimal strategy whose value is the same (largest) after all histories.
+%Formally, let us consider a history $h_{max} \in \mathcal{H}(\sigma)$ such that $val(\sigma \mid h_{max}) \geq val(\sigma \mid h)$ for all $h \in \mathcal{H}(\sigma)$.	% $... = \sup_{h \in \mathcal{H}(\sigma)} ...$
+%TODO preco by taka mala existovat? co ak sa to stale zvacsuje a limitne blizi k nejakej hodnote?
+%\end{proof}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Note that $val(\sigma \mid h \hat{u}) = val_{\hat{u}}(\sigma_{h\hat{u}}) \leq val(\sigma)$.
 %TODO - proof? druha cast sa moze zist pri dokazovani pre multiple robots
 %\begin{proof}
