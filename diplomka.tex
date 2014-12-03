@@ -706,35 +706,28 @@ This knowledge is crucial in our argumentation about $\epsilon$-optimality in th
 Let $\sigma$ be an optimal defender's strategy and $h \in \mathcal{H}(\sigma)$ a history.
 We have that $val(\sigma \mid h) = val(\sigma)$.
 \end{lemma}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %TODO BETTER
-%\begin{proof}
-%TODO jednoduchy dokaz Lemma value (5.1.2) - vezmem (pociatocny) vrchol, pre kt. ma hra (opt. strategia) najvacsiu hodnotu -> val(\sigma | h) potom nemoze byt vacsia pre ziadne h / vsetko, kam pridem, ma mensiu alebo rovnu hodnotu
-%We provide much shorter proof as the one in \cite{iti1}.
-%The main idea of our proof is that we consider a history $h_{max}$ after which the strategy $\sigma$ has the largest value.
-%We show that after $h_{max}$ is played, the value of $\sigma$ cannot increase, nor decrease.
-%From that, we can derive an optimal strategy whose value is the same (largest) after all histories.
-%Formally, let us consider a history $h_{max} \in \mathcal{H}(\sigma)$ such that $val(\sigma \mid h_{max}) \geq val(\sigma \mid h)$ for all $h \in \mathcal{H}(\sigma)$.	% $... = \sup_{h \in \mathcal{H}(\sigma)} ...$
-%TODO preco by taka mala existovat? co ak sa to stale zvacsuje a limitne blizi k nejakej hodnote?
-%\end{proof}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Note that $val(\sigma \mid h \hat{u}) = val_{\hat{u}}(\sigma_{h\hat{u}}) \leq val(\sigma)$.
-%TODO - proof? druha cast sa moze zist pri dokazovani pre multiple robots
-%\begin{proof}
-\noindent
-Full proof of this lemma can be found in \cite{iti1}.
-Herein, we just broadly describe the structure and basic idea of the proof.
-First, it is shown by contradiction that $val(\sigma \mid h) \leq val(\sigma)$ for all $h \in \mathcal{H}(\sigma)$.
-Otherwise, one could iteratively construct a history $h''$ such that $val(\sigma \mid h'') > 1$.
+\begin{proof}
+The value of the game might depend on the initial node.
+Let us denote by $\mathcal{G}_u$ the patrolling game derived from $\mathcal{G}$ by changing the initial node to~$u$.
+Let us consider a game $\mathcal{G}_v$ with the largest value among all such games $\mathcal{G}_u$, i.e. $val_v = \sup_{u \in U} val_u$, and let $\sigma^v$ be an optimal defender's strategy in $\mathcal{G}_v$.
+Clearly, for all defender's strategies $\sigma' \in \Sigma$ and all histories $h \in \mathcal{H}(\sigma')$ we have that $val(\sigma' \mid h) \leq val_v$.
+Otherwise, $val_{last(h)}$ would be strictly greater than $val_v$---a contradiction.
 
-One of the key observations used in the proof is that the value of $\sigma$ cannot decrease if we do not allow the attacker to attack in the first $k \in \mathbb{N}$ steps.
-This observation is also used in the second part of the proof to show that $val(\sigma \mid h) = val(\sigma)$ for all $h \in \mathcal{H}(\sigma)$, specifically in the first inequality here:
-$$val(\sigma) \leq \sum_{h' \in {\mathcal{H}(\sigma)} \wedge |h'| = k}(val(\sigma \mid h')) \cdot P^\sigma(\mathcal{R}(h'))) \leq val(\sigma)~.$$
-%TODO skarede rozdelenie
-The second inequality follows from the first part of the proof, i.e. $val(\sigma~\mid~h) \leq val(\sigma)$ for all $h \in \mathcal{H}(\sigma)$, and the fact that $\sum_{h' \in {\mathcal{H}(\sigma)} \wedge |h'| = k} P^\sigma(\mathcal{R}(h')) = 1$.
-%\end{proof}
+However, as $val(\sigma^v \mid h)$ cannot be greater than $val(\sigma^v)$ for any relevant history $h$, it cannot be less than $val(\sigma^v)$ either as that would necessarily decrease the value of $\sigma^v$.
+Therefore, $val(\sigma^v \mid h) = val(\sigma^v)$ for all $h \in \mathcal{H}(\sigma^v)$.
+Formally, this follows from the observation that the value of $\sigma^v$ cannot decrease if we do not allow the attacker to attack in the first $k \in \mathbb{N}$ steps, which is used in the first inequality here:
+$$val(\sigma^v) \leq \sum_{h \in \mathcal{H}(\sigma^v) \wedge |h| = k}(val(\sigma^v \mid h)) \cdot P^{\sigma^v}(\mathcal{R}(h))) \leq val(\sigma^v)~.$$
+The second inequality follows from the fact that $val(\sigma^v\mid h) \leq val(\sigma^v)$ for all $h \in \mathcal{H}(\sigma^v)$, and the fact that $\sum_{h \in \mathcal{H}(\sigma^v) \wedge |h| = k} P^{\sigma^v}(\mathcal{R}(h)) = 1$ for all $k \in \mathbb{N}$.
+
+Note that unless $val_v = 0$, there exists a history $h' \in \mathcal{H}(\sigma^v)$ such that $last(h') = \hat{u}$.
+This history $h'$ determines a strategy $\sigma^v_{h'}$ in $\mathcal{G}$.
+It follows that $val \geq val(\sigma^v_{h'}) = val_v \geq val$, i.e. $val = val_v$.
+Using the same argumentation as before, we get that $val(\sigma \mid h) = val(\sigma)$ for all optimal defender's strategies $\sigma$ and all histories $h \in \mathcal{H}(\sigma)$.
+\end{proof}
 
 Note that Lemma \ref{lem:value} would not hold without the restriction that the initial node has to be a target (see Example \ref{ex:initial} for counterexample).
+In the proof, the existence of the strategy $\sigma^v_{h'}$ depends on this restriction.
 
 \section{Discretization and $\epsilon$-optimality}
 As it is common in algorithmic game theory, we are interested in strategies implementable by finite-memory controllers.
@@ -1196,7 +1189,6 @@ Note that each closed set $E$ represents a set of states of an automaton, whose 
 
 %TODO list
 %TODO game -> strategic form
-%TODO jednoduchy dokaz Lemma value (5.1.2) - vezmem (pociatocny) vrchol, pre kt. ma hra (opt. strategia) najvacsiu hodnotu -> val(\sigma | h) potom nemoze byt vacsia pre ziadne h / vsetko, kam pridem, ma mensiu alebo rovnu hodnotu
 %TODO oddelat q_0 -> pouzit nieco ako $h^+$ - bez pociatocneho symbolu -> sigma(h) = A[h^+], kde h_0.h^+ = h
 %TODO kedykolvek je nieco nove - preco je to nove/lepsie/hlbsi dokaz -> aby bolo vidiet, co som urobil
 %TODO charakteristika - zadefinovat bez stavu; a potom 2. definicia so stavom, v ktorej spojim slovnu definiciu s induktivnou			- taktiez najst ine angl. slovo pre slovenske "charakteristika"
