@@ -860,22 +860,21 @@ satisfying
 $$val^\mathcal{S}(\theta_\emph{Max}^{ml}, \mathit{init}, \mathit{fail}) \geq val(\sigma_\epsilon)~.$$
 
 \textbf{Step 3.}
-Using $\theta_\emph{Max}^{ml}$, we construct a DFA $\mathcal{A}$ encoding the desired regular \hbox{$\epsilon$-optimal} strategy $\sigma_\epsilon^{reg}$ as follows: $\mathcal{A} = (Q_0, U, \delta, q_0, \{\})$ where
+Using $\theta_\emph{Max}^{ml}$, we construct a DFA $\mathcal{A}$ encoding the desired regular \hbox{$\epsilon$-optimal} strategy $\sigma_\epsilon^{reg}$ as follows: $\mathcal{A} = (Q, U, \delta, q_0, \{\})$ where
 \vspace{-3pt}
 \begin{itemize}
-	\item $Q_0 = Q \cup \{q_0\}$ is the finite set of states, where $Q = \{f \mid (\emph{Max}, f) \in \mathbf{Reach}(\theta_\emph{Max})\}$
+	\item $Q = \{f \mid (\emph{Max}, f) \in \mathbf{Reach}(\theta_\emph{Max})\}$ is the finite set of states
 	\item $U$ is the alphabet, %a finite set of input symbols,
-	\item $\delta : Q_0 \times U \to Q$ is a transition function such that
-%defined as follows: + spravit "rozdvojku"
-$\delta(q_0, \hat{u}) = \theta_\emph{Max}^{ml}(\mathit{init})$ and
+	\item $\delta : Q \times U \to Q$ is a transition function such that
 $\delta(f, u) = f'$ where $f'$ is the $u$-suffix of $\theta_\emph{Max}^{ml}((\emph{Max}, f))$,\footnote{Note that $\theta_\emph{Max}^{ml}$ takes as an argument only a single vertex. That would not be possible unless $\theta_\emph{Max}^{ml}$ was a memoryless strategy.} %IDEA footnote napisat niekam inam? (ako remark?)
-	\item $q_0$ is the initial state.\footnote{The initial state ${q_0}$ is just an auxiliary state for reading $h_0$, which represents no information as it is always $\hat{u}$.}
+	\item $q_0 \in Q$ is the initial state.
 \end{itemize}
-%TODO niekde sa zmienit, ze 'in the future, by \emph{states} we refer to $Q$'
 \vspace{-3pt}
-We denote by $\mathcal{A}[h]$ the state of $\mathcal{A}$ reached after reading the history $h$.
+For a history $h$, we denote by $h^+$ the word equal to $h$ without its first letter, i.e. $h = h_0h^+$.
+We denote by $\mathcal{A}[h^+]$ the state of $\mathcal{A}$ reached after reading the word $h^+$.
 %TODO dat definiciu $\xi(f)$ sem? nikde sa doteraz nepouzila
-We define $\sigma_\epsilon^{reg}(h) = \xi(\mathcal{A}[h])$ (recall that $\xi(f) = f(r(f))$ for a commitment $f$).
+%For a commitment $f$, we define $\xi(f) = f(r(f))$ to be the probability distribution in the root of $f$.
+We define $\sigma_\epsilon^{reg}(h) = \xi(\mathcal{A}[h^+])$ (recall that $\xi(f) = f(r(f))$ for a commitment $f$).
 It is easy to show that $\sigma_\epsilon^{reg}$ is the same as $\sigma[\theta_\emph{Max}^{ml}]$ obtained from $\theta_\emph{Max}^{ml}$ using Lemma \ref{lem:translation}.
 It follows that
 $$val(\sigma_\epsilon^{reg}) = val^\mathcal{S}(\theta_\emph{Max}^{ml}, \mathit{init}, \mathit{fail}) \geq val(\sigma_\epsilon) \geq val(\sigma) - \epsilon~,$$
@@ -951,12 +950,10 @@ Note that the values for $k = 1$ represent the probability distribution over the
 
 \
 
-%TODO namiesto $Q_0'$ napisat v definicii automatu rovno $Q_0 \smallsetminus \{q\}$
-%IDEA pripadne zadefinovat $Q'$
-Given $q \in Q$, we denote by $\mathcal{A}_{p \leftarrow q} = (Q_0', U, \delta', q_0, \{\})$ the DFA defined as follows:
+Given $q \in Q \smallsetminus \{q_0\}$, we denote by $\mathcal{A}_{p \leftarrow q} = (Q', U, \delta', q_0, \{\})$ the DFA defined as follows:
 \vspace{-5pt}
 \begin{itemize}
-	\item $Q_0' = Q_0 \smallsetminus \{q\}$
+	\item $Q' = Q \smallsetminus \{q\}$
 	\item $\delta'(r, u) =
   \begin{cases}
    p		& \text{if } \delta(r, u) = q \\
@@ -1027,10 +1024,9 @@ Indeed, the proof is based only on general properties of the characteristics and
 %This justifies us to
 This means we can repeat the process of removing equivalent states until all the states have mutually different, yet still unchanged characteristics.
 
-Let us fix and denote by $\mathcal{A}_{red}$ %= (Q_{red} \cup \{q_0\}, U, \delta_{red}, q_0, \{\})$
+Let us fix and denote by $\mathcal{A}_{red}$ %= (Q_{red}, U, \delta_{red}, q_0, \{\})$
 the resulting automaton which cannot be further reduced by applying Lemma \ref{lem:characteristics}.\footnote{Note that the process of merging equivalent states is non-deterministic, so the resulting reduced automaton is not uniquely determined.}
-We denote by $Q_{red}$ the set of non-initial states of $\mathcal{A}_{red}$ (without $q_0$) and
-by $\sigma_{red}$ the defender's strategy determined by $\mathcal{A}_{red}$.
+We denote by $Q_{red}$ the set of states of $\mathcal{A}_{red}$ and by $\sigma_{red}$ the defender's strategy determined by $\mathcal{A}_{red}$.
 In what follows, we prove that $\sigma_{red}$ is $\epsilon$-optimal.
 
 We start by defining the probability of detecting an immediate attack when the play is in a state $p$.
@@ -1162,7 +1158,7 @@ Finally, we say that a set $D \subseteq Char^t$ is \emph{complete} if it contain
 %TODO
 Note that each closed set $E$ represents a set of states of an automaton, whose transition function can be built from the states' successors (not deterministic).
 \\ $Q = E$
-\\ $q_0 = c$ such that $c(0, \hat{u}) = 1$ (there has to be such $c$ unless the value of all characteristics from $E$ is 0), resp. prechod z $q_0$ do $c$ pod $\hat{u}$
+\\ $q_0 = c$ such that $c(0, \hat{u}) = 1$ (there has to be such $c$ unless the value of all characteristics from $E$ is 0)
 \\ $\sigma(c, u_i) = c_i$ where $\{c_1, \dots, c_n\}$ is a set of successors of $c$ such that $c_i(0, u_i) = 1$
 \\ We prove that this automaton determines an $\epsilon$-optimal strategy.
 
@@ -1189,7 +1185,6 @@ Note that each closed set $E$ represents a set of states of an automaton, whose 
 
 %TODO list
 %TODO game -> strategic form
-%TODO oddelat q_0 -> pouzit nieco ako $h^+$ - bez pociatocneho symbolu -> sigma(h) = A[h^+], kde h_0.h^+ = h
 %TODO kedykolvek je nieco nove - preco je to nove/lepsie/hlbsi dokaz -> aby bolo vidiet, co som urobil
 %TODO charakteristika - zadefinovat bez stavu; a potom 2. definicia so stavom, v ktorej spojim slovnu definiciu s induktivnou			- taktiez najst ine angl. slovo pre slovenske "charakteristika"
 %TODO successors => sequence (c_1, ..., c_n su successormi), prip. c_i je u_i-successor of c
