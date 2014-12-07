@@ -31,7 +31,7 @@
 \theoremstyle{definition}
 \newtheorem{example}[thm]{Example}
 \newtheorem{observation}[thm]{Observation}
-%\newtheorem{remark}[thm]{Remark}
+\newtheorem{remark}[thm]{Remark}
 
 \setcounter{figure}{0}
 \makeatletter
@@ -492,7 +492,7 @@ Examples \ref{ex:stationary} and \ref{ex:initial} are from \cite{miso}, the sett
 \end{tabular}
 
 \vspace{-5pt}
-\caption{{Simple graphs on which our example patrolling games are played}}
+\caption{{Simple graphs on which our example patrolling games are played.}}
 \label{fig:examples}
 \end{figure}
 
@@ -1171,54 +1171,136 @@ Note that each closed set $E$ represents a set of states of an automaton, whose 
 \chapter{Multi-Robot Patrolling Games}
 \label{chap:multiPatrol}
 
-In this chapter, we generalize the model of patrolling games introduced in Chapter \ref{chap:pg} by allowing multiple patrolling units (robots).
+In this chapter, we generalize the model of patrolling games defined in Chapter \ref{chap:pg} by allowing multiple patrolling units (robots).
 The concept of multiple robots is borrowed from \cite{multi-robot}.
 
 As described in Subsection \ref{subsec:multi}, the multi-robot setting can be studied under many possible reasonable restrictions.
-We chose to study the most general model, which corresponds to \emph{joint strategy} (one strategy regarding the movement of all the robots is computed centrally) with \emph{full assignment} (each robot can potentially visit every vertex).
+We chose to study the most general model, which corresponds to \emph{joint strategy} (one strategy regarding the movement of all the robots is computed centrally) with \emph{full assignment} (each robot can potentially visit every node).
 
 The main reason behind choosing this model is that we are interested in the "most" optimal strategy---any unnecessary restrictions might lower the value of the game.
-Example \ref{ex:centralized} shows a game where a joint streategy yields strictly larger value than any disjointed strategy.
+Example \ref{ex:centralized} shows a game where a joint strategy yields strictly larger value than any disjointed strategy.
 
-The second reason is simplicity---assigning a specific set of vertices to each robot would significantly complicate the model.
+The second reason is simplicity---assigning a specific set of nodes to each robot would significantly complicate the model.
 We also prefer the robots to be homogeneous.
 
 %TODO co nove? prezentujeme algoritmus? ako vysledky ukazeme?
 
-\section{Definitions}
+\section{Defining the Model}
 
 \begin{definition}
 A \emph{multi-robot patrolling game (MRPG)} is a tuple $\mathcal{G} = (U, E, T, d, R)$ where $U$ is a finite set of \emph{nodes}, $E \subseteq U \times U$ is a set of \emph{edges}, $T \subseteq U$ is a set of \emph{target nodes}, $d$ is the \emph{attack length}, and $R$ is a set of \emph{robots}.
 \end{definition}
 
+In every moment of a play, every robot is located in some node.
+We define \emph{configuration} to be an $|R|$-tuple of nodes specifying the positions of the robots \cite{multi-robot}.
+We write $c = (c_1, \dots, c_{|R|})$, where $c_i \in U$ is the position of the robot $r_i \in R$.
+We denote by $C = U^{|R|}$ the set of all configurations.
+
+Note that an MRPG, as opposed to a (single-robot) patrolling game, does not have any predefined initial configuration of the robots.
+In a patrolling game, forcing the initial node to be a target node guarantees maximal possible value of the game.
+However, in an MRPG, we are not aware of any such simple restriction of the initial configuration that would guarantee maximal possible value of the game.
+Example \ref{ex:initial2} illustrates that even forcing the robots to start in mutually different targets is not enough.
+Therefore, we let the defender's strategy to determine the initial configuration.
+
+Given a configuration $c \in C$, we define $succ(c) := \{c' \in C \mid c'_i \in succ(c_i)~\text{for all}~0 \leq i \leq |R|\}$ to be the set of all \emph{successors} of $c$.
+Using this, we straightforwardly modify the definitions of \emph{path}, \emph{history}, and \emph{run} from the patrolling game to work with configurations instead of single nodes.
+The notation of these terms stays the same.
+Further, we denote by $\mathcal{H}_0 = \mathcal{H} \cup \{\epsilon\}$ the set of histories together with the empty word.
+%Using this, we straightforwardly modify the definitions from the patrolling game to work with configurations instead of single nodes.
+%Definitions of \emph{path} and \emph{run} stay quite the same, as well as the denotation.
+%The only difference is in the definition of a \emph{history} which can now also be an empty word.
+
+\begin{definition}
+A \emph{defender's strategy} is a function $\sigma : \mathcal{H}_0 \to \Delta(C)$ such that $\sigma(\epsilon)(c) = 1$ for some $c \in C$ and $supp(\sigma(h)) \subseteq succ(last(h))$ for every $h \in \mathcal{H}$.
+%The set of all defender's strategies is denoted by $\Sigma$.
+
+An \emph{attacker's strategy} is a function $\pi : \mathcal{H} \to T \cup \{\perp\}$ such that whenever $\pi(h) \neq$ $\perp$, then for all $h' \prec h$ we have that $\pi(h') =$ $\perp$.
+%The set of all attacker's strategies is denoted by $\Pi$.
+\end{definition}
+\noindent
+We refer to the configuration $c$ such that $\sigma(\epsilon)(c) = 1$ as \emph{$\sigma$-initial configuration}.
+It semantically substitutes the initial node in a patrolling game.
+The attacker cannot attack before the robots are placed in the initial configuration as he could easily take advantage of this information (see Example \ref{ex:distribution}).
+Note that although the defender has multiple patrolling units, the attacker can still attack only a single node and only once during a play.
+
+\begin{remark}
+It would be possible to define the defender's strategy in such a way that $supp(\sigma(\epsilon))$ need not to be a singleton.
+Then, there would be no weak spot the attacker could take advantage of, so he could be allowed to attack even before the robots take their initial positions.
+However, such setting seems unrealistic and we rather force $supp(\sigma(\epsilon))$ to be a singleton.
+%However, a setting with $supp(\sigma(\epsilon))$ not being a singleton seems unrealistic.
+\end{remark}
+
 %robots are homogeneous
-%Section 3.1 - az po {Definition} mi nic netreba - slova/abeceda/... vsetko pasuje i pre multi-robot
-- configuration - an |R|-tuple of vertices specifying the positions of robots.
-- C - configuration space
--> consistent with the underlying subgraph
-- history
-
-- joint strategy, full assignment
-
-%ziadny zaciatocny stav - sucastou strategie je pociatocne rozlozenie - nemusi to vsak nutne byt distribucia! staci ista konfiguracia s pravdepodobnostou 1, pretoze utocnik moze zautocit az potom, t.j. nemoze zneuzit, ze vie, kde bude obranca zacinat
-%mozno mozeme povolit, aby mohol zautocit aj hned - strategia to zvladne bez znizenia hodnoty hry
-
 %vsetci sa hybu rovnako rychlo
 
+%-> consistent with the underlying subgraph
 
+%TODO zadefinovat successful attack a pod.
 
 \section{Examples}
+
+In this section, we provide examples which support the properties of the model we have chosen.
+We aimed to find examples as simple as possible.%, yet still satisfying some reasonable assumptions.
+
+\begin{figure}[h]
+
+\begin{tabular}{ m{1cm} m{5cm} m{6cm} }
+
+&
+
+\begin{tikzpicture}
+%[scale=1, transform shape]
+  \foreach \pos/\name in {{(0,0)/s}, {+(0: 1.5)/u}, {+(60: 1.5)/v}}
+        \node (\name) at \pos {$\name$};
+   \foreach \from/\to in {s/u, u/v, v/s}
+	\draw [<->] (\from) -- (\to);
+   \path[]
+	(s) edge[loop left] (s)
+	(u) edge[loop right] (u)
+	(v) edge[loop above] (v);
+\end{tikzpicture}
+
+&
+
+\begin{tikzpicture}
+  \foreach \pos/\name in {{(0,0)/a}, {(1.5,0)/b}, {(3,0)/c}, {(3,1.5)/d}, {(1.5,1.5)/e}, {(0,1.5)/f}}
+        \node (\name) at \pos {$\name$};
+   \foreach \from/\to in {a/b, b/c, c/d, d/e, e/f, f/a}
+	\draw [->] (\from) -- (\to);
+
+   \path[]
+	(a) edge[loop below] (a)
+	(b) edge[loop below] (b)
+	(c) edge[loop below] (c);
+	%(d) edge[loop above] (d)
+	%(e) edge[loop above] (e)
+	%(f) edge[loop above] (f);
+\end{tikzpicture}
+
+\end{tabular}
+
+\vspace{-5pt}
+\caption{{Simple settings for examples of multi-robot patrolling games.}}
+\label{fig:examples2}
+\end{figure}
 
 \begin{example}
 \label{ex:centralized}
 
+Fig.~\ref{fig:examples2} (left)
 \end{example}
 
 \begin{example}
 \label{ex:initial2}
 
+Fig.~\ref{fig:examples2} (right)
 \end{example}
 
+\begin{example}
+\label{ex:distribution}
+
+Fig.~\ref{fig:examples2} (left)
+\end{example}
 
 
 - co sa tyka 3.1, treba povedat, ze i tu existuje optimalna strategia - t.j. compact and continuous
