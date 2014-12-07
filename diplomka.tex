@@ -293,6 +293,7 @@ which uses no more than length ${|\overline{H}|}$ of the history, i.e. for any $
 The authors extend the model from \cite{arbitrary} to more realistic settings in \cite{powerlessIntruder}. They weaken the intruder in two ways. Their first extension introduces the intruder's movement. The intruder does not appear directly at the target, rather he has to traverse the graph along paths connecting \emph{access areas} to targets. The intruder can move infinitely fast. Covering a path takes only one step during which the intruder can be detected on every node of the path. In their second extension, some cells are hidden to the intruder. As he cannot observe the whole environment, he cannot perfectly know the position of the patroller when attacking. A concept of a \emph{state} is introduced, representing when (how many steps ago) and where (in which node) has the patroller been observed for the last time. For both extensions the authors provide mathematical programming formulations, reduction algorithms and experimental evaluations.
 
 \subsection{Multiple Patrolling Units}
+\label{subsec:multi}
 
 The authors of \cite{arbitrary} generalized their model by introducing multiple patrolling robots in \cite{multi-robot}. On the other hand, they simplified the model in many ways. They assume that the robots' strategy is Markovian, that the robots and the intruder have the same preference ordering over the targets and that the robots can sense only the nodes they are in.
 
@@ -376,6 +377,7 @@ The authors provide an efficient linear program called CASS (Solver for Continuo
 
 
 \chapter{Patrolling Games}
+\label{chap:pg}
 
 The definitions we use herein are from \cite{iti1, iti2}. Although we use the model from \cite{iti1}\footnote{In \cite{iti1}, in contrast to \cite{iti2}, not all nodes are necessarily targets and the attack length is unified.}, we prefer some of the novel syntax introduced in \cite{iti2}.
 
@@ -399,7 +401,7 @@ We denote the set of all probability distributions over $S$ by $\Delta(S)$.
 %A \emph{directed graph} is an ordered pair $G = (U, E)$, where $N$ is a finite set of \emph{nodes} and $E \subseteq U \times U$ is a set of \emph{edges}.
 
 \begin{definition}
-A \emph{patrolling game} is a tuple $\mathcal{G} = (U, E, T, \hat{u}, d)$ where $U$ is a finite set of \emph{nodes}, $E \subseteq U \times U$ is a set of \emph{edges}, $T \subseteq U$ is a set of \emph{target nodes}, $\hat{u} \in T$ is the \emph{initial node} and $d$ is the \emph{attack length}.
+A \emph{patrolling game} is a tuple $\mathcal{G} = (U, E, T, \hat{u}, d)$ where $U$ is a finite set of \emph{nodes}, $E \subseteq U \times U$ is a set of \emph{edges}, $T \subseteq U$ is a set of \emph{target nodes}, $\hat{u} \in T$ is the \emph{initial node}, and $d$ is the \emph{attack length}.
 \end{definition}
 The pair $(U, E)$ is the directed graph on which the game $\mathcal{G}$ is played. 
 Given a node $u \in U$, we define $succ(u) := \{v \in U \mid (u, v) \in E\}$ to be the set of all \emph{successors} of $u$.
@@ -1166,8 +1168,27 @@ Note that each closed set $E$ represents a set of states of an automaton, whose 
 
 %TODO $x \ leq k \ leq y$  nahradit $k \in \{x, \dots, y\}$
 
-\chapter{multiple robots}
+\chapter{Multi-Robot Patrolling Games}
 \label{chap:multiPatrol}
+
+In this chapter, we generalize the model of patrolling games introduced in Chapter \ref{chap:pg} by allowing multiple patrolling units (robots).
+The concept of multiple robots is borrowed from \cite{multi-robot} (see Subsection \ref{subsec:multi}).
+%TODO co nove? prezentujeme algoritmus? ako vysledky ukazeme?
+
+\section{???}
+
+\begin{definition}
+A \emph{multi-robot patrolling game (MRPG)} is a tuple $\mathcal{G} = (U, E, T, d, R)$ where $U$ is a finite set of \emph{nodes}, $E \subseteq U \times U$ is a set of \emph{edges}, $T \subseteq U$ is a set of \emph{target nodes}, $d$ is the \emph{attack length}, and $R$ is a set of \emph{robots}.
+\end{definition}
+
+%robots are homogeneous
+%Section 3.1 - az po {Definition} mi nic netreba - slova/abeceda/... vsetko pasuje i pre multi-robot
+- configuration - an |R|-tuple of vertices specifying the positions of robots.
+- C - configuration space
+-> consistent with the underlying subgraph
+- history
+
+- joint strategy, full assignment
 
 %ziadny zaciatocny stav - sucastou strategie je pociatocne rozlozenie - nemusi to vsak nutne byt distribucia! staci ista konfiguracia s pravdepodobnostou 1, pretoze utocnik moze zautocit az potom, t.j. nemoze zneuzit, ze vie, kde bude obranca zacinat
 %mozno mozeme povolit, aby mohol zautocit aj hned - strategia to zvladne bez znizenia hodnoty hry
