@@ -86,13 +86,13 @@ Blablabla
 In order to better understand the nature of patrolling games, we first introduce the concept of game theory.
 Later in this chapter, we introduce security games, a special type of which are patrolling games. We mention some real-world applications of these theoretical models.
 After that, we give an overview of patrolling games. We provide some examples and motivation why to study this field. We familiarize the reader with the basic terminology used throughout this thesis. We describe some special properties of the model of patrolling games we chose to study and we discuss the reasons why we did so.
-The last section of this chapter we dedicate to the pioneers which set important directions of research in the field of patrolling games.
+The last section of this chapter we dedicate to the pioneers who set important directions of research in the field of patrolling games.
 
 \section{Introduction to Game Theory}
 In this chapter, we present the basics of game theory. The definitions and content used here are inspired by \cite{fudenberg}, \cite{polak} and \cite{gameTheory}.
 
-Game theory is a mathematical study of decision making. It studies games as well-defined mathematical object.
-A \emph{game} is a played between \emph{players} $P_1, \dots, P_n, n \geq 2$.
+Game theory is a mathematical study of decision making. It studies games as well-defined mathematical objects.
+A \emph{strategic form} (or simply a \emph{game}) is played between \emph{players} $P_1, \dots, P_n, n \geq 2$.
 Each player $P_i$ has a non-empty set $S_i$ of \emph{pure strategies}. A strategy can be seen as an algorithm telling the player what to do throughout the game.
 The outcome of the game is an element from the set
 $\mathcal{S} = \prod_{i=1}^n S_i$
@@ -1172,10 +1172,20 @@ Note that each closed set $E$ represents a set of states of an automaton, whose 
 \label{chap:multiPatrol}
 
 In this chapter, we generalize the model of patrolling games introduced in Chapter \ref{chap:pg} by allowing multiple patrolling units (robots).
-The concept of multiple robots is borrowed from \cite{multi-robot} (see Subsection \ref{subsec:multi}).
+The concept of multiple robots is borrowed from \cite{multi-robot}.
+
+As described in Subsection \ref{subsec:multi}, the multi-robot setting can be studied under many possible reasonable restrictions.
+We chose to study the most general model, which corresponds to \emph{joint strategy} (one strategy regarding the movement of all the robots is computed centrally) with \emph{full assignment} (each robot can potentially visit every vertex).
+
+The main reason behind choosing this model is that we are interested in the "most" optimal strategy---any unnecessary restrictions might lower the value of the game.
+Example \ref{ex:centralized} shows a game where a joint streategy yields strictly larger value than any disjointed strategy.
+
+The second reason is simplicity---assigning a specific set of vertices to each robot would significantly complicate the model.
+We also prefer the robots to be homogeneous.
+
 %TODO co nove? prezentujeme algoritmus? ako vysledky ukazeme?
 
-\section{???}
+\section{Definitions}
 
 \begin{definition}
 A \emph{multi-robot patrolling game (MRPG)} is a tuple $\mathcal{G} = (U, E, T, d, R)$ where $U$ is a finite set of \emph{nodes}, $E \subseteq U \times U$ is a set of \emph{edges}, $T \subseteq U$ is a set of \emph{target nodes}, $d$ is the \emph{attack length}, and $R$ is a set of \emph{robots}.
@@ -1193,28 +1203,39 @@ A \emph{multi-robot patrolling game (MRPG)} is a tuple $\mathcal{G} = (U, E, T, 
 %ziadny zaciatocny stav - sucastou strategie je pociatocne rozlozenie - nemusi to vsak nutne byt distribucia! staci ista konfiguracia s pravdepodobnostou 1, pretoze utocnik moze zautocit az potom, t.j. nemoze zneuzit, ze vie, kde bude obranca zacinat
 %mozno mozeme povolit, aby mohol zautocit aj hned - strategia to zvladne bez znizenia hodnoty hry
 
-%centralne riadena strategia
-%^^-> remark - diskusia k tomu, ze inak by nebola taka hodnota + future work sa moze ubrat tymto (inym) smerom + ze to nie je len trivialne rozsirenie 1 defendera
-
 %vsetci sa hybu rovnako rychlo
+
+
+
+\section{Examples}
+
+\begin{example}
+\label{ex:centralized}
+
+\end{example}
+
+\begin{example}
+\label{ex:initial2}
+
+\end{example}
+
 
 
 - co sa tyka 3.1, treba povedat, ze i tu existuje optimalna strategia - t.j. compact and continuous
 
 \chapter{This is the end, my only friend, the end}
 
+%centralne riadena strategia -> future work sa moze ubrat tymto (inym) smerom
 
 %TODO list
-%TODO game -> strategic form
+%TODO spell checker
 %TODO kedykolvek je nieco nove - preco je to nove/lepsie/hlbsi dokaz -> aby bolo vidiet, co som urobil
 %TODO charakteristika - zadefinovat bez stavu; a potom 2. definicia so stavom, v ktorej spojim slovnu definiciu s induktivnou			- taktiez najst ine angl. slovo pre slovenske "charakteristika"
 %TODO successors => sequence (c_1, ..., c_n su successormi), prip. c_i je u_i-successor of c
 
-
 \def\us{\char`\_}
 
 \bibliographystyle{plain}
-%\bibliography{mujbisoubor}
 \begin{thebibliography}{9}
 
 \bibitem{perimeter} N. Agmon, S. Kraus, and G. A. Kaminka. Multi-Robot Perimeter Patrol in Adversarial Settings. In \emph{ICRA}, pages 2339–2345, 2008.
