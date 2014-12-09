@@ -1170,6 +1170,7 @@ Note that each closed set $E$ represents a set of states of an automaton, whose 
 
 \chapter{Multi-Robot Patrolling Games}
 \label{chap:multiPatrol}
+%IDEA To prevent ambiguity, from now on we refer to patrolling games as simple patrolling games.
 
 In this chapter, we generalize the model of patrolling games defined in Chapter \ref{chap:pg} by allowing multiple patrolling units (robots).
 The concept of multiple robots is borrowed from \cite{multi-robot}.
@@ -1177,10 +1178,10 @@ The concept of multiple robots is borrowed from \cite{multi-robot}.
 As described in Subsection \ref{subsec:multi}, the multi-robot setting can be studied under many possible reasonable restrictions.
 We chose to study the most general model, which corresponds to \emph{joint strategy} (one strategy regarding the movement of all the robots is computed centrally) with \emph{full assignment} (each robot can potentially visit every node).
 
-The main reason behind choosing this model is that we are interested in the "most" optimal strategy---any unnecessary restrictions might lower the value of the game.
+The main reason for choosing this model is that we are interested in the "most" optimal strategy---any unnecessary restrictions might lower the value of the game.
 Example \ref{ex:centralized} shows a game where a joint strategy yields strictly larger value than any disjointed strategy.
 
-The second reason is simplicity---assigning a specific set of nodes to each robot would significantly complicate the model.
+The second desired virtue of our model is simplicity---assigning a specific set of visitable nodes to each robot would significantly complicate the model.
 We also prefer the robots to be homogeneous.
 
 %TODO co nove? prezentujeme algoritmus? ako vysledky ukazeme?
@@ -1190,6 +1191,12 @@ We also prefer the robots to be homogeneous.
 \begin{definition}
 A \emph{multi-robot patrolling game (MRPG)} is a tuple $\mathcal{G} = (U, E, T, d, R)$ where $U$ is a finite set of \emph{nodes}, $E \subseteq U \times U$ is a set of \emph{edges}, $T \subseteq U$ is a set of \emph{target nodes}, $d$ is the \emph{attack length}, and $R$ is a set of \emph{robots}.
 \end{definition}
+%IDEA $R$ is the number of robots
+% we denote the robots as $r_1, \dots, r_R
+\noindent
+We consider all robots to be homogeneous.
+Therefore, when defining an actual game, we usually define only the number of robots instead of the precise set.
+We denote the robots as $r_1, \dots, r_{|R|}$.
 
 In every moment of a play, every robot is located in some node.
 We define \emph{configuration} to be an $|R|$-tuple of nodes specifying the positions of the robots \cite{multi-robot}.
@@ -1203,7 +1210,7 @@ Example \ref{ex:initial2} illustrates that even forcing the robots to start in m
 Therefore, we let the defender's strategy to determine the initial configuration.
 
 Given a configuration $c \in C$, we define $succ(c) := \{c' \in C \mid c'_i \in succ(c_i)~\text{for all}~0 \leq i \leq |R|\}$ to be the set of all \emph{successors} of $c$.
-Using this, we straightforwardly modify the definitions of \emph{path}, \emph{history}, and \emph{run} from the patrolling game to work with configurations instead of single nodes.
+Using this definition of successors, we straightforwardly modify the definitions of \emph{path}, \emph{history}, and \emph{run} from patrolling game to work with configurations instead of single nodes.
 The notation of these terms stays the same.
 Further, we denote by $\mathcal{H}_0 = \mathcal{H} \cup \{\epsilon\}$ the set of histories together with the empty word.
 %Using this, we straightforwardly modify the definitions from the patrolling game to work with configurations instead of single nodes.
@@ -1220,7 +1227,7 @@ An \emph{attacker's strategy} is a function $\pi : \mathcal{H} \to T \cup \{\per
 \noindent
 We refer to the configuration $c$ such that $\sigma(\epsilon)(c) = 1$ as \emph{$\sigma$-initial configuration}.
 It semantically substitutes the initial node in a patrolling game.
-The attacker cannot attack before the robots are placed in the initial configuration as he could easily take advantage of this information (see Example \ref{ex:distribution}).
+The attacker is not allowed to attack before the robots are placed in the initial configuration as he could easily take advantage of this information (see Example \ref{ex:distribution}).
 Note that although the defender has multiple patrolling units, the attacker can still attack only a single node and only once during a play.
 
 \begin{remark}
@@ -1280,14 +1287,13 @@ We aimed to find examples as simple as possible.%, yet still satisfying some rea
 \end{tabular}
 
 \vspace{-5pt}
-\caption{{Simple settings for examples of multi-robot patrolling games.}}
+\caption{{Graph settings for examples of multi-robot patrolling games.}}
 \label{fig:examples2}
 \end{figure}
 
 \begin{example}
 \label{ex:centralized}
-
-Fig.~\ref{fig:examples2} (left)
+Consider an MRPG played on the graph from Fig.~\ref{fig:examples2} (left), where all nodes are targets.
 \end{example}
 
 \begin{example}
