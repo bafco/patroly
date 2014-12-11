@@ -339,7 +339,7 @@ In the next part of the paper, the authors combine the two mentioned coordinatio
 
 Experimental results show that the higher the degree of coordination, the higher the computational effort and the robots' utilities.\footnote{There is an exception to this rule in the case of separated strategies: separated assignment turned out to be more time-consuming and gave higher utilities than maximal clique assignment. This shows that overlapping patrolling areas without any strategy coordination have negative effect on the expected utility.}
 An easy observation was that joint strategies do not scale with large settings (more than 15 nodes) as they require much memory.
-Special attention was paid to two coordination combinations: disjointed strategy with maximal clique assignment ($\mathcal{D}_3$) and separated strategy with separated assignment ($\mathcal{D}_5$). $\mathcal{D}_5$ consumed less time than $\mathcal{D}_3$ just because the number of possible assignments was small. With larger settings, the number of all the possible separated assignments increases drastically faster than the number of maximal cliques. Another interesting observation is that higher number of robots can lead to lower computational time. That is because adding more robots decreases the portion of $G$ assigned to each robot and the computational time strongly depends on the size of this portion. For more conclusions, see \cite{multi-robot}.
+Special attention was paid to two coordination combinations: disjointed strategy with maximal clique assignment ($\mathcal{D}_3$) and separated strategy with separated assignment ($\mathcal{D}_5$). $\mathcal{D}_5$ consumed less time than $\mathcal{D}_3$ just because the number of possible assignments was small. With larger settings, the number of all the possible separated assignments increases drastically faster than the number of maximal cliques. Another interesting observation is that higher number of robots can lead to lower computational time. That is because adding more robots decreases the portion of $G$ assigned to each robot and the computational time strongly depends on the size of this portion. For~more~conclusions,~see~\cite{multi-robot}.
 
 \subsection{Moving targets}
 
@@ -1176,10 +1176,11 @@ In this chapter, we generalize the model of patrolling games defined in Chapter 
 The concept of multiple robots is borrowed from \cite{multi-robot}.
 
 As described in Subsection \ref{subsec:multi}, the multi-robot setting can be studied under many possible reasonable restrictions.
+In \cite{multi-robot}, the authors established two dimension in which the robots can be coordinated: in computing and executing the patrolling strategy, and in partitioning the environment.
 We chose to study the most general model, which corresponds to \emph{joint strategy} (one strategy regarding the movement of all the robots is computed centrally) with \emph{full assignment} (each robot can potentially visit every node).
 
 The main reason for choosing this model is that we are interested in the "most" optimal strategy---any unnecessary restrictions might lower the value of the game.
-Example \ref{ex:centralized} shows a game where a joint strategy yields strictly larger value than any disjointed strategy.
+Example \ref{ex:joint} shows a game where a joint strategy yields strictly larger value than any disjointed strategy.
 
 The second desired virtue of our model is simplicity---assigning a specific set of visitable nodes to each robot would significantly complicate the model.
 We also prefer the robots to be homogeneous.
@@ -1199,9 +1200,12 @@ Therefore, when defining an actual game, we usually define only the number of ro
 We denote the robots as $r_1, \dots, r_{|R|}$.
 
 In every moment of a play, every robot is located in some node.
-We define \emph{configuration} to be an $|R|$-tuple of nodes specifying the positions of the robots \cite{multi-robot}.
+We define a \emph{configuration} to be an $|R|$-tuple of nodes specifying the positions of the robots \cite{multi-robot}.
 We write $c = (c_1, \dots, c_{|R|})$, where $c_i \in U$ is the position of the robot $r_i \in R$.
 We denote by $C = U^{|R|}$ the set of all configurations.
+
+For a configuration $c$, we define $cover(c) = \{c_1, \dots, c_{|R|}\}$ to be the \emph{cover} of $c$, representing all the nodes in which at least one robot is positioned.
+A cover can contain $1$ to $|R|$ members.
 
 Note that an MRPG, as opposed to a (single-robot) patrolling game, does not have any predefined initial configuration of the robots.
 In a patrolling game, forcing the initial node to be a target node guarantees maximal possible value of the game.
@@ -1228,19 +1232,18 @@ An \emph{attacker's strategy} is a function $\pi : \mathcal{H} \to T \cup \{\per
 We refer to the configuration $c$ such that $\sigma(\epsilon)(c) = 1$ as \emph{$\sigma$-initial configuration}.
 It semantically substitutes the initial node in a patrolling game.
 The attacker is not allowed to attack before the robots are placed in the initial configuration as he could easily take advantage of this information (see Example \ref{ex:distribution}).
-Note that although the defender has multiple patrolling units, the attacker can still attack only a single node and only once during a play.
 
 \begin{remark}
 It would be possible to define the defender's strategy in such a way that $supp(\sigma(\epsilon))$ need not to be a singleton.
 Then, there would be no weak spot the attacker could take advantage of, so he could be allowed to attack even before the robots take their initial positions.
 However, such setting seems unrealistic and we rather force $supp(\sigma(\epsilon))$ to be a singleton.
-%However, a setting with $supp(\sigma(\epsilon))$ not being a singleton seems unrealistic.
+%However, a setting where $supp(\sigma(\epsilon))$ is not a singleton seems unrealistic.
 \end{remark}
 
-%robots are homogeneous
-%vsetci sa hybu rovnako rychlo
-
-%-> consistent with the underlying subgraph
+After following a history $h$, the defender randomly chooses the next configuration based on the distribution $\sigma(h)$.
+At the same time, the attacker decides whether to attack or not.
+Then, all the robots are simultaneously moved to the new configuration.
+The definition of the attacker's strategy is the same as in the patrolling game---the attacker can still attack only a single node and only once during a play.
 
 %TODO zadefinovat successful attack a pod.
 %TODO zadefinovat value
@@ -1303,7 +1306,7 @@ $|R| = 2$\
 \end{figure}
 
 \begin{example}
-\label{ex:centralized}
+\label{ex:joint}
 Consider the MRPG from Fig.~\ref{fig:examples2} (left), which is played on a complete graph on 3 nodes.
 All the nodes are targets with attack length 1 and the defender has two robots to patrol them.
 The attack length 1 means that if the attacker attacks a node $t \in T$, he will be caught with probability equal to the probability that at least one robot will visit $t$ in the next step.
@@ -1315,9 +1318,7 @@ Every optimal strategy has to visit each target with probability $2/3$ in each s
 Note that it is impossible for a decentralized/disjointed strategy
 
 
-%This cannot be done any other way than uniformly choosing a configuration with cover $\{s, u\}$, with cover $\{s, v\}$, or with cover $\{u, v\}$, each with probability $1/3$, 
-
-%TODO hodilo by sa mi nieco ako $cover(c) = \{c_1, \dots, c_{|R|}\}$ pre configuration $c$
+%This cannot be done any other way than uniformly choosing a configuration with cover $\{s, u\}$, with cover $\{s, v\}$, or with cover $\{u, v\}$, each with probability $1/3$,
 
 \end{example}
 
