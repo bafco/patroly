@@ -445,10 +445,10 @@ Hence, $\mathcal{P}_u^{\sigma}(\mathcal{D}_u[\pi])$ is the probability of all de
 \begin{definition}
 For all $u \in U$ and $\sigma \in \Sigma$, the \emph{value of $\sigma$} is defined as $val_u(\sigma) = \inf_{\pi \in \Pi}\mathcal{P}_u^{\sigma}(\mathcal{D}_u[\pi])$.
 The \emph{Stackelberg value} of $u$ is defined as $val_u = \sup_{\sigma \in \Sigma}val_u(\sigma)$.
-The (Stackelberg) value of the game $\mathcal{G}$ is defined as $val = val_{\hat{u}}$.
+The \emph{(Stackelberg) value} of the game $\mathcal{G}$ is defined as $val = val_{\hat{u}}$.
 
 Let $\epsilon \geq 0$. A defender's strategy $\sigma^*$ is called \emph{$\epsilon$-optimal} if $val(\sigma^*) \geq val - \epsilon$.
-A $0$-optimal strategy is called just \emph{optimal}.
+A~$0$-optimal strategy is called just \emph{optimal}.
 \end{definition}
 
 Note that because only relevant histories can happen, the knowledge that a strategy $\sigma$ is optimal provides no informative value on $\sigma(h)$ for $h \notin \mathcal{H}(\sigma)$.
@@ -1201,11 +1201,12 @@ We denote the robots as $r_1, \dots, r_{|R|}$.
 
 In every moment of a play, every robot is located in some node.
 We define a \emph{configuration} to be an $|R|$-tuple of nodes specifying the positions of the robots \cite{multi-robot}.
-We write $c = (c_1, \dots, c_{|R|})$, where $c_i \in U$ is the position of the robot $r_i \in R$.
+We denote it by $c = (c_1, \dots, c_{|R|})$, where $c_i \in U$ is the position of the robot $r_i \in R$.
 We denote by $C = U^{|R|}$ the set of all configurations.
 
-For a configuration $c$, we define $cover(c) = \{c_1, \dots, c_{|R|}\}$ to be the \emph{cover} of $c$, representing all the nodes in which at least one robot is positioned.
+For a configuration $c$, we define $cover(c) = \{c_1, \dots, c_{|R|}\}$ to be the \emph{cover} of $c$, representing all the nodes currently visited by at least one robot.
 A cover can contain $1$ to $|R|$ members.
+From now on, when we say that the defender visited a node, we mean that at least one of her robots visited the node.
 
 Note that an MRPG, as opposed to a (single-robot) patrolling game, does not have any predefined initial configuration of the robots.
 In a patrolling game, forcing the initial node to be a target node guarantees maximal possible value of the game.
@@ -1214,7 +1215,7 @@ Example \ref{ex:initial2} illustrates that even forcing the robots to start in m
 Therefore, we let the defender's strategy to determine the initial configuration.
 
 Given a configuration $c \in C$, we define $succ(c) := \{c' \in C \mid c'_i \in succ(c_i)~\text{for all}~0 \leq i \leq |R|\}$ to be the set of all \emph{successors} of $c$.
-Using this definition of successors, we straightforwardly modify the definitions of \emph{path}, \emph{history}, and \emph{run} from patrolling game to work with configurations instead of single nodes.
+Using this definition of successors, we straightforwardly modify the definitions of \emph{path}, \emph{history}, and \emph{run} from patrolling games to work with configurations instead of single nodes.
 The notation of these terms stays the same.
 Further, we denote by $\mathcal{H}_0 = \mathcal{H} \cup \{\epsilon\}$ the set of histories together with the empty word.
 %Using this, we straightforwardly modify the definitions from the patrolling game to work with configurations instead of single nodes.
@@ -1245,8 +1246,22 @@ At the same time, the attacker decides whether to attack or not.
 Then, all the robots are simultaneously moved to the new configuration.
 The definition of the attacker's strategy is the same as in the patrolling game---the attacker can still attack only a single node and only once during a play.
 
-%TODO zadefinovat successful attack a pod.
-%TODO zadefinovat value
+We adopt the concept of \emph{relevant} histories for a given defender's strategy $\sigma$, which have to start in the $\sigma$-initial configuration.
+%We adopt the concept of \emph{relevant} histories from patrolling games.
+%The only difference is that for a given defender's strategy $\sigma$, relevant histories have to start in the $\sigma$-initial configuration.
+
+We also adopt the definitions of \emph{successful attack} and \emph{defended run}, and the associated notation.
+For a given defender's strategy $\sigma$ and an attacker's strategy $\pi$, $\mathcal{P}^\sigma$ denotes the probability measure associated with the unique probability space over all infinite paths determined by $\sigma$,
+$\mathcal{D}[\pi]$ denotes the set of all defended runs,
+and $\mathcal{P}^\sigma(\mathcal{D}[\pi])$ is the probability of all defended runs when the defender and the attacker use strategies $\sigma$ and $\pi$, respectively.
+
+\begin{definition}
+For $\sigma \in \Sigma$, the \emph{value of $\sigma$} is defined as $val(\sigma) = \inf_{\pi \in \Pi}\mathcal{P}^\sigma(\mathcal{D}[\pi])$.
+The \emph{(Stackelberg) value} of the game $\mathcal{G}$ is defined as $val = \sup_{\sigma \in \Sigma}val_{\sigma}$.
+
+Let $\epsilon \geq 0$. A defender's strategy $\sigma^*$ is called \emph{$\epsilon$-optimal} if $val(\sigma^*) \geq val - \epsilon$.
+A~$0$-optimal strategy is called just \emph{optimal}.
+\end{definition}
 
 \section{Examples}
 
