@@ -605,7 +605,7 @@ Let $k \in \mathbb{N}$. A \emph{$k$-commitment} is a function $f : U^{\leq k} \t
 	\item $supp(f(wu)) \subseteq succ(u)$ for all $w \in U^{\leq k - 1}$ and $u \in U$.
 \end{itemize}
 \vspace{-5pt}
-The \emph{root} of a commitment f, denoted by $r(f)$, is the unique node $u$ satisfying $f(\epsilon)(u) = 1$.
+The \emph{root} of a commitment $f$, denoted by $r(f)$, is the unique node $u$ satisfying $f(\epsilon)(u) = 1$.
 We denote by $\mathbf{Comm}_k$ and $\mathbf{Comm}_k(u)$ the sets of all $k$-commitments and of all $k$-commitments $f$ with $r(f) = u$, respectively.
 Further, we define $\xi(f) = f(r(f))$ to be the probability distribution in the root of $f$.
 \end{definition}
@@ -907,29 +907,42 @@ The equivalence relation is based on the ability to defend an attack which start
 We call this ability the \emph{characteristic} of a given state.
 We prove that states with the same characteristic are equivalent, i.e. they can be merged into a single state without influencing the value of the resulting strategy.
 
+Before we define the characteristic of a given state, we start by defining a characteristic as a general function.
+
+\begin{definition}
+A \emph{characteristic} is a function $c : \{0, \dots, d\} \times U \to [0, 1]$ such that there is a unique node $u \in U$ for which the following conditions are satisfied:
+\vspace{-5pt}
+\begin{itemize}
+	\item $c(0, u) = 1$,
+	\item $c(0, v) = 0$ for all $v \in U \smallsetminus \{u\}$,
+	\item $c(1, v) = 0$ for all $v \notin succ(u)$,
+	\item $\sum_{v\in U}c(1, v) = 1$.
+\end{itemize}
+\vspace{-5pt}
+The unique node $u$ is called the \emph{root} of the characteristic $c$ and is denoted by $r(c)$.
+\end{definition}
+
 In the following definition, we assume the automaton $\mathcal{A}$ constructed in Step 3 in the previous section.
 
 \begin{definition}
-Given $p \in Q$, we define the characteristic $\mathbf{Char}_p$ of $p$ to be a function which to every pair $(k, u) \in \{0, \dots, d\} \times U$ assigns the probability of reaching $u$ in at most $k$ steps whenever the strategy is in the state $p$ (recall that $p$ determines the current state of the play).
-\end{definition}
-The values for $k = 0$ contain the information about the current location of the defender and we put\\
-\[\mathbf{Char}_p(0, u) =
+Given $p \in Q$, we define the characteristic $\mathbf{Char}_p$ of the state $p$ to be a characteristic defined as follows:
+\vspace{-5pt}
+\begin{itemize}
+	\item
+\hspace{27.4pt}$\mathbf{Char}_p(0, u) =
    \begin{cases}
    1		& \text{if } r(p) = u \\
-   0		& \text{otherwise.}
-   \end{cases}
-\]
-%TODO inductive definition - slovna definicia sa zide, ked budem d-commitmentom priradovat charakteristiky
-For $1 \leq k \leq d$ we put
+   0		& \text{otherwise}
+   \end{cases}$
+	\item and for $1 \leq k \leq d$
 $$\mathbf{Char}_p(k, u) = \xi(p)(u) + \sum_{v \neq u}\xi(p)(v) \cdot \mathbf{Char}_{\delta(p, v)}(k - 1, u)~.$$
-Note that the values for $k = 1$ represent the probability distribution over the nodes in the next step as $\mathbf{Char}_{\delta(r, u)}(0, v) = 0$ for all $v \neq u$.
-
-%The current location of the defender is determined by the only node $u$ for which $\mathbf{Char}_p(0, u) = 1$ and the probability distribution over the nodes in the next step is represented by values of $\mathbf{Char}_p(1, u)$.
-
+\end{itemize}
+\vspace{-5pt}
 %%%%%%%%%%%%%%
 %%% COMMENTED OUT %%%
-%\noindent$
-%\mathbf{Char}_p(k, u) =
+% correct as the fact that it is a characteristic implies that $k \leq d$
+%\noindent
+%$\mathbf{Char}_p(k, u) =
 %   \begin{cases}
 %      \begin{cases}
 %         1	& \text{if } r(p) = u \\
@@ -937,19 +950,27 @@ Note that the values for $k = 1$ represent the probability distribution over the
 %      \end{cases}
 %		& \text{if } k = 0 \\
 %   \xi(p)(u) + \sum_{v \neq u}\xi(p)(v) \cdot \mathbf{Char}_{\delta(p, v)}(k - 1, u)	& \text{otherwise.}
-%   \end{cases}
-%$
+%   \end{cases}$
 %
-%\noindent$
-%\mathbf{Char}_p(k, u) =
+%\noindent
+%$\mathbf{Char}_p(k, u) =
 %   \begin{cases}
 %   \text{the boolean value of } r(p) = u		& \text{if } k = 0 \\
 %   \xi(p)(u) + \sum_{v \neq u}\xi(p)(v) \cdot \mathbf{Char}_{\delta(p, v)}(k - 1, u)	& \text{otherwise.}
-%   \end{cases}
-%$
+%   \end{cases}$
+\end{definition}
+\noindent
+$\mathbf{Char}_p$ assigns to every pair $(k, u) \in \{0, \dots, d\} \times U$ the probability of reaching $u$ in at most $k$ steps whenever the strategy is in the state $p$ (recall that $p$ determines the current state of the play).
+
+The values for $k = 0$ contain the information about the current location of the defender.
+Further, the values for $k = 1$ represent the probability distribution over the nodes in the next step, i.e. $\mathbf{Char}_p(1, u) = \xi(p)(u)$.
+That is because $\mathbf{Char}_{\delta(p, v)}(0, u) = 0$ for all $v \neq u$.
+
+%The current location of the defender is determined by the only node $u$ for which $\mathbf{Char}_p(0, u) = 1$ and the probability distribution over the nodes in the next step is represented by values of $\mathbf{Char}_p(1, u)$.
 
 \
 
+Now we describe the concept of merging two states of an automaton.
 Given $q \in Q \smallsetminus \{q_0\}$, we denote by $\mathcal{A}_{p \leftarrow q} = (Q', U, \delta', q_0, \{\})$ the DFA defined as follows:
 \vspace{-5pt}
 \begin{itemize}
@@ -1376,7 +1397,6 @@ Therefore, we do not allow the attacker to attack in step 0.
 %TODO list
 %TODO spell checker
 %TODO kedykolvek je nieco nove - preco je to nove/lepsie/hlbsi dokaz -> aby bolo vidiet, co som urobil
-%TODO charakteristika - zadefinovat bez stavu; a potom 2. definicia so stavom, v ktorej spojim slovnu definiciu s induktivnou			- taktiez najst ine angl. slovo pre slovenske "charakteristika"
 %TODO successors => sequence (c_1, ..., c_n su successormi), prip. c_i je u_i-successor of c
 
 \def\us{\char`\_}
