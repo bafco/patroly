@@ -904,13 +904,13 @@ The algorithm runs in time polynomial in the number of all discretized $d$-commi
 %TODO zmienit sa o nasom algoritme / jeho zlozitosti?
 To reduce the number of possible states of the automaton $\mathcal{A}$ encoding the $\epsilon$-optimal strategy, we define an equivalence relation on the states of $\mathcal{A}$ which we use to factorize the state-space of $\mathcal{A}$.
 The equivalence relation is based on the ability to defend an attack which started somewhen in the last $d$ steps. % $d-1$ steps
-We call this ability the \emph{characteristics} of a given state.
-We prove that states with the same characteristics are equivalent, i.e. they can be merged into a single state without influencing the value of the resulting strategy.
+We call this ability the \emph{characteristic} of a given state.
+We prove that states with the same characteristic are equivalent, i.e. they can be merged into a single state without influencing the value of the resulting strategy.
 
 In the following definition, we assume the automaton $\mathcal{A}$ constructed in Step 3 in the previous section.
 
 \begin{definition}
-Given $p \in Q$, we define the characteristics $\mathbf{Char}_p$ of $p$ to be a function which to every pair $(k, u) \in \{0, \dots, d\} \times U$ assigns the probability of reaching $u$ in at most $k$ steps whenever the strategy is in the state $p$ (recall that $p$ determines the current state of the play).
+Given $p \in Q$, we define the characteristic $\mathbf{Char}_p$ of $p$ to be a function which to every pair $(k, u) \in \{0, \dots, d\} \times U$ assigns the probability of reaching $u$ in at most $k$ steps whenever the strategy is in the state $p$ (recall that $p$ determines the current state of the play).
 \end{definition}
 The values for $k = 0$ contain the information about the current location of the defender and we put\\
 \[\mathbf{Char}_p(0, u) =
@@ -965,14 +965,13 @@ Given $q \in Q \smallsetminus \{q_0\}$, we denote by $\mathcal{A}_{p \leftarrow 
 Intuitively, $\mathcal{A}_{p \leftarrow q}$ is obtained from $\mathcal{A}$ by redirecting all transitions going to $q$ to $p$ and then removing $q$.
 
 In general, this change in the transition function might influence the characteristics of the states from which $q$ was reachable in less than $d$ steps.
-%However, we prove that the states' characteristics are preserved if the two merged states have the same characteristics.
-However, the states' characteristics are preserved if the two merged states have the same characteristics, as is formulated in the following lemma.
+However, the states' characteristics are preserved if the two merged states have the same characteristic, as is formulated in the following lemma.
 
 \begin{lemma}
 \label{lem:characteristics}
 Given $p, q \in Q$ such that $\mathbf{Char}_p = \mathbf{Char}_q$, we have that for all $r \in Q \smallsetminus \{q\}$
 $$\mathbf{Char}'_r = \mathbf{Char}_r$$
-where $\mathbf{Char}'_r$ denotes the characteristics of $r$ in the automaton $\mathcal{A}_{p \leftarrow q}$.
+where $\mathbf{Char}'_r$ denotes the characteristic of $r$ in the automaton $\mathcal{A}_{p \leftarrow q}$.
 \end{lemma}
 
 \begin{proof}
@@ -982,7 +981,7 @@ Indeed, when the play is in a state $f$, the next state $g$ is chosen with proba
 This is because the next node $u$ visited by the defender is selected based on $\xi(f)$, and $g$ is determined by $\delta(f, u)$.
 
 That means that although the states of $\mathcal{A}$ are $d$-commitments, only the probability distribution in their root affects the strategy.
-The idea of the proof is that the characteristics of a state $r$ are completely determined by
+The idea of the proof is that the characteristic of a state $r$ is completely determined by
 (1) the probability distribution in its root and by
 %, by the transitions from it,
 (2) the characteristics of all the states to which there is a transition from $r$ under a particular node~$u$.
@@ -994,7 +993,7 @@ The idea of the proof is that the characteristics of a state $r$ are completely 
 %\end{enumerate}
 %\vspace{-6.1pt}
 Substitution of $q$ by $p$ does not have any influence on (1) and because $\mathbf{Char}_p = \mathbf{Char}_q$, neither has it any influence on (2).
-%Note that the characteristics of a state preserve the information about probability distribution in its root.
+%Note that the characteristic of a state preserves the information about probability distribution in its root.
 
 %IDEA change the order of $r, v, k$
 Formally, we prove by induction on $k$ that for all $r \in Q \smallsetminus \{q\}$, $v \in U$, $0 \leq k \leq d$ we have that $$\mathbf{Char}'_r(k, v) = \mathbf{Char}_r(k, v)~.$$
@@ -1011,7 +1010,7 @@ For $1 \leq k \leq d$ we have
 \end{align}
 \vspace{-20pt}
 \begin{itemize}
-	\item The equalities \eqref{eq2:first} and \eqref{eq2:fourth} follow directly from the definition of the characteristics. %and the fact that $\mathbf{Char}_{\delta(r, u)}(0, v) = 0$ for all $u \neq v$.
+	\item The equalities \eqref{eq2:first} and \eqref{eq2:fourth} follow directly from the definition of the characteristic. %and the fact that $\mathbf{Char}_{\delta(r, u)}(0, v) = 0$ for all $u \neq v$.
 	\item The equality \eqref{eq2:second} holds by the induction hypothesis.
 	\item To prove the equality \eqref{eq2:third}, note that the only case when $\delta'(r, u) \neq \delta(r, u)$ is when $\delta'(r, u) = p$ and $\delta(r, u) = q$. However, $\mathbf{Char}_p = \mathbf{Char}_q$.
 \end{itemize}
@@ -1031,7 +1030,7 @@ In what follows, we prove that $\sigma_{red}$ is $\epsilon$-optimal.
 
 We start by defining the probability of detecting an immediate attack when the play is in a state $p$.
 \begin{definition}
-Given a state $p \in Q$, we define the value of its characteristics by $$val(\mathbf{Char}_p) = \min_{t \in T} \mathbf{Char}_p(d, t)~.$$
+Given a state $p \in Q$, we define the value of its characteristic by $$val(\mathbf{Char}_p) = \min_{t \in T} \mathbf{Char}_p(d, t)~.$$
 \end{definition}
 Note that $att\text{-}val(\sigma_{red} \mid h) = val(\mathbf{Char}_p)$ where $p = \mathcal{A}[h]$.
 
@@ -1067,7 +1066,7 @@ val(\sigma_{red})
 $\sigma_{red}$ is an $\epsilon$-optimal strategy.
 \end{proposition}
 
-We can further substitute each state $p \in Q_{red}$ by its characteristics $\mathbf{Char}_p$ to obtain an automaton $\mathcal{A}_{Char}$.
+We can further substitute each state $p \in Q_{red}$ by its characteristic $\mathbf{Char}_p$ to obtain an automaton $\mathcal{A}_{Char}$.
 %One can easily prove that $\mathcal{A}_{Char}$ and $\mathcal{A}_{red}$ encode exactly the same defender's %strategy.
 %It suffices to put
 By putting
@@ -1097,13 +1096,13 @@ So far, we have shown that there is a DFA $\mathcal{A}_{Char}$ encoding an $\eps
 Furthermore, each $c \in Q_{Char}$ satisfies:
 \vspace{-5pt}
 \begin{enumerate}[label=(\Alph*)]
-	\item $c = \mathbf{Char}_c$\footnote{We identify a state with its characteristics to reflect that it is the only quality of a state we are interested in.} \label{a}
+	\item $c = \mathbf{Char}_c$\footnote{We identify a state with its characteristic to reflect that it is the only quality of a state we are interested in.} \label{a}
 	\item $c(1, u)$ is an integer multiple of $s$ for all $u \in U$ \label{b}
 	\item $val(c) \geq val(\sigma) - \epsilon$. \label{c}
 %%% COMMENTED OUT the bullets for the existence of $\mathcal{A}_{red}$ %%%
 %	\item its states are $d$-commitments with all their function values (elements of probability distribution) being integer multiples of $t$,
-%	\item no two states have the same characteristics, and
-%	\item the value of the characteristics of each state is at least $val(\sigma) - \epsilon$.
+%	\item no two states have the same characteristic, and
+%	\item the value of the characteristic of each state is at least $val(\sigma) - \epsilon$.
 \end{enumerate}
 \vspace{-5pt}
 In order to find such an automaton, we consider the set of all \emph{discretized} characteristics
@@ -1137,11 +1136,10 @@ From \ref{a} and \ref{b} it follows that $Q_{Char} \subseteq \emph{Char}^s$.
 
 The algorithm we provide to compute the desired $\epsilon$-optimal strategy is a modification of the algorithm from \cite{iti1}, but instead of searching the set of discretized $d$-commitments, we search the set of discretized characteristics.
 From these characteristics, we aim to build a DFA encoding an $\epsilon$-optimal strategy.
-%TODO characteristics - singular or plural?
-Each discretized characteristics represent a possible state of the automaton.
+Each discretized characteristic represents a possible state of the automaton.
 When a play is in any state, there is exactly one unique $d$-commitment which represents the current $d$-step randomized plan for the defender.
-Therefore, we consider only characteristics that are \emph{representable} by some $d$-commitment---otherwise, they could not be the characteristics of any state.
-The problem of how to determine whether characteristics are representable will be addressed later.
+Therefore, we consider only characteristics that are \emph{representable} by some $d$-commitment---otherwise, they could not be the characteristic of any state.
+The problem of how to determine whether characteristic is representable will be addressed later.
 %TODO is representable!
 %vobec netreba, aby boli charakteristiky REPRESENTABLE! staci, ak budu legalne v prvom kroku
 
