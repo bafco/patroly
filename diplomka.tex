@@ -1098,7 +1098,7 @@ Furthermore, each $c \in Q_{Char}$ satisfies:
 \vspace{-5pt}
 \begin{enumerate}[label=(\Alph*)]
 	\item $c = \mathbf{Char}_c$\footnote{We identify a state with its characteristics to reflect that it is the only quality of a state we are interested in.} \label{a}
-	\item $c(1, u)$ is an integer multiple of $t$ for all $u \in U$ \label{b}
+	\item $c(1, u)$ is an integer multiple of $s$ for all $u \in U$ \label{b}
 	\item $val(c) \geq val(\sigma) - \epsilon$. \label{c}
 %%% COMMENTED OUT the bullets for the existence of $\mathcal{A}_{red}$ %%%
 %	\item its states are $d$-commitments with all their function values (elements of probability distribution) being integer multiples of $t$,
@@ -1106,9 +1106,9 @@ Furthermore, each $c \in Q_{Char}$ satisfies:
 %	\item the value of the characteristics of each state is at least $val(\sigma) - \epsilon$.
 \end{enumerate}
 \vspace{-5pt}
-In order to find such an automaton, we consider the set of all discretized characteristics
-$\emph{Char}^t$ that consists of all characteristics $c$ such that $c(k, u)$ is an integer multiple of $t^k$ for all $0 \leq k \leq d$ and $u \in U$.
-From \ref{a} and \ref{b} it follows that $Q_{Char} \subseteq \emph{Char}^t$.
+In order to find such an automaton, we consider the set of all \emph{discretized} characteristics
+$\emph{Char}^s$ that consists of all characteristics $c$ such that $c(k, u)$ is an integer multiple of $s^k$ for all $0 \leq k \leq d$ and $u \in U$.
+From \ref{a} and \ref{b} it follows that $Q_{Char} \subseteq \emph{Char}^s$.
 
 \begin{algorithm}[t]
 \caption{~Compute an $\epsilon$-optimal strategy $\sigma_\epsilon^{alg}$}
@@ -1120,7 +1120,7 @@ From \ref{a} and \ref{b} it follows that $Q_{Char} \subseteq \emph{Char}^t$.
 \par\vspace{3.5mm}
 
 \State $C \leftarrow$ empty priority queue; $D \leftarrow \emptyset$
-\ForEach {$c \in \mathbf{Char}^t$}
+\ForEach {$c \in \mathbf{Char}^s$}
 	\If {$c$ is \emph{representable}}	%TODO {\sum_{u \in U} $c(1, u) = 1$}, taktiez musi byt len jeden root
 		add $c$ to $C$ with priority $val(c)$
 %IDEA: nepridavat tie, ktore su ostro horsie nez nejake ine (uz pridane)
@@ -1146,14 +1146,14 @@ The problem of how to determine whether characteristics are representable will b
 %vobec netreba, aby boli charakteristiky REPRESENTABLE! staci, ak budu legalne v prvom kroku
 
 Let $U = \{u_1, \dots, u_n\}$ be the set of nodes of $\mathcal{G}$ %TODO $|U| = n$
-and let $c, c_1, \dots, c_n \in Char^t$ be some discretized characteristics (not necessarily different).
+and let $c, c_1, \dots, c_n \in Char^s$ be some discretized characteristics (not necessarily different).
 We say that $\{c_1, \dots, c_n\}$ is a set of \emph{successors} of $c$ if
 $c(k, u) = \sum_{i = 1}^n c(1, u_i) \cdot c_i(k - 1, u_i)$
 for all $1 \leq k \leq d$ and $u \in U$.
 The meaning of this is that if, for all $i$, $c_i = \mathbf{Char}_{c_i}$ and there is a transition from state $c$ to $c_i$ under $u_i$, then also $c = \mathbf{Char}_{c}$.
 
-We say that a non-empty set $E \subseteq Char^t$ is \emph{closed} if for all $c \in E$ there is a set $S \subseteq E$ of successors of $c$. %if ... there is a set $S$ of successors of $c$ such that $S \subseteq E$.
-Finally, we say that a set $D \subseteq Char^t$ is \emph{complete} if it contains a closed subset.
+We say that a non-empty set $E \subseteq Char^s$ is \emph{closed} if for all $c \in E$ there is a set $S \subseteq E$ of successors of $c$. %if ... there is a set $S$ of successors of $c$ such that $S \subseteq E$.
+Finally, we say that a set $D \subseteq Char^s$ is \emph{complete} if it contains a closed subset.
 
 %TODO
 Note that each closed set $E$ represents a set of states of an automaton, whose transition function can be built from the states' successors (not deterministic).
@@ -1291,7 +1291,7 @@ $|R| = 2$\
 &
 
 \begin{tikzpicture}
-  \foreach \pos/\name in {{(0,0)/a}, {(1.5,0)/b}, {(3,0)/c}, {(3,1.5)/d}, {(1.5,1.5)/e}, {(0,1.5)/f}}
+  \foreach \pos/\name in {{(0,0)/a}, {(1.5,-0.75)/b}, {(3,0)/c}, {(3,1.5)/d}, {(1.5,2.25)/e}, {(0,1.5)/f}}
         \node (\name) at \pos {$\name$};
    \foreach \from/\to in {a/b, b/c, c/d, d/e, e/f, f/a}
 	\draw [->] (\from) -- (\to);
@@ -1342,21 +1342,32 @@ From that we have $\sum_{t \in T}p(t) < 2$, which implies that $val(\sigma) < 2/
 Therefore, no optimal strategy for this game is a disjointed strategy.
 
 %This cannot be done any other way than uniformly choosing a configuration with cover $\{s, u\}$, with cover $\{s, v\}$, or with cover $\{u, v\}$, each with probability $1/3$,
-
 \end{example}
 
 \begin{example}
 \label{ex:initial2}
+Consider the MRPG from Fig.~\ref{fig:examples2} (right).
+It is not hard to find an optimal strategy with value $1$.
+It suffices to initially put the two robots in diametrical nodes, e.g. $a$ and $d$, and then move them counterclockwise.
 
-Fig.~\ref{fig:examples2} (right)
+Now, let us assume that the initial configuration is a parameter of the game rather than determined by defender's strategy.
+Consider the case when initial configuration is $(b, c)$.
+The value of such a game is clearly $0$ as the shortest path from $c$ to $a$ is of length $4$.
+
+This example demonstrates that even under some reasonable conditions ($(t, t) \in E$ for each $t \in T$, all robots start in mutually different targets), forcing an initial configuration might lower the value of the game.
+Even forcing the set of edges $E$ to be a reflexive and symmetric relation over the set of nodes $U$ would not be enough---for a counterexample, consider a game played on a circle of 8 nodes with $T = U$, $d = 4$ and 2 robots starting next to each other.
 \end{example}
 
 \begin{example}
 \label{ex:distribution}
-
-Fig.~\ref{fig:examples2} (left)
+For our last example, consider again the MRPG from Fig.~\ref{fig:examples2} (left).
+From Example \ref{ex:joint}, we already know that the value of this game is $2/3$.
+For now, let us assume that the attacker can attack before the robots are positioned in their $\sigma$-initial configuration.
+Then the value of the game is clearly $0$ as the attacker can successfully attack the only target that is not covered by the $\sigma$-initial configuration (recall that $supp(\sigma(\epsilon))$ has to be a singleton).
+Therefore, we do not allow the attacker to attack in step 0.
 \end{example}
 
+\section{TODO}
 
 - co sa tyka 3.1, treba povedat, ze i tu existuje optimalna strategia - t.j. compact and continuous
 
