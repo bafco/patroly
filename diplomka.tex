@@ -749,8 +749,8 @@ Third, using $\theta_\emph{Max}^{ml}$, we construct a DFA which encodes an $\eps
 
 \textbf{Step 1.} Let us fix an optimal defender's strategy $\sigma$, whose existence is guaranteed by Theorem \ref{thm:existence}.
 For a desired precision $\epsilon$, we discretize $\sigma$ to obtain a strategy $\sigma_\epsilon$ with all probabilities $\sigma_\epsilon(h)(u)$ being integer multiples of an appropriate number $s$ satisfying \mbox{$s = 1/l$} for some $l \in \mathbb{N}$.
-As we will see, to guarantee the $\epsilon$-optimality of $\sigma_\epsilon$, it suffices that $|\sigma(h)(u) - \sigma_\epsilon(h)(u)| \leq {\epsilon\over{|N|d}}$.
-We can guarantee this property for $s = \lceil(|N|d)/\epsilon\rceil^{-1}$ using the following rounding procedure.
+As we will see, to guarantee the $\epsilon$-optimality of $\sigma_\epsilon$, it suffices that $|\sigma(h)(u) - \sigma_\epsilon(h)(u)| \leq {\epsilon\over{|U|d}}$.
+We can guarantee this property for $s = \lceil(|U|d)/\epsilon\rceil^{-1}$ using the following rounding procedure.
 
 Let $U = \{u_1, u_2, \dots, u_{|U|}\}$ be the set of nodes of $\mathcal{G}$.
 For every history $h$ and every $1 \leq i \leq |U|$, we inductively define $\sigma_\epsilon(h)(u_i) = k_i \cdot s$, where $k_i$  is the largest number satisfying
@@ -899,7 +899,7 @@ As you may noticed, the above proof of existence of an $\epsilon$-optimal strate
 In \cite{iti1}, the authors provide an algorithm which computes the desired strategy.
 They introduce the concept of a \emph{discretized} $d$-commitment $f$ for which it holds that for all $w \in U^{\leq d}$ and $u \in U$ the number $f(w)(u)$ is an integer multiple of $t$.
 Their algorithm is based on searching for a \emph{closed} set of such commitments (the defender stays within this set by prolonging her plans) that maximizes the minimal value of all commitments.
-The algorithm runs in time polynomial in the number of all discretized $d$-commitments, i.e. in time ${\left({{|N|d}\over \epsilon}\right)}^{|N|^{\mathcal{O}(d)}}$.
+The algorithm runs in time polynomial in the number of all discretized $d$-commitments, i.e. in time ${\left({{|U|d}\over \epsilon}\right)}^{|U|^{\mathcal{O}(d)}}$.
 
 %TODO zmienit sa o nasom algoritme / jeho zlozitosti?
 To reduce the number of possible states of the automaton $\mathcal{A}$ encoding the $\epsilon$-optimal strategy, we define an equivalence relation on the states of $\mathcal{A}$ which we use to factorize the state-space of $\mathcal{A}$.
@@ -919,13 +919,21 @@ A \emph{characteristic} is a function $c : \{0, \dots, d\} \times U \to [0, 1]$ 
 	\item $\sum_{v\in U}c(1, v) = 1$.
 \end{itemize}
 \vspace{-5pt}
-The unique node $u$ is called the \emph{root} of the characteristic $c$ and is denoted by $r(c)$.
+%The unique node $u$ is called the \emph{root} of the characteristic $c$ and is denoted by $r(c)$.
 \end{definition}
-
-In the following definition, we assume the automaton $\mathcal{A}$ constructed in Step 3 in the previous section.
-
+\noindent
+%In the following definition, we assume the automaton $\mathcal{A}$ constructed in Step~3 in the previous section.
 \begin{definition}
-Given $p \in Q$, we define the characteristic $\mathbf{Char}_p$ of the state $p$ to be a characteristic defined as follows:
+%TODO
+Let $\mathcal{A} = (Q, U, \delta, q_0, \{\})$ be an automaton encoding a defender's strategy.
+Given $p \in Q$, we define the characteristic $\mathbf{Char}_p$ of the state $p$ to be a characteristic which to every pair $(k, u) \in \{0, \dots, d\} \times U$ assigns the probability of reaching $u$ in at most $k$ steps whenever the strategy is in the state $p$ (recall that $p$ determines the current state of the play).
+\end{definition}
+\noindent
+The values for $k = 0$ contain the information about the current location of the defender
+and the values for $k = 1$ represent the probability distribution over the nodes in the next step.
+%Given $p \in Q$, we define the characteristic $\mathbf{Char}_p$ of the state $p$ to be a characteristic defined as follows:
+
+Note that for the automaton $\mathcal{A}$ constructed in Step~3 in the previous section, we have
 \vspace{-5pt}
 \begin{itemize}
 	\item
@@ -958,13 +966,10 @@ $$\mathbf{Char}_p(k, u) = \xi(p)(u) + \sum_{v \neq u}\xi(p)(v) \cdot \mathbf{Cha
 %   \text{the boolean value of } r(p) = u		& \text{if } k = 0 \\
 %   \xi(p)(u) + \sum_{v \neq u}\xi(p)(v) \cdot \mathbf{Char}_{\delta(p, v)}(k - 1, u)	& \text{otherwise.}
 %   \end{cases}$
-\end{definition}
-\noindent
-$\mathbf{Char}_p$ assigns to every pair $(k, u) \in \{0, \dots, d\} \times U$ the probability of reaching $u$ in at most $k$ steps whenever the strategy is in the state $p$ (recall that $p$ determines the current state of the play).
-
-The values for $k = 0$ contain the information about the current location of the defender.
-Further, the values for $k = 1$ represent the probability distribution over the nodes in the next step, i.e. $\mathbf{Char}_p(1, u) = \xi(p)(u)$.
-That is because $\mathbf{Char}_{\delta(p, v)}(0, u) = 0$ for all $v \neq u$.
+%\end{definition}
+%\noindent
+%$\mathbf{Char}_p$ assigns to every pair $(k, u) \in \{0, \dots, d\} \times U$ the probability of reaching $u$ in at most $k$ steps whenever the strategy is in the state $p$ (recall that $p$ determines the current state of the play).
+Observe that $\mathbf{Char}_p(1, u) = \xi(p)(u)$, because $\mathbf{Char}_{\delta(p, v)}(0, u) = 0$ for all $v \neq u$.
 
 %The current location of the defender is determined by the only node $u$ for which $\mathbf{Char}_p(0, u) = 1$ and the probability distribution over the nodes in the next step is represented by values of $\mathbf{Char}_p(1, u)$.
 
@@ -1014,7 +1019,7 @@ The idea of the proof is that the characteristic of a state $r$ is completely de
 %\end{enumerate}
 %\vspace{-6.1pt}
 Substitution of $q$ by $p$ does not have any influence on (1) and because $\mathbf{Char}_p = \mathbf{Char}_q$, neither has it any influence on (2).
-%Note that the characteristic of a state preserves the information about probability distribution in its root.
+%Note that the characteristic of a state preserves the information about the probability distribution in its root.
 
 %IDEA change the order of $r, v, k$
 Formally, we prove by induction on $k$ that for all $r \in Q \smallsetminus \{q\}$, $v \in U$, $0 \leq k \leq d$ we have that $$\mathbf{Char}'_r(k, v) = \mathbf{Char}_r(k, v)~.$$
@@ -1053,13 +1058,13 @@ We start by defining the probability of detecting an immediate attack when the p
 \begin{definition}
 Given a state $p \in Q$, we define the value of its characteristic by $$val(\mathbf{Char}_p) = \min_{t \in T} \mathbf{Char}_p(d, t)~.$$
 \end{definition}
-Note that $att\text{-}val(\sigma_{red} \mid h) = val(\mathbf{Char}_p)$ where $p = \mathcal{A}[h]$.
+Note that $att\text{-}val(\sigma_{red} \mid h) = val(\mathbf{Char}_p)$ where $p = \mathcal{A}[h^+]$.
 
 %%% COMMENTED OUT %%%
 %Consider the automaton $\mathcal{A}$ and some $d$-commitment $p \in Q$.
 %Based on the definition of $\mathcal{A}$ and $\sigma_\epsilon^{reg}$, the next $d$ steps of the play are completely determined by $p$.
 %TODO vypustit historiu $h$, ak ju nepotrebujem
-%Note that for a $d$-commitment $p = \mathcal{A}[h]$ for some history $h$, we have that $val(\mathbf{Char}_p) = val(p)$. %att\text{-}val(\sigma_\epsilon^{reg} \mid h)$.
+%Note that for a $d$-commitment $p = \mathcal{A}[h^+]$ for some history $h$, we have that $val(\mathbf{Char}_p) = val(p)$. %att\text{-}val(\sigma_\epsilon^{reg} \mid h)$.
 %In other words, if the attacker attacks when the play is in a state $p$, he is caught with probability $val(\mathbf{Char}_p)$.
 
 \begin{lemma}
@@ -1077,7 +1082,7 @@ It follows that
 \begin{align*}
 val(\sigma_{red})
   &\geq \inf_{h \in \mathcal{H}(\sigma_{red})} att\text{-}val(\sigma_{red} \mid h) \\
-  &= \inf_{h \in \mathcal{H}(\sigma_{red})} val(\mathbf{Char}_{\mathcal{A}[h]}) \\
+  &= \inf_{h \in \mathcal{H}(\sigma_{red})} val(\mathbf{Char}_{\mathcal{A}[h^+]}) \\
   &\geq \inf_{p \in Q_{red}} val(\mathbf{Char}_p) \\
   &= \inf_{p \in Q_{red}} val(p) \\
   &\geq val(\sigma) - \epsilon~.
@@ -1095,7 +1100,7 @@ By putting
 \begin{itemize}[label=-]
 %	\item $Q_{Char} = \{\mathbf{Char}_p \mid p \in Q_{red}\}$,
 	\item $\delta_{Char}(\mathbf{Char}_p)(u) = \mathbf{Char}_q$ iff $\delta_{red}(p)(u) = q$, and
-	\item $\sigma_{Char}(h)(u) = \mathcal{A}_{Char}[h](1, u)$ %$ = \xi(\mathcal{A}_{red}[h])(u)$
+	\item $\sigma_{Char}(h)(u) = \mathcal{A}_{Char}[h^+](1, u)$ %$ = \xi(\mathcal{A}_{red}[h^+])(u)$
 \end{itemize}
 \vspace{-5pt}
 one can easily see that $\sigma_{Char} = \sigma_{red}$.
@@ -1118,7 +1123,7 @@ Furthermore, each $c \in Q_{Char}$ satisfies:
 \vspace{-5pt}
 \begin{enumerate}[label=(\Alph*)]
 	\item $c = \mathbf{Char}_c$\footnote{We identify a state with its characteristic to reflect that it is the only quality of a state we are interested in.} \label{a}
-	\item $c(1, u)$ is an integer multiple of $s$ for all $u \in U$ \label{b}
+	\item $c(1, u)$ is an integer multiple of $s$ for all $u \in U$, where $s = \lceil(|U|d)/\epsilon\rceil^{-1}$\label{b}
 	\item $val(c) \geq val(\sigma) - \epsilon$. \label{c}
 %%% COMMENTED OUT the bullets for the existence of $\mathcal{A}_{red}$ %%%
 %	\item its states are $d$-commitments with all their function values (elements of probability distribution) being integer multiples of $t$,
@@ -1156,13 +1161,12 @@ From \ref{a} and \ref{b} it follows that $Q_{Char} \subseteq \emph{Char}^s$.
 \end{algorithm}
 
 The algorithm we provide to compute the desired $\epsilon$-optimal strategy is a modification of the algorithm from \cite{iti1}, but instead of searching the set of discretized $d$-commitments, we search the set of discretized characteristics.
-From these characteristics, we aim to build a DFA encoding an $\epsilon$-optimal strategy.
 Each discretized characteristic represents a possible state of the automaton.
-When a play is in any state, there is exactly one unique $d$-commitment which represents the current $d$-step randomized plan for the defender.
-Therefore, we consider only characteristics that are \emph{representable} by some $d$-commitment---otherwise, they could not be the characteristic of any state.
-The problem of how to determine whether characteristic is representable will be addressed later.
-%TODO is representable!
-%vobec netreba, aby boli charakteristiky REPRESENTABLE! staci, ak budu legalne v prvom kroku
+From these characteristics, we aim to build a DFA encoding an $\epsilon$-optimal strategy.
+
+%When a play is in any state, there is exactly one unique $d$-commitment which represents the current $d$-step randomized plan for the defender.
+%Therefore, we consider only characteristics that are \emph{representable} by some $d$-commitment---otherwise, they could not be the characteristic of any state.
+%The problem of how to determine whether characteristic is representable will be addressed later.
 
 Let $U = \{u_1, \dots, u_n\}$ be the set of nodes of $\mathcal{G}$ %TODO $|U| = n$
 and let $c, c_1, \dots, c_n \in Char^s$ be some discretized characteristics (not necessarily different).
@@ -1171,19 +1175,44 @@ $c(k, u) = \sum_{i = 1}^n c(1, u_i) \cdot c_i(k - 1, u_i)$
 for all $1 \leq k \leq d$ and $u \in U$.
 The meaning of this is that if, for all $i$, $c_i = \mathbf{Char}_{c_i}$ and there is a transition from state $c$ to $c_i$ under $u_i$, then also $c = \mathbf{Char}_{c}$.
 
-We say that a non-empty set $E \subseteq Char^s$ is \emph{closed} if for all $c \in E$ there is a set $S \subseteq E$ of successors of $c$. %if ... there is a set $S$ of successors of $c$ such that $S \subseteq E$.
+We say that a non-empty set $E \subseteq Char^s$ is \emph{closed} if for all $c \in E$ there is a set $S \subseteq E$ of successors of $c$.
+%if ... there is a "sequence" $(c_1, \dots, c_n) \in E^n$ of successors of $c$
 Finally, we say that a set $D \subseteq Char^s$ is \emph{complete} if it contains a closed subset.
 
 %TODO
 Note that each closed set $E$ represents a set of states of an automaton, whose transition function can be built from the states' successors (not deterministic).
-\\ $Q = E$
+\\ $Q = E$ %TODO premenovat E na nieco ine, nech sa to nemyli s Edges
 \\ $q_0 = c$ such that $c(0, \hat{u}) = 1$ (there has to be such $c$ unless the value of all characteristics from $E$ is 0)
 \\ $\sigma(c, u_i) = c_i$ where $\{c_1, \dots, c_n\}$ is a set of successors of $c$ such that $c_i(0, u_i) = 1$
+\\
+\\ strategy $\sigma_\epsilon^{Alg} = \xi(\mathcal{A}[h^+])$, where $\xi(c)$ is the probability distribution in the root of $c$ defined by $\xi(c)(u) = c(1, u)$
 \\ We prove that this automaton determines an $\epsilon$-optimal strategy.
+It suffices to prove that for all $c \in Q$ we have that $c = \mathbf{Char}_c$ and that $val(c) \geq val(\sigma) - \epsilon$.
 
-%proof of $c = \mathbf{Char}_c$: by induction on $k$ that for all characteristics $c$ and all nodes $u$ it holds that $c(k, u) = \mathbf{Char}_c(k, u)$
+We prove by induction on $k$ that for all $c \in Q$ and $u \in U$ it holds that $c(k, u) = \mathbf{Char}_c(k, u)$.
+Let $\{c_1, \dots, c_n\}$ be the set of successors of $c$.
 
-%TODO $x \ leq k \ leq y$  nahradit $k \in \{x, \dots, y\}$
+For $k = 0$ this trivially holds.
+
+
+%TODO bude to treba cele prekopat a zadefinovat regularnu strategiu ako je v charakteristiky.pdf
+
+For $1 \leq k \leq d$, we have
+\begin{align*}
+c(k, u)
+  &= \sum_{i = 1}^n c(1, u_i) \cdot c_i(k - 1, u_i) \\ %from the definition of successors
+  &=  \\ %
+  &=  \\ % from the definition of characteristic of a state
+  &= \mathbf{Char}_c(k, u)~.
+\end{align*}
+
+$c(k, u) = \sum_{i = 1}^n c(1, u_i) \cdot c_i(k - 1, u_i)$
+$= $
+From the definition of the characteristic, we have
+$$\mathbf{Char}_c(k, u) = \xi(c)(u) + \sum_{v \neq u}\xi(c)(v) \cdot \mathbf{Char}_{\delta(c, v)}(k - 1, u)$$
+where $\xi(p)$ is the probability distribution in the root of $p$
+\\ - for a $d$-commitment $p$: $\xi(p)(u) = p(r(p))(u)$
+\\ - for a characteristic $p$: $\xi(p)(u) = {Char}_p(1, u)$
 
 \chapter{Multi-Robot Patrolling Games}
 \label{chap:multiPatrol}
