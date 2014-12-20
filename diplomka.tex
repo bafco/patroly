@@ -686,7 +686,7 @@ For details of the translation process and the omitted proofs, see \cite{iti1}.
 %TODO 2 odstavce: 1) co uz bolo dosiahnute; 2) v com som lepsi
 In this chapter, we review and extend the results presented in \cite{iti1}.
 We provide an algorithm for computing an $\epsilon$-optimal defender's strategy.
-We encode this strategy using a deterministic finite-state automaton of size ... %TODO
+We encode this strategy using a deterministic finite automaton of size ... %TODO
 
 \section{Properties of Optimal Strategies in Patrolling Games}
 \label{sec:value}
@@ -732,11 +732,7 @@ In the proof, the existence of the strategy $\sigma^v_{h'}$ depends on this rest
 \section{Discretization and $\epsilon$-optimality}
 As it is common in algorithmic game theory, we are interested in strategies implementable by finite-memory controllers.
 In order to formalize this concept, we define a \emph{regular} strategy.
-%TODO foonote? %We prefer the definition from... for its simplicity.
-%We use the definition from \cite{iti2} as we find the definition from \cite{iti1} too complex for our purposes.
-%As stated in / According to \cite{iti2}
-A defender’s strategy $\sigma$ is \emph{regular} if there is a deterministic finite-state automaton (DFA) $\mathcal{A}$ over the alphabet $U$ (the set of nodes) such that $\sigma(h)$ depends only on the control state entered by $\mathcal{A}$ after reading $h$ \cite{iti2}.
-%TODO zacitovat to nejak?
+As stated in \cite{iti2}, a defender’s strategy $\sigma$ is \emph{regular} if there is a deterministic finite automaton (DFA) \cite{dfa} $\mathcal{A}$ over the alphabet $U$ (the set of nodes) such that $\sigma(h)$ depends only on the control state entered by $\mathcal{A}$ after reading $h$.
 
 In the rest of this section, we prove the existence of a regular $\epsilon$-optimal defender's strategy.
 We proceed in three steps.
@@ -860,7 +856,7 @@ satisfying
 $$val^\mathcal{S}(\theta_\emph{Max}^{ml}, \mathit{init}, \mathit{fail}) \geq val(\sigma_\epsilon)~.$$
 
 \textbf{Step 3.}
-Using $\theta_\emph{Max}^{ml}$, we construct a DFA $\mathcal{A}$ encoding the desired regular \hbox{$\epsilon$-optimal} strategy $\sigma_\epsilon^{reg}$ as follows: $\mathcal{A} = (Q, U, \delta, q_0, \{\})$ where
+Using $\theta_\emph{Max}^{ml}$, we construct a DFA $\mathcal{A}$ encoding the desired regular \hbox{$\epsilon$-optimal} strategy $\sigma_\epsilon^{reg}$ as follows: $\mathcal{A} = (Q, U, \delta, q_0, \emptyset)$ where
 \vspace{-3pt}
 \begin{itemize}
 	\item $Q = \{f \mid (\emph{Max}, f) \in \mathbf{Reach}(\theta_\emph{Max})\}$ is the finite set of states
@@ -927,7 +923,7 @@ This unique node $u$ is called the \emph{root} of the characteristic $c$.% and i
 %In the following definition, we assume the automaton $\mathcal{A}$ constructed in Step~3 in the previous section.
 \begin{definition}
 %TODO
-Let $\mathcal{A} = (Q, U, \delta, q_0, \{\})$ be an automaton encoding a defender's strategy.
+Let $\mathcal{A} = (Q, U, \delta, q_0, \emptyset)$ be an automaton encoding a defender's strategy.
 Given $p \in Q$, we define the characteristic $\mathbf{Char}_p$ of the state $p$ to be a characteristic which to every pair $(k, u) \in \{0, \dots, d\} \times U$ assigns the probability of reaching $u$ in at most $k$ steps whenever the strategy is in the state $p$ (recall that $p$ determines the current state of the play).
 \end{definition}
 \noindent
@@ -979,7 +975,7 @@ Observe that $\mathbf{Char}_p(1, u) = \xi(p)(u)$, because $\mathbf{Char}_{\delta
 \
 
 Now we describe the concept of merging two states of an automaton.
-Given $q \in Q \smallsetminus \{q_0\}$, we denote by $\mathcal{A}_{p \leftarrow q} = (Q', U, \delta', q_0, \{\})$ the DFA defined as follows:
+Given $q \in Q \smallsetminus \{q_0\}$, we denote by $\mathcal{A}_{p \leftarrow q} = (Q', U, \delta', q_0, \emptyset)$ the DFA defined as follows:
 \vspace{-5pt}
 \begin{itemize}
 	\item $Q' = Q \smallsetminus \{q\}$
@@ -1052,7 +1048,7 @@ Indeed, the proof is based only on general properties of the characteristics and
 %This justifies us to
 This means we can repeat the process of removing equivalent states until all the states have mutually different, yet still unchanged characteristics.
 
-Let us fix and denote by $\mathcal{A}_{red}$ %= (Q_{red}, U, \delta_{red}, q_0, \{\})$
+Let us fix and denote by $\mathcal{A}_{red}$ %= (Q_{red}, U, \delta_{red}, q_0, \emptyset)$
 the resulting automaton which cannot be further reduced by applying Lemma \ref{lem:characteristics}.\footnote{Note that the process of merging equivalent states is non-deterministic, so the resulting reduced automaton is not uniquely determined.}
 We denote by $Q_{red}$ the set of states of $\mathcal{A}_{red}$ and by $\sigma_{red}$ the defender's strategy determined by $\mathcal{A}_{red}$.
 In what follows, we prove that $\sigma_{red}$ is $\epsilon$-optimal.
@@ -1095,23 +1091,23 @@ val(\sigma_{red})
 $\sigma_{red}$ is an $\epsilon$-optimal strategy.
 \end{proposition}
 
-We can further substitute each state $p \in Q_{red}$ by its characteristic $\mathbf{Char}_p$ to obtain an automaton $\mathcal{A}_{Char}$.
-%One can easily prove that $\mathcal{A}_{Char}$ and $\mathcal{A}_{red}$ encode exactly the same defender's %strategy.
+We can further substitute each state $p \in Q_{red}$ by its characteristic $\mathbf{Char}_p$ to obtain an automaton $\mathcal{A}_\mathit{Char}$.
+%One can easily prove that $\mathcal{A}_\mathit{Char}$ and $\mathcal{A}_{red}$ encode exactly the same defender's %strategy.
 %It suffices to put
 By putting
 \vspace{-5pt}
 \begin{itemize}[label=-]
-	\item $Q_{Char} = \{\mathbf{Char}_p \mid p \in Q_{red}\}$,
-	\item $\delta_{Char}(\mathbf{Char}_p)(u) = \mathbf{Char}_q$ iff $\delta_{red}(p)(u) = q$, and
-	\item $\sigma_{Char}(h)(u) = \mathcal{A}_{Char}[h^+](1, u)$ %$ = \xi(\mathcal{A}_{red}[h^+])(u)$
+	\item $Q_\mathit{Char} = \{\mathbf{Char}_p \mid p \in Q_{red}\}$,
+	\item $\delta_\mathit{Char}(\mathbf{Char}_p)(u) = \mathbf{Char}_q$ iff $\delta_{red}(p)(u) = q$, and
+	\item $\sigma_\mathit{Char}(h)(u) = \mathcal{A}_\mathit{Char}[h^+](1, u)$ %$ = \xi(\mathcal{A}_{red}[h^+])(u)$
 \end{itemize}
 \vspace{-5pt}
-one can easily see that $\sigma_{Char} = \sigma_{red}$.
+one can easily see that $\sigma_\mathit{Char} = \sigma_{red}$.
 
 %TODO delete? dal som to k zdovodneniu pre "representable" charakteristik
 %\noindent
 %\textit{Remark 1. }
-%When a play is in a state $p \in Q_{Char}$, there is exactly one unique $d$-commitment $f$ (determined by $\sigma_{Char}$) which represents the current $d$-step randomized plan for the defender.
+%When a play is in a state $p \in Q_\mathit{Char}$, there is exactly one unique $d$-commitment $f$ (determined by $\sigma_\mathit{Char}$) which represents the current $d$-step randomized plan for the defender.
 %Note that it might be the case that $f \notin Q$.
 
 %\noindent
@@ -1121,8 +1117,8 @@ one can easily see that $\sigma_{Char} = \sigma_{red}$.
 
 \section{The Algorithm}
 
-So far, we have shown that there is a DFA $\mathcal{A}_{Char}$ encoding an $\epsilon$-optimal strategy such that its states $Q_{Char}$ are mutually different characteristics.
-Furthermore, each $c \in Q_{Char}$ satisfies:
+So far, we have shown that there is a DFA $\mathcal{A}_\mathit{Char}$ encoding an $\epsilon$-optimal strategy such that its states $Q_\mathit{Char}$ are mutually different characteristics.
+Furthermore, each $c \in Q_\mathit{Char}$ satisfies:
 \vspace{-5pt}
 \begin{enumerate}[label=(\Alph*)]
 	\item $c = \mathbf{Char}_c$\footnote{We identify a state with its characteristic to reflect that it is the only quality of a state we are interested in.} \label{a}
@@ -1135,8 +1131,8 @@ Furthermore, each $c \in Q_{Char}$ satisfies:
 \end{enumerate}
 \vspace{-5pt}
 In order to find such an automaton, we consider the set of all \emph{discretized} characteristics
-$\emph{Char}^s$ that consists of all characteristics $c$ such that $c(k, u)$ is an integer multiple of $s^k$ for all $0 \leq k \leq d$ and $u \in U$.
-From \ref{a} and \ref{b} it follows that $Q_{Char} \subseteq \emph{Char}^s$.
+$\mathit{Char}^s$ that consists of all characteristics $c$ such that $c(k, u)$ is an integer multiple of $s^k$ for all $0 \leq k \leq d$ and $u \in U$.
+From \ref{a} and \ref{b} it follows that $Q_\mathit{Char} \subseteq \mathit{Char}^s$.
 
 \begin{algorithm}[t]
 \caption{~Compute an $\epsilon$-optimal strategy $\sigma_\epsilon^{alg}$}
@@ -1148,7 +1144,7 @@ From \ref{a} and \ref{b} it follows that $Q_{Char} \subseteq \emph{Char}^s$.
 \par\vspace{3.5mm}
 
 \State $C \leftarrow$ empty priority queue; $D \leftarrow \emptyset$
-\State \textbf{for each} $c \in \mathbf{Char}^s$ \textbf{do}
+\State \textbf{for each} $c \in \mathit{Char}^s$ \textbf{do}
 %\ForEach {$c \in \mathbf{Char}^s$}
 	%\If {$c$ is \emph{representable}}	%TODO {\sum_{u \in U} $c(1, u) = 1$}, taktiez musi byt len jeden root
 		add $c$ to $C$ with priority $val(c)$
@@ -1182,15 +1178,15 @@ Note that $\sum_{i = 1, u_i \neq u}^n c(1, u_i) \cdot c_i(0, u) = 0$.
 Therefore if $c(1, u_i) > 0$, then $c_i(0, u) = 0$ for all $u \neq u_i$, which implies $c_i(0, u_i) = 1$.
 This guarantees that if there is a positive probability of choosing $u_i$ in the state $c$, then the root of $c_i$ is $u_i$.
 
-We say that a non-empty set $R \subseteq Char^s$ is \emph{closed} if for all $c \in R$ there are successors $(c_1, \dots, c_n) \in R^n$ of $c$.
-Finally, we say that a set $D \subseteq Char^s$ is \emph{complete} if it contains a closed subset.
+We say that a non-empty set $R \subseteq \mathit{Char}^s$ is \emph{closed} if for all $c \in R$ there are successors $(c_1, \dots, c_n) \in R^n$ of $c$.
+Finally, we say that a set $D \subseteq \mathit{Char}^s$ is \emph{complete} if it contains a closed subset.
 
 Note that each closed set $R$ represents a set of states of an automaton whose transition function can be built from the states' successors.\footnote{In general, there might be several different sequences of successors for a characteristic in a closed set. Therefore, the process of building an automaton from a closed set is not deterministic.}
 And for the automaton's intial state it suffices to choose some $\hat{c} \in R$ such that $\hat{c}(0, \hat{u}) = 1$.\footnote{There has to be at least one such $\hat{c} \in R$ unless the value of all characteristics from $R$ is 0.}
 
 Let us fix a closed set $R$ and for each $c \in R$, let us fix some successors $(c_1, \dots, c_n) \in R^n$ of $c$.
 Further, let us fix some $\hat{c} \in R$ such that $\hat{c}(0, \hat{u}) = 1$.
-We construct a DFA $\mathcal{A}_{R} = (R, U, \delta_{R}, \hat{c}, \{\})$ where $\delta_{R}(c, u_i) = c_i$ for all $c \in R$ and $u_i \in U$.
+We construct a DFA $\mathcal{A}_{R} = (R, U, \delta_{R}, \hat{c}, \emptyset)$ where $\delta_{R}(c, u_i) = c_i$ for all $c \in R$ and $u_i \in U$.
 %\vspace{-3pt}
 %\begin{itemize}
 %	\item $Q_{R} = R$ %is the finite set of states
@@ -1233,13 +1229,34 @@ The other equalities are trivial.
 \end{proof}
 
 Recall that the value of the strategy determined by an automaton is bounded below by the lowest value from among the values of characteristics of the states of the automaton.
-It follows from Lemma \ref{lem:char=char} that $val(\sigma_{R}) \geq \min_{c \in R} val(c)$.
+By applying Lemma \ref{lem:char=char}, it follows that $val(\sigma_{R}) \geq \min_{c \in R} val(c)$.
+
+From the existence of the automaton $\mathcal{A}_\mathit{Char}$ %and its properties \ref{a}, \ref{b}, and \ref{c},%properties of its states
+we know that there is a closed set $Q_\mathit{Char}$ such that $\min_{c \in Q_\mathit{Char}} val(c) \geq val(\sigma) - \epsilon$.
+That means that in order to find an $\epsilon$-optimal strategy, it suffices to compute a closed set $R$ which maximizes $\min_{c \in R} val(c)$.
+This can be done using the Algorithm \ref{alg:algorithm1}.
+
+It remains to show how to determine whether a set $D$ of discretized characteristics is complete.
+For a given set $D \subseteq \mathit{Char}^s$, we first make a copy $D'$ of it.
+Then, we iteratively remove from $D'$ all the characteristics which do not have successors in $D'$, i.e. we repeat
+$$D' \leftarrow \{c \in D' \mid \exists c_1, \dots, c_n \in D'~\text{such that}~(c_1, \dots, c_n)~\text{are successors of}~c\}$$
+until we reach a fixed point $D'_\mu$.
+If the set $D'_\mu$ is not empty, then it is closed and $D$ is complete.
+%If $D'_\mu \neq \emptyset$, then $D'_\mu$ is closed and $D$ is complete.
 
 \
 
-We prove that this automaton determines an $\epsilon$-optimal strategy.
-It suffices to prove that for all $c \in Q$ we have that $val(c) \geq val(\sigma) - \epsilon$.
+\noindent
+\textbf{Complexity} of the Algorithm \ref{alg:algorithm1}.
+Both the size of the priority queue $C$ and the size of the set $D$ are bounded above by
+$|\mathit{Char}^s|$.
+The repeat-until cycle is executed at most $|\mathit{Char}^s|$ times.
+The major part of the execution time is spent in determining whether a set $D$ is already complete.
+Following the procedure we have described, this can take up to $|D|\cdot|D|^{(n+1)}$ steps---\linebreak%TODO
+$|D|$ iterations of determining for each tuple $(c_0, \dots, c_n) \in D'^{(n+1)}$ whether it holds that $(c_1, \dots, c_n)$ are successors of $c_0$.\footnote{Each such verification involves up to $\mathcal{O}(d\cdot n^2)$ multiplications.}
+%The found closed set $D'_\mu$ with saved successors for each of its elements represents an automaton determining an $\epsilon$-optimal strategy.
 
+For $|\mathit{Char}^s| = (1/s)^{d^2\cdot{n}}$, $s = \lceil(|U|d)/\epsilon\rceil^{-1}$, and $n = |U|$, we have that the Algorithm \ref{alg:algorithm1} runs in time $\left(\frac{d\cdot|U|}{\epsilon}\right)^{\mathcal{O}(d^2\cdot|U|^2)}$.
 
 \chapter{Multi-Robot Patrolling Games}
 \label{chap:multiPatrol}
@@ -1453,7 +1470,6 @@ Therefore, we do not allow the attacker to attack in step 0.
 %TODO list
 %TODO spell checker
 %TODO kedykolvek je nieco nove - preco je to nove/lepsie/hlbsi dokaz -> aby bolo vidiet, co som urobil
-%TODO successors => sequence (c_1, ..., c_n su successormi), prip. c_i je u_i-successor of c
 
 \def\us{\char`\_}
 
@@ -1532,12 +1548,8 @@ $<$http://en.wikipedia.org/wiki/Game\texttt{\us}theory$>$.
 
 \bibitem{kucera} A. Kuèera. Turn-based stochastic games. In \emph{K. R. Apt and E. Grädel. Lectures in Game Theory for Computer Scientists}, pages 146-184, 2011.
 
+\bibitem{dfa} J. E. Hopcroft, R. Motwani, and J. D. Ullman. Introduction to Automata Theory, Languages, and Computation, 2nd edition. Addison Wesley, 2001. %page 46, 2001.
+
 \end{thebibliography}
-
-
-\appendix
-\chapter{Ugly Proofs}
-
-
 
 \end{document}
