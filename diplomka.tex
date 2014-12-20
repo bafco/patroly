@@ -919,7 +919,7 @@ A \emph{characteristic} is a function $c : \{0, \dots, d\} \times U \to [0, 1]$ 
 	\item $\sum_{v\in U}c(1, v) = 1$.
 \end{itemize}
 \vspace{-5pt}
-%The unique node $u$ is called the \emph{root} of the characteristic $c$ and is denoted by $r(c)$.
+This unique node $u$ is called the \emph{root} of the characteristic $c$.% and is denoted by $r(c)$. %TODO funkcia $r$ by bola polymorfna
 %We denote by ... the set of all characteristics.
 %We denote by $\psi_c \in \Delta(U)$ the probability distribution over the nodes defined as $\psi_c(u) = c(1, u)$.
 \end{definition}
@@ -931,7 +931,7 @@ Let $\mathcal{A} = (Q, U, \delta, q_0, \{\})$ be an automaton encoding a defende
 Given $p \in Q$, we define the characteristic $\mathbf{Char}_p$ of the state $p$ to be a characteristic which to every pair $(k, u) \in \{0, \dots, d\} \times U$ assigns the probability of reaching $u$ in at most $k$ steps whenever the strategy is in the state $p$ (recall that $p$ determines the current state of the play).
 \end{definition}
 \noindent
-The values for $k = 0$ contain the information about the current location of the defender
+The root of the characteristic represents the current location of the defender
 and the values for $k = 1$ represent the probability distribution over the nodes in the next step.
 %For a characteristic $c$, we denote this probability distribution as $\psi_c$ and we put $\psi_c(u) = c(1, u)$.
 %Given $p \in Q$, we define the characteristic $\mathbf{Char}_p$ of the state $p$ to be a characteristic defined as follows:
@@ -1039,7 +1039,7 @@ For $1 \leq k \leq d$ we have
 \end{align}
 \vspace{-20pt}
 \begin{itemize}
-	\item The equalities \eqref{eq2:first} and \eqref{eq2:fourth} follow directly from the definition of the characteristic. %and the fact that $\mathbf{Char}_{\delta(r, u)}(0, v) = 0$ for all $u \neq v$.
+	\item The equalities \eqref{eq2:first} and \eqref{eq2:fourth} follow directly from the definition of the characteristic of a state. %and the fact that $\mathbf{Char}_{\delta(r, u)}(0, v) = 0$ for all $u \neq v$.
 	\item The equality \eqref{eq2:second} holds by the induction hypothesis.
 	\item To prove the equality \eqref{eq2:third}, note that the only case when $\delta'(r, u) \neq \delta(r, u)$ is when $\delta'(r, u) = p$ and $\delta(r, u) = q$. However, $\mathbf{Char}_p = \mathbf{Char}_q$.
 \end{itemize}
@@ -1173,15 +1173,14 @@ From these characteristics, we aim to build a DFA encoding an $\epsilon$-optimal
 
 Let $U = \{u_1, \dots, u_n\}$, $n = |U|$, be the set of nodes of $\mathcal{G}$
 and let $c, c_1, \dots, c_n$ be some characteristics (not necessarily different).
-We say that a sequence $(c_1, \dots, c_n)$ are \emph{successors} of $c$ if the following two conditions are satisfied
-\vspace{-5pt}
-\begin{itemize}
-	\item $c(k, u) = \sum_{i = 1}^n c(1, u_i) \cdot c_i(k - 1, u)$ for all $1 \leq k \leq d$ and $u \in U$,
-	\item if $c(1, u_i) > 0$, then $c_i(0, u_i) = 1$.% for all $1 \leq i \leq n$.
-\end{itemize}
-\vspace{-5pt}
-The meaning of this is that if, for all $i$, $c_i = \mathbf{Char}_{c_i}$ and there is a transition from state $c$ to $c_i$ under $u_i$, then also $c = \mathbf{Char}_{c}$.
+We say that a sequence $(c_1, \dots, c_n)$ are \emph{successors} of $c$ if 
+for all $1 \leq k \leq d$ and $u \in U$ it holds
+$c(k, u) = c(1, u) + \sum_{i = 1, u_i \neq u}^n c(1, u_i) \cdot c_i(k - 1, u)$.
+The meaning of this is that if, for all $i$, $c_i = \mathbf{Char}_{c_i}$ and there is a transition from the state $c$ to $c_i$ under $u_i$, then also $c = \mathbf{Char}_{c}$.
 We refer to $c_i$ as the $u_i$-successor of $c$.
+Note that $\sum_{i = 1, u_i \neq u}^n c(1, u_i) \cdot c_i(0, u) = 0$.
+Therefore if $c(1, u_i) > 0$, then $c_i(0, u) = 0$ for all $u \neq u_i$, which implies $c_i(0, u_i) = 1$.
+This guarantees that if there is a positive probability of choosing $u_i$ in the state $c$, then the root of $c_i$ is $u_i$.
 
 We say that a non-empty set $R \subseteq Char^s$ is \emph{closed} if for all $c \in R$ there are successors $(c_1, \dots, c_n) \in R^n$ of $c$.
 Finally, we say that a set $D \subseteq Char^s$ is \emph{complete} if it contains a closed subset.
@@ -1204,7 +1203,6 @@ We define the strategy determined by $\mathcal{A}_{Char}$ as $\sigma_{Char}(h)(u
 %$\sigma_{Char}(h) = \psi_{\mathcal{A}[h^+]}$ (recall that $\psi_c(u) = c(1, u)$ for a characteristic $c$).
 We show that for such a strategy, each state of $\mathcal{A}_{Char}$ is identical with its own characteristic.
 
-%TODO \newpage ?
 \begin{lemma}
 \label{lem:char=char}
 For all $c \in R$ we have that $c = \mathbf{Char}_c$.
@@ -1212,24 +1210,26 @@ For all $c \in R$ we have that $c = \mathbf{Char}_c$.
 
 \begin{proof}
 We prove by induction on $k$ that for all $c \in R$ and $u \in U$ it holds that $c(k, u) = \mathbf{Char}_c(k, u)$.
-Let $(c_1, \dots, c_n)$ be the successors of $c$.
-
 For $k = 0$ this trivially holds.
 
-For $1 \leq k \leq d$, we have
-\begin{align*}
+For $1 \leq k \leq d$, let $(c_1, \dots, c_n)$ be the successors of $c$. It follows that
+\begin{align}
 c(k, u)
-  &= \sum_{i = 1}^n c(1, u_i) \cdot c_i(k - 1, u) \\ %from the definition of successors
-  &= \sum_{i = 1}^n c(1, u_i) \cdot \mathbf{Char}_{c_i}(k - 1, u) \\ %from induction hypothesis
-  &= \sum_{i = 1}^n c(1, u_i) \cdot \mathbf{Char}_{\delta_{Char}(c, u_i)}(k - 1, u) \\ %%%
-  &= \sum_{v \in U} c(1, v) \cdot \mathbf{Char}_{\delta_{Char}(c, v)}(k - 1, u) \\ %$U = \{u_1, \dots, u_n\}$
-  &= c(1, u) + \sum_{v \neq u} c(1, v) \cdot \mathbf{Char}_{\delta_{Char}(c, v)}(k - 1, u) \\ % from the definition of characteristic of a state
-%TODO toto mi nejak nesedi
-%  &= \psi_c(u) + \sum_{v \neq u}\psi_c(v) \cdot \mathbf{Char}_{\delta_{Char}(c, v)}(k - 1, u) \\ % from the definition of successors we know that ... %TODO
-  &= \mathbf{Char}_c(k, u)~.
-\end{align*}
-
-
+  &= c(1, u) + \sum_{i = 1, u_i \neq u}^n c(1, u_i) \cdot c_i(k - 1, u)\label{eq3:first} \\ %from the definition of successors
+  &= c(1, u) + \sum_{i = 1, u_i \neq u}^n c(1, u_i) \cdot \mathbf{Char}_{c_i}(k - 1, u)\label{eq3:second} \\ %from induction hypothesis
+  &= c(1, u) + \sum_{i = 1, u_i \neq u}^n c(1, u_i) \cdot \mathbf{Char}_{\delta_{Char}(c, u_i)}(k - 1, u)\nonumber \\ %%%f
+  &= c(1, u) + \sum_{v \neq u} c(1, v) \cdot \mathbf{Char}_{\delta_{Char}(c, v)}(k - 1, u)\nonumber \\ % from the definition of characteristic of a state
+  &= \mathbf{Char}_c(k, u)\label{eq3:last}~.
+\end{align}
+The equalities \eqref{eq3:first}, \eqref{eq3:second}, and \eqref{eq3:last} follow from the definition of successors, from the induction hypothesis, and from the definition of the characteristic of a state, respectively.
+The other equalities are trivial.
+%\vspace{-5pt}
+%\begin{itemize}
+%	\item The equality \eqref{eq3:first} follows from the definition of successors.
+%	\item The equality \eqref{eq3:second} follows from the induction hypothesis.
+%	\item The equality \eqref{eq3:last} follows from the definition of the characteristic of a state.
+%\end{itemize}
+%\vspace{-5pt}
 \end{proof}
 
 
