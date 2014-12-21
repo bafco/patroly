@@ -753,7 +753,7 @@ For every history $h$ and every $1 \leq i \leq |U|$, we inductively define $\sig
 $$ k_i \cdot s \leq \sigma(h)(u_i) + \sum_{j=1}^{i-1}(\sigma(h)(u_j) - \sigma_\epsilon(h)(u_j))~.$$
 This rounding procedure guarantees
 that $\sigma_\epsilon(h)$ is indeed a probability distribution over $U$, i.e. $\sum_{u\in U}\sigma_\epsilon(h)(u) = 1$ (note that simple rounding would not guarantee this property).
-Further, when we realize the invariant $0 \leq \sum_{j=1}^{i-1}(\sigma(h)(u_j) - \sigma_\epsilon(h)(u_j)) < s$ holds for all $1 \leq i \leq |U|$, it is easy to see that $|\sigma(h)(u_i) - \sigma_\epsilon(h)(u_i)| < s$, which is captured by the following lemma. %TODO zmazat "which is captured..."
+Further, when we realize the invariant $0 \leq \sum_{j=1}^{i-1}(\sigma(h)(u_j) - \sigma_\epsilon(h)(u_j)) < s$ holds for all $1 \leq i \leq |U|$, it is easy to see that $|\sigma(h)(u_i) - \sigma_\epsilon(h)(u_i)| < s$, which is captured by the following lemma.
 \begin{lemma}
 \label{lem:difference}
 For all $h \in \mathcal{H}$ and $u \in U$ we have $|\sigma(h)(u) - \sigma_\epsilon(h)(u)| < s$.
@@ -778,7 +778,6 @@ The following lemma states that any attack at any moment is captured using $\sig
 For every $h \in \mathcal{H}(\sigma_\epsilon)$ we have that $att\text{-}val(\sigma_\epsilon \mid h) \geq val(\sigma) - \epsilon$.
 \end{lemma}
 
-%IDEA - presunut dokaz niekam inam?
 \begin{proof}
 It follows from the definition of $\sigma_\epsilon$ that whenever $\sigma(h)(u) = 0$, then also $\sigma_\epsilon(h)(u) = 0$.
 This means that any history executable using $\sigma_\epsilon$ is also executable using $\sigma$, i.e. $\mathcal{H}(\sigma_\epsilon) \subseteq \mathcal{H}(\sigma)$.
@@ -795,34 +794,33 @@ att\text{-}val(\sigma_\epsilon \mid h)
 Formally, it follows from the fact that $D_{last(h)}[t] = D_{last(h)}[\pi]$ for $\pi(last(h)) = t$.
 	\item To prove the first inequality \eqref{eq1:first}, we have to analyze the impact of the rounding in the definition of $\sigma_\epsilon$.
 Denote by $R[\iota, h, t, k]$ the probability of reaching $t \in T$ from $last(h), h \in \mathcal{H}$ in up to $k$ steps using the strategy $\iota_h$.
-We prove by induction on $k$ that for all $h \in \mathcal{H}$, $t \in T$, and $k \in \mathbb{N}_0$ we have that
+We prove by induction on $k$ that for all $h \in \mathcal{H}$, $t \in T$, and $k \in \mathbb{N}$ we have that
 \begin{align}
 R[\sigma, h, t, k] - R[\sigma_\epsilon, h, t, k] \leq k|U|s~.\nonumber %\label{eq1:induction}
 \end{align}
 
-%The base case ($k = 1$) directly follows from Lemma \ref{lem:difference} and the fact that $R[\iota, h, u, 1] = \iota(h)(u)$.
-The base case ($k = 0$) clearly holds as the value of $R[\iota, h, u, 0]$ is independent of the strategy $\iota$---it is $1$ if $last(h) = u$, and it is $0$ otherwise.
+The base case ($k = 1$) directly follows from Lemma \ref{lem:difference} and the fact that $R[\iota, h, u, 1] = \iota(h)(u)$.
+%The base case ($k = 0$) clearly holds as the value of $R[\iota, h, u, 0]$ is independent of the strategy $\iota$---it is $1$ if $last(h) = u$, and it is $0$ otherwise.
 
 Let us denote the difference $R[\sigma, h, t, k] - R[\sigma_\epsilon, h, t, k]$ by $\Delta$.
-For $k \geq 1$, we have
+For $k \geq 2$, we have
 \begin{eqnarray}
-%TODO pridat zatvorku za sumu? viac odsadit?
 \Delta
-  &=& \sum_{u\in U}\sigma(h)(u)\cdot R[\sigma, hu, t, k - 1] - \label{eq1b:first} \\
-  & &\hspace{7.6pt} -~\sigma_\epsilon(h)(u)\cdot R[\sigma_\epsilon, hu, t, k - 1]	\nonumber \\
-  &=& \sum_{u\in U} R[\sigma, hu, t, k - 1]\cdot (\sigma(h)(u) - \sigma_\epsilon(h)(u)) \label{eq1b:second} +	\\
-  & &\hspace{7.6pt} +~\sigma_\epsilon(h)(u)\cdot (R[\sigma, hu, t, k - 1] - R[\sigma_\epsilon, hu, t, k - 1]) \nonumber	 \\
-  &\leq& \sum_{u\in U} R[\sigma, hu, t, k - 1]\cdot s + \sum_{u\in U} \sigma_\epsilon(h)(u)\cdot (k - 1)|U|s	\label{eq1b:third} \\
-	%  &\leq& \sum_{u\in U} R[\sigma, hu, t, k - 1]\cdot s +	\label{eq1b:third} \\
-	%  &\hspace{5pt}+\hspace{-5pt}& \sum_{u\in U} \sigma_\epsilon(h)(u)\cdot (k - 1)|U|s \nonumber \\
-  &\leq& |U|s + (k - 1)|U|s	\label{eq1b:fourth} \\
+  &=& \sigma(h)(t) + \sum_{u\in U \smallsetminus \{t\}}\sigma(h)(u)\cdot R[\sigma, hu, t, k - 1] - \label{eq1b:first} \\
+  & &\hspace{-11.2pt} -~\sigma_\epsilon(h)(t) - \sum_{u\in U \smallsetminus \{t\}}\sigma_\epsilon(h)(u)\cdot R[\sigma_\epsilon, hu, t, k - 1]	\nonumber \\
+  &\leq& s + \sum_{u\in U \smallsetminus \{t\}}(R[\sigma, hu, t, k - 1]\cdot (\sigma(h)(u) - \sigma_\epsilon(h)(u)) \label{eq1b:second} +	\\
+  & &\hspace{47.5pt} +~\sigma_\epsilon(h)(u)\cdot (R[\sigma, hu, t, k - 1] - R[\sigma_\epsilon, hu, t, k - 1])) \nonumber	 \\
+  &\leq& s + \sum_{u\in U \smallsetminus \{t\}} R[\sigma, hu, t, k - 1]\cdot s + \label{eq1b:third}	\\	%\sigma_\epsilon(h)(u)\cdot (k - 1)|U|s)\label{eq1b:third}	\\
+& &\hspace{7.6pt} +\hspace{-2pt}~\sum_{u\in U \smallsetminus \{t\}} \sigma_\epsilon(h)(u)\cdot (k - 1)|U|s \nonumber	\\
+	%  &\hspace{5pt}+\hspace{-5pt}& \sum_{u\in U} \sigma_\epsilon(h)(u)\cdot (k - 1)|U|s \nonumber	\\
+  &\leq& s + (|U|-1)s + (k - 1)|U|s	\label{eq1b:fourth} \\
   &=& k|U|s\nonumber~.
 \end{eqnarray}
 \begin{itemize}
-	\item The equality \eqref{eq1b:first} follows from the definition of $R[\iota, h, t, k]$ as $R[\iota, h, t, k] = \sum_{u \in U} \iota(h)(u) \cdot R[\iota, hu, t, k - 1]$ for all $k \in \mathbb{N}$. %$k \geq 1$.
-	\item The equality \eqref{eq1b:second} is just an application of the formula $ab - a'b' = b(a -  a') + a'(b - b')$.
+	\item The equality \eqref{eq1b:first} follows from the definition of $R[\iota, h, t, k]$ as $R[\iota, h, t, k] = \iota(h)(t) + \sum_{u \in U \smallsetminus \{t\}} \iota(h)(u) \cdot R[\iota, hu, t, k - 1]$ for all $k \geq 2$. %$k \in \mathbb{N}$.
+	\item The equality \eqref{eq1b:second} is just an application of Lemma \ref{lem:difference} and of the formula $ab - a'b' = b(a -  a') + a'(b - b')$.
 	\item The inequality \eqref{eq1b:third} follows from Lemma \ref{lem:difference} and from the induction hypothesis.
-	\item The inequality \eqref{eq1b:fourth} holds because $R[\sigma, hu, t, k - 1] \leq 1$ and $\sum_{u\in U} \sigma_\epsilon(h)(u) = 1$.
+	\item The inequality \eqref{eq1b:fourth} holds because $R[\sigma, hu, t, k - 1] \leq 1$ and $\sum_{u\in U \smallsetminus \{t\}} \sigma_\epsilon(h)(u) \leq 1$.
 \end{itemize}
 So we have that $R[\sigma, h, t, d] - R[\sigma_\epsilon, h, t, d] \leq d|U|s$.
 However, note that
@@ -1257,6 +1255,7 @@ $|D|$ iterations of determining for each tuple $(c_0, \dots, c_n) \in D'^{(n+1)}
 %The found closed set $D'_\mu$ with saved successors for each of its elements represents an automaton determining an $\epsilon$-optimal strategy.
 
 For $|\mathit{Char}^s| = (1/s)^{d^2\cdot{n}}$, $s = \lceil(|U|d)/\epsilon\rceil^{-1}$, and $n = |U|$, we have that the Algorithm \ref{alg:algorithm1} runs in time $\left(\frac{d\cdot|U|}{\epsilon}\right)^{\mathcal{O}(d^2\cdot|U|^2)}$.
+%TODO which proves the Theorem \ref{thm:???}.
 
 \chapter{Multi-Robot Patrolling Games}
 \label{chap:multiPatrol}
