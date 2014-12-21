@@ -586,7 +586,6 @@ When player \emph{Min} chooses an action corresponding to attacking a target, th
 When player \emph{Min} chooses the action corresponding to attacker's waiting, player \emph{Max} has to prolong 
 the previously fixed $d$-step plan by one step and the first step of the plan is performed, so it remains a $d$-step plan.\footnote{Although it would be sufficient to first perform the first step of the plan, and then prolong it by one step, we prefer to be consistent with \cite{iti1}.}
 %jedine dolezite je, aby bol fixnuty d-commitment, ked ma hrac Min moznost zautocit
-%TODO - dat inam footnote? Nerozbilo by to definiciu na 2 strany.
 
 %TODONE - do we need this? if yes, do we need it here?
 %In \cite{iti2}, it has been shown that if the defender uses a given strategy $\sigma$, there is an attacker's best response strategy $\pi$ which attacks with probability 1.
@@ -649,7 +648,7 @@ We define a stochastic game $\mathcal{S} = (V, (V_{\emph{Min}}, V_{\emph{Max}}),
 			\item $\mathbf{P}((\emph{Min}, f), t)(\mathit{fail}) = 1 - val(f, t)$
 		\end{itemize}
 		\vspace{-2pt}
-		\item $\mathbf{P}((\emph{Max}, f), g)((\emph{Min}, f')) = f(r(f))(u)$ where $f'$ is the $u$-suffix~of~$g$
+		\item $\mathbf{P}((\emph{Max}, f), g)((\emph{Min}, f')) = \xi(f)(u)$ where $f'$ is the $u$-suffix~of~$g$
 		\item $\mathbf{P}(\mathit{succ}, \perp)(\mathit{succ}) = \mathbf{P}(\mathit{fail}, \perp)(\mathit{fail}) = 1$
 	\end{itemize}
 	\vspace{-4pt}
@@ -682,15 +681,18 @@ The defender has an optimal strategy in $\mathcal{G}$.
 For details of the translation process and the omitted proofs, see \cite{iti1}.
 
 \chapter{Main Result}
-%TODO chapter intro
-%TODO 2 odstavce: 1) co uz bolo dosiahnute; 2) v com som lepsi
 In this chapter, we review and extend the results presented in \cite{iti1}.
-We provide an algorithm for computing an $\epsilon$-optimal defender's strategy.
-We encode this strategy using a deterministic finite automaton of size ... %TODO
+There, the authors have proven the existence of a \emph{regular} $\epsilon$-optimal defender's strategy.
+They provide an algorithm to compute a deterministic finite automaton encoding the strategy.
+The size of the automaton is doubly exponential in $d$ (the attack length) and singly exponential in $|U|$ (the number of nodes).
+
+We provide a modified algorithm for computing an $\epsilon$-optimal defender's strategy.
+We are able to encode the strategy with a deterministic finite automaton whose size is only quadratically exponential in $d$ and singly exponential in $|U|$.
 
 \section{Properties of Optimal Strategies in Patrolling Games}
 \label{sec:value}
 In this section, we examine the properties of a defender's strategy after a history has been played.
+We summarize them in one powerful lemma from \cite{iti1} for which we provide a much simpler proof.
 
 \begin{definition}
 Let $\sigma$ be a defender's strategy and $h$ a history.
@@ -706,7 +708,6 @@ This knowledge is crucial in our argumentation about $\epsilon$-optimality in th
 Let $\sigma$ be an optimal defender's strategy and $h \in \mathcal{H}(\sigma)$ a history.
 We have that $val(\sigma \mid h) = val(\sigma)$.
 \end{lemma}
-%TODO BETTER
 \begin{proof}
 The value of the game might depend on the initial node.
 Let us denote by $\mathcal{G}_u$ the patrolling game derived from $\mathcal{G}$ by changing the initial node to~$u$.
@@ -796,7 +797,7 @@ Formally, it follows from the fact that $D_{last(h)}[t] = D_{last(h)}[\pi]$ for 
 Denote by $R[\iota, h, t, k]$ the probability of reaching $t \in T$ from $last(h), h \in \mathcal{H}$ in up to $k$ steps using the strategy $\iota_h$.
 We prove by induction on $k$ that for all $h \in \mathcal{H}$, $t \in T$, and $k \in \mathbb{N}$ we have that
 \begin{align}
-R[\sigma, h, t, k] - R[\sigma_\epsilon, h, t, k] \leq k|U|s~.\nonumber %\label{eq1:induction}
+R[\sigma, h, t, k] - R[\sigma_\epsilon, h, t, k] \leq k|U|s~.\nonumber
 \end{align}
 
 The base case ($k = 1$) directly follows from Lemma \ref{lem:difference} and the fact that $R[\iota, h, u, 1] = \iota(h)(u)$.
@@ -838,7 +839,6 @@ as $val(\sigma_\epsilon) \geq \inf_{h \in \mathcal{H}(\sigma_\epsilon)} att\text
 According to Lemma \ref{lem:translation}, we can translate the strategy $\sigma_\epsilon$ in $\mathcal{G}$ to a strategy $\theta_{\emph{Max}} := \theta_{\emph{Max}}[\sigma_\epsilon]$ in $\mathcal{S}$ such that
 $$val^\mathcal{S}(\theta_\emph{Max}, \mathit{init}, \mathit{fail}) = val(\sigma_\epsilon)~.$$
 Let us denote by $\mathbf{Reach}(\theta_\emph{Max})$ the set of all vertices in $\mathcal{S}$ that are reachable from $\mathit{init}$ using $\theta_\emph{Max}$.
-%for every 1, every 2 and every 3 (each/all)
 Note that for every $(\bigcirc, f) \in \mathbf{Reach}(\theta_\emph{Max})$, $w \in U^{\leq d}$ and $u \in U$ we have that $f(w)(u)$ is an integer multiple of $t$.
 As there are only finitely many such commitments $f$, the set $\mathbf{Reach}(\theta_\emph{Max})$ is finite.
 
@@ -849,7 +849,7 @@ Applying results for perfect-information stochastic games with finitely many sta
 $$val^{\mathcal{S}_\epsilon}(\theta_\emph{Max}^{ml}, \mathit{init}, \mathit{fail}) \geq val^{\mathcal{S}_\epsilon}(\theta_\emph{Max}, \mathit{init}, \mathit{fail})~.$$
 As $\mathbf{Reach}(\theta_\emph{Max})$ is a subset of vertices of $\mathcal{S}$, $\theta_\emph{Max}^{ml}$ is a valid strategy in $\mathcal{S}$ and we have
 $$val^\mathcal{S}(\theta_\emph{Max}^{ml}, \mathit{init}, \mathit{fail}) = val^{\mathcal{S}_\epsilon}(\theta_\emph{Max}^{ml}, \mathit{init}, \mathit{fail})~.$$
-Summing up, $\theta_\emph{Max}^{ml}$ is a memoryless strategy %in $\mathcal{S}$
+Summing up, $\theta_\emph{Max}^{ml}$ is a memoryless strategy
 satisfying
 $$val^\mathcal{S}(\theta_\emph{Max}^{ml}, \mathit{init}, \mathit{fail}) \geq val(\sigma_\epsilon)~.$$
 
@@ -866,15 +866,13 @@ $\delta(f, u) = f'$ where $f'$ is the $u$-suffix of $\theta_\emph{Max}^{ml}((\em
 \vspace{-3pt}
 For a history $h$, we denote by $h^+$ the word equal to $h$ without its first letter, i.e. $h = h_0h^+$.
 We denote by $\mathcal{A}[h^+]$ the state of $\mathcal{A}$ reached after reading the word $h^+$.
-%TODO dat definiciu $\xi(f)$ sem? nikde sa doteraz nepouzila
-%For a commitment $f$, we define $\xi(f) = f(r(f))$ to be the probability distribution in the root of $f$.
 We define $\sigma_\epsilon^{reg}(h) = \xi(\mathcal{A}[h^+])$ (recall that $\xi(f) = f(r(f))$ for a commitment $f$).
 It is easy to show that $\sigma_\epsilon^{reg}$ is the same as $\sigma[\theta_\emph{Max}^{ml}]$ obtained from $\theta_\emph{Max}^{ml}$ using Lemma \ref{lem:translation}.
 It follows that
 $$val(\sigma_\epsilon^{reg}) = val^\mathcal{S}(\theta_\emph{Max}^{ml}, \mathit{init}, \mathit{fail}) \geq val(\sigma_\epsilon) \geq val(\sigma) - \epsilon~,$$
 i.e. $\sigma_\epsilon^{reg}$ is $\epsilon$-optimal.
 
-%TODO \ - oddelit riadkom navyse
+%IDEA oddelit riadkom navyse?
 
 Before we move to the next section, we show one important observation about the states of the automaton $\mathcal{A}$.
 Based on the properties of the translation process from $\mathcal{G}$ to $\mathcal{S}$, we know that $\theta_{\emph{Max}}$ encodes exactly the same defender's strategy as $\sigma_\epsilon$.
@@ -885,19 +883,24 @@ When we realize that $Q$ is the set of all $d$-commitments $f$ occuring in verti
 For every $d$-commitment $f \in Q$, we have that $val(f) \geq val(\sigma) - \epsilon$.
 \end{lemma}
 
-%TODO zmenit nazov?
-%\section{Reducing the State Space} / The Characteristics?
 \section{Characteristics}
 
 As you may noticed, the above proof of existence of an $\epsilon$-optimal strategy is not constructive.
 In \cite{iti1}, the authors provide an algorithm which computes the desired strategy.
 They introduce the concept of a \emph{discretized} $d$-commitment $f$ for which it holds that for all $w \in U^{\leq d}$ and $u \in U$ the number $f(w)(u)$ is an integer multiple of $t$.
 Their algorithm is based on searching for a \emph{closed} set of such commitments (the defender stays within this set by prolonging her plans) that maximizes the minimal value of all commitments.
-The algorithm runs in time polynomial in the number of all discretized $d$-commitments, i.e. in time ${\left({{|U|d}\over \epsilon}\right)}^{|U|^{\mathcal{O}(d)}}$.
+It runs in time polynomial in the number of all discretized $d$-commitments, i.e. in time ${\left({{d\cdot|U|}\over \epsilon}\right)}^{|U|^{\mathcal{O}(d)}}$.
+We provide a stronger result:
 
-%TODO zmienit sa o nasom algoritme / jeho zlozitosti?
+\begin{thm}
+\label{thm:complexity}
+Let $\epsilon > 0$.
+There is a regular $\epsilon$-optimal defender's strategy computable in time
+$\left(\frac{d\cdot|U|}{\epsilon}\right)^{\mathcal{O}(d^2\cdot|U|^2)}$.
+\end{thm}
+
 To reduce the number of possible states of the automaton $\mathcal{A}$ encoding the $\epsilon$-optimal strategy, we define an equivalence relation on the states of $\mathcal{A}$ which we use to factorize the state-space of $\mathcal{A}$.
-The equivalence relation is based on the ability to defend an attack which started somewhen in the last $d$ steps. % $d-1$ steps
+The equivalence relation is based on the ability to defend an attack which started somewhen in the last $d$ steps.
 We call this ability the \emph{characteristic} of a given state.
 We prove that states with the same characteristic are equivalent, i.e. they can be merged into a single state without influencing the value of the resulting strategy.
 
@@ -913,7 +916,7 @@ A \emph{characteristic} is a function $c : \{0, \dots, d\} \times U \to [0, 1]$ 
 	\item $\sum_{v\in U}c(1, v) = 1$.
 \end{itemize}
 \vspace{-5pt}
-This unique node $u$ is called the \emph{root} of the characteristic $c$.% and is denoted by $r(c)$. %TODO funkcia $r$ by bola polymorfna
+This unique node $u$ is called the \emph{root} of the characteristic $c$.
 %We denote by ... the set of all characteristics.
 %We denote by $\psi_c \in \Delta(U)$ the probability distribution over the nodes defined as $\psi_c(u) = c(1, u)$.
 \end{definition}
@@ -934,13 +937,13 @@ Note that for the automaton $\mathcal{A}$ constructed in Step~3 in the previous 
 \vspace{-5pt}
 \begin{itemize}
 	\item
-\hspace{27.4pt}$\mathbf{Char}_p(0, u) =
+\hspace{17.2pt}$\mathbf{Char}_p(0, u) =
    \begin{cases}
    1		& \text{if } r(p) = u \\
    0		& \text{otherwise}
    \end{cases}$
 	\item and for $1 \leq k \leq d$
-$$\mathbf{Char}_p(k, u) = \xi(p)(u) + \sum_{v \neq u}\xi(p)(v) \cdot \mathbf{Char}_{\delta(p, v)}(k - 1, u)~.$$
+$$\mathbf{Char}_p(k, u) = \xi(p)(u) + \sum_{v \in U \smallsetminus \{u\}}\xi(p)(v) \cdot \mathbf{Char}_{\delta(p, v)}(k - 1, u)~.$$
 \end{itemize}
 \vspace{-5pt}
 %%%%%%%%%%%%%%
@@ -954,19 +957,19 @@ $$\mathbf{Char}_p(k, u) = \xi(p)(u) + \sum_{v \neq u}\xi(p)(v) \cdot \mathbf{Cha
 %         0	& \text{if } r(p) \neq u \\
 %      \end{cases}
 %		& \text{if } k = 0 \\
-%   \xi(p)(u) + \sum_{v \neq u}\xi(p)(v) \cdot \mathbf{Char}_{\delta(p, v)}(k - 1, u)	& \text{otherwise.}
+%   \xi(p)(u) + \sum_{v \in U \smallsetminus \{u\}}\xi(p)(v) \cdot \mathbf{Char}_{\delta(p, v)}(k - 1, u)	& \text{otherwise.}
 %   \end{cases}$
 %
 %\noindent
 %$\mathbf{Char}_p(k, u) =
 %   \begin{cases}
 %   \text{the boolean value of } r(p) = u		& \text{if } k = 0 \\
-%   \xi(p)(u) + \sum_{v \neq u}\xi(p)(v) \cdot \mathbf{Char}_{\delta(p, v)}(k - 1, u)	& \text{otherwise.}
+%   \xi(p)(u) + \sum_{v \in U \smallsetminus \{u\}}\xi(p)(v) \cdot \mathbf{Char}_{\delta(p, v)}(k - 1, u)	& \text{otherwise.}
 %   \end{cases}$
 %\end{definition}
 %\noindent
 %$\mathbf{Char}_p$ assigns to every pair $(k, u) \in \{0, \dots, d\} \times U$ the probability of reaching $u$ in at most $k$ steps whenever the strategy is in the state $p$ (recall that $p$ determines the current state of the play).
-Observe that $\mathbf{Char}_p(1, u) = \xi(p)(u)$, because $\mathbf{Char}_{\delta(p, v)}(0, u) = 0$ for all $v \neq u$.
+Observe that $\mathbf{Char}_p(1, u) = \xi(p)(u)$ because for all $v \in U \smallsetminus \{u\}$ it holds that $\mathbf{Char}_{\delta(p, v)}(0, u) = 0$.
 
 %The current location of the defender is determined by the only node $u$ for which $\mathbf{Char}_p(0, u) = 1$ and the probability distribution over the nodes in the next step is represented by values of $\mathbf{Char}_p(1, u)$.
 
@@ -1026,9 +1029,9 @@ Now all we need is to realize that $\xi(r)$ is the same in both $\mathcal{A}$ an
 For $1 \leq k \leq d$ we have
 \begin{align}
 \mathbf{Char}'_r(k, v)
-  &= \xi(r)(v) + \sum_{u \neq v}\xi(r)(u) \cdot \mathbf{Char}'_{\delta'(r, u)}(k - 1, v)\label{eq2:first} \\
-  &= \xi(r)(v) + \sum_{u \neq v}\xi(r)(u) \cdot \mathbf{Char}_{\delta'(r, u)}(k - 1, v)\label{eq2:second} \\
-  &= \xi(r)(v) + \sum_{u \neq v}\xi(r)(u) \cdot \mathbf{Char}_{\delta(r, u)}(k - 1, v)\label{eq2:third} \\
+  &= \xi(r)(v) + \sum_{u \in U \smallsetminus \{v\}}\xi(r)(u) \cdot \mathbf{Char}'_{\delta'(r, u)}(k - 1, v)\label{eq2:first} \\
+  &= \xi(r)(v) + \sum_{u \in U \smallsetminus \{v\}}\xi(r)(u) \cdot \mathbf{Char}_{\delta'(r, u)}(k - 1, v)\label{eq2:second} \\
+  &= \xi(r)(v) + \sum_{u \in U \smallsetminus \{v\}}\xi(r)(u) \cdot \mathbf{Char}_{\delta(r, u)}(k - 1, v)\label{eq2:third} \\
   &= \mathbf{Char}_r(k, v)\label{eq2:fourth}~.
 \end{align}
 \vspace{-20pt}
@@ -1064,6 +1067,7 @@ Note that $att\text{-}val(\sigma_{red} \mid h) = val(\mathbf{Char}_p)$ where $p 
 %Note that for a $d$-commitment $p = \mathcal{A}[h^+]$ for some history $h$, we have that $val(\mathbf{Char}_p) = val(p)$. %att\text{-}val(\sigma_\epsilon^{reg} \mid h)$.
 %In other words, if the attacker attacks when the play is in a state $p$, he is caught with probability $val(\mathbf{Char}_p)$.
 
+\newpage%TODO needed?
 \begin{lemma}
 \label{lem:char_value}
 For each state $p \in Q$ we have $val(\mathbf{Char}_p) \geq val(\sigma) - \epsilon$.
@@ -1082,12 +1086,12 @@ val(\sigma_{red})
   &= \inf_{h \in \mathcal{H}(\sigma_{red})} val(\mathbf{Char}_{\mathcal{A}[h^+]}) \\
   &\geq \inf_{p \in Q_{red}} val(\mathbf{Char}_p) \\
   &= \inf_{p \in Q_{red}} val(p) \\
-  &\geq val(\sigma) - \epsilon~.
+  &\geq val(\sigma) - \epsilon
 \end{align*}
-
-\begin{proposition}
+i.e.
+%\begin{proposition}
 $\sigma_{red}$ is an $\epsilon$-optimal strategy.
-\end{proposition}
+%\end{proposition}
 
 We can further substitute each state $p \in Q_{red}$ by its characteristic $\mathbf{Char}_p$ to obtain an automaton $\mathcal{A}_\mathit{Char}$.
 %One can easily prove that $\mathcal{A}_\mathit{Char}$ and $\mathcal{A}_{red}$ encode exactly the same defender's %strategy.
@@ -1096,8 +1100,8 @@ By putting
 \vspace{-5pt}
 \begin{itemize}[label=-]
 	\item $Q_\mathit{Char} = \{\mathbf{Char}_p \mid p \in Q_{red}\}$,
-	\item $\delta_\mathit{Char}(\mathbf{Char}_p)(u) = \mathbf{Char}_q$ iff $\delta_{red}(p)(u) = q$, and
-	\item $\sigma_\mathit{Char}(h)(u) = \mathcal{A}_\mathit{Char}[h^+](1, u)$ %$ = \xi(\mathcal{A}_{red}[h^+])(u)$
+	\item $\delta_\mathit{Char}(\mathbf{Char}_p)(u) = \mathbf{Char}_q$ iff $\delta_{red}(p)(u) = q$,
+	\item $\sigma_\mathit{Char}(h)(u) = \mathcal{A}_\mathit{Char}[h^+](1, u)$, %$ = \xi(\mathcal{A}_{red}[h^+])(u)$
 \end{itemize}
 \vspace{-5pt}
 one can easily see that $\sigma_\mathit{Char} = \sigma_{red}$.
@@ -1212,7 +1216,7 @@ c(k, u)
   &= c(1, u) + \sum_{i = 1, u_i \neq u}^n c(1, u_i) \cdot c_i(k - 1, u)\label{eq3:first} \\ %from the definition of successors
   &= c(1, u) + \sum_{i = 1, u_i \neq u}^n c(1, u_i) \cdot \mathbf{Char}_{c_i}(k - 1, u)\label{eq3:second} \\ %from induction hypothesis
   &= c(1, u) + \sum_{i = 1, u_i \neq u}^n c(1, u_i) \cdot \mathbf{Char}_{\delta_{R}(c, u_i)}(k - 1, u)\nonumber \\ %%%f
-  &= c(1, u) + \sum_{v \neq u} c(1, v) \cdot \mathbf{Char}_{\delta_{R}(c, v)}(k - 1, u)\nonumber \\ % from the definition of characteristic of a state
+  &= c(1, u) + \sum_{v \in U \smallsetminus \{u\}} c(1, v) \cdot \mathbf{Char}_{\delta_{R}(c, v)}(k - 1, u)\nonumber \\ % from the definition of characteristic of a state
   &= \mathbf{Char}_c(k, u)\label{eq3:last}~.
 \end{align}
 The equalities \eqref{eq3:first}, \eqref{eq3:second}, and \eqref{eq3:last} follow from the definition of successors, from the induction hypothesis, and from the definition of the characteristic of a state, respectively.
@@ -1254,8 +1258,7 @@ Following the procedure we have described, this can take up to $|D|\cdot|D|^{(n+
 $|D|$ iterations of determining for each tuple $(c_0, \dots, c_n) \in D'^{(n+1)}$ whether it holds that $(c_1, \dots, c_n)$ are successors of $c_0$.\footnote{Each such verification involves up to $\mathcal{O}(d\cdot n^2)$ multiplications.}
 %The found closed set $D'_\mu$ with saved successors for each of its elements represents an automaton determining an $\epsilon$-optimal strategy.
 
-For $|\mathit{Char}^s| = (1/s)^{d^2\cdot{n}}$, $s = \lceil(|U|d)/\epsilon\rceil^{-1}$, and $n = |U|$, we have that the Algorithm \ref{alg:algorithm1} runs in time $\left(\frac{d\cdot|U|}{\epsilon}\right)^{\mathcal{O}(d^2\cdot|U|^2)}$.
-%TODO which proves the Theorem \ref{thm:???}.
+For $|\mathit{Char}^s| = (1/s)^{d^2\cdot{n}}$, $s = \lceil(|U|d)/\epsilon\rceil^{-1}$, and $n = |U|$, we have that the Algorithm \ref{alg:algorithm1} runs in time $\left(\frac{d\cdot|U|}{\epsilon}\right)^{\mathcal{O}(d^2\cdot|U|^2)}$, which proves Theorem \ref{thm:complexity}.
 
 \chapter{Multi-Robot Patrolling Games}
 \label{chap:multiPatrol}
