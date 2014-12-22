@@ -31,11 +31,13 @@
 \theoremstyle{definition}
 \newtheorem{example}[thm]{Example}
 \newtheorem{observation}[thm]{Observation}
-\newtheorem{remark}[thm]{Remark}
 
-\setcounter{figure}{0}
-\makeatletter
-\renewcommand{\thefigure}{\arabic{figure}}
+\newtheorem{remark}{Remark} %TODO zmenit remarky na \textit{Remark x} - pozor na cislovanie!
+
+%\setcounter{figure}{0}
+%\makeatletter
+%\renewcommand{\thefigure}{\arabic{figure}}
+%TODO overit cislovanie obrazkov! -> \renewcommand\thefigure{1}
 
 \thesislang{en}
 \thesistitle{Computational Complexity of Patrolling Games on Oriented Graphs}
@@ -458,7 +460,7 @@ In this section, we provide a few examples to better understand the nature of pa
 Examples \ref{ex:stationary} and \ref{ex:initial} are from \cite{miso}, the setting in Example \ref{ex:triangle} is from \cite{iti1}.
 
 \begin{figure}[h]
-
+\renewcommand\thefigure{1}
 \begin{tabular}{ m{4.2cm} m{5.3cm} m{3cm} }
 
 \begin{tikzpicture}
@@ -1106,7 +1108,6 @@ By putting
 \vspace{-5pt}
 one can easily see that $\sigma_\mathit{Char} = \sigma_{red}$.
 
-%TODO delete? dal som to k zdovodneniu pre "representable" charakteristik
 %\noindent
 %\textit{Remark 1. }
 %When a play is in a state $p \in Q_\mathit{Char}$, there is exactly one unique $d$-commitment $f$ (determined by $\sigma_\mathit{Char}$) which represents the current $d$-step randomized plan for the defender.
@@ -1115,7 +1116,6 @@ one can easily see that $\sigma_\mathit{Char} = \sigma_{red}$.
 %\noindent
 %\textit{Remark 2. }
 %We do not know whether, in general, the state-space can be bounded by the number of different probability distributions in a root, but we strongly believe it cannot.
-%TODO %IDEA Napisat o $\mathcal{A}_{Char}$?
 
 \section{The Algorithm}
 
@@ -1260,6 +1260,60 @@ $|D|$ iterations of determining for each tuple $(c_0, \dots, c_n) \in D'^{(n+1)}
 
 For $|\mathit{Char}^s| = (1/s)^{d^2\cdot{n}}$, $s = \lceil(|U|d)/\epsilon\rceil^{-1}$, and $n = |U|$, we have that the Algorithm \ref{alg:algorithm1} runs in time $\left(\frac{d\cdot|U|}{\epsilon}\right)^{\mathcal{O}(d^2\cdot|U|^2)}$, which proves Theorem \ref{thm:complexity}.
 
+\begin{remark}
+Let us discuss the complexity of approximating the value of the game.
+In \cite{iti1}, it has been stated that the problem of distinguishing whether $val = 1$ or $val \leq 1 - |U|^{-1}$ for a general patrolling game with $|U|$ nodes is both \textbf{NP}-hard and \textbf{co-NP}-hard.
+They assumed a game with all nodes being targets and $d = |U|$.
+Then, they reduced the problem to Hamiltonian path, stating that the game graph contains a Hamiltonian path iff $val = 1$, which is incorrect.
+As a counterexample, consider a patrolling game from Fig. \ref{fig:counterexample}.
+
+\begin{figure}[h]
+\renewcommand\thefigure{2}
+\begin{tabular}{ m{4.5cm} m{4cm} }
+
+\begin{tikzpicture}
+  \foreach \pos/\name in {{(0,0)/a}, {(1.25,0)/b}, {(2.5,0)/c}}
+        \node (\name) at \pos {$\name$};
+   \foreach \from/\to in {a/b, b/c}
+	\draw [<->] (\from) -- (\to);
+   \path[]
+	(a) edge[loop left] (a)
+	(c) edge[loop right] (c);
+\end{tikzpicture}
+
+&
+
+$T = \{a, b, c\}$\newline
+$\hat{u} = a$\newline
+$d = 3$\newline
+
+\end{tabular}
+
+\vspace{-22pt}
+\caption{{A patrolling game with a graph containing a Hamiltonian path and $val < 1$.}}
+\label{fig:counterexample}
+\end{figure}
+
+\noindent
+This game has one specific property: whatever is the current location of the defender, she can visit all the nodes in the next three steps.
+Yet, the game graph does not contain a Hamiltonian cycle.
+
+Using reduction to Hamiltonian cycle, we prove that the problem of distinguishing whether $val = 1$ or $val \leq 1 - (2|U|)^{-1}$ for a general patrolling game with $|U|$ nodes is both \textbf{NP}-hard and \textbf{co-NP}-hard.
+Let us assume a game where all nodes are targets and the attack length is equal to the number of nodes, i.e. $U = T$ and $d = |U|$.
+Then, $val = 1$ if and only if the underlying graph contains a Hamiltonian cycle.
+Further we show that, for such a game, $val < 1$ iff $val \leq 1 - (2|U|)^{-1}$.
+Consider any history $h = h_0\dots h_{d+1}$.
+If the game graph does not contain a Hamiltonian cycle, then $|\{h_1, \dots, h_d\}| < d$ or $|\{h_2, \dots, h_{d+1}\}| < d$.
+Now consider any optimal strategy $\sigma$.
+Let us denote by $H_{1, u}$ and $H_{2, u}$ the sets of all histories $h \in \mathcal{H}(\sigma)$ of length $d+2$ such that $u \notin \{h_1, \dots, h_n\}$ and $u \notin \{h_2, \dots, h_{n+1}\}$, respectively.
+We already know that $\mathcal{P}(\bigcup_{i \in \{1, 2\}} \bigcup_{u \in U} H_{i, u}) = 1$, which implies that there exists $i \in \{1, 2\}$ and $t \in U$ such that $\mathcal{P}(H_{i, t}) \geq (2d)^{-1}$.
+In other words, the attacker can successfully attack target $t$ in the $i$-th step with probability at least $(2d)^{-1}$.
+Therefore, $val \leq 1 - (2|U|)^{-1}$.
+
+We see that even approximating the value of the game up to the error $(4|U|)^{-1}$ requires exponential time in the worst-case scenario unless \textbf{P}=\textbf{NP}.
+And computing an $(2|U|)^{-1}$-optimal strategy is at least that hard.
+\end{remark}
+
 \chapter{Multi-Robot Patrolling Games}
 \label{chap:multiPatrol}
 %IDEA To prevent ambiguity, from now on we refer to patrolling games as simple patrolling games.
@@ -1361,7 +1415,7 @@ In this section, we provide examples which support the properties of the model w
 We aimed to find examples as simple as possible.%, yet still satisfying some reasonable assumptions.
 
 \begin{figure}[h]
-
+\renewcommand\thefigure{3}
 \begin{tabular}{ m{2.8cm} m{2.3cm} m{3.7cm} m{2.2cm} }
 
 \begin{tikzpicture}
