@@ -1321,6 +1321,10 @@ And computing an $(2|U|)^{-1}$-optimal strategy is at least that hard.
 In this chapter, we generalize the model of patrolling games defined in Chapter \ref{chap:pg} by allowing multiple patrolling units (robots).
 The concept of multiple robots is borrowed from \cite{multi-robot}.
 
+%TODO co nove? prezentujeme algoritmus? ako vysledky ukazeme?
+
+\section{Defining the Model}
+
 As described in Subsection \ref{subsec:multi}, the multi-robot setting can be studied under many possible reasonable restrictions.
 In \cite{multi-robot}, the authors established two dimension in which the robots can be coordinated: in computing and executing the patrolling strategy, and in partitioning the environment.
 We chose to study the most general model, which corresponds to \emph{joint strategy} (one strategy regarding the movement of all the robots is computed centrally) with \emph{full assignment} (each robot can potentially visit every node).
@@ -1330,10 +1334,6 @@ Example \ref{ex:joint} shows a game where a joint strategy yields strictly large
 
 The second desired virtue of our model is simplicity---assigning a specific set of visitable nodes to each robot would significantly complicate the model.
 We also prefer the robots to be homogeneous.
-
-%TODO co nove? prezentujeme algoritmus? ako vysledky ukazeme?
-
-\section{Defining the Model}
 
 \begin{definition}
 A \emph{multi-robot patrolling game (MRPG)} is a tuple $\mathcal{G} = (U, E, T, d, R)$ where $U$ is a finite set of \emph{nodes}, $E \subseteq U \times U$ is a set of \emph{edges}, $T \subseteq U$ is a set of \emph{target nodes}, $d$ is the \emph{attack length}, and $R$ is a set of \emph{robots}.
@@ -1352,10 +1352,10 @@ We denote by $C = U^{|R|}$ the set of all configurations.
 
 For a configuration $c$, we define $cover(c) = \{c_1, \dots, c_{|R|}\}$ to be the \emph{cover} of $c$, representing all the nodes currently visited by at least one robot.
 A cover can contain $1$ to $|R|$ members.
-From now on, when we say that the defender visited a node, we mean that at least one of her robots visited the node.
+From now on, when we say that a node is visited (by the defender), we mean that at least one of the robots is located in the node.
 
-Note that an MRPG, as opposed to a (single-robot) patrolling game, does not have any predefined initial configuration of the robots.
-In a patrolling game, forcing the initial node to be a target node guarantees maximal possible value of the game.
+Note that an MRPG, as opposed to a single-robot patrolling game (SRPG), does not have any predefined initial configuration of the robots.
+In an SRPG, forcing the initial node to be a target node guarantees maximal possible value of the game.
 However, in an MRPG, we are not aware of any such simple restriction of the initial configuration that would guarantee maximal possible value of the game.
 Example \ref{ex:initial2} illustrates that even forcing the robots to start in mutually different targets is not enough.
 Therefore, we let the defender's strategy to determine the initial configuration.
@@ -1376,7 +1376,7 @@ An \emph{attacker's strategy} is a function $\pi : \mathcal{H} \to T \cup \{\per
 %The set of all attacker's strategies is denoted by $\Pi$.
 \end{definition}
 \noindent
-We refer to the configuration $c$ such that $\sigma(\epsilon)(c) = 1$ as \emph{$\sigma$-initial configuration}.
+We refer to the configuration $c$ such that $\sigma(\epsilon)(c) = 1$ as the \emph{$\sigma$-initial configuration}.
 It semantically substitutes the initial node in a patrolling game.
 The attacker is not allowed to attack before the robots are placed in the initial configuration as he could easily take advantage of this information (see Example \ref{ex:distribution}).
 
@@ -1389,20 +1389,20 @@ However, such setting seems unrealistic and we rather force $supp(\sigma(\epsilo
 
 After following a history $h$, the defender randomly chooses the next configuration based on the distribution $\sigma(h)$.
 At the same time, the attacker decides whether to attack or not.
-Then, all the robots are simultaneously moved to the new configuration.
-The definition of the attacker's strategy is the same as in the patrolling game---the attacker can still attack only a single node and only once during a play.
+Then, all the robots move simultaneously to the new configuration.
+The definition of the attacker's strategy is the~same as in the SRPG---the attacker can still attack only a single node and only once during a play.
 
 We adopt the concept of \emph{relevant} histories for a given defender's strategy $\sigma$, which have to start in the $\sigma$-initial configuration.
 %We adopt the concept of \emph{relevant} histories from patrolling games.
 %The only difference is that for a given defender's strategy $\sigma$, relevant histories have to start in the $\sigma$-initial configuration.
 
 We also adopt the definitions of \emph{successful attack} and \emph{defended run}, and the associated notation.
-For a given defender's strategy $\sigma$ and an attacker's strategy $\pi$, $\mathcal{P}^\sigma$ denotes the probability measure associated with the unique probability space over all infinite paths determined by $\sigma$,
-$\mathcal{D}[\pi]$ denotes the set of all defended runs,
+For a given defender's strategy $\sigma$, $\mathcal{P}^\sigma$ denotes the probability measure associated with the unique probability space over all infinite paths determined by $\sigma$.
+Further, for an attacker's strategy $\pi$, $\mathcal{D}[\pi]$ denotes the set of all defended runs
 and $\mathcal{P}^\sigma(\mathcal{D}[\pi])$ is the probability of all defended runs when the defender and the attacker use strategies $\sigma$ and $\pi$, respectively.
 
 \begin{definition}
-For $\sigma \in \Sigma$, the \emph{value of $\sigma$} is defined as $val(\sigma) = \inf_{\pi \in \Pi}\mathcal{P}^\sigma(\mathcal{D}[\pi])$.
+For a defender's strategy $\sigma \in \Sigma$, the \emph{value of $\sigma$} is defined as $val(\sigma) = \inf_{\pi \in \Pi}\mathcal{P}^\sigma(\mathcal{D}[\pi])$.
 The \emph{(Stackelberg) value} of the game $\mathcal{G}$ is defined as $val = \sup_{\sigma \in \Sigma}val_{\sigma}$.
 
 Let $\epsilon \geq 0$. A defender's strategy $\sigma^*$ is called \emph{$\epsilon$-optimal} if $val(\sigma^*) \geq val - \epsilon$.
