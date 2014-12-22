@@ -431,17 +431,14 @@ For a given defender's strategy $\sigma$, we define the set $\mathcal{H}(\sigma)
 Clearly, only relevant histories can happen with positive probability.
 In the future, we may talk about a defender's strategy $\sigma$ and not define $\sigma(h)$ for irrelevant histories $h$.
 
-%nejake keci okolo probability space?
 Also note that a given defender's strategy $\sigma$ determines a unique probability space over all infinite paths initiated in a given $u \in U$ (see \cite{chung}), and we denote the associated probability measure by $\mathcal{P}_u^{\sigma}$.
 
 Given an attacker's strategy $\pi$, we say that a run $\omega$ \emph{contains a successful attack} if there exist a
-%finite prefix!!! fml! -> history $h \preceq \omega$ ?
-finite prefix $h$ of $\omega$ and a target $t \in T$ such that $\pi(h) = t$ and $t$ is not visited in the first $d$ steps after the history $h$.
+history $h \prec \omega$ and a target $t \in T$ such that $\pi(h) = t$ and $t$ is not visited in the first $d$ steps after the history $h$.
 We say that a run is \emph{defended}, if it does not contain a successful attack.
 For every node $u \in U$, we use $\mathcal{D}_u[\pi]$ to denote the set of all defended runs initiated in $u$.
 Hence, $\mathcal{P}_u^{\sigma}(\mathcal{D}_u[\pi])$ is the probability of all defended runs initiated in $u$ when the defender and the attacker use strategies $\sigma$ and $\pi$, respectively. We omit the subscript $u$ in $\mathcal{P}_u^{\sigma}$ and $\mathcal{D}_u[\pi]$ when $u = \hat{u}$.
 
-%TODO - what precision in definition do we really need? (optimality in/Stackelberg value of $u$ - srsly?)
 \begin{definition}
 For all $u \in U$ and $\sigma \in \Sigma$, the \emph{value of $\sigma$} is defined as $val_u(\sigma) = \inf_{\pi \in \Pi}\mathcal{P}_u^{\sigma}(\mathcal{D}_u[\pi])$.
 The \emph{Stackelberg value} of $u$ is defined as $val_u = \sup_{\sigma \in \Sigma}val_u(\sigma)$.
@@ -482,7 +479,6 @@ Examples \ref{ex:stationary} and \ref{ex:initial} are from \cite{miso}, the sett
 &
 
 \begin{tikzpicture}
-%[scale=1, transform shape]
   \foreach \pos/\name in {{(0,0)/s}, {+(0: 1.5)/u}, {+(60: 1.5)/v}}
         \node (\name) at \pos {$\name$};
    \foreach \from/\to in {s/u, u/v, v/s}
@@ -512,7 +508,7 @@ Note that $\sigma^*$ depends only on the last two nodes---when the defender is i
 Now consider a patrolling game played on the middle graph from Fig.~\ref{fig:examples}, where $T = {m, n}$ and $d = 2$ and let us suppose that any node can be the initial node, not just the targets.
 The value of the game clearly depends on the initial node.
 If $k$ is the initial node, the attacker attacks $n$ as soon as possible and the defender has no chance to intercept this attack, i.e. $val_k = 0$.
-Otherwise, the defender can defend both targets with probability 1.
+Otherwise, the defender can defend both targets with probability~1.
 
 Considering a general game, an interesting question arises: for which node(s) $u \in U$ does it hold that $val_u =$ max$_{v \in U} val_v$?
 We show that, in general, all target nodes satisfy this condition, i.e. no initial node would yield higher value of a game than any initial target node.
@@ -525,13 +521,12 @@ Consider a patrolling game played on the right graph (triangle) from Fig.~\ref{f
 This example is rather sofisticated than the previous two, because the defender cannot protect all the targets with probability 1.
 A simple defender's strategy that comes to one's mind is to choose the next node uniformly, i.e. with probability 1/2.
 The value of this strategy is 1/2---attacker's best response is to attack a target when the defender leaves it.
-One can show that this strategy is optimal among all stationary strategies.
-%TODO - ref to proof
+One can show that this defender's strategy is optimal among all stationary strategies.\footnote{We omit the proof of this statement as it is out of scope of this example.}
 However, consider a strategy $\sigma^*$ which chooses the previously visited node with probability $(\sqrt{5} - 1)/2$ and the other node with the remaining probability $(3-\sqrt{5})/2$.
 In the first step, when there is no previously visited node, $\sigma^*$ chooses the next node uniformly.
-It is easy to show that $val(\sigma^* = (\sqrt{5} - 1)/2$.
+It is easy to show that $val(\sigma^*) = (\sqrt{5} - 1)/2$.
 In \cite{iti1}, it has been shown that $val(\sigma^*) = val$ and that all optimal strategies are the same as $\sigma^*$ except for the choice in the first step.
-%TODO - own proof?
+%IDEA - own proof? No time
 This means that irrational numbers may inevitably occur in both the probability distribution of the defender's strategy and the value of the game.
 
 The last thing we want to demonstrate on this example is that if the defender had the information whether the attacker has already attacked or not, she could commit to a strategy resulting in a higher value.
@@ -555,8 +550,6 @@ We skip some technical parts (mostly proofs) which can be found in \cite{iti1}.
 \section{Translating Patrolling Games into Stochastic Games}
 
 \begin{definition}
-%$(V_\Diamond, V_\square)$ - Diamond = Min, Square = Max
-%TODO Min / Max v definiciach/lemmatoch je sam o sebe \emph, takze neviem, ci to treba znova
 A \emph{stochastic game} is a tuple $\mathcal{S} = (V, (V_{\emph{Min}}, V_{\emph{Max}}), \ell, A, \mathbf{E}, \mathbf{P})$ where $V$ is a set of \emph{vertices}, $(V_{\emph{Min}}, V_{\emph{Max}})$ is a partition of $V$, $\ell \in \mathbb{N}$, $A \subseteq \mathbb{R}^\ell$ is a set of \emph{actions}\footnote{
 The reason why actions are defined as real-valued vectors of a fixed dimension becomes clear later.
 Such a set of actions satisfies certain conditions which are used to prove the existence of an optimal strategy for player \emph{Max}.}, $\mathbf{E} : V \to 2^A$ assigns to each vertex a set of \emph{enabled actions}, and $\mathbf{P} : V \times A \to \Delta(V)$ assigns to each $(v, a) \in V \times A$ a discrete probability distribution over $V$ with finite support.
@@ -874,8 +867,6 @@ It follows that
 $$val(\sigma_\epsilon^{reg}) = val^\mathcal{S}(\theta_\emph{Max}^{ml}, \mathit{init}, \mathit{fail}) \geq val(\sigma_\epsilon) \geq val(\sigma) - \epsilon~,$$
 i.e. $\sigma_\epsilon^{reg}$ is $\epsilon$-optimal.
 
-%IDEA oddelit riadkom navyse?
-
 Before we move to the next section, we show one important observation about the states of the automaton $\mathcal{A}$.
 Based on the properties of the translation process from $\mathcal{G}$ to $\mathcal{S}$, we know that $\theta_{\emph{Max}}$ encodes exactly the same defender's strategy as $\sigma_\epsilon$.
 When we realize that $Q$ is the set of all $d$-commitments $f$ occuring in vertices of $\mathbf{Reach}(\theta_\emph{Max})$, it is easy to get the following statement using Lemma \ref{lem:epsilon}.
@@ -922,10 +913,8 @@ This unique node $u$ is called the \emph{root} of the characteristic $c$.
 %We denote by ... the set of all characteristics.
 %We denote by $\psi_c \in \Delta(U)$ the probability distribution over the nodes defined as $\psi_c(u) = c(1, u)$.
 \end{definition}
-\noindent
-%In the following definition, we assume the automaton $\mathcal{A}$ constructed in Step~3 in the previous section.
+
 \begin{definition}
-%TODO
 Let $\mathcal{A} = (Q, U, \delta, q_0, \emptyset)$ be an automaton encoding a defender's strategy.
 Given $p \in Q$, we define the characteristic $\mathbf{Char}_p$ of the state $p$ to be a characteristic which to every pair $(k, u) \in \{0, \dots, d\} \times U$ assigns the probability of reaching $u$ in at most $k$ steps whenever the strategy is in the state $p$ (recall that $p$ determines the current state of the play).
 \end{definition}
@@ -933,7 +922,6 @@ Given $p \in Q$, we define the characteristic $\mathbf{Char}_p$ of the state $p$
 The root of the characteristic represents the current location of the defender
 and the values for $k = 1$ represent the probability distribution over the nodes in the next step.
 %For a characteristic $c$, we denote this probability distribution as $\psi_c$ and we put $\psi_c(u) = c(1, u)$.
-%Given $p \in Q$, we define the characteristic $\mathbf{Char}_p$ of the state $p$ to be a characteristic defined as follows:
 
 Note that for the automaton $\mathcal{A}$ constructed in Step~3 in the previous section, we have
 \vspace{-5pt}
@@ -1005,25 +993,15 @@ where $\mathbf{Char}'_r$ denotes the characteristic of $r$ in the automaton $\ma
 \begin{proof}
 Observe that the automaton $\mathcal{A}$ together with the strategy it determines can be seen as a Markov Chain.
 Indeed, when the play is in a state $f$, the next state $g$ is chosen with probability $\sum_{u \in U, g = \delta(f, u)} \xi(f)(u)$.
-%TODO remove the reasoning
 This is because the next node $u$ visited by the defender is selected based on $\xi(f)$, and $g$ is determined by $\delta(f, u)$.
 
 That means that although the states of $\mathcal{A}$ are $d$-commitments, only the probability distribution in their root affects the strategy.
 The idea of the proof is that the characteristic of a state $r$ is completely determined by
-(1) the probability distribution in its root and by
+(1)~the probability distribution in its root and by
 %, by the transitions from it,
 (2) the characteristics of all the states to which there is a transition from $r$ under a particular node~$u$.
-%TODO dat to ako odrazky?
-%\vspace{-6.1pt}
-%\begin{enumerate}
-%	\item the probability distribution in its root, and
-%	\item the characteristics of all the states to which there is a transition from $r$ under a particular node $u$.
-%\end{enumerate}
-%\vspace{-6.1pt}
 Substitution of $q$ by $p$ does not have any influence on (1) and because $\mathbf{Char}_p = \mathbf{Char}_q$, neither has it any influence on (2).
-%Note that the characteristic of a state preserves the information about the probability distribution in its root.
 
-%IDEA change the order of $r, v, k$
 Formally, we prove by induction on $k$ that for all $r \in Q \smallsetminus \{q\}$, $v \in U$, $0 \leq k \leq d$ we have that $$\mathbf{Char}'_r(k, v) = \mathbf{Char}_r(k, v)~.$$
 For $k = 0$ this clearly holds as the root of any state remains unchanged.
 
@@ -1048,7 +1026,6 @@ For $1 \leq k \leq d$ we have
 Lemma \ref{lem:characteristics} shows that removal of one of the "equivalent" states does not influence the characteristics of the other states.
 Of great importance is that the lemma holds also for the reduced automaton $\mathcal{A}_{p \leftarrow q}$.
 Indeed, the proof is based only on general properties of the characteristics and on the definition of $\mathcal{A}_{p \leftarrow q}$.
-%This justifies us to
 This means we can repeat the process of removing equivalent states until all the states have mutually different, yet still unchanged characteristics.
 
 Let us fix and denote by $\mathcal{A}_{red}$ %= (Q_{red}, U, \delta_{red}, q_0, \emptyset)$
@@ -1069,7 +1046,6 @@ Note that $att\text{-}val(\sigma_{red} \mid h) = val(\mathbf{Char}_p)$ where $p 
 %Note that for a $d$-commitment $p = \mathcal{A}[h^+]$ for some history $h$, we have that $val(\mathbf{Char}_p) = val(p)$. %att\text{-}val(\sigma_\epsilon^{reg} \mid h)$.
 %In other words, if the attacker attacks when the play is in a state $p$, he is caught with probability $val(\mathbf{Char}_p)$.
 
-\newpage%TODO needed?
 \begin{lemma}
 \label{lem:char_value}
 For each state $p \in Q$ we have $val(\mathbf{Char}_p) \geq val(\sigma) - \epsilon$.
@@ -1103,7 +1079,7 @@ By putting
 \begin{itemize}[label=-]
 	\item $Q_\mathit{Char} = \{\mathbf{Char}_p \mid p \in Q_{red}\}$,
 	\item $\delta_\mathit{Char}(\mathbf{Char}_p)(u) = \mathbf{Char}_q$ iff $\delta_{red}(p)(u) = q$,
-	\item $\sigma_\mathit{Char}(h)(u) = \mathcal{A}_\mathit{Char}[h^+](1, u)$, %$ = \xi(\mathcal{A}_{red}[h^+])(u)$
+	\item $\sigma_\mathit{Char}(h)(u) = \mathcal{A}_\mathit{Char}[h^+](1, u)$,
 \end{itemize}
 \vspace{-5pt}
 one can easily see that $\sigma_\mathit{Char} = \sigma_{red}$.
@@ -1126,10 +1102,6 @@ Furthermore, each $c \in Q_\mathit{Char}$ satisfies:
 	\item $c = \mathbf{Char}_c$\footnote{We identify a state with its characteristic to reflect that it is the only quality of a state we are interested in.} \label{a}
 	\item $c(1, u)$ is an integer multiple of $s$ for all $u \in U$, where $s = \lceil(|U|d)/\epsilon\rceil^{-1}$\label{b}
 	\item $val(c) \geq val(\sigma) - \epsilon$. \label{c}
-%%% COMMENTED OUT the bullets for the existence of $\mathcal{A}_{red}$ %%%
-%	\item its states are $d$-commitments with all their function values (elements of probability distribution) being integer multiples of $t$,
-%	\item no two states have the same characteristic, and
-%	\item the value of the characteristic of each state is at least $val(\sigma) - \epsilon$.
 \end{enumerate}
 \vspace{-5pt}
 In order to find such an automaton, we consider the set of all \emph{discretized} characteristics
@@ -1148,14 +1120,13 @@ From \ref{a} and \ref{b} it follows that $Q_\mathit{Char} \subseteq \mathit{Char
 \State $C \leftarrow$ empty priority queue; $D \leftarrow \emptyset$
 \State \textbf{for each} $c \in \mathit{Char}^s$ \textbf{do}
 %\ForEach {$c \in \mathbf{Char}^s$}
-	%\If {$c$ is \emph{representable}}	%TODO {\sum_{u \in U} $c(1, u) = 1$}, taktiez musi byt len jeden root
 		add $c$ to $C$ with priority $val(c)$
 %\EndFor
 \vspace{3px}
 \Repeat
 	\State pull from $C$ the item $c$ with the highest priority
 	\State $D \leftarrow D \cup \{c\}$
-\Until {$D$ is \emph{complete}}	%{$complete(D)$}
+\Until {$D$ is \emph{complete}}
 \vspace{3px}
 \State $\sigma_\epsilon^{alg} \leftarrow$ the strategy induced by a closed subset of $D$
 \end{algorithmic}
@@ -1189,16 +1160,7 @@ And for the automaton's intial state it suffices to choose some $\hat{c} \in R$ 
 Let us fix a closed set $R$ and for each $c \in R$, let us fix some successors $(c_1, \dots, c_n) \in R^n$ of $c$.
 Further, let us fix some $\hat{c} \in R$ such that $\hat{c}(0, \hat{u}) = 1$.
 We construct a DFA $\mathcal{A}_{R} = (R, U, \delta_{R}, \hat{c}, \emptyset)$ where $\delta_{R}(c, u_i) = c_i$ for all $c \in R$ and $u_i \in U$.
-%\vspace{-3pt}
-%\begin{itemize}
-%	\item $Q_{R} = R$ %is the finite set of states
-%	%\item $U$ is the alphabet
-%	\item $\delta_{R}(c, u_i) = c_i$ where $c_i$ is the fixed $u_i$-successor of $c$
-%	\item $q_0 = \hat{c}$.
-%\end{itemize}
-%\vspace{-3pt}
 We define the strategy determined by $\mathcal{A}_{R}$ as $\sigma_{R}(h)(u) = \mathcal{A}[h^+](1, u)$.
-%$\sigma_{R}(h) = \psi_{\mathcal{A}[h^+]}$ (recall that $\psi_c(u) = c(1, u)$ for a characteristic $c$).
 We show that for such a strategy, each state of $\mathcal{A}_{R}$ is identical with its own characteristic.
 
 \begin{lemma}
@@ -1213,10 +1175,10 @@ For $k = 0$ this trivially holds.
 For $1 \leq k \leq d$, let $(c_1, \dots, c_n)$ be the successors of $c$. It follows that
 \begin{align}
 c(k, u)
-  &= c(1, u) + \sum_{i = 1, u_i \neq u}^n c(1, u_i) \cdot c_i(k - 1, u)\label{eq3:first} \\ %from the definition of successors
-  &= c(1, u) + \sum_{i = 1, u_i \neq u}^n c(1, u_i) \cdot \mathbf{Char}_{c_i}(k - 1, u)\label{eq3:second} \\ %from induction hypothesis
-  &= c(1, u) + \sum_{i = 1, u_i \neq u}^n c(1, u_i) \cdot \mathbf{Char}_{\delta_{R}(c, u_i)}(k - 1, u)\nonumber \\ %%%f
-  &= c(1, u) + \sum_{v \in U \smallsetminus \{u\}} c(1, v) \cdot \mathbf{Char}_{\delta_{R}(c, v)}(k - 1, u)\nonumber \\ % from the definition of characteristic of a state
+  &= c(1, u) + \sum_{i = 1, u_i \neq u}^n c(1, u_i) \cdot c_i(k - 1, u)\label{eq3:first} \\
+  &= c(1, u) + \sum_{i = 1, u_i \neq u}^n c(1, u_i) \cdot \mathbf{Char}_{c_i}(k - 1, u)\label{eq3:second} \\
+  &= c(1, u) + \sum_{i = 1, u_i \neq u}^n c(1, u_i) \cdot \mathbf{Char}_{\delta_{R}(c, u_i)}(k - 1, u)\nonumber \\
+  &= c(1, u) + \sum_{v \in U \smallsetminus \{u\}} c(1, v) \cdot \mathbf{Char}_{\delta_{R}(c, v)}(k - 1, u)\nonumber \\
   &= \mathbf{Char}_c(k, u)\label{eq3:last}~.
 \end{align}
 The equalities \eqref{eq3:first}, \eqref{eq3:second}, and \eqref{eq3:last} follow from the definition of successors, from the induction hypothesis, and from the definition of the characteristic of a state, respectively.
@@ -1244,7 +1206,6 @@ Then, we iteratively remove from $D'$ all the characteristics which do not have 
 $$D' \leftarrow \{c \in D' \mid \exists c_1, \dots, c_n \in D'~\text{such that}~(c_1, \dots, c_n)~\text{are successors of}~c\}$$
 until we reach a fixed point $D'_\mu$.
 If the set $D'_\mu$ is not empty, then it is closed and $D$ is complete.
-%If $D'_\mu \neq \emptyset$, then $D'_\mu$ is closed and $D$ is complete.
 
 \
 
