@@ -1315,7 +1315,7 @@ We denote by $C = U^{|R|}$ the set of all configurations.
 For a configuration $c$, we define $\mathit{cover}(c) = \{c_1, \dots, c_{|R|}\}$ to be the \emph{cover} of $c$, representing all the nodes currently visited by at least one robot.
 A cover can contain $1$ to $|R|$ members.
 From now on, when we say that a node is \emph{visited} (by the defender or by a configuration), we mean that at least one of the robots is located in the node.
-For a node $u \in U$, we define $C_u = \{c \in C \mid u \in \mathit{cover}(c)\}$ to be the set of all configurations that visit $u$.
+%For a node $u \in U$, we define $C_u = \{c \in C \mid u \in \mathit{cover}(c)\}$ to be the set of all configurations that visit $u$.
 
 Note that an MRPG, as opposed to a single-robot patrolling game (SRPG), does not have any predefined initial configuration of the robots.
 In an SRPG, forcing the initial node to be a target node guarantees maximal possible value of the game.
@@ -1477,11 +1477,16 @@ Then the value of the game is clearly $0$ as the attacker can successfully attac
 Therefore, we do not allow the attacker to attack in step 0.
 \end{example}
 
-\section{TODO}
+\section{Existence of Optimal Defender's Strategy}
 
-As the defender's strategy works with configurations instead of single nodes, we need to modify the definition of $k$-commitments.
+In this section, we show that there exists an optimal defender's strategy for each MRGP.
+We follow the steps from Section \ref{sec:translation} where we did the same for SRGPs.
+We redefine a $k$-commitment to reflect the changes in the definition of the defender's strategy and we briefly describe the process of translating an MRPG to a stochastic game and vice versa.
+As stated in \cite{iti1}, all the needed modifications for more general models (in our case, the multi-robot model) are straightforward and if the reader is familiar with the translation process for SRPGs, we advise him or her to skip this section.
+
+As the defender's strategy works with configurations instead of single nodes, we need to modify the definition of a $k$-commitment.
 The notation of terms associated with $k$-commitments stays the same.
-Let us fix a patrolling game $\mathcal{G} = (U, E, T, d, R)$.
+Let us fix a multi-robot patrolling game $\mathcal{G} = (U, E, T, d, R)$.
 
 \begin{definition}
 Let $k \in \mathbb{N}$. A \emph{$k$-commitment} is a function $f : C^{\leq k} \to \Delta(C)$ satisfying the following conditions:
@@ -1495,17 +1500,17 @@ Let $k \in \mathbb{N}$. A \emph{$k$-commitment} is a function $f : C^{\leq k} \t
 \noindent
 Recall that a $d$-commitment $f$ represents a Markov chain over states $C^{\leq d+1}$ with transition probabilities given by $f$.
 Once the defender has committed to a $d$-commitment, the probability of detecting an immediate attack on a target is computed as follows.
-For every $d$-commitment $f$ and every target $t \in T$, we define the value $val(f, t)$ of defending the target $t$ with the commitment $f$ as the probability of reaching a state of the form $wc$, where $w\neq \epsilon$ and $c \in C_t$,
+For every $d$-commitment $f$ and every target $t \in T$, we define the value $val(f, t)$ of defending the target $t$ with the commitment $f$ as the probability of reaching a state of the form $wc$, where $w\neq \epsilon$ and $t \in \mathit{cover}(c)$,
 from the state $\epsilon$ in the Markov chain induced by $f$.
 The value of a $d$-commitment $f$ is defined as $val(f) = \text{min}_{t\in T} ~val(f, t)$.
 
 We also adopt the concept of extending a $d$-commitment and now we are prepared for the translation of the patrolling game $\mathcal{G}$ to a stochastic game.
-We define a stochastic game $\mathcal{S} = (V, (V_{\emph{Min}}, V_{\emph{Max}}),$ $|C|^{d+2}, A, \mathbf{E}, \mathbf{P})$ in the same way as we did in Section \ref{sec:translation} (taking into account the modified definition of a $d$-commitment) with the only exception that $\mathbf{E}(\mathit{init}) = \mathbf{Comm}_d$, as the initial configuration is strategy-specific.
+We define a stochastic game $\mathcal{S} = (V, (V_{\emph{Min}}, V_{\emph{Max}}),$ $|C|^{d+2}, A, \mathbf{E}, \mathbf{P})$ in the same way as we did in Section \ref{sec:translation} (taking into account the modified definition of a $d$-commitment) with the only exception that $\mathbf{E}(\mathit{init}) = \mathbf{Comm}_d$, as the initial configuration is strategy-specific and therefore cannot be forced.
 
 We claim that an extra condition\footnote{The extra condition listed in \cite{iti1} we refer to is that for every $v \in V$, the set $\mathbf{E}(v)$ is compact (i.e. bounded and closed) and a function $val^{\mathcal{S}}[\cdot](v, t)$ which to a given $a \in \mathbf{E}(v)$ assigns $\sum_{v'\in V}\mathbf{P}(v, a)(v')\cdot val^{\mathcal{S}}(v', t)$ is continuous on $\mathbf{E}(v)$.} sufficient for a stochastic game to have an optimal memoryless strategy for player \emph{Max} is satisfied by $\mathcal{S}$ by the same reason as it is satisfied by the stochastis game $\mathcal{S}$ defined in Section \ref{sec:translation}.
 
-%TODO translation
-
+The process of translating a defender's strategy $\sigma$ in $\mathcal{G}$ to a strategy $\theta_{\emph{Max}}[\sigma]$ of player \emph{Max} in $\mathcal{S}$, and vice versa, is exactly the same as for SRPGs.
+It preserves the values of the corresponding strategies and we get that the defender has an optimal strategy in $\mathcal{G}$.
 
 \chapter{This is the end, my only friend, the end}
 
