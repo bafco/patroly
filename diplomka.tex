@@ -720,7 +720,7 @@ The second inequality follows from the fact that $val(\sigma^v\mid h) \leq val(\
 Note that unless $val_v = 0$, there exists a history $h' \in \mathcal{H}(\sigma^v)$ such that $last(h') = \hat{u}$.
 This history $h'$ determines a strategy $\sigma^v_{h'}$ in $\mathcal{G}$.
 It follows that $val \geq val(\sigma^v_{h'}) = val_v \geq val$, i.e. $val = val_v$.
-Using the same argumentation as before, we get that $val(\sigma \mid h) = val(\sigma)$ for all optimal defender's strategies $\sigma$ and all histories $h \in \mathcal{H}(\sigma)$.
+Using the same argumentation as before, we get that $val(\sigma \mid h) = val(\sigma)$ for every optimal defender's strategy $\sigma$ and every history $h \in \mathcal{H}(\sigma)$.
 \end{proof}
 
 Note that Lemma \ref{lem:value} would not hold without the restriction that the initial node has to be a target (see Example \ref{ex:initial} for counterexample).
@@ -1324,10 +1324,10 @@ Example \ref{ex:initial2} illustrates that even forcing the robots to start in m
 Therefore, we let the defender's strategy to determine the initial configuration.
 
 Given a configuration $c \in C$, we define $succ(c) := \{c' \in C \mid c'_i \in succ(c_i)~\text{for all}~0 \leq i \leq |R|\}$ to be the set of all \emph{successors} of $c$.
-Using this definition of successors, we straightforwardly modify the definitions of \emph{path}, \emph{history}, and \emph{run} from patrolling games to work with configurations instead of single nodes.
+Using this definition of successors, we straightforwardly modify the definitions of \emph{path}, \emph{history}, and \emph{run} from SRPGs to work with configurations instead of single nodes.
 The notation of these terms stays the same.
 Further, we denote by $\mathcal{H}_0 = \mathcal{H} \cup \{\epsilon\}$ the set of histories together with the empty word.
-%Using this, we straightforwardly modify the definitions from the patrolling game to work with configurations instead of single nodes.
+%Using this, we straightforwardly modify the definitions from SRPGs to work with configurations instead of single nodes.
 %Definitions of \emph{path} and \emph{run} stay quite the same, as well as the denotation.
 %The only difference is in the definition of a \emph{history} which can now also be an empty word.
 
@@ -1353,7 +1353,7 @@ However, such setting seems unrealistic and we rather force $supp(\sigma(\epsilo
 After following a history $h$, the defender randomly chooses the next configuration based on the distribution $\sigma(h)$.
 At the same time, the attacker decides whether to attack or not.
 Then, all the robots move simultaneously to the new configuration.
-The definition of the attacker's strategy is the~same as in the SRPG---the attacker can still attack only a single node and only once during a play.
+The definition of an attacker's strategy is the~same as in the SRPG---the attacker can still attack only a single node and only once during a play.
 
 We adopt the concept of \emph{relevant} histories from SRPGs.
 The only difference is that for a given defender's strategy $\sigma$, relevant histories have to start in the $\sigma$-initial configuration.
@@ -1479,10 +1479,10 @@ Therefore, we do not allow the attacker to attack in step 0.
 
 \section{Existence of Optimal Defender's Strategy}
 
-In this section, we show that there exists an optimal defender's strategy for each MRGP.
-We follow the steps from Section \ref{sec:translation} where we did the same for SRGPs.
-We redefine a $k$-commitment to reflect the changes in the definition of the defender's strategy and we briefly describe the process of translating an MRPG to a stochastic game and vice versa.
-As stated in \cite{iti1}, all the needed modifications for more general models (in our case, the multi-robot model) are straightforward and if the reader is familiar with the translation process for SRPGs, we advise him or her to skip this section.
+In this section, we show that there exists an optimal defender's strategy for each MRPG.
+We follow the steps from Section \ref{sec:translation} where we did the same for SRPGs.
+We redefine a $k$-commitment to reflect the changes in the definition of a defender's strategy and we briefly describe the process of translating an MRPG to a stochastic game and vice versa.
+As stated in \cite{iti1}, all required modifications to the translation process for more general models (in our case, the multi-robot model) are straightforward and if the reader is familiar with the translation process for SRPGs, we advise him or her to skip that part.
 
 As the defender's strategy works with configurations instead of single nodes, we need to modify the definition of a $k$-commitment.
 The notation of terms associated with $k$-commitments stays the same.
@@ -1504,13 +1504,42 @@ For every $d$-commitment $f$ and every target $t \in T$, we define the value $va
 from the state $\epsilon$ in the Markov chain induced by $f$.
 The value of a $d$-commitment $f$ is defined as $val(f) = \text{min}_{t\in T} ~val(f, t)$.
 
-We also adopt the concept of extending a $d$-commitment and now we are prepared for the translation of the patrolling game $\mathcal{G}$ to a stochastic game.
-We define a stochastic game $\mathcal{S} = (V, (V_{\emph{Min}}, V_{\emph{Max}}),$ $|C|^{d+2}, A, \mathbf{E}, \mathbf{P})$ in the same way as we did in Section \ref{sec:translation} (taking into account the modified definition of a $d$-commitment) with the only exception that $\mathbf{E}(\mathit{init}) = \mathbf{Comm}_d$, as the initial configuration is strategy-specific and therefore cannot be forced.
+We also adopt the concept of extending a $d$-commitment, which is used in the translation of a patrolling game $\mathcal{G}$ to a stochastic game.
+We define a stochastic game $\mathcal{S} = (V, (V_{\emph{Min}}, V_{\emph{Max}}),$ $|C|^{d+2}, A, \mathbf{E}, \mathbf{P})$ in the same way as we did in Section \ref{sec:translation} (taking into account the modified definition of a $k$-commitment) with the only exception that $\mathbf{E}(\mathit{init}) = \mathbf{Comm}_d$.
+This modification is needed as the initial configuration is strategy-specific and therefore the root of the initial $d$-commitment cannot be forced.
 
 We claim that an extra condition\footnote{The extra condition listed in \cite{iti1} we refer to is that for every $v \in V$, the set $\mathbf{E}(v)$ is compact (i.e. bounded and closed) and a function $val^{\mathcal{S}}[\cdot](v, t)$ which to a given $a \in \mathbf{E}(v)$ assigns $\sum_{v'\in V}\mathbf{P}(v, a)(v')\cdot val^{\mathcal{S}}(v', t)$ is continuous on $\mathbf{E}(v)$.} sufficient for a stochastic game to have an optimal memoryless strategy for player \emph{Max} is satisfied by $\mathcal{S}$ by the same reason as it is satisfied by the stochastis game $\mathcal{S}$ defined in Section \ref{sec:translation}.
 
 The process of translating a defender's strategy $\sigma$ in $\mathcal{G}$ to a strategy $\theta_{\emph{Max}}[\sigma]$ of player \emph{Max} in $\mathcal{S}$, and vice versa, is exactly the same as for SRPGs.
 It preserves the values of the corresponding strategies and we get that the defender has an optimal strategy in $\mathcal{G}$.
+
+\section{TODO}
+
+%TODO intro
+
+\begin{definition}
+Let $\sigma \in \Sigma$ be a defender's strategy and $h \in \mathcal{H}$ a history. %TODO $h \in \mathcal{H}_0$ ???
+We define a strategy $\sigma_h$ by $\sigma_h(h') = \sigma(hh')$ for all $h' \in \mathcal{H}_0$.
+Further, we define the value of $\sigma$ after a history $h$ has been played by $val(\sigma \mid h) = val(\sigma_h)$.
+\end{definition}
+\noindent
+Note that, for all $h \in \mathcal{H}$, $supp(\sigma_h(\epsilon)) \subseteq succ(last(h))$ holds by the definition of a defender's strategy and the fact that $\sigma_h(\epsilon) = \sigma(h)$.
+Also note that $\sigma_{\sigma(\epsilon)}(\epsilon) = \sigma(\sigma(\epsilon))$ is the probability distribution in the $\sigma$-initial configuration.
+
+We provide a copy of Lemma \ref{lem:value} stating that each optimal defender's strategy retains its value throughout a play of the game.
+%For MRPGs, the proof of this lemma is even easier because the initial configuration is part of the defender's strategy.
+For MRPGs, the proof of this lemma is even easier because each optimal defender's strategy has to select the "best" possible initial configuration.
+
+\begin{lemma}
+\label{lem:valueMRPG}
+Let $\sigma$ be an optimal defender's strategy and $h \in \mathcal{H}(\sigma)$ a history.
+We have that $val(\sigma \mid h) = val(\sigma)$.
+\end{lemma}
+\begin{proof}
+Because $\sigma$ is optimal, we have that $val(\sigma) \geq val(\sigma_h) = val(\sigma \mid h)$ for all $h \in \mathcal{H}(\sigma)$.
+However, as already argued in the proof of Lemma \ref{lem:value}, if $val(\sigma \mid h)$ cannot be greater than $val(\sigma)$ for any relevant history $h$, it cannot be less than $val(\sigma)$ either as that would necessarily decrease the value of $\sigma$.
+Therefore, $val(\sigma \mid h) = val(\sigma)$  for all $h \in \mathcal{H}(\sigma)$.
+\end{proof}
 
 \chapter{This is the end, my only friend, the end}
 
