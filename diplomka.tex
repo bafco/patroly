@@ -732,13 +732,16 @@ In order to formalize this concept, we define a \emph{regular} strategy.
 As stated in \cite{iti2}, a defender’s strategy $\sigma$ is \emph{regular} if there is a deterministic finite automaton (DFA) \cite{dfa} $\mathcal{A}$ over the alphabet $U$ (the set of nodes) such that $\sigma(h)$ depends only on the control state entered by $\mathcal{A}$ after reading $h$.
 
 In the rest of this section, we prove the existence of a regular $\epsilon$-optimal defender's strategy.
-We proceed in three steps.
-We start with an optimal defender's strategy $\sigma$, whose existence is guaranteed by Theorem \ref{thm:existence}.
-First, we discretize $\sigma$ to obtain an $\epsilon$-optimal strategy $\sigma_\epsilon$.
+First, we start with an optimal defender's strategy $\sigma$, whose existence is guaranteed by Theorem \ref{thm:existence}.
+We discretize $\sigma$ to obtain an $\epsilon$-optimal strategy $\sigma_\epsilon$.
 Second, using translation process from the previous chapter, we translate $\sigma_\epsilon$ from $\mathcal{G}$ to a strategy $\theta_\emph{Max}$ in the corresponding stochastic game $\mathcal{S}$.
 As $\theta_\emph{Max}$ stays in finitely many vertices, we restrict the set of vertices of $\mathcal{S}$ to be finite.
 We apply standard results for finite-state stochastic games to obtain an optimal memoryless strategy $\theta_\emph{Max}^{ml}$.
 Third, using $\theta_\emph{Max}^{ml}$, we construct a DFA which encodes an $\epsilon$-optimal strategy.
+
+We follow a three-step process from \cite{iti1} which we improve in two ways.
+In step 1, we give a more detailed proof of the $\epsilon$-optimality of the discretized strategy and we divide it into multiple lemmas. %which we will use later
+And in step 3, we fix the problem of the automaton incorrectly reading the first node of a history.
 
 \textbf{Step 1.} Let us fix an optimal defender's strategy $\sigma$, whose existence is guaranteed by Theorem \ref{thm:existence}.
 For a desired precision $\epsilon$, we discretize $\sigma$ to obtain a strategy $\sigma_\epsilon$ with all probabilities $\sigma_\epsilon(h)(u)$ being integer multiples of an appropriate number $s$ satisfying \mbox{$s = 1/l$} for some $l \in \mathbb{N}$.
@@ -765,8 +768,10 @@ To formulate this, let us start with a formal definition of the defender's value
 \begin{definition}
 Let $\iota$ be a defender's strategy and $h \in \mathcal{H}(\iota)$ a history.
 We define
-$$att\text{-}val(\iota \mid h) = \inf_{t \in T} \mathcal{P}_{last(h)}^{\iota_h}(D_{last(h)}[t])$$
-where $D_{last(h)}[t]$ is the set of all runs initiated in $last(h)$ that visit $t$ in the first $d$ steps.
+$$att\text{-}val(\iota \mid h) = \inf_{t \in T} \mathcal{P}_{last(h)}^{\iota_h}(D_{last(h)}[\pi_t])$$
+where $\pi_t$ is an attacker's strategy such that $\pi_t(u) = t$ for all $u \in U$.
+%$$att\text{-}val(\iota \mid h) = \inf_{t \in T} \mathcal{P}_{last(h)}^{\iota_h}(D_{last(h)}[t])$$
+%where $D_{last(h)}[t]$ is the set of all runs initiated in $last(h)$ that visit $t$ in the first $d$ steps.
 \end{definition}
 
 The following lemma states that any attack at any moment is captured using $\sigma_\epsilon$ with probability at least $val(\sigma) - \epsilon$.
@@ -787,16 +792,16 @@ att\text{-}val(\sigma_\epsilon \mid h)
 \end{align}
 \begin{itemize}
 	\item The equality \eqref{eq1:third} directly follows from Lemma \ref{lem:value} as $\sigma$ is an optimal strategy and $h \in \mathcal{H}(\sigma)$.
-	\item The inequality \eqref{eq1:second} clearly holds as restricting the attacker to attack immediately cannot decrease the value of the game.
-Formally, it follows from the fact that $D_{last(h)}[t] = D_{last(h)}[\pi]$ for $\pi(last(h)) = t$.
+	\item The inequality \eqref{eq1:second} clearly holds as forcing the attacker to attack immediately cannot decrease the value of the game.
+%Formally, it follows from the fact that $D_{last(h)}[t] = D_{last(h)}[\pi]$ for $\pi(last(h)) = t$.
 	\item To prove the first inequality \eqref{eq1:first}, we have to analyze the impact of the rounding in the definition of $\sigma_\epsilon$.
-Denote by $R[\iota, h, t, k]$ the probability of reaching $t \in T$ from $last(h), h \in \mathcal{H}$ in up to $k$ steps using the strategy $\iota_h$.
+Denote by $R[\iota, h, t, k]$ the probability of reaching $t \in T$ from $last(h)$, $h \in \mathcal{H}$, in up to $k$ steps using the strategy $\iota_h$.
 We prove by induction on $k$ that for all $h \in \mathcal{H}$, $t \in T$, and $k \in \mathbb{N}$ we have that
 \begin{align}
 R[\sigma, h, t, k] - R[\sigma_\epsilon, h, t, k] \leq k|U|s~.\nonumber
 \end{align}
 
-The base case ($k = 1$) directly follows from Lemma \ref{lem:difference} and the fact that $R[\iota, h, u, 1] = \iota(h)(u)$.
+The base case ($k = 1$) directly follows from Lemma \ref{lem:difference} and the fact that $R[\iota, h, u, 1] = \iota(h)(u)$. %for every defender's strategy $\iota$.
 %The base case ($k = 0$) clearly holds as the value of $R[\iota, h, u, 0]$ is independent of the strategy $\iota$---it is $1$ if $last(h) = u$, and it is $0$ otherwise.
 
 Let us denote the difference $R[\sigma, h, t, k] - R[\sigma_\epsilon, h, t, k]$ by $\Delta$.
@@ -1516,6 +1521,7 @@ It preserves the values of the corresponding strategies and we get that the defe
 \section{TODO}
 
 %TODO intro
+%Mozno tu uviest: We provide a copy of Lemma \ref{lem:value} stating that each optimal defender's strategy retains its value throughout a play of the game.
 
 \begin{definition}
 Let $\sigma \in \Sigma$ be a defender's strategy and $h \in \mathcal{H}$ a history. %TODO $h \in \mathcal{H}_0$ ???
@@ -1527,7 +1533,6 @@ Note that, for all $h \in \mathcal{H}$, $supp(\sigma_h(\epsilon)) \subseteq succ
 Also note that $\sigma_{\sigma(\epsilon)}(\epsilon) = \sigma(\sigma(\epsilon))$ is the probability distribution in the $\sigma$-initial configuration.
 
 We provide a copy of Lemma \ref{lem:value} stating that each optimal defender's strategy retains its value throughout a play of the game.
-%For MRPGs, the proof of this lemma is even easier because the initial configuration is part of the defender's strategy.
 For MRPGs, the proof of this lemma is even easier because each optimal defender's strategy has to select the "best" possible initial configuration.
 
 \begin{lemma}
@@ -1541,13 +1546,22 @@ However, as already argued in the proof of Lemma \ref{lem:value}, if $val(\sigma
 Therefore, $val(\sigma \mid h) = val(\sigma)$  for all $h \in \mathcal{H}(\sigma)$.
 \end{proof}
 
+
+%TODO charakteristika - ako predtym, ale treba taktiez uchovat distribuciu v koreni, nakolko ta sa uz neda odvodit
+
 \chapter{This is the end, my only friend, the end}
 
 %centralne riadena strategia -> future work sa moze ubrat tymto (inym) smerom
 
 %TODO list
+%TODO IDEA - namiesto konfiguracii mat multiset - uplne postacujuce, nakolko roboti su homogenni -> znizilo by to:
+% - pocet dielikov, na ktore musim rozsekat pravdepodobnosti
+% - mnozinu vrcholov (namiesto |U|^|R| by ich bolo "len" pocet |R|-kombinacii z (|U|+|R|-1)-prvkovej mnoziny)
+% - mnozinu stavov
+%
 %TODO spell checker
 %TODO kedykolvek je nieco nove - preco je to nove/lepsie/hlbsi dokaz -> aby bolo vidiet, co som urobil
+%TODO U casti, ktere jsou podobne tomu, co mame v tech clancich, zkus prosim co nejdetailneji napsat, jaky je tvuj prinos (rozsiril jsem vysledek, precizoval dukaz, nasel lepsi (nebo horsi :-) ) bound apod.)
 
 \def\us{\char`\_}
 
