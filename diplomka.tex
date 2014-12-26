@@ -1329,12 +1329,14 @@ Example \ref{ex:initial2} illustrates that even forcing the robots to start in m
 Therefore, we let the defender's strategy to determine the initial configuration.
 
 Given a configuration $c \in C$, we define $succ(c) := \{c' \in C \mid c'_i \in succ(c_i)~\text{for all}~0 \leq i \leq |R|\}$ to be the set of all \emph{successors} of $c$.
-Using this definition of successors, we straightforwardly modify the definitions of \emph{path}, \emph{history}, and \emph{run} from SRPGs to work with configurations instead of single nodes.
-The notation of these terms stays the same.
-Further, we denote by $\mathcal{H}_0 = \mathcal{H} \cup \{\epsilon\}$ the set of histories together with the empty word.
-%Using this, we straightforwardly modify the definitions from SRPGs to work with configurations instead of single nodes.
-%Definitions of \emph{path} and \emph{run} stay quite the same, as well as the denotation.
-%The only difference is in the definition of a \emph{history} which can now also be an empty word.
+%Using this definition of successors, we straightforwardly modify the definitions of \emph{path}, \emph{history}, and \emph{run} from SRPGs to work with configurations instead of single nodes.
+%The notation of these terms stays the same.
+%Further, we denote by $\mathcal{H}_0 = \mathcal{H} \cup \{\epsilon\}$ the set of histories together with the empty word.
+Using this definition of successors, we straightforwardly modify the definitions of \emph{path} and \emph{run} from SRPGs to work with configurations instead of single nodes.
+The notation related to these terms stays the same.
+A~\emph{history} is a finite (possibly empty) path.\footnote{This is in contrast to SRPGs, where a history cannot be the empty word.}
+To prevent misunderstandings, we denote by $\mathcal{H}$ the set of all non-empty histories
+and by $\mathcal{H}_0 = \mathcal{H} \cup \{\epsilon\}$ the set of all histories.
 
 \begin{definition}
 A \emph{defender's strategy} is a function $\sigma : \mathcal{H}_0 \to \Delta(C)$ such that $\sigma(\epsilon)(c) = 1$ for some $c \in C$ and $supp(\sigma(h)) \subseteq succ(last(h))$ for every $h \in \mathcal{H}$.
@@ -1361,7 +1363,8 @@ Then, all the robots move simultaneously to the new configuration.
 The definition of an attacker's strategy is the~same as in the SRPG---the attacker can still attack only a single node and only once during a play.
 
 We adopt the concept of \emph{relevant} histories from SRPGs.
-The only difference is that for a given defender's strategy $\sigma$, relevant histories have to start in the $\sigma$-initial configuration.
+For a given defender's strategy $\sigma$, we denote by $\mathcal{H}_0(\sigma)$ the set of all relevant histories and we put $\mathcal{H}(\sigma) = \mathcal{H}_0(\sigma) \smallsetminus \{\epsilon\}$.
+Note that every non-empty relevant history has to start in the $\sigma$-initial configuration.
 
 We also adopt the definitions of \emph{successful attack} and \emph{defended run}, and the associated notation.
 For a given defender's strategy $\sigma$, $\mathcal{P}^\sigma$ denotes the probability measure associated with the unique probability space over all infinite paths determined by $\sigma$.
@@ -1448,10 +1451,10 @@ This value can be achieved e.g. with a joint strategy $\sigma$ such that $\sigma
 That said, every optimal strategy has to visit each target with probability $2/3$ in each step.
 We show that this is impossible without coordination of movement between the robots.
 In a disjointed strategy, each robot $r_i$ has its own strategy $\sigma_i$ depending only on its position and the resulting strategy $\sigma$ is a product of these strategies.
-Let $h$ be an arbitrary history and $i \in \{1, 2\}$.
+Let $h$ be an arbitrary non-empty history and $i \in \{1, 2\}$.
 If $supp(\sigma_i(h)) = \{t\}$ for some $t \in T$, then robot $r_i$ visits $t$ with probability~$1$ and the other robot has to protect the remaining two targets.
 However, that cannot be done better than with probability $1/2$.
-Let us suppose, then, that $|supp(\sigma_i(h))| > 1$ for both $i$.
+Let us suppose, then, that $|supp(\sigma_i(h))| \geq 2$ for both $i$.
 That means that there is a common target $t \in supp(\sigma_1(h)) \cup supp(\sigma_2(h))$, i.e. $p_2(t) > 0$.
 From that we have $\sum_{t \in T}p(t) < 2$, which implies that $val(\sigma) < 2/3$.
 Therefore, no optimal strategy for this game is a disjointed strategy.
@@ -1529,10 +1532,10 @@ The defender has an optimal strategy in any MRPG.
 %TODO intro
 %Mozno tu uviest: We provide a copy of Lemma \ref{lem:value} stating that each optimal defender's strategy retains its value throughout a play of the game.
 
-Now, as a defender's strategy needs to be defined also for an empty word, we modify the definition of a defender's strategy after a history has been played.
+Now, as a defender's strategy needs to be defined also for the empty word, we modify the definition of a defender's strategy after a history has been played.
 
 \begin{definition}
-Let $\sigma \in \Sigma$ be a defender's strategy and $h \in \mathcal{H}$ a history. %TODO $h \in \mathcal{H}_0$ ???
+Let $\sigma \in \Sigma$ be a defender's strategy and $h \in \mathcal{H}_0$ a history. %TODO $h \in \mathcal{H}_0$ ???
 We define a strategy $\sigma_h$ by $\sigma_h(h') = \sigma(hh')$ for all $h' \in \mathcal{H}_0$.
 Further, we define the value of $\sigma$ after a history $h$ has been played by $val(\sigma \mid h) = val(\sigma_h)$.
 \end{definition}
