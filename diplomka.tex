@@ -740,7 +740,7 @@ We apply standard results for finite-state stochastic games to obtain an optimal
 Third, using $\theta_\emph{Max}^{ml}$, we construct a DFA which encodes an $\epsilon$-optimal strategy.
 
 We follow a three-step process from \cite{iti1} which we improve in two ways.
-In step 1, we give a more detailed proof of the $\epsilon$-optimality of the discretized strategy and we divide it into multiple lemmas. %which we will use later
+In step 1, we give a more detailed proof of the $\epsilon$-optimality of the discretized strategy and we divide the proof into multiple lemmas. %which we will use later
 And in step 3, we fix the problem of the automaton incorrectly reading the first node of a history.
 
 \textbf{Step 1.} Let us fix an optimal defender's strategy $\sigma$, whose existence is guaranteed by Theorem \ref{thm:existence}.
@@ -1517,11 +1517,19 @@ We claim that an extra condition\footnote{The extra condition listed in \cite{it
 
 The process of translating a defender's strategy $\sigma$ in $\mathcal{G}$ to a strategy $\theta_{\emph{Max}}[\sigma]$ of player \emph{Max} in $\mathcal{S}$, and vice versa, is exactly the same as for SRPGs.
 It preserves the values of the corresponding strategies and we get that the defender has an optimal strategy in $\mathcal{G}$.
+%For later reference, we provide a copy of Theorem \ref{thm:existence}.
+
+\begin{thm}
+\label{thm:existenceMRPG}
+The defender has an optimal strategy in any MRPG.
+\end{thm}
 
 \section{TODO}
 
 %TODO intro
 %Mozno tu uviest: We provide a copy of Lemma \ref{lem:value} stating that each optimal defender's strategy retains its value throughout a play of the game.
+
+Now, as a defender's strategy needs to be defined also for an empty word, we modify the definition of a defender's strategy after a history has been played.
 
 \begin{definition}
 Let $\sigma \in \Sigma$ be a defender's strategy and $h \in \mathcal{H}$ a history. %TODO $h \in \mathcal{H}_0$ ???
@@ -1529,7 +1537,7 @@ We define a strategy $\sigma_h$ by $\sigma_h(h') = \sigma(hh')$ for all $h' \in 
 Further, we define the value of $\sigma$ after a history $h$ has been played by $val(\sigma \mid h) = val(\sigma_h)$.
 \end{definition}
 \noindent
-Note that, for all $h \in \mathcal{H}$, $supp(\sigma_h(\epsilon)) \subseteq succ(last(h))$ holds by the definition of a defender's strategy and the fact that $\sigma_h(\epsilon) = \sigma(h)$.
+Note that, for all $h \in \mathcal{H}$, we have that $supp(\sigma_h(\epsilon)) \subseteq succ(last(h))$ by the definition of a defender's strategy and the fact that $\sigma_h(\epsilon) = \sigma(h)$.
 Also note that $\sigma_{\sigma(\epsilon)}(\epsilon) = \sigma(\sigma(\epsilon))$ is the probability distribution in the $\sigma$-initial configuration.
 
 We provide a copy of Lemma \ref{lem:value} stating that each optimal defender's strategy retains its value throughout a play of the game.
@@ -1545,6 +1553,8 @@ Because $\sigma$ is optimal, we have that $val(\sigma) \geq val(\sigma_h) = val(
 However, as already argued in the proof of Lemma \ref{lem:value}, if $val(\sigma \mid h)$ cannot be greater than $val(\sigma)$ for any relevant history $h$, it cannot be less than $val(\sigma)$ either as that would necessarily decrease the value of $\sigma$.
 Therefore, $val(\sigma \mid h) = val(\sigma)$  for all $h \in \mathcal{H}(\sigma)$.
 \end{proof}
+
+%TODO discretization
 
 
 %TODO charakteristika - ako predtym, ale treba taktiez uchovat distribuciu v koreni, nakolko ta sa uz neda odvodit
