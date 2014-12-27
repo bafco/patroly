@@ -1305,8 +1305,6 @@ We also prefer the robots to be homogeneous.
 \begin{definition}
 A \emph{multi-robot patrolling game (MRPG)} is a tuple $\mathcal{G} = (U, E, T, d, R)$ where $U$ is a finite set of \emph{nodes}, $E \subseteq U \times U$ is a set of \emph{edges}, $T \subseteq U$ is a set of \emph{target nodes}, $d$ is the \emph{attack length}, and $R$ is a set of \emph{robots}.
 \end{definition}
-%IDEA $R$ is the number of robots
-% we denote the robots as $r_1, \dots, r_R
 \noindent
 We consider all robots to be homogeneous.
 Therefore, when defining an actual game, we usually define only the number of robots instead of a precise set.
@@ -1317,29 +1315,29 @@ We define a \emph{configuration} to be an $|R|$-tuple of nodes specifying the po
 We denote it by $c = (c_1, \dots, c_{|R|})$, where $c_i \in U$ is the position of the robot $r_i \in R$.
 We denote by $C = U^{|R|}$ the set of all configurations.
 
-For a configuration $c$, we define $\mathit{cover}(c) = \{c_1, \dots, c_{|R|}\}$ to be the \emph{cover} of $c$, representing all the nodes currently visited by at least one robot.
-A cover can contain $1$ to $|R|$ members.
-From now on, when we say that a node is \emph{visited} (by the defender or by a configuration), we mean that at least one of the robots is located in the node.
-%For a node $u \in U$, we define $C_u = \{c \in C \mid u \in \mathit{cover}(c)\}$ to be the set of all configurations that visit $u$.
-
 Note that an MRPG, as opposed to a single-robot patrolling game (SRPG), does not have any predefined initial configuration of the robots.
 In an SRPG, forcing the initial node to be a target node guarantees maximal possible value of the game.
 However, in an MRPG, we are not aware of any such simple restriction of the initial configuration that would guarantee maximal possible value of the game.
 Example \ref{ex:initial2} illustrates that even forcing the robots to start in mutually different targets is not enough.
 Therefore, we let the defender's strategy to determine the initial configuration.
 
-Given a configuration $c \in C$, we define $succ(c) := \{c' \in C \mid c'_i \in succ(c_i)~\text{for all}~0 \leq i \leq |R|\}$ to be the set of all \emph{successors} of $c$.
+From now on, when we say that a node is \emph{visited} or \emph{covered} (by the defender or by a configuration), we mean that at least one robot is located in that node.
+For each configuration $c \in C$, we define $\mathit{cover}(c) = \{c_1, \dots, c_{|R|}\}$ to be the \emph{cover} of $c$, representing all the nodes covered by the configuration.
+A cover can contain from $1$ to $|R|$ nodes.
+For each node $u \in U$, we define $C_u = \{c \in C \mid u \in \mathit{cover}(c)\}$ to be the set of all configurations that cover $u$.
+
+Given a configuration $c \in C$, we define $succ(c) := \{c' \in C \mid c'_i \in succ(c_i)~\text{for all}~1 \leq i \leq |R|\}$ to be the set of all \emph{successors} of $c$.
 %Using this definition of successors, we straightforwardly modify the definitions of \emph{path}, \emph{history}, and \emph{run} from SRPGs to work with configurations instead of single nodes.
 %The notation of these terms stays the same.
-%Further, we denote by $\mathcal{H}_0 = \mathcal{H} \cup \{\epsilon\}$ the set of histories together with the empty word.
+%Further, we denote by $\mathcal{H}_\epsilon = \mathcal{H} \cup \{\epsilon\}$ the set of histories together with the empty word.
 Using this definition of successors, we straightforwardly modify the definitions of \emph{path} and \emph{run} from SRPGs to work with configurations instead of single nodes.
 The notation related to these terms stays the same.
 A~\emph{history} is a finite (possibly empty) path.\footnote{This is in contrast to SRPGs, where a history cannot be the empty word.}
 To prevent misunderstandings, we denote by $\mathcal{H}$ the set of all non-empty histories
-and by $\mathcal{H}_0 = \mathcal{H} \cup \{\epsilon\}$ the set of all histories.
+and by $\mathcal{H}_\epsilon = \mathcal{H} \cup \{\epsilon\}$ the set of all histories.
 
 \begin{definition}
-A \emph{defender's strategy} is a function $\sigma : \mathcal{H}_0 \to \Delta(C)$ such that $\sigma(\epsilon)(c) = 1$ for some $c \in C$ and $supp(\sigma(h)) \subseteq succ(last(h))$ for every $h \in \mathcal{H}$.
+A \emph{defender's strategy} is a function $\sigma : \mathcal{H}_\epsilon \to \Delta(C)$ such that $\sigma(\epsilon)(c) = 1$ for some $c \in C$ and $supp(\sigma(h)) \subseteq succ(last(h))$ for every $h \in \mathcal{H}$.
 %The set of all defender's strategies is denoted by $\Sigma$.
 
 An \emph{attacker's strategy} is a function $\pi : \mathcal{H} \to T \cup \{\perp\}$ such that whenever $\pi(h) \neq$ $\perp$, then for all $h' \prec h$ we have that $\pi(h') =$ $\perp$.
@@ -1363,7 +1361,7 @@ Then, all the robots move simultaneously to the new configuration.
 The definition of an attacker's strategy is the~same as in the SRPG---the attacker can still attack only a single node and only once during a play.
 
 We adopt the concept of \emph{relevant} histories from SRPGs.
-For a given defender's strategy $\sigma$, we denote by $\mathcal{H}_0(\sigma)$ the set of all relevant histories and we put $\mathcal{H}(\sigma) = \mathcal{H}_0(\sigma) \smallsetminus \{\epsilon\}$.
+For a given defender's strategy $\sigma$, we denote by $\mathcal{H}_\epsilon(\sigma)$ the set of all relevant histories and we put $\mathcal{H}(\sigma) = \mathcal{H}_\epsilon(\sigma) \smallsetminus \{\epsilon\}$.
 Note that every non-empty relevant history has to start in the $\sigma$-initial configuration.
 
 We also adopt the definitions of \emph{successful attack} and \emph{defended run}, and the associated notation.
@@ -1446,7 +1444,7 @@ The attack length 1 means that if the attacker attacks a node $t \in T$, he will
 For a given defender's strategy $\sigma$, a history $h$ and a target $t$, let us denote by $p(t)$ the probability that $t$ will be visited in the next step, and by $p_2(t)$ the probability that both robots will visit $t$ in the next step.
 As there are two robots, we have that $\sum_{t \in T}p(t) = 2 - \sum_{t \in T}p_2(t)$.
 And as the value of the strategy is at most $\min_{t\in T} p(t)$, which is at most $\sum_{t \in T}p(t) / |T| = 2/3$, we have an upper bound $2/3$ on the value of the game.
-This value can be achieved e.g. with a joint strategy $\sigma$ such that $\sigma(h)((s, u)) = \sigma(h)((s, v)) = \sigma(h)((u, v)) = 1/3$ for all $h \in \mathcal{H}_0$.
+This value can be achieved e.g. with a joint strategy $\sigma$ such that $\sigma(h)((s, u)) = \sigma(h)((s, v)) = \sigma(h)((u, v)) = 1/3$ for all $h \in \mathcal{H}_\epsilon$.
 
 That said, every optimal strategy has to visit each target with probability $2/3$ in each step.
 We show that this is impossible without coordination of movement between the robots.
@@ -1536,7 +1534,7 @@ Now, as a defender's strategy needs to be defined also for the empty word, we mo
 
 \begin{definition}
 Let $\sigma \in \Sigma$ be a defender's strategy and $h \in \mathcal{H}$ a history.
-We define a strategy $\sigma_h$ by $\sigma_h(\epsilon)(last(h)) = 1$ and $\sigma_h(last(h)h') = \sigma(hh')$ for all $h' \in \mathcal{H}_0$.
+We define a strategy $\sigma_h$ by $\sigma_h(\epsilon)(last(h)) = 1$ and $\sigma_h(last(h)h') = \sigma(hh')$ for all $h' \in \mathcal{H}_\epsilon$.
 Further, we define the value of $\sigma$ after a history $h \in \mathcal{H}$ has been played by $val(\sigma \mid h) = val(\sigma_h)$.
 \end{definition}
 \noindent
@@ -1560,6 +1558,13 @@ Therefore, $val(\sigma \mid h) = val(\sigma)$  for all $h \in \mathcal{H}(\sigma
 %TODO step 1
 
 %TODO discretization
+
+\begin{lemma}
+\label{lem:difference}
+For all $h \in \mathcal{H}$ and $c \in C$ we have $|\sigma(h)(c) - \sigma_\epsilon(h)(c)| < s$.
+\end{lemma}
+
+%TODO
 
 \begin{definition}
 Let $\iota$ be a defender's strategy and $h \in \mathcal{H}(\iota)$ a history.
