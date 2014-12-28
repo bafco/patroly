@@ -801,7 +801,7 @@ We prove by induction on $k$ that for all $h \in \mathcal{H}$, $t \in T$, and $k
 R[\sigma, h, t, k] - R[\sigma_\epsilon, h, t, k] \leq k|U|s~.\nonumber
 \end{align}
 
-The base case ($k = 1$) directly follows from Lemma \ref{lem:difference} and the fact that $R[\iota, h, u, 1] = \iota(h)(u)$. %for every defender's strategy $\iota$.
+The base case ($k = 1$) directly follows from Lemma \ref{lem:difference} and the fact that $R[\iota, h, t, 1] = \iota(h)(t)$. %for every defender's strategy $\iota$.
 %The base case ($k = 0$) clearly holds as the value of $R[\iota, h, u, 0]$ is independent of the strategy $\iota$---it is $1$ if $last(h) = u$, and it is $0$ otherwise.
 
 Let us denote the difference $R[\sigma, h, t, k] - R[\sigma_\epsilon, h, t, k]$ by $\Delta$.
@@ -1557,10 +1557,20 @@ Therefore, $val(\sigma \mid h) = val(\sigma)$  for all $h \in \mathcal{H}(\sigma
 
 %TODO step 1
 
-%TODO discretization
+\textbf{Step 1.} Let us fix an optimal defender's strategy $\sigma$, whose existence is guaranteed by Theorem \ref{thm:existence}.
+For a desired precision $\epsilon$, we discretize $\sigma$ to obtain a strategy $\sigma_\epsilon$ with all probabilities $\sigma_\epsilon(h)(c)$ being integer multiples of an appropriate number $s$ satisfying \mbox{$s = 1/l$} for some $l \in \mathbb{N}$.
+As we will see, to guarantee the $\epsilon$-optimality of $\sigma_\epsilon$, it suffices that $|\sigma(h)(c) - \sigma_\epsilon(h)(c)| \leq {\epsilon\over{|C|d}}$.
+We can guarantee this property for $s = \lceil(|C|d)/\epsilon\rceil^{-1}$ using the following rounding procedure.
+
+Let $C = \{c^1, c^2, \dots, c^{|C|}\}$ be the set of all configurations.
+For every history $h$ and every $1 \leq i \leq |C|$, we inductively define $\sigma_\epsilon(h)(c_i) = k_i \cdot s$, where $k_i$  is the largest number satisfying
+$$ k_i \cdot s \leq \sigma(h)(c^i) + \sum_{j=1}^{i-1}(\sigma(h)(c^j) - \sigma_\epsilon(h)(c^j))~.$$
+This rounding procedure guarantees
+that $\sigma_\epsilon(h)$ is indeed a probability distribution over $C$, i.e. $\sum_{c\in C}\sigma_\epsilon(h)(c) = 1$ (note that simple rounding would not guarantee this property).
+Further, when we realize the invariant $0 \leq \sum_{j=1}^{i-1}(\sigma(h)(c^j) - \sigma_\epsilon(h)(c^j)) < s$ holds for all $1 \leq i \leq |C|$, it is easy to see that $|\sigma(h)(c^i) - \sigma_\epsilon(h)(c^i)| < s$, which is captured by the following lemma.
 
 \begin{lemma}
-\label{lem:difference}
+\label{lem:differenceMRPG}
 For all $h \in \mathcal{H}$ and $c \in C$ we have $|\sigma(h)(c) - \sigma_\epsilon(h)(c)| < s$.
 \end{lemma}
 
@@ -1573,6 +1583,49 @@ $$att\text{-}val(\iota \mid h) = \inf_{t \in T} \mathcal{P}^{\iota_h}(D[\pi_t])$
 where $\pi_t$ is an attacker's strategy such that $\pi_t(c) = t$ for all $c \in C$.
 \end{definition}
 
+\begin{lemma}
+\label{lem:epsilonMRPG}
+For every $h \in \mathcal{H}(\sigma_\epsilon)$ we have that $att\text{-}val(\sigma_\epsilon \mid h) \geq val(\sigma) - \epsilon$.
+\end{lemma}
+\begin{proof}
+We proceed in the same way as in the proof of Lemma \ref{lem:epsilon}, so we will be concise in the reasoning.
+We prove that
+\begin{align}
+att\text{-}val(\sigma_\epsilon \mid h)
+  &\geq att\text{-}val(\sigma \mid h) - \epsilon\label{eq4:first} \\
+  &\geq val(\sigma \mid h) - \epsilon\label{eq4:second} \\
+  &= val(\sigma) - \epsilon\label{eq4:third}~.
+\end{align}
+\begin{itemize}
+	\item The equality \eqref{eq4:third} follows from Lemma \ref{lem:valueMRPG}.
+	\item The inequality \eqref{eq4:second} holds because forcing the attacker to attack immediately cannot decrease the value of the game.
+	\item To prove the first inequality \eqref{eq4:first}, we have to analyze the impact of the rounding in the definition of $\sigma_\epsilon$.
+Let us denote by $R[\iota, h, t, k]$ the probability of reaching any configuration $c \in C_t$ from $last(h)$, $h \in \mathcal{H}$, in up to $k$ steps using the strategy $\iota_h$.
+We prove by induction on $k$ that for all $h \in \mathcal{H}$, $t \in T$, and $k \in \mathbb{N}$ we have that
+$$R[\sigma, h, t, k] - R[\sigma_\epsilon, h, t, k] \leq k|C|s~.$$
+
+The base case ($k = 1$) directly follows from Lemma \ref{lem:differenceMRPG} and the fact that $R[\iota, h, t, 1] = \sum_{c \in C_t}\iota(h)(c)$.
+
+Let us denote the difference $R[\sigma, h, t, k] - R[\sigma_\epsilon, h, t, k]$ by $\Delta$.
+For $k \geq 2$, we have
+\begin{eqnarray}
+\Delta
+  &=& \sum_{c \in C_t}(\sigma(h)(c) - \sigma_\epsilon(h)(c)) +	\nonumber \\
+  & &\hspace{-16.6pt} + \sum_{c\in C \smallsetminus C_t}(\sigma(h)(c)\cdot R[\sigma, hc, t, k - 1] - \sigma_\epsilon(h)(c)\cdot R[\sigma_\epsilon, hc, t, k - 1])	\nonumber \\
+  &\leq& |C_t|s + \sum_{c\in C \smallsetminus C_t}(R[\sigma, hc, t, k - 1]\cdot (\sigma(h)(c) - \sigma_\epsilon(h)(c)) +	\nonumber \\
+  & &\hspace{62pt} +~\sigma_\epsilon(h)(c)\cdot (R[\sigma, hc, t, k - 1] - R[\sigma_\epsilon, hc, t, k - 1])) \nonumber \\
+  &\leq& |C_t|s + \sum_{c\in C \smallsetminus C_t} R[\sigma, hc, t, k - 1]\cdot s +	\nonumber \\
+& &\hspace{25pt} +\hspace{-2pt}~\sum_{c\in C \smallsetminus C_t} \sigma_\epsilon(h)(c)\cdot (k - 1)|C|s \nonumber \\
+  &\leq& |C_t|s + |C \smallsetminus C_t|s + (k - 1)|C|s	\nonumber \\
+  &=& k|C|s \nonumber~.
+\end{eqnarray}
+So we have that $R[\sigma, h, t, d] - R[\sigma_\epsilon, h, t, d] \leq d|C|s$.
+However, because
+$$att\text{-}val(\iota \mid h) = \inf_{t \in T} R[\iota, h, t, d]$$
+we have
+$$att\text{-}val(\sigma \mid h) - att\text{-}val(\sigma_\epsilon \mid h) \leq d|C|s \leq \epsilon~.$$
+\end{itemize}
+\end{proof}
 
 %TODO charakteristika - ako predtym, ale treba taktiez uchovat distribuciu v koreni, nakolko ta sa uz neda odvodit
 
