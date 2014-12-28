@@ -727,6 +727,7 @@ Note that Lemma \ref{lem:value} would not hold without the restriction that the 
 In the proof, the existence of the strategy $\sigma^v_{h'}$ depends on this restriction.
 
 \section{Discretization and $\epsilon$-optimality}
+\label{sec:discretization}
 As it is common in algorithmic game theory, we are interested in strategies implementable by finite-memory controllers.
 In order to formalize this concept, we define a \emph{regular} strategy.
 As stated in \cite{iti2}, a defender’s strategy $\sigma$ is \emph{regular} if there is a deterministic finite automaton (DFA) \cite{dfa} $\mathcal{A}$ over the alphabet $U$ (the set of nodes) such that $\sigma(h)$ depends only on the control state entered by $\mathcal{A}$ after reading $h$.
@@ -1539,7 +1540,7 @@ Further, we define the value of $\sigma$ after a history $h \in \mathcal{H}$ has
 \end{definition}
 \noindent
 Note that we have to force the $\sigma_h$-initial configuration to be the last configuration of $h$ because $supp(\sigma_h(\epsilon))$ has to be a singleton.
-Particuraly note that $\sigma_{\sigma(\epsilon)} = \sigma$.
+Particuraly note that for $c$ being the $\sigma$-initial configuration, we have $\sigma_{c} = \sigma$.
 
 We provide a copy of Lemma \ref{lem:value} stating that each optimal defender's strategy retains its value throughout a play of the game.
 For MRPGs, the proof of this lemma is even easier because each optimal defender's strategy has to select the "best" possible initial configuration.
@@ -1555,26 +1556,33 @@ However, as already argued in the proof of Lemma \ref{lem:value}, if $val(\sigma
 Therefore, $val(\sigma \mid h) = val(\sigma)$  for all $h \in \mathcal{H}(\sigma)$.
 \end{proof}
 
-%TODO step 1
+Now we move to prove the existence of a regular $\epsilon$-optimal defender's strategy.
+We follow the three-step process described in Section \ref{sec:discretization} with small modifications.
+In step 1, we modify the discretization number $s$ such that probabilities $\sigma_\epsilon(h)(c)$ are integer multiples of $s$.
+A higher presicion (smaller $s$) is needed because, for an optimal strategy $\sigma$ and a history $h$, the support of $\sigma(h)$ may be of size up to the number of all configurations.
+We then have to prove that the resulting discretized strategy $\sigma_\epsilon$ is $\epsilon$-optimal.
+Step 2 remains unchanged.
+Finally, in step 3 TODO
+%TODO
 
-\textbf{Step 1.} Let us fix an optimal defender's strategy $\sigma$, whose existence is guaranteed by Theorem \ref{thm:existence}.
-For a desired precision $\epsilon$, we discretize $\sigma$ to obtain a strategy $\sigma_\epsilon$ with all probabilities $\sigma_\epsilon(h)(c)$ being integer multiples of an appropriate number $s$ satisfying \mbox{$s = 1/l$} for some $l \in \mathbb{N}$.
-As we will see, to guarantee the $\epsilon$-optimality of $\sigma_\epsilon$, it suffices that $|\sigma(h)(c) - \sigma_\epsilon(h)(c)| \leq {\epsilon\over{|C|d}}$.
-We can guarantee this property for $s = \lceil(|C|d)/\epsilon\rceil^{-1}$ using the following rounding procedure.
+\textbf{Step 1.} Let us fix an optimal defender's strategy $\sigma$, whose existence is guaranteed by Theorem \ref{thm:existenceMRPG}.
+For a desired precision $\epsilon$, we discretize $\sigma$ to obtain a strategy $\sigma_\epsilon$ with all probabilities $\sigma_\epsilon(h)(c)$ being integer multiples of $s = \lceil(|C|d)/\epsilon\rceil^{-1}$.
+To define the strategy $\sigma_\epsilon$, we use the same rounding procedure as before, which we briefly bring back.
 
+%TODO premenovat H_\epsilon spat na H_0 - nech sa to nepletie s precision \epsilon
 Let $C = \{c^1, c^2, \dots, c^{|C|}\}$ be the set of all configurations.
-For every history $h$ and every $1 \leq i \leq |C|$, we inductively define $\sigma_\epsilon(h)(c_i) = k_i \cdot s$, where $k_i$  is the largest number satisfying
+For every history $h \in \mathcal{H}_\epsilon$ and every $1 \leq i \leq |C|$, we inductively define $\sigma_\epsilon(h)(c^i) = k_i \cdot s$, where $k_i$  is the largest number satisfying
 $$ k_i \cdot s \leq \sigma(h)(c^i) + \sum_{j=1}^{i-1}(\sigma(h)(c^j) - \sigma_\epsilon(h)(c^j))~.$$
-This rounding procedure guarantees
-that $\sigma_\epsilon(h)$ is indeed a probability distribution over $C$, i.e. $\sum_{c\in C}\sigma_\epsilon(h)(c) = 1$ (note that simple rounding would not guarantee this property).
-Further, when we realize the invariant $0 \leq \sum_{j=1}^{i-1}(\sigma(h)(c^j) - \sigma_\epsilon(h)(c^j)) < s$ holds for all $1 \leq i \leq |C|$, it is easy to see that $|\sigma(h)(c^i) - \sigma_\epsilon(h)(c^i)| < s$, which is captured by the following lemma.
+This way, $\sigma_\epsilon(h)$ is a probability distribution over $C$ for every history $h$.
+Using straightforward induction on $i$, we obtain the following upper bound regarding differences between the strategies $\sigma$ and $\sigma_\epsilon$.
 
 \begin{lemma}
 \label{lem:differenceMRPG}
-For all $h \in \mathcal{H}$ and $c \in C$ we have $|\sigma(h)(c) - \sigma_\epsilon(h)(c)| < s$.
+For all $h \in \mathcal{H}_\epsilon$ and $c \in C$ we have $|\sigma(h)(c) - \sigma_\epsilon(h)(c)| < s$.
 \end{lemma}
 
-%TODO
+We prove the $\epsilon$-optimality of $\sigma_\epsilon$ by proving that whenever the attacker attacks, the defender will capture him using $\sigma_\epsilon$ with probability at least as large as using $\sigma$ minus $\epsilon$.
+We define the value of a defender's strategy against an immediate attack after a given relevant history.
 
 \begin{definition}
 Let $\iota$ be a defender's strategy and $h \in \mathcal{H}(\iota)$ a history.
@@ -1582,6 +1590,8 @@ We define
 $$att\text{-}val(\iota \mid h) = \inf_{t \in T} \mathcal{P}^{\iota_h}(D[\pi_t])$$
 where $\pi_t$ is an attacker's strategy such that $\pi_t(c) = t$ for all $c \in C$.
 \end{definition}
+%\noindent
+%Note that if the attacker attacks in the first step, he is caught with probability $att\text{-}val(\iota \mid c)$, where $c$ is the $\sigma$-initial configuration.
 
 \begin{lemma}
 \label{lem:epsilonMRPG}
@@ -1599,7 +1609,7 @@ att\text{-}val(\sigma_\epsilon \mid h)
 \begin{itemize}
 	\item The equality \eqref{eq4:third} follows from Lemma \ref{lem:valueMRPG}.
 	\item The inequality \eqref{eq4:second} holds because forcing the attacker to attack immediately cannot decrease the value of the game.
-	\item To prove the first inequality \eqref{eq4:first}, we have to analyze the impact of the rounding in the definition of $\sigma_\epsilon$.
+	\item To prove the first inequality \eqref{eq4:first}, we analyze the impact of the rounding in the definition of $\sigma_\epsilon$.
 Let us denote by $R[\iota, h, t, k]$ the probability of reaching any configuration $c \in C_t$ from $last(h)$, $h \in \mathcal{H}$, in up to $k$ steps using the strategy $\iota_h$.
 We prove by induction on $k$ that for all $h \in \mathcal{H}$, $t \in T$, and $k \in \mathbb{N}$ we have that
 $$R[\sigma, h, t, k] - R[\sigma_\epsilon, h, t, k] \leq k|C|s~.$$
@@ -1626,6 +1636,26 @@ we have
 $$att\text{-}val(\sigma \mid h) - att\text{-}val(\sigma_\epsilon \mid h) \leq d|C|s \leq \epsilon~.$$
 \end{itemize}
 \end{proof}
+\noindent
+Note that $val(\sigma_\epsilon) \geq \inf_{h \in \mathcal{H}(\sigma_\epsilon)} att\text{-}val(\sigma_\epsilon \mid h) \geq val(\sigma) - \epsilon$, i.e. $\sigma_\epsilon$ is an $\epsilon$-optimal strategy.
+
+\textbf{Step 2.}
+This step is the same for MRPGs as for SRPGs and we will only succinctly remind the key parts of the step.
+A reader familiar with this step is encouraged to skip it.
+
+Using the translation process between patrolling games and stochastic games, we translate the strategy $\sigma_\epsilon$ in $\mathcal{G}$ to a strategy $\theta_\emph{Max}$ in $\mathcal{S}$ such that
+$$val^\mathcal{S}(\theta_\emph{Max}, \mathit{init}, \mathit{fail}) = val(\sigma_\epsilon)~.$$
+
+\noindent
+We define $\mathbf{Reach}(\theta_\emph{Max})$ to be the set of all vertices in $\mathcal{S}$ that are reachable from $\mathit{init}$ using $\theta_\emph{Max}$.
+Note that this set is finite because of the discretization.
+
+We restrict the set of vertices of $\mathcal{S}$ to $\mathbf{Reach}(\theta_\emph{Max})$ to obtain a stochastic game $\mathcal{S}_\epsilon$ with finitely many states, in which we obtain an optimal memoryless strategy $\theta_\emph{Max}^{ml}$ (see \cite{kucera}).
+Because both $\theta_\emph{Max}$ and $\theta_\emph{Max}^{ml}$ are legal strategies in both $\mathcal{S}$ and $\mathcal{S}_\epsilon$, we have
+$$val^\mathcal{S}(\theta_\emph{Max}^{ml}, \mathit{init}, \mathit{fail}) \geq val^\mathcal{S}(\theta_\emph{Max}, \mathit{init}, \mathit{fail}) = val(\sigma_\epsilon)~.$$
+For more details, see step 2 from Section \ref{sec:discretization}.
+
+\textbf{Step 3.}
 
 %TODO charakteristika - ako predtym, ale treba taktiez uchovat distribuciu v koreni, nakolko ta sa uz neda odvodit
 
