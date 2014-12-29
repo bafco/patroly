@@ -1643,7 +1643,7 @@ Note that $val(\sigma_\epsilon) \geq \inf_{h \in \mathcal{H}(\sigma_\epsilon)} a
 This step is the same for MRPGs as for SRPGs and we will only succinctly remind the key parts of the step.
 A reader familiar with this step is encouraged to skip it.
 
-Using the translation process between patrolling games and stochastic games, we translate the strategy $\sigma_\epsilon$ in $\mathcal{G}$ to a strategy $\theta_\emph{Max}$ in $\mathcal{S}$ such that
+Using the translation process between patrolling games and stochastic games, we translate the strategy $\sigma_\epsilon$ in $\mathcal{G}$ to a strategy $\theta_\emph{Max} := \theta_{\emph{Max}}[\sigma_\epsilon]$ in $\mathcal{S}$ such that
 $$val^\mathcal{S}(\theta_\emph{Max}, \mathit{init}, \mathit{fail}) = val(\sigma_\epsilon)~.$$
 
 \noindent
@@ -1656,6 +1656,44 @@ $$val^\mathcal{S}(\theta_\emph{Max}^{ml}, \mathit{init}, \mathit{fail}) \geq val
 For more details, see step 2 from Section \ref{sec:discretization}.
 
 \textbf{Step 3.}
+%TODO netreba nam h^+
+Using $\theta_\emph{Max}^{ml}$, we construct a DFA $\mathcal{A}$ encoding the desired regular \hbox{$\epsilon$-optimal} strategy $\sigma_\epsilon^{reg}$ as follows: $\mathcal{A} = (Q, C, \delta, q_0, \emptyset)$ where
+\vspace{-3pt}
+\begin{itemize}
+	\item $Q = \{f \mid (\emph{Max}, f) \in \mathbf{Reach}(\theta_\emph{Max})\}$ is the finite set of states
+	\item $C$ is the alphabet
+	\item $\delta : Q \times C \to Q$ is a transition function such that
+$\delta(f, c) = f'$ where $f'$ is the $c$-suffix of $\theta_\emph{Max}^{ml}((\emph{Max}, f))$,
+	\item $q_0 = \theta_\emph{Max}^{ml}(init)$ is the initial state.
+\end{itemize}
+%\vspace{-3pt}
+Recall that $\xi(f) = f(r(f))$ for a $d$-commitment $f$, and for a non-empty history $h = h_0\dots h_n$ we write $h^+ = h_1\dots h_n$.
+We define the strategy $\sigma_\epsilon^{reg}$ as follows:
+\vspace{-5pt}
+\begin{itemize}
+	\item $\sigma_\epsilon^{reg}(\epsilon) = q_0(\epsilon)$,
+	\item $\sigma_\epsilon^{reg}(h) = \xi(\mathcal{A}[h^+])$ for all $h \in \mathcal{H}$.
+\end{itemize}
+\vspace{-5pt}
+To better understand this definition, observe the case when $h$ is only a single configuration, i.e. $h = r(q_0)$.
+We have that $\sigma_\epsilon^{reg}(r(q_0)) = \xi(q_0)$.
+In other words, probability distributions for histories of length $0$ and $1$ are encoded by the initial state $q_0$.
+To determine the probability distributions for histories $h$ of length at least $2$, the correct state has to be computed based on the transition function $\delta$ and the input $h^+$.
+
+Based on the properties of the translation process between patrolling games and stochastic games, it can be shown that $\sigma_\epsilon^{reg}$ is the same as $\sigma[\theta_\emph{Max}^{ml}]$ obtained from $\theta_\emph{Max}^{ml}$.
+It follows that
+$$val(\sigma_\epsilon^{reg}) = val^\mathcal{S}(\theta_\emph{Max}^{ml}, \mathit{init}, \mathit{fail}) \geq val(\sigma_\epsilon) \geq val(\sigma) - \epsilon~,$$
+i.e. $\sigma_\epsilon^{reg}$ is $\epsilon$-optimal.
+
+%TODO nedat lemmatko do Step 2? ulahcilo by to ^^
+%Before we move to the next section, we show one important observation about the states of the automaton $\mathcal{A}$.
+%Based on the properties of the translation process from $\mathcal{G}$ to $\mathcal{S}$, we know that $\theta_{\emph{Max}}$ encodes exactly the same defender's strategy as $\sigma_\epsilon$.
+%When we realize that $Q$ is the set of all $d$-commitments $f$ occuring in vertices of $\mathbf{Reach}(\theta_\emph{Max})$, it is easy to get the following statement using Lemma \ref{lem:epsilon}.
+
+\begin{lemma}
+\label{lem:epsilon_commitmentMRPG}
+For every $d$-commitment $f \in Q$, we have that $val(f) \geq val(\sigma) - \epsilon$.
+\end{lemma}
 
 %TODO charakteristika - ako predtym, ale treba taktiez uchovat distribuciu v koreni, nakolko ta sa uz neda odvodit
 
