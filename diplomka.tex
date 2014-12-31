@@ -1699,7 +1699,25 @@ For every $d$-commitment $f \in Q$, we have that $val(f) \geq val(\sigma) - \eps
 
 \section{Characteristics}
 
-%TODO charakteristika - ako predtym, ale treba taktiez uchovat distribuciu v koreni, nakolko ta sa uz neda odvodit
+
+
+\begin{definition}
+A \emph{characteristic} is a tuple $(f, m)$ where $f$ is a $1$-commitment and $m : \{0, \dots, d\} \times U \to [0, 1]$ is a function satisfying
+%TODO mozno bude stacit definovat pre 1 az d, nulu mi netreba
+\vspace{-5pt}
+\begin{itemize}
+	\item $m(0, u) = 1$ for all $u \in \mathit{cover}(r(f))$
+	\item $m(0, u) = 0$ for all $u \notin \mathit{cover}(r(f))$
+	\item $m(1, u) = \sum_{c \in C_u} \xi(f)(c)$.
+\end{itemize}
+\vspace{-5pt}
+\end{definition}
+
+\begin{definition}
+Let $\mathcal{A} = (Q, C, \delta, q_0, \emptyset)$ be an automaton encoding a defender's strategy.
+Given $p \in Q$, we define the characteristic $\mathbf{Char}_p = (f, m)$ of the state $p$ to be a characteristic such that, whenever the strategy is in the state $p$, $f(\epsilon)$ and $\xi(f)$ represent the current configuration and the probability distribution over $C$ in the next step, respectively,
+and $m$ assigns to every pair $(k, u) \in \{0, \dots, d\} \times U$ the probability of visiting $u$ in at most $k$ steps.
+\end{definition}
 
 \chapter{This is the end, my only friend, the end}
 
