@@ -1562,8 +1562,7 @@ In step 1, we modify the discretization number $s$ such that probabilities $\sig
 A higher presicion (smaller $s$) is needed because, for an optimal strategy $\sigma$ and a history $h$, the support of $\sigma(h)$ may be of size up to the number of all configurations.
 We then have to prove that the resulting discretized strategy $\sigma_\epsilon$ is $\epsilon$-optimal.
 Step 2 remains unchanged.
-Finally, in step 3 TODO
-%TODO
+Finally, in step 3, we have to define the regular $\epsilon$-optimal strategy also for the empty word $\epsilon$.
 
 \textbf{Step 1.} Let us fix an optimal defender's strategy $\sigma$, whose existence is guaranteed by Theorem \ref{thm:existenceMRPG}.
 For a desired precision $\epsilon$, we discretize $\sigma$ to obtain a strategy $\sigma_\epsilon$ with all probabilities $\sigma_\epsilon(h)(c)$ being integer multiples of $s = \lceil(|C|d)/\epsilon\rceil^{-1}$.
@@ -1640,6 +1639,7 @@ $$att\text{-}val(\sigma \mid h) - att\text{-}val(\sigma_\epsilon \mid h) \leq d|
 Note that $val(\sigma_\epsilon) \geq \inf_{h \in \mathcal{H}(\sigma_\epsilon)} att\text{-}val(\sigma_\epsilon \mid h) \geq val(\sigma) - \epsilon$, i.e. $\sigma_\epsilon$ is an $\epsilon$-optimal strategy.
 
 \textbf{Step 2.}
+%TODO dat sem lemma o hodnote vsetkych d-commitmentov z Reach
 This step is the same for MRPGs as for SRPGs and we will only succinctly remind the key parts of the step.
 A reader familiar with this step is encouraged to skip it.
 
@@ -1656,7 +1656,6 @@ $$val^\mathcal{S}(\theta_\emph{Max}^{ml}, \mathit{init}, \mathit{fail}) \geq val
 For more details, see step 2 from Section \ref{sec:discretization}.
 
 \textbf{Step 3.}
-%TODO netreba nam h^+
 Using $\theta_\emph{Max}^{ml}$, we construct a DFA $\mathcal{A}$ encoding the desired regular \hbox{$\epsilon$-optimal} strategy $\sigma_\epsilon^{reg}$ as follows: $\mathcal{A} = (Q, C, \delta, q_0, \emptyset)$ where
 \vspace{-3pt}
 \begin{itemize}
@@ -1667,14 +1666,19 @@ $\delta(f, c) = f'$ where $f'$ is the $c$-suffix of $\theta_\emph{Max}^{ml}((\em
 	\item $q_0 = \theta_\emph{Max}^{ml}(init)$ is the initial state.
 \end{itemize}
 %\vspace{-3pt}
-Recall that $\xi(f) = f(r(f))$ for a $d$-commitment $f$, and for a non-empty history $h = h_0\dots h_n$ we write $h^+ = h_1\dots h_n$.
-We define the strategy $\sigma_\epsilon^{reg}$ as follows:
-\vspace{-5pt}
-\begin{itemize}
-	\item $\sigma_\epsilon^{reg}(\epsilon) = q_0(\epsilon)$,
-	\item $\sigma_\epsilon^{reg}(h) = \xi(\mathcal{A}[h^+])$ for all $h \in \mathcal{H}$.
-\end{itemize}
-\vspace{-5pt}
+Recall that $\xi(f) = f(r(f))$ for a $d$-commitment $f$, and for a non-empty history $h = h_0\dots h_n$ we have $h^+ = h_1\dots h_n$.
+For every history $h \in \mathcal{H}_\epsilon$, we define:% the strategy $\sigma_\epsilon^{reg}$ as follows:
+$$\sigma_\epsilon^{reg}(h) =
+   \begin{cases}
+   q_0(\epsilon)		& \text{if } h = \epsilon \\
+   \xi(\mathcal{A}[h^+])	& \text{otherwise.}
+   \end{cases}$$
+%\vspace{-5pt}
+%\begin{itemize}
+%	\item $\sigma_\epsilon^{reg}(\epsilon) = q_0(\epsilon)$,
+%	\item $\sigma_\epsilon^{reg}(h) = \xi(\mathcal{A}[h^+])$ for all $h \in \mathcal{H}$.
+%\end{itemize}
+%\vspace{-5pt}
 To better understand this definition, observe the case when $h$ is only a single configuration, i.e. $h = r(q_0)$.
 We have that $\sigma_\epsilon^{reg}(r(q_0)) = \xi(q_0)$.
 In other words, probability distributions for histories of length $0$ and $1$ are encoded by the initial state $q_0$.
@@ -1684,16 +1688,16 @@ Based on the properties of the translation process between patrolling games and 
 It follows that
 $$val(\sigma_\epsilon^{reg}) = val^\mathcal{S}(\theta_\emph{Max}^{ml}, \mathit{init}, \mathit{fail}) \geq val(\sigma_\epsilon) \geq val(\sigma) - \epsilon~,$$
 i.e. $\sigma_\epsilon^{reg}$ is $\epsilon$-optimal.
-
-%TODO nedat lemmatko do Step 2? ulahcilo by to ^^
-%Before we move to the next section, we show one important observation about the states of the automaton $\mathcal{A}$.
-%Based on the properties of the translation process from $\mathcal{G}$ to $\mathcal{S}$, we know that $\theta_{\emph{Max}}$ encodes exactly the same defender's strategy as $\sigma_\epsilon$.
-%When we realize that $Q$ is the set of all $d$-commitments $f$ occuring in vertices of $\mathbf{Reach}(\theta_\emph{Max})$, it is easy to get the following statement using Lemma \ref{lem:epsilon}.
+Moreover, because $\theta_{\emph{Max}}$ encodes exactly the same defender's strategy as $\sigma_\epsilon$, we can apply Lemma \ref{lem:epsilonMRPG} to obtain the following: %even stronger result
+%TODO nejak to tu vyladit a prip. dostat epsilon-optimalitu z tejto lemmy - napr. pomocou tvrdenia, ze
+%$att\text{-}val(\sigma_\epsilon^{reg} \mid h) = val(\mathcal{A}[h^+])$ for all $h \in \mathcal{H}_{\sigma_\epsilon^{reg}}$
 
 \begin{lemma}
 \label{lem:epsilon_commitmentMRPG}
 For every $d$-commitment $f \in Q$, we have that $val(f) \geq val(\sigma) - \epsilon$.
 \end{lemma}
+
+\section{Characteristics}
 
 %TODO charakteristika - ako predtym, ale treba taktiez uchovat distribuciu v koreni, nakolko ta sa uz neda odvodit
 
