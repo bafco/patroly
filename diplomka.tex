@@ -95,7 +95,7 @@ In this chapter, we present the basics of game theory. The definitions and conte
 
 Game theory is a mathematical study of decision making. It studies games as well-defined mathematical objects.
 A \emph{strategic form} (or simply a \emph{game}) is played between \emph{players} $P_1, \dots, P_n, n \geq 2$.
-Each player $P_i$ has a non-empty set $S_i$ of \emph{pure strategies}. A strategy can be seen as an algorithm telling the player what to do throughout the game.
+Each player $P_i$ has a non-empty set $S_i$ of \emph{pure strategies}. A strategy can be seen as an algorithm telling the player what to do throughout a play of the game.
 The outcome of the game is an element from the set
 $\mathcal{S} = \prod_{i=1}^n S_i$
 and is called a \emph{strategy profile}.
@@ -741,8 +741,8 @@ We apply standard results for finite-state stochastic games to obtain an optimal
 Third, using $\theta_\emph{Max}^{ml}$, we construct a DFA which encodes an $\epsilon$-optimal strategy.
 
 We follow a three-step process from \cite{iti1} which we improve in two ways.
-In step 1, we give a more detailed proof of the $\epsilon$-optimality of the discretized strategy and we divide the proof into multiple lemmas. %which we will use later
-And in step 3, we fix the problem of the automaton incorrectly reading the first node of a history.
+In Step 1, we give a more detailed proof of the $\epsilon$-optimality of the discretized strategy and we divide the proof into multiple lemmas. %which we will use later
+And in Step 3, we fix the problem of the automaton incorrectly reading the first node of a history.
 
 \textbf{Step 1.} Let us fix an optimal defender's strategy $\sigma$, whose existence is guaranteed by Theorem \ref{thm:existence}.
 For a desired precision $\epsilon$, we discretize $\sigma$ to obtain a strategy $\sigma_\epsilon$ with all probabilities $\sigma_\epsilon(h)(u)$ being integer multiples of an appropriate number $s$ satisfying \mbox{$s = 1/l$} for some $l \in \mathbb{N}$.
@@ -973,7 +973,7 @@ Observe that $\mathbf{Char}_p(1, u) = \xi(p)(u)$ because for all $v \in U \small
 \
 
 Now we describe the concept of merging two states of an automaton.
-Given $q \in Q \smallsetminus \{q_0\}$, we denote by $\mathcal{A}_{p \leftarrow q} = (Q', U, \delta', q_0, \emptyset)$ the DFA defined as follows:
+Given states $p, q \in Q$, $q \neq q_0$, we denote by $\mathcal{A}_{p \leftarrow q} = (Q', U, \delta', q_0, \emptyset)$ the DFA defined as follows:
 \vspace{-5pt}
 \begin{itemize}
 	\item $Q' = Q \smallsetminus \{q\}$
@@ -992,7 +992,7 @@ However, the states' characteristics are preserved if the two merged states have
 
 \begin{lemma}
 \label{lem:characteristics}
-Given $p, q \in Q$ such that $\mathbf{Char}_p = \mathbf{Char}_q$, we have that for all $r \in Q \smallsetminus \{q\}$
+Given $p, q \in Q$, $q \neq q_0$, such that $\mathbf{Char}_p = \mathbf{Char}_q$, we have that for all $r \in Q \smallsetminus \{q\}$
 $$\mathbf{Char}'_r = \mathbf{Char}_r$$
 where $\mathbf{Char}'_r$ denotes the characteristic of $r$ in the automaton $\mathcal{A}_{p \leftarrow q}$.
 \end{lemma}
@@ -1484,7 +1484,7 @@ Then the value of the game is clearly $0$ as the attacker can successfully attac
 Therefore, we do not allow the attacker to attack in step 0.
 \end{example}
 
-\section{Existence of Optimal Defender's Strategy}
+\section{Existence of Optimal Strategies}
 
 In this section, we show that there exists an optimal defender's strategy for each MRPG.
 We follow the steps from Section \ref{sec:translation} where we did the same for SRPGs.
@@ -1526,12 +1526,13 @@ It preserves the values of the corresponding strategies and we get that the defe
 The defender has an optimal strategy in any MRPG.
 \end{thm}
 
-\section{TODO}
+\section{Discretized $\epsilon$-optimal Strategies}
 
-%TODO intro
-%Mozno tu uviest: We provide a copy of Lemma \ref{lem:value} stating that each optimal defender's strategy retains its value throughout a play of the game.
+In this section, we prove that each optimal defender's strategy $\sigma$ retains its value throughout a play of the game.
+We later use this knowledge to prove that an appropriately discretized strategy (for a given precision $\epsilon$) has value at least $val(\sigma) - \epsilon$ throughout the play, and therefore is $\epsilon$-optimal.
+We translate this discretized strategy to a strategy of player \emph{Max} in a stochastic game, from which we build a DFA encoding a regular $\epsilon$-optimal strategy.
 
-Now, as a defender's strategy needs to be defined also for the empty word, we modify the definition of a defender's strategy after a history has been played.
+As a defender's strategy in an MRPG needs to be defined also for the empty word, we start with a modified definition of a defender's strategy after a history has been played.
 
 \begin{definition}
 Let $\sigma \in \Sigma$ be a defender's strategy and $h \in \mathcal{H}$ a history.
@@ -1540,7 +1541,8 @@ Further, we define the value of $\sigma$ after a history $h \in \mathcal{H}$ has
 \end{definition}
 \noindent
 Note that we have to force the $\sigma_h$-initial configuration to be the last configuration of $h$ because $supp(\sigma_h(\epsilon))$ has to be a singleton.
-Particuraly note that for $c$ being the $\sigma$-initial configuration, we have $\sigma_{c} = \sigma$.
+Also note that for $c$ being the $\sigma$-initial configuration, we have $\sigma_{c} = \sigma$.
+That is because the attacker is allowed to attack no sooner than in the initial configuration.
 
 We provide a copy of Lemma \ref{lem:value} stating that each optimal defender's strategy retains its value throughout a play of the game.
 For MRPGs, the proof of this lemma is even easier because each optimal defender's strategy has to select the "best" possible initial configuration.
@@ -1558,11 +1560,11 @@ Therefore, $val(\sigma \mid h) = val(\sigma)$  for all $h \in \mathcal{H}(\sigma
 
 Now we move to prove the existence of a regular $\epsilon$-optimal defender's strategy.
 We follow the three-step process described in Section \ref{sec:discretization} with small modifications.
-In step 1, we modify the discretization number $s$ such that probabilities $\sigma_\epsilon(h)(c)$ are integer multiples of $s$.
+In Step 1, we modify the discretization number $s$ such that probabilities $\sigma_\epsilon(h)(c)$ are integer multiples of $s$.
 A higher presicion (smaller $s$) is needed because, for an optimal strategy $\sigma$ and a history $h$, the support of $\sigma(h)$ may be of size up to the number of all configurations.
-We then have to prove that the resulting discretized strategy $\sigma_\epsilon$ is $\epsilon$-optimal.
+Then, we have to prove that the resulting discretized strategy $\sigma_\epsilon$ is $\epsilon$-optimal.
 Step 2 remains unchanged.
-Finally, in step 3, we have to define the regular $\epsilon$-optimal strategy also for the empty word $\epsilon$.
+Finally, in Step 3, we have to define the regular $\epsilon$-optimal strategy also for the empty word $\epsilon$.
 
 \textbf{Step 1.} Let us fix an optimal defender's strategy $\sigma$, whose existence is guaranteed by Theorem \ref{thm:existenceMRPG}.
 For a desired precision $\epsilon$, we discretize $\sigma$ to obtain a strategy $\sigma_\epsilon$ with all probabilities $\sigma_\epsilon(h)(c)$ being integer multiples of $s = \lceil(|C|d)/\epsilon\rceil^{-1}$.
@@ -1606,8 +1608,6 @@ att\text{-}val(\sigma_\epsilon \mid h)
   &= val(\sigma) - \epsilon\label{eq4:third}~.
 \end{align}
 \begin{itemize}
-	\item The equality \eqref{eq4:third} follows from Lemma \ref{lem:valueMRPG}.
-	\item The inequality \eqref{eq4:second} holds because forcing the attacker to attack immediately cannot decrease the value of the game.
 	\item To prove the first inequality \eqref{eq4:first}, we analyze the impact of the rounding in the definition of $\sigma_\epsilon$.
 Let us denote by $R[\iota, h, t, k]$ the probability of reaching any configuration $c \in C_t$ from $last(h)$, $h \in \mathcal{H}$, in up to $k$ steps using the strategy $\iota_h$.
 We prove by induction on $k$ that for all $h \in \mathcal{H}$, $t \in T$, and $k \in \mathbb{N}$ we have that
@@ -1633,7 +1633,10 @@ However, because
 $$att\text{-}val(\iota \mid h) = \inf_{t \in T} R[\iota, h, t, d]$$
 we have
 $$att\text{-}val(\sigma \mid h) - att\text{-}val(\sigma_\epsilon \mid h) \leq d|C|s \leq \epsilon~.$$
+	\item The inequality \eqref{eq4:second} holds because forcing the attacker to attack immediately cannot decrease the value of the game.
+	\item The equality \eqref{eq4:third} follows from Lemma \ref{lem:valueMRPG}.
 \end{itemize}
+\vspace{-10pt}
 \end{proof}
 \noindent
 Note that $val(\sigma_\epsilon) \geq \inf_{h \in \mathcal{H}(\sigma_\epsilon)} att\text{-}val(\sigma_\epsilon \mid h) \geq val(\sigma) - \epsilon$, i.e. $\sigma_\epsilon$ is an $\epsilon$-optimal strategy.
@@ -1653,7 +1656,7 @@ Note that this set is finite because of the discretization.
 We restrict the set of vertices of $\mathcal{S}$ to $\mathbf{Reach}(\theta_\emph{Max})$ to obtain a stochastic game $\mathcal{S}_\epsilon$ with finitely many states, in which we obtain an optimal memoryless strategy $\theta_\emph{Max}^{ml}$ (see \cite{kucera}).
 Because both $\theta_\emph{Max}$ and $\theta_\emph{Max}^{ml}$ are legal strategies in both $\mathcal{S}$ and $\mathcal{S}_\epsilon$, we have
 $$val^\mathcal{S}(\theta_\emph{Max}^{ml}, \mathit{init}, \mathit{fail}) \geq val^\mathcal{S}(\theta_\emph{Max}, \mathit{init}, \mathit{fail}) = val(\sigma_\epsilon)~.$$
-For more details, see step 2 from Section \ref{sec:discretization}.
+For more details, see Step 2 from Section \ref{sec:discretization}.
 
 \textbf{Step 3.}
 Using $\theta_\emph{Max}^{ml}$, we construct a DFA $\mathcal{A}$ encoding the desired regular \hbox{$\epsilon$-optimal} strategy $\sigma_\epsilon^{reg}$ as follows: $\mathcal{A} = (Q, C, \delta, q_0, \emptyset)$ where
@@ -1673,16 +1676,10 @@ $$\sigma_\epsilon^{reg}(h) =
    q_0(\epsilon)		& \text{if } h = \epsilon \\
    \xi(\mathcal{A}[h^+])	& \text{otherwise.}
    \end{cases}$$
-%\vspace{-5pt}
-%\begin{itemize}
-%	\item $\sigma_\epsilon^{reg}(\epsilon) = q_0(\epsilon)$,
-%	\item $\sigma_\epsilon^{reg}(h) = \xi(\mathcal{A}[h^+])$ for all $h \in \mathcal{H}$.
-%\end{itemize}
-%\vspace{-5pt}
 To better understand this definition, observe the case when $h$ is only a single configuration, i.e. $h = r(q_0)$.
 We have that $\sigma_\epsilon^{reg}(r(q_0)) = \xi(q_0)$.
-In other words, probability distributions for histories of length $0$ and $1$ are encoded by the initial state $q_0$.
-To determine the probability distributions for histories $h$ of length at least $2$, the correct state has to be computed based on the transition function $\delta$ and the input $h^+$.
+We see that the behavior of the strategy in the first two steps (for histories of length $0$ and $1$) is encoded by the initial state $q_0$.
+To determine what to play in histories $h$ of length at least $2$, the correct state has to be computed based on the transition function $\delta$ and the input $h^+$.
 
 Based on the properties of the translation process between patrolling games and stochastic games, it can be shown that $\sigma_\epsilon^{reg}$ is the same as $\sigma[\theta_\emph{Max}^{ml}]$ obtained from $\theta_\emph{Max}^{ml}$.
 It follows that
@@ -1699,7 +1696,7 @@ For every $d$-commitment $f \in Q$, we have that $val(f) \geq val(\sigma) - \eps
 
 \section{Characteristics}
 
-
+%TODO
 
 \begin{definition}
 A \emph{characteristic} is a tuple $(f, m)$ where $f$ is a $1$-commitment and $m : \{1, \dots, d\} \times U \to [0, 1]$ is a function satisfying $m(1, u) = \sum_{c \in C_u} \xi(f)(c)$ for all $u \in U$.
@@ -1714,9 +1711,59 @@ A \emph{characteristic} is a tuple $(f, m)$ where $f$ is a $1$-commitment and $m
 
 \begin{definition}
 Let $\mathcal{A} = (Q, C, \delta, q_0, \emptyset)$ be an automaton encoding a defender's strategy.
-Given $p \in Q$, we define the characteristic $\mathbf{Char}_p = (f, m)$ of the state $p$ to be a characteristic such that, whenever the strategy is in the state $p$, $f(\epsilon)$ and $\xi(f)$ represent the current configuration and the probability distribution over $C$ in the next step, respectively,
-and $m$ assigns to every pair $(k, u) \in \{1, \dots, d\} \times U$ the probability of visiting $u$ in at most $k$ steps.
+Given $p \in Q$, we define the characteristic $\mathbf{Char}_p = (f_p, m_p)$ of the state $p$ to be a characteristic such that, whenever the strategy is in the state $p$, $f_p(\epsilon)$ and $\xi(f_p)$ represent the current configuration and the probability distribution over $C$ in the next step, respectively,
+and $m_p$ assigns to every pair $(k, u) \in \{1, \dots, d\} \times U$ the probability of visiting $u$ in at most $k$ steps.
 \end{definition}
+\noindent
+Consider the automaton $\mathcal{A}$ constructed in Step~3 in the previous section and let $\mathbf{Char}_p$ be the characteristic of one of its states $p$.
+Observe that
+\vspace{-5pt}
+\begin{itemize}
+	\item $f_p(\epsilon) = p(\epsilon)$,
+	\item $\xi(f_p) = \xi(p)$,
+	\item and for $2 \leq k \leq d$
+$$m_p(k, u) = \sum_{c \in C_u}\xi(f_p)(c) + \sum_{c \in C \smallsetminus C_u}\xi(f_p)(c)\cdot m_{\delta(p, c)}(k-1, u)~.$$
+\end{itemize}
+\vspace{-5pt}
+We will use these observations to prove that two states with the same characteristics can be merged together without influencing the value of the strategy determined by the automaton.
+
+We remember the concept of merging two states of an automaton.
+Given states $p, q \in Q$, $q \neq q_0$, we denote by $\mathcal{A}_{p \leftarrow q} = (Q', C, \delta', q_0, \emptyset)$ the DFA defined as follows:
+\vspace{-5pt}
+\begin{itemize}
+	\item $Q' = Q \smallsetminus \{q\}$
+	\item $\delta'(r, c) =
+  \begin{cases}
+   p		& \text{if } \delta(r, c) = q \\
+   \delta(r, c)	& \text{otherwise.}
+  \end{cases}$
+\end{itemize}
+\vspace{-5pt}
+
+%TODO
+
+\begin{lemma}
+\label{lem:characteristicsMRG}
+Given $p, q \in Q$, $q \neq q_0$, such that $\mathbf{Char}_p = \mathbf{Char}_q$, we have that for all $r \in Q \smallsetminus \{q\}$
+$$\mathbf{Char}'_r = \mathbf{Char}_r$$
+where $\mathbf{Char}'_r$ denotes the characteristic of $r$ in the automaton $\mathcal{A}_{p \leftarrow q}$.
+\end{lemma}
+
+\begin{proof}
+As a state completely determines the $1$-commitment of its characteristic, we have $f_r = f'_r$ for every $r$.
+Further, we prove by induction on $k$ that for all $r \in Q \smallsetminus \{q\}$, $u \in U$, $1 \leq k \leq d$ we have that $$m'_r(k, u) = m_r(k, u)~.$$
+For $k = 1$ this clearly holds because for any characteristic $(f, m)$, values $m(1, u)$ are completely determined by $\xi(f)$, and $f_r = f'_r$.
+
+%Now all we need is to realize that $\xi(r)$ is the same in both $\mathcal{A}$ and $\mathcal{A}_{p \leftarrow q}$.
+For $2 \leq k \leq d$, it follows from the definition of the characteristic of a state, from the induction hypothesis and from the definition of $\delta'$ that
+\begin{align}
+m'_r(k, u)
+  &= \sum_{c \in C_u}\xi(f'_r)(c) + \sum_{c \in C \smallsetminus C_u}\xi(f'_r)(c)\cdot m'_{\delta'(r, c)}(k-1, u)	\nonumber \\
+  &= \sum_{c \in C_u}\xi(f'_r)(c) + \sum_{c \in C \smallsetminus C_u}\xi(f'_r)(c)\cdot m_{\delta'(r, c)}(k-1, u)	\nonumber \\
+  &= \sum_{c \in C_u}\xi(f'_r)(c) + \sum_{c \in C \smallsetminus C_u}\xi(f'_r)(c)\cdot m_{\delta(r, c)}(k-1, u)	\nonumber \\
+  &= m_r(k, u)~.\nonumber
+\end{align}
+\end{proof}
 
 \chapter{This is the end, my only friend, the end}
 
