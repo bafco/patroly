@@ -899,7 +899,7 @@ There is a regular $\epsilon$-optimal defender's strategy computable in time
 $\left(\frac{d\cdot|U|}{\epsilon}\right)^{\mathcal{O}(d^2\cdot|U|^2)}$.
 \end{thm}
 
-To reduce the number of possible states of the automaton $\mathcal{A}$ encoding the $\epsilon$-optimal strategy, we define an equivalence relation on the states of $\mathcal{A}$ which we use to factorize the state-space of $\mathcal{A}$.
+To reduce the number of possible states of the automaton $\mathcal{A}$ encoding an $\epsilon$-optimal strategy, we define an equivalence relation on the states of $\mathcal{A}$ which we use to factorize the state-space of $\mathcal{A}$.
 The equivalence relation is based on the ability to defend an attack which started somewhen in the last $d$ steps.
 We call this ability the \emph{characteristic} of a given state.
 We prove that states with the same characteristic are equivalent, i.e. they can be merged into a single state without influencing the value of the resulting strategy.
@@ -1696,7 +1696,16 @@ For every $d$-commitment $f \in Q$, we have that $val(f) \geq val(\sigma) - \eps
 
 \section{Characteristics}
 
-%TODO
+To reduce the state-space of the automaton encoding an $\epsilon$-optimal strategy, we again define an equivalence relation on its states based on the ability to defend an attack which started somewhen in the last $d$ steps.
+However, in contrast to SRPGs where this information alone was enough to define the equivalence relation, in MRPGs we have to take into account some additional properties of a state.
+In SRPGs, a characteristic contained all the information needed to determine the current location of the defender and the probability distribution over the nodes in the next step.
+In MRPGs, an analogous definition of a characteristic of a state (probability of reaching a certain node in the next $k$ steps) would not suffice---probabilities of visiting each particular node in the next step do not contain enough information to determine the probability distribution over the configurations in the next step.
+Also, the current configuration cannot be determined by its cover.
+Therefore, we extend the definition of a characteristic to contain this additional information---the current configuration and the probability distribution over configurations in the next step.
+Note that these two properties can be represented by a $1$-commitment.
+
+We start by defining a characteristic as a general mathematical object.
+Then, we map essential properties of a state to such an object.
 
 \begin{definition}
 A \emph{characteristic} is a tuple $(f, m)$ where $f$ is a $1$-commitment and $m : \{1, \dots, d\} \times U \to [0, 1]$ is a function satisfying $m(1, u) = \sum_{c \in C_u} \xi(f)(c)$ for all $u \in U$.
@@ -1727,6 +1736,8 @@ $$m_p(k, u) = \sum_{c \in C_u}\xi(f_p)(c) + \sum_{c \in C \smallsetminus C_u}\xi
 \vspace{-5pt}
 We will use these observations to prove that two states with the same characteristics can be merged together without influencing the value of the strategy determined by the automaton.
 
+\
+
 We remember the concept of merging two states of an automaton.
 Given states $p, q \in Q$, $q \neq q_0$, we denote by $\mathcal{A}_{p \leftarrow q} = (Q', C, \delta', q_0, \emptyset)$ the DFA defined as follows:
 \vspace{-5pt}
@@ -1743,7 +1754,7 @@ Given states $p, q \in Q$, $q \neq q_0$, we denote by $\mathcal{A}_{p \leftarrow
 %TODO
 
 \begin{lemma}
-\label{lem:characteristicsMRG}
+\label{lem:characteristicsMRPG}
 Given $p, q \in Q$, $q \neq q_0$, such that $\mathbf{Char}_p = \mathbf{Char}_q$, we have that for all $r \in Q \smallsetminus \{q\}$
 $$\mathbf{Char}'_r = \mathbf{Char}_r$$
 where $\mathbf{Char}'_r$ denotes the characteristic of $r$ in the automaton $\mathcal{A}_{p \leftarrow q}$.
@@ -1764,6 +1775,13 @@ m'_r(k, u)
   &= m_r(k, u)~.\nonumber
 \end{align}
 \end{proof}
+
+%TODO \mathcal{A}_red, ...
+
+\begin{definition}
+Given a state $p \in Q$, we define the value of its characteristic by $$val(\mathbf{Char}_p) = \min_{t \in T} m_p(d, t)~.$$
+\end{definition}
+Note that $att\text{-}val(\sigma_{red} \mid h) = val(\mathbf{Char}_p)$ where $p = \mathcal{A}[h^+]$.
 
 \chapter{This is the end, my only friend, the end}
 
