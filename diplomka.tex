@@ -1310,17 +1310,14 @@ The second desired virtue of our model is simplicity---assigning a specific set 
 We also prefer the robots to be homogeneous.
 
 \begin{definition}
-A \emph{multi-robot patrolling game (MRPG)} is a tuple $\mathcal{G} = (U, E, T, d, R)$ where $U$ is a finite set of \emph{nodes}, $E \subseteq U \times U$ is a set of \emph{edges}, $T \subseteq U$ is a set of \emph{target nodes}, $d$ is the \emph{attack length}, and $R$ is a set of \emph{robots}.
+A \emph{multi-robot patrolling game (MRPG)} is a tuple $\mathcal{G} = (U, E, T, d, z)$ where $U$ is a finite set of \emph{nodes}, $E \subseteq U \times U$ is a set of \emph{edges}, $T \subseteq U$ is a set of \emph{target nodes}, $d$ is the \emph{attack length}, and $z$ is the number of \emph{robots}.
 \end{definition}
 \noindent
-We consider all robots to be homogeneous.
-Therefore, when defining an actual game, we usually define only the number of robots instead of a precise set.
-We denote the robots as $r_1, \dots, r_{|R|}$.
-
+We consider all robots to be homogeneous and we denote them as $r_1, \dots, r_z$.
 In every moment of a play, every robot is located in some node.
-We define a \emph{configuration} to be an $|R|$-tuple of nodes specifying the positions of the robots \cite{multi-robot}.
-We denote it by $c = (c_1, \dots, c_{|R|})$, where $c_i \in U$ is the position of the robot $r_i \in R$.
-We denote by $C = U^{|R|}$ the set of all configurations.
+We define a \emph{configuration} to be an $z$-tuple of nodes specifying the positions of the robots \cite{multi-robot}.
+We denote it by $c = (c_1, \dots, c_z)$, where $c_i \in U$ is the position of the robot $r_i$.
+We denote by $C = U^z$ the set of all configurations.
 
 Note that an MRPG, as opposed to a single-robot patrolling game (SRPG), does not have any predefined initial configuration of the robots.
 In an SRPG, forcing the initial node to be a target node guarantees maximal possible value of the game.
@@ -1329,11 +1326,11 @@ Example \ref{ex:initial2} illustrates that even forcing the robots to start in m
 Therefore, we let the defender's strategy to determine the initial configuration.
 
 From now on, when we say that a node is \emph{visited} or \emph{covered} (by the defender or by a configuration), we mean that at least one robot is located in that node.
-For each configuration $c \in C$, we define $\mathit{cover}(c) = \{c_1, \dots, c_{|R|}\}$ to be the \emph{cover} of $c$, representing all the nodes covered by the configuration.
-A cover can contain from $1$ to $|R|$ nodes.
+For each configuration $c \in C$, we define $\mathit{cover}(c) = \{c_1, \dots, c_z\}$ to be the \emph{cover} of $c$, representing all the nodes covered by the configuration.
+A cover can contain from $1$ to $z$ nodes.
 For each node $u \in U$, we define $C_u = \{c \in C \mid u \in \mathit{cover}(c)\}$ to be the set of all configurations that cover $u$.
 
-Given a configuration $c \in C$, we define $succ(c) := \{c' \in C \mid c'_i \in succ(c_i)~\text{for all}~1 \leq i \leq |R|\}$ to be the set of all \emph{successors} of $c$.
+Given a configuration $c \in C$, we define $succ(c) := \{c' \in C \mid c'_i \in succ(c_i)~\text{for all}~1 \leq i \leq z\}$ to be the set of all \emph{successors} of $c$.
 %Using this definition of successors, we straightforwardly modify the definitions of \emph{path}, \emph{history}, and \emph{run} from SRPGs to work with configurations instead of single nodes.
 %The notation of these terms stays the same.
 %Further, we denote by $\mathcal{H}_\epsilon = \mathcal{H} \cup \{\epsilon\}$ the set of histories together with the empty word.
@@ -1409,7 +1406,7 @@ We aimed to find examples as simple as possible.%, yet still satisfying some rea
 
 $T = \{s, u, v\}$\newline
 $d = 1$\newline
-$|R| = 2$\
+$z = 2$\
 
 &
 
@@ -1432,7 +1429,7 @@ $|R| = 2$\
 
 $T = \{a, b, c\}$\newline
 $d = 3$\newline
-$|R| = 2$\
+$z = 2$\
 
 \end{tabular}
 
@@ -1499,7 +1496,7 @@ As stated in \cite{iti1}, all required modifications to the translation process 
 
 As the defender's strategy works with configurations instead of single nodes, we need to modify the definition of a $k$-commitment.
 The notation of terms associated with $k$-commitments stays the same.
-Let us fix a multi-robot patrolling game $\mathcal{G} = (U, E, T, d, R)$.
+Let us fix a multi-robot patrolling game $\mathcal{G} = (U, E, T, d, z)$.
 
 \begin{definition}
 Let $k \in \mathbb{N}$. A \emph{$k$-commitment} is a function $f : C^{\leq k} \to \Delta(C)$ satisfying the following conditions:
@@ -1766,7 +1763,7 @@ where $\mathbf{Char}'_r$ denotes the characteristic of $r$ in the automaton $\ma
 \end{lemma}
 
 \begin{proof}
-As a state completely determines the $1$-commitment of its characteristic, we have $f_r = f'_r$ for every $r$.
+As a state completely determines the $1$-commitment of its characteristic, we have $f_r = f'_r$ for every state $r$.
 Further, we prove by induction on $k$ that for all $r \in Q \smallsetminus \{q\}$, $u \in U$, $1 \leq k \leq d$ we have that $$m'_r(k, u) = m_r(k, u)~.$$
 For $k = 1$ this clearly holds because for any characteristic $(f, m)$, values $m(1, u)$ are completely determined by $\xi(f)$, and $f_r = f'_r$.
 
@@ -1831,17 +1828,17 @@ Because for each $d$-commitment $p \in Q$ it holds that $f_p(\epsilon) = p(\epsi
 \label{alg:algorithm1}
 \begin{algorithmic}[1]
 \par\vspace{0.5mm}
-	\Require	multi-robot patrolling game $\mathcal{G} = (U, E, T, d, R)$, $\epsilon > 0$
+	\Require	multi-robot patrolling game $\mathcal{G} = (U, E, T, d, z)$, $\epsilon > 0$
 	\Ensure	a regular $\epsilon$-optimal strategy $\sigma_\epsilon^{alg}$
 \par\vspace{3.5mm}
 
-\State $A \leftarrow$ empty priority queue; $D \leftarrow \emptyset$
-\State \textbf{for each} $a \in \mathit{Char}^s$ \textbf{do}
-		add $a$ to $A$ with priority $val(a)$
+\State $\Gamma \leftarrow$ empty priority queue; $D \leftarrow \emptyset$
+\State \textbf{for each} $\gamma \in \mathit{Char}^s$ \textbf{do}
+		add $\gamma$ to $\Gamma$ with priority $val(\gamma)$
 \vspace{3px}
 \Repeat
-	\State pull from $M$ the item $a$ with the highest priority
-	\State $D \leftarrow D \cup \{a\}$
+	\State pull from $\Gamma$ the item $\gamma$ with the highest priority
+	\State $D \leftarrow D \cup \{\gamma\}$
 \Until {$D$ is \emph{complete}}
 \vspace{3px}
 \State $\sigma_\epsilon^{alg} \leftarrow$ the strategy induced by a closed subset of $D$
@@ -1856,7 +1853,7 @@ Because for each $d$-commitment $p \in Q$ it holds that $f_p(\epsilon) = p(\epsi
 %TODO list
 %TODO IDEA - namiesto konfiguracii mat multiset - uplne postacujuce, nakolko roboti su homogenni -> znizilo by to:
 % - pocet dielikov, na ktore musim rozsekat pravdepodobnosti
-% - mnozinu vrcholov (namiesto |U|^|R| by ich bolo "len" pocet |R|-kombinacii z (|U|+|R|-1)-prvkovej mnoziny)
+% - mnozinu vrcholov (namiesto |U|^z by ich bolo "len" pocet \-kombinacii z (|U|+z-1)-prvkovej mnoziny)
 % - mnozinu stavov
 %
 %TODO spell checker
