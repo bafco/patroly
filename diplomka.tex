@@ -1106,6 +1106,7 @@ one can easily see that $\sigma_\mathit{Char} = \sigma_{red}$.
 %We do not know whether, in general, the state-space can be bounded by the number of different probability distributions in a root, but we strongly believe it cannot.
 
 \section{The Algorithm}
+\label{sec:alg}
 
 So far, we have shown that there is a DFA $\mathcal{A}_\mathit{Char}$ encoding an $\epsilon$-optimal strategy such that its states $Q_\mathit{Char}$ are mutually different characteristics.
 Furthermore, each $c \in Q_\mathit{Char}$ satisfies:
@@ -1125,9 +1126,9 @@ From \ref{a} and \ref{b} it follows that $Q_\mathit{Char} \subseteq \mathit{Char
 \label{alg:algorithm1}
 \begin{algorithmic}[1]
 \par\vspace{0.5mm}
-	\Require	Patrolling game $\mathcal{G} = (U, E, T, \hat{u}, d)$, $\epsilon > 0$
+	\Require	patrolling game $\mathcal{G} = (U, E, T, \hat{u}, d)$, $\epsilon > 0$
 	\Ensure	a regular $\epsilon$-optimal strategy $\sigma_\epsilon^{alg}$
-\par\vspace{3.5mm}
+\par\vspace{2.2mm}
 
 \State $C \leftarrow$ empty priority queue; $D \leftarrow \emptyset$
 \State \textbf{for each} $c \in \mathit{Char}^s$ \textbf{do}
@@ -1163,25 +1164,25 @@ Note that $\sum_{i = 1, u_i \neq u}^n c(1, u_i) \cdot c_i(0, u) = 0$.
 Therefore if $c(1, u_i) > 0$, then $c_i(0, u) = 0$ for all $u \neq u_i$, which implies $c_i(0, u_i) = 1$.
 This guarantees that if there is a positive probability of choosing $u_i$ in the state $c$, then the root of $c_i$ is $u_i$.
 
-We say that a non-empty set $R \subseteq \mathit{Char}^s$ is \emph{closed} if for all $c \in R$ there are successors $(c_1, \dots, c_n) \in R^n$ of $c$.
+We say that a non-empty set $B \subseteq \mathit{Char}^s$ is \emph{closed} if for all $c \in B$ there are successors $(c_1, \dots, c_n) \in B^n$ of $c$.
 Finally, we say that a set $D \subseteq \mathit{Char}^s$ is \emph{complete} if it contains a closed subset.
 
-Note that each closed set $R$ represents a set of states of an automaton whose transition function can be built from the states' successors.\footnote{In general, there might be several different sequences of successors for a characteristic in a closed set. Therefore, the process of building an automaton from a closed set is not deterministic.}
-And for the automaton's intial state it suffices to choose some $\hat{c} \in R$ such that $\hat{c}(0, \hat{u}) = 1$.\footnote{There has to be at least one such $\hat{c} \in R$ unless the value of all characteristics from $R$ is 0.}
+Note that each closed set $B$ represents a set of states of an automaton whose transition function can be built from the states' successors.\footnote{In general, there might be several different sequences of successors for a characteristic in a closed set. Therefore, the process of building an automaton from a closed set is not deterministic.}
+And for the automaton's intial state it suffices to choose some $\hat{c} \in B$ such that $\hat{c}(0, \hat{u}) = 1$.\footnote{There has to be at least one such $\hat{c} \in B$ unless the value of all characteristics from $B$ is 0.}
 
-Let us fix a closed set $R$ and for each $c \in R$, let us fix some successors $(c_1, \dots, c_n) \in R^n$ of $c$.
-Further, let us fix some $\hat{c} \in R$ such that $\hat{c}(0, \hat{u}) = 1$.
-We construct a DFA $\mathcal{A}_{R} = (R, U, \delta_{R}, \hat{c}, \emptyset)$ where $\delta_{R}(c, u_i) = c_i$ for all $c \in R$ and $u_i \in U$.
-We define the strategy determined by $\mathcal{A}_{R}$ as $\sigma_{R}(h)(u) = \mathcal{A}[h^+](1, u)$.
-We show that for such a strategy, each state of $\mathcal{A}_{R}$ is identical with its own characteristic.
+Let us fix a closed set $B$ and for each $c \in B$, let us fix some successors $(c_1, \dots, c_n) \in B^n$ of $c$.
+Further, let us fix some $\hat{c} \in B$ such that $\hat{c}(0, \hat{u}) = 1$.
+We construct a DFA $\mathcal{A}_B = (B, U, \delta_B, \hat{c}, \emptyset)$ where $\delta_B(c, u_i) = c_i$ for all $c \in B$ and $u_i \in U$.
+We define the strategy determined by $\mathcal{A}_B$ as $\sigma_B(h)(u) = \mathcal{A}[h^+](1, u)$.
+We show that for such a strategy, each state of $\mathcal{A}_B$ is identical with its own characteristic.
 
 \begin{lemma}
 \label{lem:char=char}
-For all states $c \in R$ we have that $c = \mathbf{Char}_c$.
+For all states $c \in B$ we have that $c = \mathbf{Char}_c$.
 \end{lemma}
 
 \begin{proof}
-We prove by induction on $k$ that for all $c \in R$ and $u \in U$ it holds that $c(k, u) = \mathbf{Char}_c(k, u)$.
+We prove by induction on $k$ that for all $c \in B$ and $u \in U$ it holds that $c(k, u) = \mathbf{Char}_c(k, u)$.
 For $k = 0$ this trivially holds.
 
 For $1 \leq k \leq d$, let $(c_1, \dots, c_n)$ be the successors of $c$. It follows that
@@ -1189,8 +1190,8 @@ For $1 \leq k \leq d$, let $(c_1, \dots, c_n)$ be the successors of $c$. It foll
 c(k, u)
   &= c(1, u) + \sum_{i = 1, u_i \neq u}^n c(1, u_i) \cdot c_i(k - 1, u)\label{eq3:first} \\
   &= c(1, u) + \sum_{i = 1, u_i \neq u}^n c(1, u_i) \cdot \mathbf{Char}_{c_i}(k - 1, u)\label{eq3:second} \\
-  &= c(1, u) + \sum_{i = 1, u_i \neq u}^n c(1, u_i) \cdot \mathbf{Char}_{\delta_{R}(c, u_i)}(k - 1, u)\nonumber \\
-  &= c(1, u) + \sum_{v \in U \smallsetminus \{u\}} c(1, v) \cdot \mathbf{Char}_{\delta_{R}(c, v)}(k - 1, u)\nonumber \\
+  &= c(1, u) + \sum_{i = 1, u_i \neq u}^n c(1, u_i) \cdot \mathbf{Char}_{\delta_B(c, u_i)}(k - 1, u)\nonumber \\
+  &= c(1, u) + \sum_{v \in U \smallsetminus \{u\}} c(1, v) \cdot \mathbf{Char}_{\delta_B(c, v)}(k - 1, u)\nonumber \\
   &= \mathbf{Char}_c(k, u)\label{eq3:last}~.
 \end{align}
 The equalities \eqref{eq3:first}, \eqref{eq3:second}, and \eqref{eq3:last} follow from the definition of successors, from the induction hypothesis, and from the definition of the characteristic of a state, respectively.
@@ -1205,11 +1206,11 @@ The other equalities are trivial.
 \end{proof}
 
 Recall that the value of the strategy determined by an automaton is bounded below by the lowest value from among the values of characteristics of the states of the automaton.
-By applying Lemma \ref{lem:char=char}, it follows that $val(\sigma_{R}) \geq \min_{c \in R} val(c)$.
+By applying Lemma \ref{lem:char=char}, it follows that $val(\sigma_B) \geq \min_{c \in B} val(c)$.
 
 From the existence of the automaton $\mathcal{A}_\mathit{Char}$ %and its properties \ref{a}, \ref{b}, and \ref{c},%properties of its states
 we know that there is a closed set $Q_\mathit{Char}$ such that $\min_{c \in Q_\mathit{Char}} val(c) \geq val(\sigma) - \epsilon$.
-That means that in order to find an $\epsilon$-optimal strategy, it suffices to compute a closed set $R$ which maximizes $\min_{c \in R} val(c)$.
+That means that in order to find an $\epsilon$-optimal strategy, it suffices to compute a closed set $B$ which maximizes $\min_{c \in B} val(c)$.
 This can be done using the Algorithm \ref{alg:algorithm1}.
 
 It remains to show how to determine whether a set $D$ of discretized characteristics is complete.
@@ -1780,7 +1781,7 @@ m'_r(k, u)
 \end{align}
 \end{proof}
 \noindent
-Now we proceed in the same way as in Section \ref{sec:characteristics}.
+%Now we proceed in the same way as in Section \ref{sec:characteristics}.
 Note that Lemma \ref{lem:characteristicsMRPG} holds also for the reduced automaton $\mathcal{A}_{p \leftarrow q}$ and the process of merging equivalent states can be repeated until all states have mutually different, but still unchanged characteristics.
 As this process is non-deterministic, let us fix and denote by $\mathcal{A}_{red}$ the resulting automaton which cannot be further reduced.
 We denote by $Q_{red}$ and $\sigma_{red}$ the set of states of $\mathcal{A}_{red}$ and the defender's strategy determined by $\mathcal{A}_{red}$, respectively.
@@ -1811,7 +1812,7 @@ Finally, we identify each state $p \in Q_{red}$ with its characteristic $\mathbf
 \end{itemize}
 \vspace{-5pt}
 We use the $1$-commitment part of a characteristic to define the defender's strategy.
-We define $\sigma_\mathit{Char}(\epsilon) = f_{q_0}(\epsilon)$ and for every history $h \in \mathcal{H}$, we define
+We define $\sigma_\mathit{Char}(\epsilon) = f_{q_0}(\epsilon)$ and, for every history $h \in \mathcal{H}$, we define
 $\sigma_\mathit{Char}(h) = \xi(f)$ where $(f, m) = \mathcal{A}_\mathit{Char}[h^+]$.
 %For every history $h \in \mathcal{H}_\epsilon$, we define:
 %$$\sigma_\mathit{Char}(h) =
@@ -1822,6 +1823,31 @@ $\sigma_\mathit{Char}(h) = \xi(f)$ where $(f, m) = \mathcal{A}_\mathit{Char}[h^+
 Because for each $d$-commitment $p \in Q$ it holds that $f_p(\epsilon) = p(\epsilon)$ and $\xi(f_p) = \xi(p)$, we have that $\sigma_\mathit{Char} = \sigma_{red}$, and therefore $\sigma_\mathit{Char}$ is $\epsilon$-optimal.
 
 \section{The Algorithm}
+
+\ref{sec:alg}
+
+\begin{algorithm}[ht]
+\caption{~Compute an $\epsilon$-optimal strategy $\sigma_\epsilon^{alg}$}
+\label{alg:algorithm1}
+\begin{algorithmic}[1]
+\par\vspace{0.5mm}
+	\Require	multi-robot patrolling game $\mathcal{G} = (U, E, T, d, R)$, $\epsilon > 0$
+	\Ensure	a regular $\epsilon$-optimal strategy $\sigma_\epsilon^{alg}$
+\par\vspace{3.5mm}
+
+\State $A \leftarrow$ empty priority queue; $D \leftarrow \emptyset$
+\State \textbf{for each} $a \in \mathit{Char}^s$ \textbf{do}
+		add $a$ to $A$ with priority $val(a)$
+\vspace{3px}
+\Repeat
+	\State pull from $M$ the item $a$ with the highest priority
+	\State $D \leftarrow D \cup \{a\}$
+\Until {$D$ is \emph{complete}}
+\vspace{3px}
+\State $\sigma_\epsilon^{alg} \leftarrow$ the strategy induced by a closed subset of $D$
+\end{algorithmic}
+\end{algorithm}
+
 
 \chapter{This is the end, my only friend, the end}
 
