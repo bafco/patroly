@@ -884,6 +884,7 @@ For every $d$-commitment $f \in Q$, we have that $val(f) \geq val(\sigma) - \eps
 \end{lemma}
 
 \section{Characteristics}
+\label{sec:characteristics}
 
 As you may noticed, the above proof of existence of an $\epsilon$-optimal strategy is not constructive.
 In \cite{iti1}, the authors provide an algorithm which computes the desired strategy.
@@ -1698,6 +1699,7 @@ For every $d$-commitment $f \in Q$, we have that $val(f) \geq val(\sigma) - \eps
 
 To reduce the state-space of the automaton encoding an $\epsilon$-optimal strategy, we again define an equivalence relation on its states based on the ability to defend an attack which started somewhen in the last $d$ steps.
 However, in contrast to SRPGs where this information alone was enough to define the equivalence relation, in MRPGs we have to take into account some additional properties of a state.
+
 In SRPGs, a characteristic contained all the information needed to determine the current location of the defender and the probability distribution over the nodes in the next step.
 In MRPGs, an analogous definition of a characteristic of a state (probability of reaching a certain node in the next $k$ steps) would not suffice---probabilities of visiting each particular node in the next step do not contain enough information to determine the probability distribution over the configurations in the next step.
 Also, the current configuration cannot be determined by its cover.
@@ -1735,10 +1737,7 @@ $$m_p(k, u) = \sum_{c \in C_u}\xi(f_p)(c) + \sum_{c \in C \smallsetminus C_u}\xi
 \end{itemize}
 \vspace{-5pt}
 We will use these observations to prove that two states with the same characteristics can be merged together without influencing the value of the strategy determined by the automaton.
-
-\
-
-We remember the concept of merging two states of an automaton.
+Before we do that, we remember the concept of merging two states of an automaton.
 Given states $p, q \in Q$, $q \neq q_0$, we denote by $\mathcal{A}_{p \leftarrow q} = (Q', C, \delta', q_0, \emptyset)$ the DFA defined as follows:
 \vspace{-5pt}
 \begin{itemize}
@@ -1751,7 +1750,8 @@ Given states $p, q \in Q$, $q \neq q_0$, we denote by $\mathcal{A}_{p \leftarrow
 \end{itemize}
 \vspace{-5pt}
 
-%TODO
+The following lemma states that if a state is substituted by another state with the same characteristic, the characteristics of the other states remain unchanged.
+It is a copy of Lemma \ref{lem:characteristics}, yet with a modified proof.
 
 \begin{lemma}
 \label{lem:characteristicsMRPG}
@@ -1775,6 +1775,11 @@ m'_r(k, u)
   &= m_r(k, u)~.\nonumber
 \end{align}
 \end{proof}
+\noindent
+We further proceed in the same way as in Section \ref{sec:characteristics}.
+Note that Lemma \ref{lem:characteristicsMRPG} holds also for the reduced automaton $\mathcal{A}_{p \leftarrow q}$ and the process of merging equivalent states can be repeated until all states have mutually different, but still unchanged characteristics.
+As this process is non-deterministic, let us fix and denote by $\mathcal{A}_{red}$ the resulting automaton which cannot be further reduced.
+We denote by $Q_{red}$ and $\sigma_{red}$ the set of states of $\mathcal{A}_{red}$ and the defender's strategy determined by $\mathcal{A}_{red}$, respectively.
 
 %TODO \mathcal{A}_red, ...
 
