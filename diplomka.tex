@@ -880,7 +880,7 @@ When we realize that $Q$ is the set of all $d$-commitments $f$ occuring in verti
 
 \begin{lemma}
 \label{lem:epsilon_commitment}
-For every $d$-commitment $f \in Q$, we have that $val(f) \geq val(\sigma) - \epsilon$.
+For every $d$-commitment $f \in Q$ we have that $val(f) \geq val(\sigma) - \epsilon$.
 \end{lemma}
 
 \section{Characteristics}
@@ -1041,11 +1041,15 @@ the resulting automaton which cannot be further reduced by applying Lemma \ref{l
 We denote by $Q_{red}$ the set of states of $\mathcal{A}_{red}$ and by $\sigma_{red}$ the defender's strategy determined by $\mathcal{A}_{red}$.
 In what follows, we prove that $\sigma_{red}$ is $\epsilon$-optimal.
 
-We start by defining the probability of detecting an immediate attack when the play is in a state $p$.
+%We start by defining the probability of detecting an immediate attack when the play is in a state $p$.
 \begin{definition}
-Given a state $p \in Q$, we define the value of its characteristic by $$val(\mathbf{Char}_p) = \min_{t \in T} \mathbf{Char}_p(d, t)~.$$
+For every characteristic $c$, we define the value of $c$ as
+$$val(c) = \min_{t \in T} c(d, t)~.$$
+%Given a state $p \in Q$, we define the value of its characteristic by $$val(\mathbf{Char}_p) = \min_{t \in T} \mathbf{Char}_p(d, t)~.$$
 \end{definition}
-Note that $att\text{-}val(\sigma_{red} \mid h) = val(\mathbf{Char}_p)$ where $p = \mathcal{A}[h^+]$.
+Note that when the play is in a state $p$, the probability of detecting an immediate attack is $\mathbf{Char}_p$.
+We have that $att\text{-}val(\sigma_{red} \mid h) = val(\mathbf{Char}_p)$ where $p = \mathcal{A}[h^+]$.
+%Note that $att\text{-}val(\sigma_{red} \mid h) = val(\mathbf{Char}_p)$ where $p = \mathcal{A}[h^+]$.
 
 %%% COMMENTED OUT %%%
 %Consider the automaton $\mathcal{A}$ and some $d$-commitment $p \in Q$.
@@ -1671,7 +1675,7 @@ $\delta(f, c) = f'$ where $f'$ is the $c$-suffix of $\theta_\emph{Max}^{ml}((\em
 \end{itemize}
 %\vspace{-3pt}
 Recall that $\xi(f) = f(r(f))$ for a $d$-commitment $f$, and for a non-empty history $h = h_0\dots h_n$ we have $h^+ = h_1\dots h_n$.
-For every history $h \in \mathcal{H}_\epsilon$, we define:% the strategy $\sigma_\epsilon^{reg}$ as follows:
+For every history $h \in \mathcal{H}_\epsilon$, we define:
 $$\sigma_\epsilon^{reg}(h) =
    \begin{cases}
    q_0(\epsilon)		& \text{if } h = \epsilon \\
@@ -1692,7 +1696,7 @@ Moreover, because $\theta_{\emph{Max}}$ encodes exactly the same defender's stra
 
 \begin{lemma}
 \label{lem:epsilon_commitmentMRPG}
-For every $d$-commitment $f \in Q$, we have that $val(f) \geq val(\sigma) - \epsilon$.
+For every $d$-commitment $f \in Q$ we have that $val(f) \geq val(\sigma) - \epsilon$.
 \end{lemma}
 
 \section{Characteristics}
@@ -1776,17 +1780,48 @@ m'_r(k, u)
 \end{align}
 \end{proof}
 \noindent
-We further proceed in the same way as in Section \ref{sec:characteristics}.
+Now we proceed in the same way as in Section \ref{sec:characteristics}.
 Note that Lemma \ref{lem:characteristicsMRPG} holds also for the reduced automaton $\mathcal{A}_{p \leftarrow q}$ and the process of merging equivalent states can be repeated until all states have mutually different, but still unchanged characteristics.
 As this process is non-deterministic, let us fix and denote by $\mathcal{A}_{red}$ the resulting automaton which cannot be further reduced.
 We denote by $Q_{red}$ and $\sigma_{red}$ the set of states of $\mathcal{A}_{red}$ and the defender's strategy determined by $\mathcal{A}_{red}$, respectively.
 
-%TODO \mathcal{A}_red, ...
+We show that $\sigma_{red}$ is $\epsilon$-optimal by arguing that whenever the play is in a state $p$, the probability of capturing an immediate attack is at least $val(\sigma) - \epsilon$.
+We start by defining this probability as a value of the characteristic of a state.
 
 \begin{definition}
-Given a state $p \in Q$, we define the value of its characteristic by $$val(\mathbf{Char}_p) = \min_{t \in T} m_p(d, t)~.$$
+For every characteristic $(f, m)$, we define its value as
+$$val((f, m)) = \min_{t \in T} m(d, t)~.$$
 \end{definition}
 Note that $att\text{-}val(\sigma_{red} \mid h) = val(\mathbf{Char}_p)$ where $p = \mathcal{A}[h^+]$.
+However, it follows from the definition of the automaton $\mathcal{A}$ and the induced strategy $\sigma_\epsilon^{reg}$ that $val(\mathbf{Char}_p) = val(p)$ for each state $p \in Q$.
+By applying Lemma~\ref{lem:epsilon_commitmentMRPG}, we get the following:
+
+\begin{lemma}
+\label{lem:char_valueMRPG}
+For each state $p \in Q$ we have $val(\mathbf{Char}_p) \geq val(\sigma) - \epsilon$.
+\end{lemma}
+\noindent
+As $Q_{red} \subseteq Q$ and the characteristic of any state in $\mathcal{A}_{red}$ is the same as in $\mathcal{A}$, an immediate consequence of Lemma \ref{lem:char_valueMRPG} is that $val(\sigma_{red}) \geq val(\sigma) - \epsilon$, i.e. $\sigma_{red}$ is $\epsilon$-optimal.
+
+Finally, we identify each state $p \in Q_{red}$ with its characteristic $\mathbf{Char}_p = (f_p, m_p)$ to obtain an automaton $\mathcal{A}_\mathit{Char} = (Q_\mathit{Char}, C, \delta_\mathit{Char}, \mathbf{Char}_{q_0}, \emptyset)$ where
+\vspace{-20pt}
+\begin{itemize}
+	\item $Q_\mathit{Char} = \{\mathbf{Char}_p \mid p \in Q_{red}\}$,
+	\item $\delta_\mathit{Char}(\mathbf{Char}_p)(c) = \mathbf{Char}_q$ iff $\delta_{red}(p)(c) = q$.
+\end{itemize}
+\vspace{-5pt}
+We use the $1$-commitment part of a characteristic to define the defender's strategy.
+We define $\sigma_\mathit{Char}(\epsilon) = f_{q_0}(\epsilon)$ and for every history $h \in \mathcal{H}$, we define
+$\sigma_\mathit{Char}(h) = \xi(f)$ where $(f, m) = \mathcal{A}_\mathit{Char}[h^+]$.
+%For every history $h \in \mathcal{H}_\epsilon$, we define:
+%$$\sigma_\mathit{Char}(h) =
+%   \begin{cases}
+%   f_{q_0}(\epsilon)		& \text{if } h = \epsilon \\
+%   \xi(f)			& \text{otherwise, where } (f, m) = \mathcal{A}_\mathit{Char}[h^+].
+%   \end{cases}$$
+Because for each $d$-commitment $p \in Q$ it holds that $f_p(\epsilon) = p(\epsilon)$ and $\xi(f_p) = \xi(p)$, we have that $\sigma_\mathit{Char} = \sigma_{red}$, and therefore $\sigma_\mathit{Char}$ is $\epsilon$-optimal.
+
+\section{The Algorithm}
 
 \chapter{This is the end, my only friend, the end}
 
