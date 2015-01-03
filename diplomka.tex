@@ -1011,10 +1011,10 @@ The idea of the proof is that the characteristic of a state $r$ is completely de
 Substitution of $q$ by $p$ does not have any influence on (1) and because $\mathbf{Char}_p = \mathbf{Char}_q$, neither has it any influence on (2).
 
 Formally, we prove by induction on $k$ that for all $r \in Q \smallsetminus \{q\}$, $v \in U$, $0 \leq k \leq d$ we have that $$\mathbf{Char}'_r(k, v) = \mathbf{Char}_r(k, v)~.$$
-For $k = 0$ this clearly holds as the root of any state remains unchanged.
+For $k = 0$, this clearly holds as the root of any state remains unchanged.
 
 Now all we need is to realize that $\xi(r)$ is the same in both $\mathcal{A}$ and $\mathcal{A}_{p \leftarrow q}$.
-For $1 \leq k \leq d$ we have
+For $1 \leq k \leq d$, we have
 \begin{align}
 \mathbf{Char}'_r(k, v)
   &= \xi(r)(v) + \sum_{u \in U \smallsetminus \{v\}}\xi(r)(u) \cdot \mathbf{Char}'_{\delta'(r, u)}(k - 1, v)\label{eq2:first} \\
@@ -1174,7 +1174,7 @@ Let us fix a closed set $B$ and for each $c \in B$, let us fix some successors $
 Further, let us fix some $\hat{c} \in B$ such that $\hat{c}(0, \hat{u}) = 1$.
 We construct a DFA $\mathcal{A}_B = (B, U, \delta_B, \hat{c}, \emptyset)$ where $\delta_B(c, u_i) = c_i$ for all $c \in B$ and $u_i \in U$.
 We define the strategy determined by $\mathcal{A}_B$ as $\sigma_B(h)(u) = \mathcal{A}[h^+](1, u)$.
-We show that for such a strategy, each state of $\mathcal{A}_B$ is identical with its own characteristic.
+We show that, for such a strategy, each state of $\mathcal{A}_B$ is identical with its own characteristic.
 
 \begin{lemma}
 \label{lem:char=char}
@@ -1182,8 +1182,8 @@ For all states $c \in B$ we have that $c = \mathbf{Char}_c$.
 \end{lemma}
 
 \begin{proof}
-We prove by induction on $k$ that for all $c \in B$ and $u \in U$ it holds that $c(k, u) = \mathbf{Char}_c(k, u)$.
-For $k = 0$ this trivially holds.
+We prove by induction on $k$ that for all $c \in B$, $u \in U$, and $0 \leq k \leq d$ it holds that $c(k, u) = \mathbf{Char}_c(k, u)$.
+For $k = 0$, this trivially holds.
 
 For $1 \leq k \leq d$, let $(c_1, \dots, c_n)$ be the successors of $c$. It follows that
 \begin{align}
@@ -1722,6 +1722,8 @@ A \emph{characteristic} is a tuple $(f, m)$ where $f$ is a $1$-commitment and $m
 %\end{itemize}
 %\vspace{-5pt}
 \end{definition}
+\noindent
+We consider two characteristics $(f, m)$ and $(f', m')$ to be equal if $m = m'$, $r(f) = r(f')$ and $\xi(f) = \xi(f')$.
 
 \begin{definition}
 Let $\mathcal{A} = (Q, C, \delta, q_0, \emptyset)$ be an automaton encoding a defender's strategy.
@@ -1766,7 +1768,7 @@ where $\mathbf{Char}'_r$ denotes the characteristic of $r$ in the automaton $\ma
 \begin{proof}
 As a state completely determines the $1$-commitment of its characteristic, we have $f_r = f'_r$ for every state $r$.
 Further, we prove by induction on $k$ that for all $r \in Q \smallsetminus \{q\}$, $u \in U$, $1 \leq k \leq d$ we have that $$m'_r(k, u) = m_r(k, u)~.$$
-For $k = 1$ this clearly holds because for any characteristic $(f, m)$, values $m(1, u)$ are completely determined by $\xi(f)$, and $f_r = f'_r$.
+For $k = 1$, this clearly holds because for any characteristic $(f, m)$, values $m(1, u)$ are completely determined by $\xi(f)$, and $f_r = f'_r$.
 
 %Now all we need is to realize that $\xi(r)$ is the same in both $\mathcal{A}$ and $\mathcal{A}_{p \leftarrow q}$.
 For $2 \leq k \leq d$, it follows from the definition of the characteristic of a state, from the induction hypothesis and from the definition of $\delta'$ that
@@ -1872,6 +1874,44 @@ The condition's if-clause is crucial for the algorithm---there might exist a con
 Therefore, if $d = 1$, the value of any characteristic $(f, m)$ such that $r(f) = c$ would be $0$ and no characteristic could have a $c$-successor from the set $D$ until characteristics with value $0$ were added to $D$.
 Thus, the $c$-successor of a charateristic $(f, m)$ can be an arbitrary characteristic as long as $\xi(f)(c) = 0$.
 \end{remark}
+
+As in Section \ref{sec:characteristics}, we say that a non-empty set $B \subseteq \mathit{Char}^s$ is \emph{closed} if for every $\gamma \in B$ there are successors $(\gamma_1, \dots, \gamma_{|C|}) \in B^{|C|}$ of $\gamma$.
+Finally, we say that a set $D \subseteq \mathit{Char}^s$ is \emph{complete} if it contains a closed subset.
+Observe that each closed set can be seen as the set of states of an automaton whose transition function can be build from the states' successors.
+Contrary to the SRPGs, the initial state of the automaton can be any of its states as an MRPG does not force a specific initial configuration.
+
+Let us fix a closed set $B$ and an arbitrary characteristic $\hat{\gamma} \in B$, $\hat{\gamma} = (\hat{f}, \hat{m})$.
+Further, for each $\gamma \in B$, let us fix some successors $(\gamma_1, \dots, \gamma_{|C|}) \in B^{|C|}$ of $\gamma$.
+We construct a DFA $\mathcal{A}_B = (B, C, \delta_B, \hat{\gamma}, \emptyset)$ where $\delta_B(\gamma, c_i) = \gamma_i$ for all $\gamma \in B$ and $c_i \in C$.
+We define the strategy $\sigma_B$ determined by $\mathcal{A}_B$ as
+$\sigma_B(\epsilon) = \hat{f}(\epsilon)$ and, for every history $h \in \mathcal{H}$, we define
+$\sigma_B(h) = \xi(f)$ where $(f, m) = \mathcal{A}_B[h^+]$.
+We show that each state of $\mathcal{A}_B$ is identical with its own characteristic.
+
+\begin{lemma}
+\label{lem:char=char}
+For every state $\gamma \in B$ we have that $\gamma = \mathbf{Char}_\gamma$.
+\end{lemma}
+
+\begin{proof}
+To be clear on the notation, let $\gamma = (f, m)$ and $\mathbf{Char}_\gamma = (f_\gamma, m_\gamma)$.
+From the definition of $\sigma_B$, it directly follows that $f = f_\gamma$.
+
+For the second part, we prove by induction on $k$ that for all $\gamma \in B$, $u \in U$, and $1 \leq k \leq d$ it holds that $m(k, u) = m_\gamma(k, u)$.
+For $k = 1$, this follows from the definition of the characteristic and the fact that $f = f_\gamma$.
+
+For $2 \leq k \leq d$, let $(\gamma_1, \dots, \gamma_{|C|})$ be the successors of $\gamma$. It follows that
+\begin{align}
+m(k, u)
+  &= \sum_{c \in C_u}\xi(f)(c) + \sum_{i = 1, c_i \notin C_u}^{|C|} \xi(f)(c_i)\cdot m_i(k-1, u)	\label{eq6:first} \\
+  &= \sum_{c \in C_u}\xi(f)(c) + \sum_{i = 1, c_i \notin C_u}^{|C|} \xi(f)(c_i)\cdot m_{\gamma_i}(k-1, u)	\label{eq6:second} \\
+  &= \sum_{c \in C_u}\xi(f)(c) + \sum_{i = 1, c_i \notin C_u}^{|C|} \xi(f)(c_i)\cdot m_{\delta_B(\gamma, c_i)}(k-1, u)	\label{eq6:third} \\
+  &= \sum_{c \in C_u}\xi(f)(c) + \sum_{c \in C \smallsetminus C_u} \xi(f)(c)\cdot m_{\delta_B(\gamma, c)}(k-1, u)	\label{eq6:fourth} \\
+  &= m_\gamma(k, u)\label{eq6:fifth}~.
+\end{align}
+The equality \eqref{eq6:second} follows from the induction hypothesis (we used notation $\mathbf{Char}_{\gamma_i} = (f_{\gamma_i}, m_{\gamma_i})$).
+The other equalities follow from the definitions of successors (\eqref{eq6:first}), of $\sigma_B$ (\eqref{eq6:third}), of $C$ (\eqref{eq6:fourth}) and of the characteristic of a state (\eqref{eq6:fifth}).
+\end{proof}
 
 \chapter{This is the end, my only friend, the end}
 
