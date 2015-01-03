@@ -1155,7 +1155,7 @@ From these characteristics, we aim to build a DFA encoding an $\epsilon$-optimal
 
 Let $U = \{u_1, \dots, u_n\}$, $n = |U|$, be the set of nodes of $\mathcal{G}$
 and let $c, c_1, \dots, c_n$ be some characteristics (not necessarily different).
-We say that a sequence $(c_1, \dots, c_n)$ are \emph{successors} of $c$ if 
+We say that the sequence $(c_1, \dots, c_n)$ are \emph{successors} of $c$ if 
 for all $1 \leq k \leq d$ and $u \in U$ it holds
 $c(k, u) = c(1, u) + \sum_{i = 1, u_i \neq u}^n c(1, u_i) \cdot c_i(k - 1, u)$.
 The meaning of this is that if, for all $i$, $c_i = \mathbf{Char}_{c_i}$ and there is a transition from the state $c$ to $c_i$ under $u_i$, then also $c = \mathbf{Char}_{c}$.
@@ -1164,7 +1164,7 @@ Note that $\sum_{i = 1, u_i \neq u}^n c(1, u_i) \cdot c_i(0, u) = 0$.
 Therefore if $c(1, u_i) > 0$, then $c_i(0, u) = 0$ for all $u \neq u_i$, which implies $c_i(0, u_i) = 1$.
 This guarantees that if there is a positive probability of choosing $u_i$ in the state $c$, then the root of $c_i$ is $u_i$.
 
-We say that a non-empty set $B \subseteq \mathit{Char}^s$ is \emph{closed} if for all $c \in B$ there are successors $(c_1, \dots, c_n) \in B^n$ of $c$.
+We say that a non-empty set $B \subseteq \mathit{Char}^s$ is \emph{closed} if for every $c \in B$ there are successors $(c_1, \dots, c_n) \in B^n$ of $c$.
 Finally, we say that a set $D \subseteq \mathit{Char}^s$ is \emph{complete} if it contains a closed subset.
 
 Note that each closed set $B$ represents a set of states of an automaton whose transition function can be built from the states' successors.\footnote{In general, there might be several different sequences of successors for a characteristic in a closed set. Therefore, the process of building an automaton from a closed set is not deterministic.}
@@ -1530,6 +1530,7 @@ The defender has an optimal strategy in any MRPG.
 \end{thm}
 
 \section{Discretized $\epsilon$-optimal Strategies}
+\label{sec:discretizationMRPG}
 
 In this section, we prove that each optimal defender's strategy $\sigma$ retains its value throughout a play of the game.
 We later use this knowledge to prove that an appropriately discretized strategy (for a given precision $\epsilon$) has value at least $val(\sigma) - \epsilon$ throughout the play, and therefore is $\epsilon$-optimal.
@@ -1823,9 +1824,14 @@ Because for each $d$-commitment $p \in Q$ it holds that $f_p(\epsilon) = p(\epsi
 
 \ref{sec:alg}
 
+We consider the set of all \emph{discretized} characteristics
+$\mathit{Char}^s$ that consists of all characteristics $(f, m)$ such that $\xi(f)(c)$ is an integer multiple of $s$ for all $c \in C$ and $m(k, u)$ is an integer multiple of $s^k$ for all $1 \leq k \leq d$ and $u \in U$.
+Realizing %the discretization procedure used to define the strategy $\sigma_\epsilon$ (see Step 1 in Section \ref{sec:discretizationMRPG}) and the fact
+that values $\sigma_{red}(h)(c)$ are integer multiples of $s$, it is easy to see that $Q_\mathit{Char} \subseteq \mathit{Char}^s$.
+
 \begin{algorithm}[ht]
 \caption{~Compute an $\epsilon$-optimal strategy $\sigma_\epsilon^{alg}$}
-\label{alg:algorithm1}
+\label{alg:algorithm2}
 \begin{algorithmic}[1]
 \par\vspace{0.5mm}
 	\Require	multi-robot patrolling game $\mathcal{G} = (U, E, T, d, z)$, $\epsilon > 0$
@@ -1845,6 +1851,27 @@ Because for each $d$-commitment $p \in Q$ it holds that $f_p(\epsilon) = p(\epsi
 \end{algorithmic}
 \end{algorithm}
 
+Let $C = \{c_1, \dots, c_{|C|}\}$ be the set of all configurations
+and let $\gamma, \gamma_1, \dots, \gamma_{|C|}$ be some characteristics (not necessarily different) such that $\gamma = (f, m)$ and $\gamma_i = (f_i, m_i)$.
+We say that the sequence $(\gamma_1, \dots, \gamma_{|C|})$ are \emph{successors} of $\gamma$ if
+the following two conditions are satisfied:
+\vspace{-5pt}
+\begin{itemize}
+	\item if $\xi(f)(c_i) > 0$, then $r(f_i) = c_i$,\footnote{blabla we cannot ignore the 'if' clause}
+	\item for all $2 \leq k \leq d$ and $u \in U$
+$$m(k, u) = \sum_{c \in C_u}\xi(f)(c) + \sum_{i = 1, c_i \notin C_u}^{|C|} \xi(f)(c_i)\cdot m_i(k-1, u)~.$$
+\end{itemize}
+\vspace{-5pt}
+\noindent
+The meaning of this is that if, for all $i$, $\gamma_i = \mathbf{Char}_{\gamma_i}$ and there is a transition from the state $\gamma$ to $\gamma_i$ under $c_i$, then also $\gamma = \mathbf{Char}_{\gamma}$.
+We refer to $\gamma_i$ as the $c_i$-successor of $\gamma$.
+
+\begin{remark}
+The first condition guarantees that if there is a positive probability of choosing $c_i$ in the state $\gamma$, then the current configuration of its $c_i$-successor must be $c_i$.
+The condition's if-clause is crucial for the algorithm---there might exist a configuration $c$ and a target $t$ such that no successor of $c$ covers $t$.
+Therefore, if $d = 1$, the value of any characteristic $(f, m)$ such that $r(f) = c$ would be $0$ and no characteristic could have a $c$-successor from the set $D$ until characteristics with value $0$ were added to $D$.
+Thus, the $c$-successor of a charateristic $(f, m)$ can be an arbitrary characteristic as long as $\xi(f)(c) = 0$.
+\end{remark}
 
 \chapter{This is the end, my only friend, the end}
 
