@@ -1223,7 +1223,7 @@ If the set $D'_\mu$ is not empty, then it is closed and $D$ is complete.
 \
 
 \noindent
-\textbf{Complexity} of the Algorithm \ref{alg:algorithm1}.
+\textbf{Complexity of the Algorithm \ref{alg:algorithm1}}.
 Both the size of the priority queue $C$ and the size of the set $D$ are bounded above by
 $|\mathit{Char}^s|$.
 The repeat-until cycle is executed at most $|\mathit{Char}^s|$ times.
@@ -1232,7 +1232,7 @@ Following the procedure we have described, this can take up to $|D|\cdot|D|^{(n+
 $|D|$ iterations of determining for each tuple $(c_0, \dots, c_n) \in D'^{(n+1)}$ whether it holds that $(c_1, \dots, c_n)$ are successors of $c_0$.\footnote{Each such verification involves up to $\mathcal{O}(d\cdot n^2)$ multiplications.}
 %The found closed set $D'_\mu$ with saved successors for each of its elements represents an automaton determining an $\epsilon$-optimal strategy.
 
-For $|\mathit{Char}^s| = (1/s)^{d^2\cdot{n}}$, $s = \lceil(|U|d)/\epsilon\rceil^{-1}$, and $n = |U|$, we have that the Algorithm \ref{alg:algorithm1} runs in time $\left(\frac{d\cdot|U|}{\epsilon}\right)^{\mathcal{O}(d^2\cdot|U|^2)}$, which proves Theorem \ref{thm:complexity}.
+For $|\mathit{Char}^s| = (1/s)^{d^2\cdot{n}}$, $s = \lceil(|U|d)/\epsilon\rceil^{-1}$, and $n = |U|$ we get that the Algorithm \ref{alg:algorithm1} runs in time $\left(\frac{d\cdot|U|}{\epsilon}\right)^{\mathcal{O}(d^2\cdot|U|^2)}$, which proves Theorem \ref{thm:complexity}.
 
 \begin{remark}
 Let us discuss the complexity of approximating the value of the game.
@@ -1824,14 +1824,27 @@ Because for each $d$-commitment $p \in Q$ it holds that $f_p(\epsilon) = p(\epsi
 
 \section{The Algorithm}
 
-\ref{sec:alg}
+In this section, we provide an algorithm to compute a regular $\epsilon$-optimal strategy of a given MRPG for a given precision $\epsilon$.
+This algorithm is almost the same as the Algorithm \ref{alg:algorithm1} in Section \ref{sec:alg}.
+And although the ideas behind these algorithms are very similar, the argumentation about their correctness differs due to different definitions of a characteristic in SRPGs and MRPGs.
+Therefore, we provide a detailed formal argumentation about the algorithm.
 
+From the previous section, we already know that there exists a DFA $\mathcal{A}_\mathit{Char}$ which encodes an $\epsilon$-optimal strategy and whose states $Q_\mathit{Char}$ are mutually different characteristics.
+Further, each of its states $\gamma = (f, m)$ satisfies:
+\vspace{-20pt}
+\begin{itemize}
+	\item $\gamma = \mathbf{Char}_\gamma$
+	\item $\xi(f)(c)$ is an integer multiple of $s$ for all $c \in C$, where $s = \lceil(|C|d)/\epsilon\rceil^{-1}$
+	\item $val(\gamma) \geq val(\sigma) - \epsilon$.
+\end{itemize}
+\vspace{-5pt}
+\noindent
+We aim to find an automaton satisfying all of these conditions.
 We consider the set of all \emph{discretized} characteristics
 $\mathit{Char}^s$ that consists of all characteristics $(f, m)$ such that $\xi(f)(c)$ is an integer multiple of $s$ for all $c \in C$ and $m(k, u)$ is an integer multiple of $s^k$ for all $1 \leq k \leq d$ and $u \in U$.
-Realizing %the discretization procedure used to define the strategy $\sigma_\epsilon$ (see Step 1 in Section \ref{sec:discretizationMRPG}) and the fact
-that values $\sigma_{red}(h)(c)$ are integer multiples of $s$, it is easy to see that $Q_\mathit{Char} \subseteq \mathit{Char}^s$.
+Realizing that values $\sigma_\mathit{Char}(h)(c)$ are integer multiples of $s$, it is easy to see that $Q_\mathit{Char} \subseteq \mathit{Char}^s$.
 
-\begin{algorithm}[ht]
+\begin{algorithm}[t]
 \caption{~Compute an $\epsilon$-optimal strategy $\sigma_\epsilon^{alg}$}
 \label{alg:algorithm2}
 \begin{algorithmic}[1]
@@ -1859,10 +1872,12 @@ We say that the sequence $(\gamma_1, \dots, \gamma_{|C|})$ are \emph{successors}
 the following two conditions are satisfied:
 \vspace{-5pt}
 \begin{itemize}
-	\item if $\xi(f)(c_i) > 0$, then $r(f_i) = c_i$,\footnote{blabla we cannot ignore the 'if' clause}
+%\begin{enumerate}[label=(\Alph*)]
+	\item if $\xi(f)(c_i) > 0$, then $r(f_i) = c_i$,%\label{conditionA}
 	\item for all $2 \leq k \leq d$ and $u \in U$
 $$m(k, u) = \sum_{c \in C_u}\xi(f)(c) + \sum_{i = 1, c_i \notin C_u}^{|C|} \xi(f)(c_i)\cdot m_i(k-1, u)~.$$
 \end{itemize}
+%\end{enumerate}
 \vspace{-5pt}
 \noindent
 The meaning of this is that if, for all $i$, $\gamma_i = \mathbf{Char}_{\gamma_i}$ and there is a transition from the state $\gamma$ to $\gamma_i$ under $c_i$, then also $\gamma = \mathbf{Char}_{\gamma}$.
@@ -1875,21 +1890,21 @@ Therefore, if $d = 1$, the value of any characteristic $(f, m)$ such that $r(f) 
 Thus, the $c$-successor of a charateristic $(f, m)$ can be an arbitrary characteristic as long as $\xi(f)(c) = 0$.
 \end{remark}
 
-As in Section \ref{sec:characteristics}, we say that a non-empty set $B \subseteq \mathit{Char}^s$ is \emph{closed} if for every $\gamma \in B$ there are successors $(\gamma_1, \dots, \gamma_{|C|}) \in B^{|C|}$ of $\gamma$.
+As in Section \ref{sec:alg}, we say that a non-empty set $B \subseteq \mathit{Char}^s$ is \emph{closed} if for every $\gamma \in B$ there are successors $(\gamma_1, \dots, \gamma_{|C|}) \in B^{|C|}$ of $\gamma$.
 Finally, we say that a set $D \subseteq \mathit{Char}^s$ is \emph{complete} if it contains a closed subset.
 Observe that each closed set can be seen as the set of states of an automaton whose transition function can be build from the states' successors.
-Contrary to the SRPGs, the initial state of the automaton can be any of its states as an MRPG does not force a specific initial configuration.
+Contrary to SRPGs, the initial state of this automaton can be any of its states as an MRPG does not force a specific initial configuration.
 
 Let us fix a closed set $B$ and an arbitrary characteristic $\hat{\gamma} \in B$, $\hat{\gamma} = (\hat{f}, \hat{m})$.
 Further, for each $\gamma \in B$, let us fix some successors $(\gamma_1, \dots, \gamma_{|C|}) \in B^{|C|}$ of $\gamma$.
 We construct a DFA $\mathcal{A}_B = (B, C, \delta_B, \hat{\gamma}, \emptyset)$ where $\delta_B(\gamma, c_i) = \gamma_i$ for all $\gamma \in B$ and $c_i \in C$.
-We define the strategy $\sigma_B$ determined by $\mathcal{A}_B$ as
+We define a defender's strategy $\sigma_B$ determined by $\mathcal{A}_B$ as
 $\sigma_B(\epsilon) = \hat{f}(\epsilon)$ and, for every history $h \in \mathcal{H}$, we define
 $\sigma_B(h) = \xi(f)$ where $(f, m) = \mathcal{A}_B[h^+]$.
 We show that each state of $\mathcal{A}_B$ is identical with its own characteristic.
 
 \begin{lemma}
-\label{lem:char=char}
+\label{lem:char=charMRPG}
 For every state $\gamma \in B$ we have that $\gamma = \mathbf{Char}_\gamma$.
 \end{lemma}
 
@@ -1904,14 +1919,45 @@ For $2 \leq k \leq d$, let $(\gamma_1, \dots, \gamma_{|C|})$ be the successors o
 \begin{align}
 m(k, u)
   &= \sum_{c \in C_u}\xi(f)(c) + \sum_{i = 1, c_i \notin C_u}^{|C|} \xi(f)(c_i)\cdot m_i(k-1, u)	\label{eq6:first} \\
-  &= \sum_{c \in C_u}\xi(f)(c) + \sum_{i = 1, c_i \notin C_u}^{|C|} \xi(f)(c_i)\cdot m_{\gamma_i}(k-1, u)	\label{eq6:second} \\
-  &= \sum_{c \in C_u}\xi(f)(c) + \sum_{i = 1, c_i \notin C_u}^{|C|} \xi(f)(c_i)\cdot m_{\delta_B(\gamma, c_i)}(k-1, u)	\label{eq6:third} \\
-  &= \sum_{c \in C_u}\xi(f)(c) + \sum_{c \in C \smallsetminus C_u} \xi(f)(c)\cdot m_{\delta_B(\gamma, c)}(k-1, u)	\label{eq6:fourth} \\
+  &= \sum_{c \in C_u}\xi(f_\gamma)(c) + \sum_{i = 1, c_i \notin C_u}^{|C|} \xi(f_\gamma)(c_i)\cdot m_{\gamma_i}(k-1, u)	\label{eq6:second} \\
+  &= \sum_{c \in C_u}\xi(f_\gamma)(c) + \sum_{i = 1, c_i \notin C_u}^{|C|} \xi(f_\gamma)(c_i)\cdot m_{\delta_B(\gamma, c_i)}(k-1, u)	\label{eq6:third} \\
+  &= \sum_{c \in C_u}\xi(f_\gamma)(c) + \sum_{c \in C \smallsetminus C_u} \xi(f_\gamma)(c)\cdot m_{\delta_B(\gamma, c)}(k-1, u)	\label{eq6:fourth} \\
   &= m_\gamma(k, u)\label{eq6:fifth}~.
 \end{align}
-The equality \eqref{eq6:second} follows from the induction hypothesis (we used notation $\mathbf{Char}_{\gamma_i} = (f_{\gamma_i}, m_{\gamma_i})$).
+The equality \eqref{eq6:second} follows from the induction hypothesis (we used notation $\mathbf{Char}_{\gamma_i} = (f_{\gamma_i}, m_{\gamma_i})$) and the fact that $f = f_\gamma$.
 The other equalities follow from the definitions of successors (\eqref{eq6:first}), of $\sigma_B$ (\eqref{eq6:third}), of $C$ (\eqref{eq6:fourth}) and of the characteristic of a state (\eqref{eq6:fifth}).
 \end{proof}
+
+%Now we are almost finished.
+As the lowest value from among the values of characteristics of the automaton's states provides a lower bound on the value of the defender's strategy determined by the automaton, it follows from Lemma \ref{lem:char=charMRPG} that
+$val(\sigma_B) \geq \min_{\gamma \in B} val(\gamma)$.
+
+However, it follows from the existence of the automaton $\mathcal{A}_\mathit{Char}$ that there exists a closed set $Q_\mathit{Char}$ such that $\min_{\gamma \in Q_\mathit{Char}} val(\gamma) \geq val(\sigma) - \epsilon$.
+And as any closed subset $B$ of the complete set $D$ found by the Algorithm \ref{alg:algorithm2} maximizes $\min_{\gamma \in B} val(\gamma)$, we have that $\sigma_\epsilon^{alg} \geq val(\sigma_\mathit{Char})$.
+Therefore, $\sigma_\epsilon^{alg}$ is $\epsilon$-optimal.
+
+The process of determining whether a finite set $D$ of characteristics is complete is the same as in Section \ref{sec:alg}.
+For a copy $D'$ of $D$, we iteratively remove from $D'$ all the characteristics which do not have successors in $D'$ until we reach a fixed point in which all characteristics have successors.
+If the fixed point is not empty, then it is the desired closed set and $D$ is complete.
+
+\
+
+\noindent
+\textbf{Complexity of the Algorithm \ref{alg:algorithm2}}.
+As for the Algorithm \ref{alg:algorithm1}, the decisive part of the execution time is spent in determining whether a set $D$ is complete.
+This can take up to $|D|\cdot|D|^{|C|+1}$ steps---$|D|$ iterations of verifying for each tuple $(\gamma_0, \dots, \gamma_{|C|}) \in D^{|C|+1}$ whether $(\gamma_1, \dots, \gamma_{|C|})$ are successors of $\gamma_0$.
+As $D \subseteq \mathit{Char}^s$, it remains to find an upper bound for $|\mathit{Char}^s|$, i.e. determine how many different discretized characteristics $(f, m)$ exist.
+The number of possible values for $r(f)$ is $|C|$, for $\xi(f)$ it is $(s^{-1})^{|C|}$, and for $m$ it is $(s^{-1})^{d^2|U|}$.
+For $C = U^z$ and $s = \lceil(|C|d)/\epsilon\rceil^{-1}$ we get that the Algorithm \ref{alg:algorithm2} runs in time $\left(\frac{d\cdot|U|^z}{\epsilon}\right)^{\mathcal{O}(|U|^{2z} + d^2\cdot|U|^{z+1})}$, which proves Theorem \ref{thm:complexityMRPG}.
+
+\begin{thm}
+\label{thm:complexityMRPG}
+Let $\epsilon > 0$.
+There is a regular $\epsilon$-optimal defender's strategy computable in time
+$\left(\frac{d\cdot|U|^z}{\epsilon}\right)^{\mathcal{O}(|U|^{2z} + d^2\cdot|U|^{z+1})}$.
+\end{thm}
+
+%- number of 1-commitments when all except root and \xi is ignored
 
 \chapter{This is the end, my only friend, the end}
 
