@@ -32,12 +32,7 @@
 \newtheorem{example}[thm]{Example}
 \newtheorem{observation}[thm]{Observation}
 
-\newtheorem{remark}{Remark} %TODO zmenit remarky na \textit{Remark x} - pozor na cislovanie!
-
-%\setcounter{figure}{0}
-%\makeatletter
-%\renewcommand{\thefigure}{\arabic{figure}}
-%TODO overit cislovanie obrazkov! -> \renewcommand\thefigure{1}
+\newtheorem{remark}{Remark}
 
 \thesislang{en}
 \thesistitle{Computational Complexity of Patrolling Games on Oriented Graphs}
@@ -117,9 +112,7 @@ Non-zero sum games are referred to as \emph{general-sum} games.
 
 Of great importance is the concept of \emph{mixed strategies}.
 A pure strategy is a strategy which determines the move a player will make for every possible situation that could occur.
-A mixed strategy is a probability distribution
-%TODO odkaz na probability distribution?
-over pure strategies.
+A mixed strategy is a probability distribution over pure strategies.
 Using a mixed strategy allows a player to randomize.
 This means a player can make different moves under the same game conditions.
 As each pure strategy is also a mixed strategy, we will refer to mixed strategies just as \emph{strategies}.
@@ -203,8 +196,7 @@ The goal of the police is to create a surveillance plan which minimizes the poss
 
 There are many models of patrolling games which differentiate from each other in many ways (see Section \ref{sec:patrolLiterature}).
 We work with a simple model of patrolling games which was introduced in \cite{miso}.
-The results achieved in this thesis can be easily extended to more general models, which is explained later.
-%TODO link where the explanation is
+The results achieved in this thesis can be extended to more general models, which is explained at appropriate places.
 
 We model a patrolling game as a two-player zero-sum Stackelberg security game in extensive form with infinite horizon.
 The game is played on a directed graph, which represents the possible locations and moves of the defender.
@@ -252,7 +244,6 @@ Strategies with $h = 1$ are based only on the current defender's location and we
 In \cite{arbitrary} there is an example where no optimal defender's strategy is stationary.
 In \cite{iti2} it has been shown that, in general, there might be no optimal defender's strategy which depends only on the last $h$ visited nodes for any $h \in \mathbb{N}$.
 
-%TODO \section{Related Work}
 \section{Basic Literature on Patrolling Games}
 \label{sec:patrolLiterature}
 In this section, we give an overview of the research in the field of the patrolling games in the last years. We address several papers and models. For each paper, we state the differences from our model and we mention the most significant results achieved.
@@ -275,7 +266,6 @@ Authors' subsequent papers concerning multi-robot perimeter patrol in adversaria
 
 A more general graph topology is addressed in \cite{arbitrary}. The authors consider a model with a single robot patrolling on an arbitrary directed graph. Not all nodes of the graph are necessarily targets and each target node $i$ requires the intruder ${d_i}$ steps to enter.
 The robot is equipped with a sensor able to detect the intruder. The robot's sensing capabilities are represented by a matrix ${V(n \times n)}$ where ${v_{i,j} = 1}$ iff node $j$ can be sensed from node $i$.
-%TODO footnote?
 The patroller's sensing capabilities in our model are equivalent to the case of $V$ being an identity matrix.
 
 The possible outcomes of the game are defined as follows:
@@ -351,22 +341,21 @@ So far, the targets carrying value were static. In \cite{movingTargets}, the aut
 The model considered in \cite{movingTargets} is based on the model used in \cite{arbitrary}. It assumes unified attack length and first-order Markovian defender's strategy.
 In addition, targets are allowed to move through the area according to a deterministic movement schedule. This schedule is a fixed property of the environment and is known to both players.
 
-The game is played in $|T|$ turns, thereafter it is repeated \--- i.e. the targets move in cycles. In each turn, the defender can move to an adjacent node and the targets can move to any node. The movement of the targets is defined by an arbitrary function ${f : Q \times T \to V}$, where $Q$ is the set of targets, $T$ is the set of turns and $V$ is the set of nodes.
-%TODO vynechat formalizmy a skratit to? "In contrast with the defender, the targets can move to any node, not just the adjacent one."
+The game is played in $|T|$ turns and thereafter, it is repeated, i.e. the targets move in cycles. In each turn, the defender can move to an adjacent node and the targets can move to any node. The movement of the targets is defined by an arbitrary function ${f : Q \times T \to V}$, where $Q$ is the set of targets, $T$ is the set of turns and $V$ is the set of nodes.
 Note that the targets are not nodes anymore, but they are rather positioned in the nodes.
-To cope with the target movement, the defender's strategy is time-dependent. The defender chooses her next action based not only on her current node but also on the current turn.
+To cope with the target movement, the defender's strategy is time-dependent. The defender chooses her next action based not only on her current node, but also on the current turn.
 
 The authors formulate a multi-bilinear program to find the optimal defender's strategy.
 They experimentally compare the performance of the stationary and time-dependent strategies. They do so in terms of the reached game value and computation time. Evaluation examples have different types of graph structure (grid with holes vs. full grid) and different types of target movement (the distance between targets is either changing, or not).
 
-The results of the experiment show that in the game with mobile targets time-dependent strategies lead to significantly higher utility value. In the experimental results presented in the paper, time-dependent strategies preceded the stationary ones by approximately 50--300\%. However, the computational time was 10--1000 times larger. The authors concluded that time-dependent strategies are reasonable to be used.
+The results of the experiment show that, in the game with mobile targets, time-dependent strategies lead to significantly higher utility value. In the experimental results presented in the paper, time-dependent strategies preceded the stationary ones by approximately 50--300\%. However, the computational time was 10--1000 times larger. The authors concluded that time-dependent strategies are reasonable to be used.
 
 \
 
-A noticeably novel game model called MRMT\textsubscript{sg} (multiple Mobile Resources protecting Moving Targets) was introduced in \cite{line}. In MRMT\textsubscript{sg}, the defender's strategy space is discretized and attacker's strategy space is continuous. A major motivation in the paper is the problem of protecting ferries with fast patrol boats.
+A noticeably novel game model called MRMT\textsubscript{sg} (multiple Mobile Resources protecting Moving Targets) was introduced in \cite{line}. In MRMT\textsubscript{sg}, the defender's strategy space is discretized and the attacker's strategy space is continuous. A major motivation in the paper is the problem of protecting ferries with fast patrol boats.
 
 The authors consider $L$ targets moving along a one-dimensional domain, specifically a straight line between two points $A$ and $B$. The targets have fixed daily schedules known to both players. The targets move in time continuously between points $A$ and $B$.
-The defender has $W$ mobile patrollers that can move between $A$ and $B$. All patrollers have a common maximum speed $v_m$ and a protection radius $r_e$. A patroller is \emph{protecting} a target if the distance between them is no more than $r_e$. The attacker chooses a certain time and a certain target to attack. The probability of attack success depends on the positions of the patrollers at that time, i.e. the attack is instant and there is no attack length. This probability is a decreasing function of the number of patrollers protecting the target. An attack on a target can be successful even if there is a patroller protecting the target. The case when an attack on a target is successful iff the target is not protected by any patroller is just a special case.
+The defender has $W$ mobile patrollers that can move between $A$ and $B$. All patrollers have a common maximum speed $v_m$ and a protection radius $r_e$. A patroller is \emph{protecting} a target if the distance between them is no more than $r_e$. The attacker chooses a certain time and a certain target to attack. The probability of the attack being successful depends on the positions of the patrollers at that time, i.e. the attack is instant and there is no attack length. This probability is a decreasing function of the number of patrollers protecting the target. An attack on a target can be successful even if there is a patroller protecting the target. The case when an attack on a target is successful iff the target is not protected by any patroller is just a special case.
 
 The authors provide an efficient linear program called CASS (Solver for Continuous Attacker Strategies) to solve  MRMT\textsubscript{sg}. The efficiency of CASS consists in the representation of the defender's strategies as marginal probability variables and in using \emph{sub-interval analysis} to model the attacker's continuous strategy space.
 
@@ -1526,7 +1515,6 @@ We claim that an extra condition\footnote{The extra condition listed in \cite{it
 
 The process of translating a defender's strategy $\sigma$ in $\mathcal{G}$ to a strategy $\theta_{\emph{Max}}[\sigma]$ of player \emph{Max} in $\mathcal{S}$, and vice versa, is exactly the same as for SRPGs.
 It preserves the values of the corresponding strategies and we get that the defender has an optimal strategy in $\mathcal{G}$.
-%For later reference, we provide a copy of Theorem \ref{thm:existence}.
 
 \begin{thm}
 \label{thm:existenceMRPG}
@@ -1773,7 +1761,6 @@ As a state completely determines the $1$-commitment of its characteristic, we ha
 Further, we prove by induction on $k$ that for all $r \in Q \smallsetminus \{q\}$, $u \in U$, $1 \leq k \leq d$ we have that $$m'_r(k, u) = m_r(k, u)~.$$
 For $k = 1$, this clearly holds because for any characteristic $(f, m)$, values $m(1, u)$ are completely determined by $\xi(f)$, and $f_r = f'_r$.
 
-%Now all we need is to realize that $\xi(r)$ is the same in both $\mathcal{A}$ and $\mathcal{A}_{p \leftarrow q}$.
 For $2 \leq k \leq d$, it follows from the definition of the characteristic of a state, from the induction hypothesis and from the definition of $\delta'$ that
 \begin{align}
 m'_r(k, u)
@@ -1784,7 +1771,6 @@ m'_r(k, u)
 \end{align}
 \end{proof}
 \noindent
-%Now we proceed in the same way as in Section \ref{sec:characteristics}.
 Note that Lemma \ref{lem:characteristicsMRPG} holds also for the reduced automaton $\mathcal{A}_{p \leftarrow q}$ and the process of merging equivalent states can be repeated until all states have mutually different, but still unchanged characteristics.
 As this process is non-deterministic, let us fix and denote by $\mathcal{A}_{red}$ the resulting automaton which cannot be further reduced.
 We denote by $Q_{red}$ and $\sigma_{red}$ the set of states of $\mathcal{A}_{red}$ and the defender's strategy determined by $\mathcal{A}_{red}$, respectively.
@@ -1931,7 +1917,6 @@ The equality \eqref{eq6:second} follows from the fact that $f = f_\gamma$ and fr
 The other equalities follow from the definitions of successors (\eqref{eq6:first}), of $\sigma_B$ (\eqref{eq6:third}), of $C$ (\eqref{eq6:fourth}) and of the characteristic of a state (\eqref{eq6:fifth}).
 \end{proof}
 
-%Now we are almost finished.
 As the lowest value from among the values of characteristics of the automaton's states provides a lower bound on the value of the defender's strategy determined by the automaton, it follows from Lemma \ref{lem:char=charMRPG} that
 $val(\sigma_B) \geq \min_{\gamma \in B} val(\gamma)$.
 
@@ -1940,18 +1925,19 @@ And as any closed subset $B$ of the complete set $D$ found by the Algorithm \ref
 Therefore, $\sigma_\epsilon^{alg}$ is $\epsilon$-optimal.
 
 The process of determining whether a finite set $D$ of characteristics is complete is the same as in Section \ref{sec:alg}.
-For a copy $D'$ of $D$, we iteratively remove from $D'$ all the characteristics which do not have successors in $D'$ until we reach a fixed point in which all characteristics have successors.
+For a copy $D'$ of $D$, we iteratively remove from $D'$ all the characteristics which do not have successors in $D'$ until we reach a fixed point, in which all characteristics have successors.
 If the fixed point is not empty, then it is the desired closed set and $D$ is complete.
 
 \
 
 \noindent
 \textbf{Complexity of the Algorithm \ref{alg:algorithm2}}.
-As for the Algorithm \ref{alg:algorithm1}, the decisive part of the execution time is spent in determining whether a set $D$ is complete.
+Just as for the Algorithm \ref{alg:algorithm1}, the decisive part of the execution time is spent in determining whether a set $D$ is complete.
 This can take up to $|D|\cdot|D|^{|C|+1}$ steps---$|D|$ iterations of verifying for each tuple $(\gamma_0, \dots, \gamma_{|C|}) \in D'^{|C|+1}$ whether $(\gamma_1, \dots, \gamma_{|C|})$ are successors of $\gamma_0$.
-As $D \subseteq \mathit{Char}^s$, it remains to find an upper bound for $|\mathit{Char}^s|$, i.e. determine how many different discretized characteristics $(f, m)$ exist.
+As $D \subseteq \mathit{Char}^s$, it remains to find an upper bound for $|\mathit{Char}^s|$, i.e. to determine how many different discretized characteristics $(f, m)$ exist.
 The number of possible values for $r(f)$ is $|C|$, for $\xi(f)$ it is $(s^{-1})^{|C|}$, and for $m$ it is $(s^{-1})^{d^2|U|}$.
-For $C = U^z$ and $s = \lceil(|C|d)/\epsilon\rceil^{-1}$ we get that the Algorithm \ref{alg:algorithm2} runs in time $\left(\frac{d\cdot|U|^z}{\epsilon}\right)^{\mathcal{O}(|U|^{2z} + d^2\cdot|U|^{z+1})}$.
+For $C = U^z$ and $s = \lceil(|C|d)/\epsilon\rceil^{-1}$ we get that $|\emph{Char}^s| \leq \left(\frac{d\cdot|U|^z}{\epsilon}\right)^{|U|^{z} + d^2\cdot|U|}$.\footnote{To achieve a slightly lower bound, we used the knowledge that the values $m(1, u)$ are completely determined by $f$.}\linebreak
+By exponentiating this upper bound to $|C| + 1$, we get the following result:
 
 \begin{thm}
 \label{thm:complexityMRPG}
@@ -1993,13 +1979,6 @@ This might be achieved by a different equivalence relation.
 For example, we still do not know whether, in general, the automaton's state-space can be bounded above by the number of different $1$-commitments, i.e. no two states would have the same probability distributions in their root. However, we believe that this cannot be done.
 Inspecting the properties of optimal strategies might reveal new ways for more efficient algorithms.
 Finally, some advanced results from other fields might significantly reduce the time needed to determine whether a set of characteristics is complete.
-
-%find some lower bound on the number of needed checkes whether a tuple of characteristics are successors of another characteristic
-
-%centralne riadena strategia -> future work sa moze ubrat tymto (inym) smerom
-
-%TODO list
-%TODO spell checker
 
 \def\us{\char`\_}
 
