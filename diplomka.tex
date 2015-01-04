@@ -112,7 +112,7 @@ Examples of both normal- and extensive-form games can be found in \cite{gameTheo
 
 A \emph{zero-sum} game is a game such that $\sum_{i=1}^n u_i(s) = 0$ for all $s \in \mathcal{S}$.
 In a two-player zero-sum game, one player's gain is equal to his opponent's loss.
-Non-zero sum games are reffered to as \emph{general-sum} games.
+Non-zero sum games are referred to as \emph{general-sum} games.
 
 Of great importance is the concept of \emph{mixed strategies}.
 A pure strategy is a strategy which determines the move a player will make for every possible situation that could occur.
@@ -127,7 +127,7 @@ A player's \emph{best response} is the strategy (or strategies) which yields him
 
 When it comes to solving the game, some form of equilibrium strategy profile is in demand. The best known solution concept in game theory is \emph{Nash equilibrium} (NE) \cite{nash}, in which no player can gain anything by changing only his strategy. That is, each player's strategy is a best response to the other players' strategies.
 
-Different solution concepts were designed for specific game models. We are specially interested in the Stackelberg model, which we describe in the next section.
+Different solution concepts were designed for specific game models. We are especially interested in the Stackelberg model, which we describe in the next section.
 
 \section{Security Games}
 
@@ -162,17 +162,17 @@ Although IRIS was developed for FAMS, it provides a general framework for solvin
 
 Another security application using the Stackelberg game model is the \emph{GUARDS} (Game theoretic Unpredictable and Randomly Deployed Security) system \cite{guards}.
 It helps United States Transportation Security Administration (TSA) in resource allocation tasks for protection of more than 400 airports.
-In constrast with ARMOR and IRIS, which focused on one security activity, GUARDS reasons about hundreds of heterogenous defender activities, large number of diverse potential threads, and hundreds of potential end-users.
+In contrast with ARMOR and IRIS, which focused on one security activity, GUARDS reasons about hundreds of heterogeneous defender activities, large number of diverse potential threads, and hundreds of potential end-users.
 
 Other example of a game-theoretic security system is \emph{PROTECT} (Port Resilience Operational/Tactical Enforcement to Combat Terrorism) \cite{protect}.
 It has been currently deployed by the United States Coast Guard (USCG) in the ports of Boston, New York and Los Angeles \cite{protect_coastguard}.
-In contrast to the three beforementioned security applications, PROTECT relies on a quantal responce (QR) \cite{quantal} model of the adversary's behavior, i.e. the attacker has only bounded rationality.
+In contrast to the three before mentioned security applications, PROTECT relies on a quantal response (QR) \cite{quantal} model of the adversary's behaviour, i.e. the attacker has only bounded rationality.
 It was the first time that the QR model has been used in a real-world security application \cite{protect}.
 
 The last real-world security application we mention is \emph{TRUSTS} (Tactical Randomization for Urban Security in Transit Systems) \cite{trusts}, used by the Los Angeles County Sheriff's Department (LASD).
 The main purpose of TRUSTS is fare-evasion deterrence in urban proof-of-payment transit systems.
 In these systems, passengers are legally, but not physically, required to purchase tickets.
-Patrol units move about the system and fine fare-evading passangers.
+Patrol units move about the system and fine fare-evading passengers.
 The optimization objective is to maximize the total revenue (ticket sales plus fines) to the government.
 In \cite{trusts2}, the authors extend the TRUSTS system to incorporate also crime prevention and counter-terrorism.
 
@@ -184,19 +184,19 @@ Later, we informally describe the model adopted by us and we discuss its advanta
 
 Patrolling games are a special type of security games.
 Their unique feature is that the defender's resources can change their position in time.
-Furthermore, the attacker needs some finite time, called \emph{penetration time} (also \emph{attack length}), to succesfully complete an attack on a target.
+Furthermore, the attacker needs some finite time, called \emph{penetration time} (also \emph{attack length}), to successfully complete an attack on a target.
 During this time, the defender can detect the intrusion in which case the attack is unsuccessful.
 The defender's goal is to commit to a strategy which maximizes the probability of detecting an intrusion.
 The attacker's goal is to maximize the probability of a successful attack.
 The resources controlled by the defender are called \emph{patrollers} (also \emph{robots}).
-As the defender is represented by her resources, we use these two terms interchangably.
+As the defender is represented by her resources, we use these two terms interchangeably.
 That is, under "defender" we might mean her resources and vice versa.
 
 We illustrate the problem of patrolling on a simple example mentioned in \cite{miso}.
 Let us assume a city with $n$ banks which the police can protect against robbery.
 The police have $k, k < n$ police officers with cars available.
 We assume that banks cannot let the police know that an attack is under way.
-The goal of the police is to create a surveillance plan which minimizes the possilibity of a successful attack.
+The goal of the police is to create a surveillance plan which minimizes the possibility of a successful attack.
 
 \
 
@@ -243,7 +243,7 @@ This motive resulted in opting of the following parameters of our model: graph s
 It turns out that the assumption of all edges being of length 1 is quite sufficient. Indeed, the case where edges can have different natural lengths can be reduced to our simple model by splitting each edge of length $t$ to $t$ sequentially connected edges of length one. A more general case with rational lengths of edges can be reduced to the previous case by multiplying both the lengths of edges and the attack length by a suitable number.
 
 The motives behind choosing the Stackelberg model are not restricted to simplicity.
-Besides the reasons mentioned in \cite{miso}, the Stackelberg setting together with the game being zero sum lead to one favorable characteristic---the optimal defender's strategy is optimal also with respect to the worst-case scenario.
+Besides the reasons mentioned in \cite{miso}, the Stackelberg setting together with the game being zero sum lead to one favourable characteristic---the optimal defender's strategy is optimal also with respect to the worst-case scenario.
 
 The motive for absolute optimality led to allowing the defender to make her movement choice based on all the moves she already did.
 This is in contrast with all the other patrolling literature we are aware of, where the defender can decide where to move based only on the last $h$ visited nodes.
@@ -264,11 +264,11 @@ And to intercept an attack, the defender has to come to the node where the attac
 \subsection{Perimeter Patrol}
 The first reference in almost every robot patrolling paper is \cite{perimeter}. The authors consider a problem of multi-robot patrol around a closed area with the existence of a single adversary trying to enter the area. A real life motivation might be the following scenario. An intruder tries to cross a border while some patrolling units aim to detect this intrusion.
 
-The authors show that in adversial settings non-deterministic defender strategies are needed. They demonstrate it on an example similar to the following situation. A robot moving with velocity ${1m/s}$ is required to patrol around a fence of length 25 meters. Assume that an adversary needs 20 seconds to penetrate the area through the fence. If the robot moves deterministically, in any point of time a fence section of lenght of at least 5 meters will not be visited by the robot in the next 20 seconds. The intruder can guarantee penetration by entering through this section. However, if the robot moves in a non-deterministic way, it can commit to a strategy that does not allow the adversary to penetrate the area with probability 1.
+The authors show that in adversarial settings non-deterministic defender strategies are needed. They demonstrate it on an example similar to the following situation. A robot moving with velocity ${1m/s}$ is required to patrol around a fence of length 25 meters. Assume that an adversary needs 20 seconds to penetrate the area through the fence. If the robot moves deterministically, in any point of time a fence section of length of at least 5 meters will not be visited by the robot in the next 20 seconds. The intruder can guarantee penetration by entering through this section. However, if the robot moves in a non-deterministic way, it can commit to a strategy that does not allow the adversary to penetrate the area with probability 1.
 
 In the paper, a circular graph is considered. All nodes of the graph are targets with unified attack length. A system consisting of $k$ mobile robots is considered. Robots move simultaneously. The model is Markovian, where for each node the robot goes to the right with probability $p$ and to the left with probability ${1 - p}$.\footnote{Two other movement models, where the robot has directionality associated with its movement, are considered. The achieved results, such as polynomial time algorithm for finding the optimal strategy, apply for these models too.} The authors prove that to maximize the probability of penetration detection (\textsf{ppd}), the robots have to be placed uniformly along the cycle and they have to be coordinated, i.e. all robots move together in the same direction. This reduces the problem to a much simpler instance with smaller graph and only one robot. The main result is a polynomial time algorithm which computes the optimal defender's strategy.
 
-Authors' subsequent papers concerning multi-robot perimiter patrol in adversial settings include \cite{perimeter2} and \cite{perimeter3}. In \cite{perimeter2} it is shown that in the case the adversary has no knowledge of the patrol scheme, a deterministic algorithm is optimal. However, the deterministic algorithm creates high deviations between the  \textsf{ppd} values in the nodes and it is easy to detect. Therefore, the authors present an algorithm that deals with adversary having partial information. This algorithm maximizes the expected \textsf{ppd} along with minimizing the deviation between the \textsf{ppd} values throughout the perimeter. Its performance was verified by experiments with human subjects.
+Authors' subsequent papers concerning multi-robot perimeter patrol in adversarial settings include \cite{perimeter2} and \cite{perimeter3}. In \cite{perimeter2} it is shown that in the case the adversary has no knowledge of the patrol scheme, a deterministic algorithm is optimal. However, the deterministic algorithm creates high deviations between the  \textsf{ppd} values in the nodes and it is easy to detect. Therefore, the authors present an algorithm that deals with adversary having partial information. This algorithm maximizes the expected \textsf{ppd} along with minimizing the deviation between the \textsf{ppd} values throughout the perimeter. Its performance was verified by experiments with human subjects.
 
 \subsection{Arbitrary Graph Topologies}
 
@@ -292,7 +292,7 @@ Third, they introduce the concept of action dominance for the intruder.
 For an example setting, the reduction of nodes and the elimination of dominated actions resulted in the following improvement. Both the number of bilinear problems to be solved and the average computational time for solving a single problem decreased from ${29^2}$ to 18 and from more than 30 minutes to less than 5 minutes, respectively.
 
 The rest of the paper discusses the problem of finding an upper bound for ${|H|}$, say ${|\overline{H}|}$, such that among all the strategies, there is an optimal strategy
-which uses no more than length ${|\overline{H}|}$ of the history, i.e. for any ${|H| > |\overline{H}|}$ the patroller's expected utility keeps constant. Throughout the paper it is claimed that this treshold exists. However, in \cite{iti2} this claim has been proven \emph{incorrect}. Moreover, in \cite{arbitrary} they formulate a theorem that for a fully connected topology, ${|\overline{H}| = 0}$. That is also \emph{incorrect}. The proof sketch is done on a complete graph with 3 nodes, each with attack length 2. The authors prove that their algorithm gives the same expected utility when ${|H| = 0}$ and ${|H| = 1}$. Generalization of any kind is omitted. The highest expected utility when ${|H| = 0}$ is ${5/9}$. However, in \cite{iti1} there is a strategy with ${|H| = 2}$ giving expected utility ${(\sqrt{5} - 1)/2}$, which is strictly greater than ${5/9}$.
+which uses no more than length ${|\overline{H}|}$ of the history, i.e. for any ${|H| > |\overline{H}|}$ the patroller's expected utility keeps constant. Throughout the paper it is claimed that this threshold exists. However, in \cite{iti2} this claim has been proven \emph{incorrect}. Moreover, in \cite{arbitrary} they formulate a theorem that for a fully connected topology, ${|\overline{H}| = 0}$. That is also \emph{incorrect}. The proof sketch is done on a complete graph with 3 nodes, each with attack length 2. The authors prove that their algorithm gives the same expected utility when ${|H| = 0}$ and ${|H| = 1}$. Generalization of any kind is omitted. The highest expected utility when ${|H| = 0}$ is ${5/9}$. However, in \cite{iti1} there is a strategy with ${|H| = 2}$ giving expected utility ${(\sqrt{5} - 1)/2}$, which is strictly greater than ${5/9}$.
 
 The authors extend the model from \cite{arbitrary} to more realistic settings in \cite{powerlessIntruder}. They weaken the intruder in two ways. Their first extension introduces the intruder's movement. The intruder does not appear directly at the target, rather he has to traverse the graph along paths connecting \emph{access areas} to targets. The intruder can move infinitely fast. Covering a path takes only one step during which the intruder can be detected on every node of the path. In their second extension, some cells are hidden to the intruder. As he cannot observe the whole environment, he cannot perfectly know the position of the patroller when attacking. A concept of a \emph{state} is introduced, representing when (how many steps ago) and where (in which node) has the patroller been observed for the last time. For both extensions the authors provide mathematical programming formulations, reduction algorithms and experimental evaluations.
 
@@ -312,9 +312,9 @@ Let us assume a setting with a graph $G$ and a set of targets $T$. Let $T' \subs
 such that for each $t \in T'$ and for each node $v$ from $G'$ there is a path from $v$ to $t$ in $G'$ of length at most $d_t$, then a single robot can patrol all the targets $T'$. In other words, the robot has a strategy such that in each node of $G'$, for all $t \in T'$ the robot will visit $t$ in at most $d_t$ steps with probability strictly greater than zero.
 The goal is to find the smallest set of such subgraphs that would cover all the targets.
 
-The authors build an abstraction $Q$ of the original graph $G$. They formulate an algorithm to find the set of all maximal \emph{labeled cliques} in $Q$
-%these cliques represent the beforementioned subgraphs
-and a linear program to find the smallest labeled clique cover. The result of the program is the smallest number of robots needed to patrol the environment.
+The authors build an abstraction $Q$ of the original graph $G$. They formulate an algorithm to find the set of all maximal \emph{labelled cliques} in $Q$
+%these cliques represent the before mentioned subgraphs
+and a linear program to find the smallest labelled clique cover. The result of the program is the smallest number of robots needed to patrol the environment.
 
 %nejake odsadenie?
 %podnadpis Coordination between Robots
@@ -333,7 +333,7 @@ The second dimension refers to the degree of \emph{coordination in partitioning 
 
 \emph{Full assignment}: each robot can potentially move in every vertex of $G$.
 
-\emph{Maximal clique assignment}: each robot is assinged a maximal labeled clique (in the abstraction $Q$ of $G$). If the cliques overlap, some targets may be patrolled by multiple robots.
+\emph{Maximal clique assignment}: each robot is assigned a maximal labelled clique (in the abstraction $Q$ of $G$). If the cliques overlap, some targets may be patrolled by multiple robots.
 
 \emph{Separated assignment}: as the previous case, but the cliques assigned to the robots may not overlap (they do not have to be maximal cliques). Therefore, each target is patrolled by only one robot.
 
@@ -362,12 +362,12 @@ The results of the experiment show that in the game with mobile targets time-dep
 
 \
 
-A noticeably novel game model called MRMT\textsubscript{sg} (multiple Mobile Resources protecting Moving Targets) was introduced in \cite{line}. In MRMT\textsubscript{sg}, the defender's strategy space is descretized and attacker's strategy space is continuous. A major motivation in the paper is the problem of protecting ferries with fast patrol boats.
+A noticeably novel game model called MRMT\textsubscript{sg} (multiple Mobile Resources protecting Moving Targets) was introduced in \cite{line}. In MRMT\textsubscript{sg}, the defender's strategy space is discretized and attacker's strategy space is continuous. A major motivation in the paper is the problem of protecting ferries with fast patrol boats.
 
 The authors consider $L$ targets moving along a one-dimensional domain, specifically a straight line between two points $A$ and $B$. The targets have fixed daily schedules known to both players. The targets move in time continuously between points $A$ and $B$.
 The defender has $W$ mobile patrollers that can move between $A$ and $B$. All patrollers have a common maximum speed $v_m$ and a protection radius $r_e$. A patroller is \emph{protecting} a target if the distance between them is no more than $r_e$. The attacker chooses a certain time and a certain target to attack. The probability of attack success depends on the positions of the patrollers at that time, i.e. the attack is instant and there is no attack length. This probability is a decreasing function of the number of patrollers protecting the target. An attack on a target can be successful even if there is a patroller protecting the target. The case when an attack on a target is successful iff the target is not protected by any patroller is just a special case.
 
-The authors provide an efficient linear program called CASS (Solver for Continuous Attacker Strategies) to solve  MRMT\textsubscript{sg}. The effiecency of CASS consists in the represention of the defender's strategies as marginal probability variables and in using \emph{sub-interval analysis} to model the attacker's continuous strategy space.
+The authors provide an efficient linear program called CASS (Solver for Continuous Attacker Strategies) to solve  MRMT\textsubscript{sg}. The efficiency of CASS consists in the representation of the defender's strategies as marginal probability variables and in using \emph{sub-interval analysis} to model the attacker's continuous strategy space.
 
 
 % \subsection{Other}
@@ -520,7 +520,7 @@ This is a corollary of Lemma \ref{lem:value} and the reason why we enforce the i
 \begin{example}
 \label{ex:triangle}
 Consider a patrolling game played on the right graph (triangle) from Fig.~\ref{fig:examples}, where all nodes are targets, $s$ is the initial node and $d = 2$.
-This example is rather sofisticated than the previous two, because the defender cannot protect all the targets with probability 1.
+This example is rather sophisticated than the previous two, because the defender cannot protect all the targets with probability 1.
 A simple defender's strategy that comes to one's mind is to choose the next node uniformly, i.e. with probability 1/2.
 The value of this strategy is 1/2---attacker's best response is to attack a target when the defender leaves it.
 One can show that this defender's strategy is optimal among all stationary strategies.\footnote{We omit the proof of this statement as it is out of scope of this example.}
@@ -880,7 +880,7 @@ i.e. $\sigma_\epsilon^{reg}$ is $\epsilon$-optimal.
 
 Before we move to the next section, we show one important observation about the states of the automaton $\mathcal{A}$.
 Based on the properties of the translation process from $\mathcal{G}$ to $\mathcal{S}$, we know that $\theta_{\emph{Max}}$ encodes exactly the same defender's strategy as $\sigma_\epsilon$.
-When we realize that $Q$ is the set of all $d$-commitments $f$ occuring in vertices of $\mathbf{Reach}(\theta_\emph{Max})$, it is easy to get the following statement using Lemma \ref{lem:epsilon}.
+When we realize that $Q$ is the set of all $d$-commitments $f$ occurring in vertices of $\mathbf{Reach}(\theta_\emph{Max})$, it is easy to get the following statement using Lemma \ref{lem:epsilon}.
 
 \begin{lemma}
 \label{lem:epsilon_commitment}
@@ -1155,7 +1155,7 @@ From these characteristics, we aim to build a DFA encoding an $\epsilon$-optimal
 
 %When a play is in any state, there is exactly one unique $d$-commitment which represents the current $d$-step randomized plan for the defender.
 %Therefore, we consider only characteristics that are \emph{representable} by some $d$-commitment---otherwise, they could not be the characteristic of any state.
-%The problem of how to determine whether characteristic is representable will be addressed later.
+%The problem of how to determine whether a characteristic is representable will be addressed later.
 
 Let $U = \{u_1, \dots, u_n\}$, $n = |U|$, be the set of nodes of $\mathcal{G}$
 and let $c, c_1, \dots, c_n$ be some characteristics (not necessarily different).
@@ -1172,7 +1172,7 @@ We say that a non-empty set $B \subseteq \mathit{Char}^s$ is \emph{closed} if fo
 Finally, we say that a set $D \subseteq \mathit{Char}^s$ is \emph{complete} if it contains a closed subset.
 
 Note that each closed set $B$ represents a set of states of an automaton whose transition function can be built from the states' successors.\footnote{In general, there might be several different sequences of successors for a characteristic in a closed set. Therefore, the process of building an automaton from a closed set is not deterministic.}
-And for the automaton's intial state it suffices to choose some $\hat{c} \in B$ such that $\hat{c}(0, \hat{u}) = 1$.\footnote{There has to be at least one such $\hat{c} \in B$ unless the value of all characteristics from $B$ is 0.}
+And for the automaton's initial state it suffices to choose some $\hat{c} \in B$ such that $\hat{c}(0, \hat{u}) = 1$.\footnote{There has to be at least one such $\hat{c} \in B$ unless the value of all characteristics from $B$ is 0.}
 
 Let us fix a closed set $B$ and for each $c \in B$, let us fix some successors $(c_1, \dots, c_n) \in B^n$ of $c$.
 Further, let us fix some $\hat{c} \in B$ such that $\hat{c}(0, \hat{u}) = 1$.
@@ -1297,7 +1297,7 @@ And computing an $(2|U|)^{-1}$-optimal strategy is at least that hard.
 In this chapter, we generalize the model of patrolling games defined in Chapter \ref{chap:pg} by allowing multiple patrolling units (robots).
 The concept of multiple robots is borrowed from \cite{multi-robot}.
 With some unavoidable modifications for the multi-robot setting, we follow the process from Chapters \ref{chap:existence} and \ref{chap:main}.
-As we often refer to some parts from those chapters, it is a huge advantage for the reader to be familiar with them.
+As we often refer to some parts from these chapters, it is a huge advantage for the reader to be familiar with them.
 At the end of this chapter, we present an algorithm for computing a regular $\epsilon$-optimal strategy which is doubly exponential in the number of robots.
 
 \section{Defining the Model}
@@ -1521,7 +1521,7 @@ We also adopt the concept of extending a $d$-commitment, which is used in the tr
 We define a stochastic game $\mathcal{S} = (V, (V_{\emph{Min}}, V_{\emph{Max}}),$ $|C|^{d+2}, A, \mathbf{E}, \mathbf{P})$ in the same way as we did in Section \ref{sec:translation} (taking into account the modified definition of a $k$-commitment) with the only exception that $\mathbf{E}(\mathit{init}) = \mathbf{Comm}_d$.
 This modification is needed as the initial configuration is strategy-specific and therefore the root of the initial $d$-commitment cannot be forced.
 
-We claim that an extra condition\footnote{The extra condition listed in \cite{iti1} we refer to is that for every $v \in V$, the set $\mathbf{E}(v)$ is compact (i.e. bounded and closed) and a function $val^{\mathcal{S}}[\cdot](v, t)$ which to a given $a \in \mathbf{E}(v)$ assigns $\sum_{v'\in V}\mathbf{P}(v, a)(v')\cdot val^{\mathcal{S}}(v', t)$ is continuous on $\mathbf{E}(v)$.} sufficient for a stochastic game to have an optimal memoryless strategy for player \emph{Max} is satisfied by $\mathcal{S}$ by the same reason as it is satisfied by the stochastis game $\mathcal{S}$ defined in Section \ref{sec:translation}.
+We claim that an extra condition\footnote{The extra condition listed in \cite{iti1} we refer to is that for every $v \in V$, the set $\mathbf{E}(v)$ is compact (i.e. bounded and closed) and a function $val^{\mathcal{S}}[\cdot](v, t)$ which to a given $a \in \mathbf{E}(v)$ assigns $\sum_{v'\in V}\mathbf{P}(v, a)(v')\cdot val^{\mathcal{S}}(v', t)$ is continuous on $\mathbf{E}(v)$.} sufficient for a stochastic game to have an optimal memoryless strategy for player \emph{Max} is satisfied by $\mathcal{S}$ by the same reason as it is satisfied by the stochastic game $\mathcal{S}$ defined in Section \ref{sec:translation}.
 
 The process of translating a defender's strategy $\sigma$ in $\mathcal{G}$ to a strategy $\theta_{\emph{Max}}[\sigma]$ of player \emph{Max} in $\mathcal{S}$, and vice versa, is exactly the same as for SRPGs.
 It preserves the values of the corresponding strategies and we get that the defender has an optimal strategy in $\mathcal{G}$.
@@ -1568,7 +1568,7 @@ Therefore, $val(\sigma \mid h) = val(\sigma)$  for all $h \in \mathcal{H}(\sigma
 Now we move to prove the existence of a regular $\epsilon$-optimal defender's strategy.
 We follow the three-step process described in Section \ref{sec:discretization} with small modifications.
 In Step 1, we modify the discretization number $s$ such that probabilities $\sigma_\epsilon(h)(c)$ are integer multiples of $s$.
-A higher presicion (smaller $s$) is needed because, for an optimal strategy $\sigma$ and a history $h$, the support of $\sigma(h)$ may be of size up to the number of all configurations.
+A higher precision (smaller $s$) is needed because, for an optimal strategy $\sigma$ and a history $h$, the support of $\sigma(h)$ may be of size up to the number of all configurations.
 Then, we have to prove that the resulting discretized strategy $\sigma_\epsilon$ is $\epsilon$-optimal.
 Step 2 remains unchanged.
 Finally, in Step 3, we have to define the regular $\epsilon$-optimal strategy also for the empty word $\epsilon$.
@@ -1684,7 +1684,7 @@ $$\sigma_\epsilon^{reg}(h) =
    \end{cases}$$
 To better understand this definition, observe the case when $h$ is only a single configuration, i.e. $h = r(q_0)$.
 We have that $\sigma_\epsilon^{reg}(r(q_0)) = \xi(q_0)$.
-We see that the behavior of the strategy in the first two steps (for histories of length $0$ and $1$) is encoded by the initial state $q_0$.
+We see that the behaviour of the strategy in the first two steps (for histories of length $0$ and $1$) is encoded by the initial state $q_0$.
 To determine what to play in histories $h$ of length at least $2$, the correct state has to be computed based on the transition function $\delta$ and the input $h^+$.
 
 Based on the properties of the translation process between patrolling games and stochastic games, it can be shown that $\sigma_\epsilon^{reg}$ is the same as $\sigma[\theta_\emph{Max}^{ml}]$ obtained from $\theta_\emph{Max}^{ml}$.
@@ -1829,7 +1829,7 @@ Because for each $d$-commitment $p \in Q$ it holds that $f_p(\epsilon) = p(\epsi
 In this section, we provide an algorithm to compute a regular $\epsilon$-optimal strategy of a given MRPG for a given precision $\epsilon$.
 This algorithm is almost the same as the Algorithm \ref{alg:algorithm1} in Section \ref{sec:alg}.
 And although the ideas behind these algorithms are very similar, the argumentation about their correctness differs due to different definitions of a characteristic in SRPGs and MRPGs.
-Therefore, we provide a detailed formal argumentation about the algorithm.
+Therefore, we provide a detailed argumentation about the algorithm.
 
 From the previous section, we already know that there exists a DFA $\mathcal{A}_\mathit{Char}$ which encodes an $\epsilon$-optimal strategy and whose states $Q_\mathit{Char}$ are mutually different characteristics.
 Further, each of its states $\gamma = (f, m)$ satisfies:
@@ -1889,7 +1889,7 @@ We refer to $\gamma_i$ as the $c_i$-successor of $\gamma$.
 The first condition guarantees that if there is a positive probability of choosing $c_i$ in the state $\gamma$, then the current configuration of its $c_i$-successor must be $c_i$.
 The condition's if-clause is crucial for the algorithm---there might exist a configuration $c$ and a target $t$ such that no successor of $c$ covers $t$.
 Therefore, if $d = 1$, the value of any characteristic $(f, m)$ such that $r(f) = c$ would be $0$ and no characteristic could have a $c$-successor from the set $D$ until characteristics with value $0$ were added to $D$.
-Thus, the $c$-successor of a charateristic $(f, m)$ can be an arbitrary characteristic as long as $\xi(f)(c) = 0$.
+Thus, the $c$-successor of a characteristic $(f, m)$ can be an arbitrary characteristic as long as $\xi(f)(c) = 0$.
 \end{remark}
 
 As in Section \ref{sec:alg}, we say that a non-empty set $B \subseteq \mathit{Char}^s$ is \emph{closed} if for every $\gamma \in B$ there are successors $(\gamma_1, \dots, \gamma_{|C|}) \in B^{|C|}$ of $\gamma$.
@@ -1926,7 +1926,7 @@ m(k, u)
   &= \sum_{c \in C_u}\xi(f_\gamma)(c) + \sum_{c \in C \smallsetminus C_u} \xi(f_\gamma)(c)\cdot m_{\delta_B(\gamma, c)}(k-1, u)	\label{eq6:fourth} \\
   &= m_\gamma(k, u)\label{eq6:fifth}~.
 \end{align}
-The equality \eqref{eq6:second} follows from the induction hypothesis (we used notation $\mathbf{Char}_{\gamma_i} = (f_{\gamma_i}, m_{\gamma_i})$) and the fact that $f = f_\gamma$.
+The equality \eqref{eq6:second} follows from the fact that $f = f_\gamma$ and from the induction hypothesis (we used notation $\mathbf{Char}_{\gamma_i} = (f_{\gamma_i}, m_{\gamma_i})$).
 The other equalities follow from the definitions of successors (\eqref{eq6:first}), of $\sigma_B$ (\eqref{eq6:third}), of $C$ (\eqref{eq6:fourth}) and of the characteristic of a state (\eqref{eq6:fifth}).
 \end{proof}
 
@@ -1969,14 +1969,7 @@ However, even though the number of possible multisets ${|U| + z - 1 \choose z}$ 
 %centralne riadena strategia -> future work sa moze ubrat tymto (inym) smerom
 
 %TODO list
-%TODO IDEA - namiesto konfiguracii mat multiset - uplne postacujuce, nakolko roboti su homogenni -> znizilo by to:
-% - pocet dielikov, na ktore musim rozsekat pravdepodobnosti
-% - mnozinu vrcholov (namiesto |U|^z by ich bolo "len" pocet \-kombinacii z (|U|+z-1)-prvkovej mnoziny)
-% - mnozinu stavov
-%
 %TODO spell checker
-%TODO kedykolvek je nieco nove - preco je to nove/lepsie/hlbsi dokaz -> aby bolo vidiet, co som urobil
-%TODO U casti, ktere jsou podobne tomu, co mame v tech clancich, zkus prosim co nejdetailneji napsat, jaky je tvuj prinos (rozsiril jsem vysledek, precizoval dukaz, nasel lepsi (nebo horsi :-) ) bound apod.)
 
 \def\us{\char`\_}
 
