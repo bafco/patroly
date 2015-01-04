@@ -539,6 +539,7 @@ If she had the information about an initiated attack, she would need not to care
 \end{example}
 
 \chapter{Existence of Optimal Strategies}
+\label{chap:existence}
 
 In this chapter, we summarize the essential results achieved in \cite{iti1}, while we primarily focus on the constructs on which our results are based.
 
@@ -677,6 +678,7 @@ The defender has an optimal strategy in $\mathcal{G}$.
 For details of the translation process and the omitted proofs, see \cite{iti1}.
 
 \chapter{Main Result}
+\label{chap:main}
 In this chapter, we review and extend the results presented in \cite{iti1}.
 There, the authors have proven the existence of a \emph{regular} $\epsilon$-optimal defender's strategy.
 They provide an algorithm to compute a deterministic finite automaton encoding the strategy.
@@ -1228,7 +1230,7 @@ Both the size of the priority queue $C$ and the size of the set $D$ are bounded 
 $|\mathit{Char}^s|$.
 The repeat-until cycle is executed at most $|\mathit{Char}^s|$ times.
 The major part of the execution time is spent in determining whether a set $D$ is already complete.
-Following the procedure we have described, this can take up to $|D|\cdot|D|^{(n+1)}$ steps---\linebreak%TODO
+Following the procedure we have described, this can take up to $|D|\cdot|D|^{(n+1)}$ steps---\linebreak
 $|D|$ iterations of determining for each tuple $(c_0, \dots, c_n) \in D'^{(n+1)}$ whether it holds that $(c_1, \dots, c_n)$ are successors of $c_0$.\footnote{Each such verification involves up to $\mathcal{O}(d\cdot n^2)$ multiplications.}
 %The found closed set $D'_\mu$ with saved successors for each of its elements represents an automaton determining an $\epsilon$-optimal strategy.
 
@@ -1290,12 +1292,11 @@ And computing an $(2|U|)^{-1}$-optimal strategy is at least that hard.
 
 \chapter{Multi-Robot Patrolling Games}
 \label{chap:multiPatrol}
-%IDEA To prevent ambiguity, from now on we refer to patrolling games as simple patrolling games.
-
 In this chapter, we generalize the model of patrolling games defined in Chapter \ref{chap:pg} by allowing multiple patrolling units (robots).
 The concept of multiple robots is borrowed from \cite{multi-robot}.
-
-%TODO co nove? prezentujeme algoritmus? ako vysledky ukazeme?
+With some unavoidable modifications for the multi-robot setting, we follow the process from Chapters \ref{chap:existence} and \ref{chap:main}.
+As we often refer to some parts from those chapters, it is a huge advantage for the reader to be familiar with them.
+At the end of this chapter, we present an algorithm for computing a regular $\epsilon$-optimal strategy which is doubly exponential in the number of robots.
 
 \section{Defining the Model}
 
@@ -1319,7 +1320,7 @@ We define a \emph{configuration} to be an $z$-tuple of nodes specifying the posi
 We denote it by $c = (c_1, \dots, c_z)$, where $c_i \in U$ is the position of the robot $r_i$.
 We denote by $C = U^z$ the set of all configurations.
 
-Note that an MRPG, as opposed to a single-robot patrolling game (SRPG), does not have any predefined initial configuration of the robots.
+Note that, as opposed to a single-robot patrolling game (SRPG), an MRPG does not have any predefined initial configuration of the robots.
 In an SRPG, forcing the initial node to be a target node guarantees maximal possible value of the game.
 However, in an MRPG, we are not aware of any such simple restriction of the initial configuration that would guarantee maximal possible value of the game.
 Example \ref{ex:initial2} illustrates that even forcing the robots to start in mutually different targets is not enough.
@@ -1510,7 +1511,7 @@ Let $k \in \mathbb{N}$. A \emph{$k$-commitment} is a function $f : C^{\leq k} \t
 \noindent
 Recall that a $d$-commitment $f$ represents a Markov chain over states $C^{\leq d+1}$ with transition probabilities given by $f$.
 Once the defender has committed to a $d$-commitment, the probability of detecting an immediate attack on a target is computed as follows.
-For every $d$-commitment $f$ and every target $t \in T$, we define the value $val(f, t)$ of defending the target $t$ with the commitment $f$ as the probability of reaching a state of the form $wc$, where $w\neq \epsilon$ and $t \in \mathit{cover}(c)$,
+For every $d$-commitment $f$ and every target $t \in T$, we define the value $val(f, t)$ of defending the target $t$ with the~commitment~$f$ as the probability of reaching a state of the form $wc$, where $w\neq \epsilon$ and $t \in \mathit{cover}(c)$,
 from the state $\epsilon$ in the Markov chain induced by $f$.
 The value of a $d$-commitment $f$ is defined as $val(f) = \text{min}_{t\in T} ~val(f, t)$.
 
@@ -1533,7 +1534,7 @@ The defender has an optimal strategy in any MRPG.
 \label{sec:discretizationMRPG}
 
 In this section, we prove that each optimal defender's strategy $\sigma$ retains its value throughout a play of the game.
-We later use this knowledge to prove that an appropriately discretized strategy (for a given precision $\epsilon$) has value at least $val(\sigma) - \epsilon$ throughout the play, and therefore is $\epsilon$-optimal.
+We later use this knowledge to prove that an appropriately discretized strategy (for a given precision $\epsilon$) has value at least $val(\sigma) - \epsilon$ in every moment of the play, and therefore is $\epsilon$-optimal.
 We translate this discretized strategy to a strategy of player \emph{Max} in a stochastic game, from which we build a DFA encoding a regular $\epsilon$-optimal strategy.
 
 As a defender's strategy in an MRPG needs to be defined also for the empty word, we start with a modified definition of a defender's strategy after a history has been played.
@@ -1574,7 +1575,6 @@ Finally, in Step 3, we have to define the regular $\epsilon$-optimal strategy al
 For a desired precision $\epsilon$, we discretize $\sigma$ to obtain a strategy $\sigma_\epsilon$ with all probabilities $\sigma_\epsilon(h)(c)$ being integer multiples of $s = \lceil(|C|d)/\epsilon\rceil^{-1}$.
 To define the strategy $\sigma_\epsilon$, we use the same rounding procedure as before, which we briefly bring back.
 
-%TODO premenovat H_\epsilon spat na H_0 - nech sa to nepletie s precision \epsilon
 Let $C = \{c^1, c^2, \dots, c^{|C|}\}$ be the set of all configurations.
 For every history $h \in \mathcal{H}_\epsilon$ and every $1 \leq i \leq |C|$, we inductively define $\sigma_\epsilon(h)(c^i) = k_i \cdot s$, where $k_i$  is the largest number satisfying
 $$ k_i \cdot s \leq \sigma(h)(c^i) + \sum_{j=1}^{i-1}(\sigma(h)(c^j) - \sigma_\epsilon(h)(c^j))~.$$
@@ -1587,7 +1587,7 @@ For all $h \in \mathcal{H}_\epsilon$ and $c \in C$ we have $|\sigma(h)(c) - \sig
 \end{lemma}
 
 We prove the $\epsilon$-optimality of $\sigma_\epsilon$ by proving that whenever the attacker attacks, the defender will capture him using $\sigma_\epsilon$ with probability at least as large as using $\sigma$ minus $\epsilon$.
-We define the value of a defender's strategy against an immediate attack after a given relevant history.
+To formalize this, we start by defining the value of a defender's strategy against an immediate attack after a given relevant history.
 
 \begin{definition}
 Let $\iota$ be a defender's strategy and $h \in \mathcal{H}(\iota)$ a history.
@@ -1603,7 +1603,7 @@ where $\pi_t$ is an attacker's strategy such that $\pi_t(c) = t$ for all $c \in 
 For every $h \in \mathcal{H}(\sigma_\epsilon)$ we have that $att\text{-}val(\sigma_\epsilon \mid h) \geq val(\sigma) - \epsilon$.
 \end{lemma}
 \begin{proof}
-We proceed in the same way as in the proof of Lemma \ref{lem:epsilon}, so we will be concise in the reasoning.
+We proceed in the same way as in the proof of Lemma \ref{lem:epsilon}, so we will be concise in reasoning.
 We prove that
 \begin{align}
 att\text{-}val(\sigma_\epsilon \mid h)
@@ -1612,6 +1612,8 @@ att\text{-}val(\sigma_\epsilon \mid h)
   &= val(\sigma) - \epsilon\label{eq4:third}~.
 \end{align}
 \begin{itemize}
+	\item The equality \eqref{eq4:third} follows from Lemma \ref{lem:valueMRPG}.
+	\item The inequality \eqref{eq4:second} holds because forcing the attacker to attack immediately cannot decrease the value of the game.
 	\item To prove the first inequality \eqref{eq4:first}, we analyze the impact of the rounding in the definition of $\sigma_\epsilon$.
 Let us denote by $R[\iota, h, t, k]$ the probability of reaching any configuration $c \in C_t$ from $last(h)$, $h \in \mathcal{H}$, in up to $k$ steps using the strategy $\iota_h$.
 We prove by induction on $k$ that for all $h \in \mathcal{H}$, $t \in T$, and $k \in \mathbb{N}$ we have that
@@ -1620,7 +1622,7 @@ $$R[\sigma, h, t, k] - R[\sigma_\epsilon, h, t, k] \leq k|C|s~.$$
 The base case ($k = 1$) directly follows from Lemma \ref{lem:differenceMRPG} and the fact that $R[\iota, h, t, 1] = \sum_{c \in C_t}\iota(h)(c)$.
 
 Let us denote the difference $R[\sigma, h, t, k] - R[\sigma_\epsilon, h, t, k]$ by $\Delta$.
-For $k \geq 2$, we have
+For $k \geq 2$, we have \pagebreak%TODO
 \begin{eqnarray}
 \Delta
   &=& \sum_{c \in C_t}(\sigma(h)(c) - \sigma_\epsilon(h)(c)) +	\nonumber \\
@@ -1637,8 +1639,6 @@ However, because
 $$att\text{-}val(\iota \mid h) = \inf_{t \in T} R[\iota, h, t, d]$$
 we have
 $$att\text{-}val(\sigma \mid h) - att\text{-}val(\sigma_\epsilon \mid h) \leq d|C|s \leq \epsilon~.$$
-	\item The inequality \eqref{eq4:second} holds because forcing the attacker to attack immediately cannot decrease the value of the game.
-	\item The equality \eqref{eq4:third} follows from Lemma \ref{lem:valueMRPG}.
 \end{itemize}
 \vspace{-10pt}
 \end{proof}
@@ -1660,7 +1660,7 @@ Note that this set is finite because of the discretization.
 We restrict the set of vertices of $\mathcal{S}$ to $\mathbf{Reach}(\theta_\emph{Max})$ to obtain a stochastic game $\mathcal{S}_\epsilon$ with finitely many states, in which we obtain an optimal memoryless strategy $\theta_\emph{Max}^{ml}$ (see \cite{kucera}).
 Because both $\theta_\emph{Max}$ and $\theta_\emph{Max}^{ml}$ are legal strategies in both $\mathcal{S}$ and $\mathcal{S}_\epsilon$, we have
 $$val^\mathcal{S}(\theta_\emph{Max}^{ml}, \mathit{init}, \mathit{fail}) \geq val^\mathcal{S}(\theta_\emph{Max}, \mathit{init}, \mathit{fail}) = val(\sigma_\epsilon)~.$$
-For more details, see Step 2 from Section \ref{sec:discretization}.
+For more details, see Step 2 from Section \ref{sec:discretization}.\pagebreak%TODO
 
 \textbf{Step 3.}
 Using $\theta_\emph{Max}^{ml}$, we construct a DFA $\mathcal{A}$ encoding the desired regular \hbox{$\epsilon$-optimal} strategy $\sigma_\epsilon^{reg}$ as follows: $\mathcal{A} = (Q, C, \delta, q_0, \emptyset)$ where
@@ -1945,10 +1945,10 @@ If the fixed point is not empty, then it is the desired closed set and $D$ is co
 \noindent
 \textbf{Complexity of the Algorithm \ref{alg:algorithm2}}.
 As for the Algorithm \ref{alg:algorithm1}, the decisive part of the execution time is spent in determining whether a set $D$ is complete.
-This can take up to $|D|\cdot|D|^{|C|+1}$ steps---$|D|$ iterations of verifying for each tuple $(\gamma_0, \dots, \gamma_{|C|}) \in D^{|C|+1}$ whether $(\gamma_1, \dots, \gamma_{|C|})$ are successors of $\gamma_0$.
+This can take up to $|D|\cdot|D|^{|C|+1}$ steps---$|D|$ iterations of verifying for each tuple $(\gamma_0, \dots, \gamma_{|C|}) \in D'^{|C|+1}$ whether $(\gamma_1, \dots, \gamma_{|C|})$ are successors of $\gamma_0$.
 As $D \subseteq \mathit{Char}^s$, it remains to find an upper bound for $|\mathit{Char}^s|$, i.e. determine how many different discretized characteristics $(f, m)$ exist.
 The number of possible values for $r(f)$ is $|C|$, for $\xi(f)$ it is $(s^{-1})^{|C|}$, and for $m$ it is $(s^{-1})^{d^2|U|}$.
-For $C = U^z$ and $s = \lceil(|C|d)/\epsilon\rceil^{-1}$ we get that the Algorithm \ref{alg:algorithm2} runs in time $\left(\frac{d\cdot|U|^z}{\epsilon}\right)^{\mathcal{O}(|U|^{2z} + d^2\cdot|U|^{z+1})}$, which proves Theorem \ref{thm:complexityMRPG}.
+For $C = U^z$ and $s = \lceil(|C|d)/\epsilon\rceil^{-1}$ we get that the Algorithm \ref{alg:algorithm2} runs in time $\left(\frac{d\cdot|U|^z}{\epsilon}\right)^{\mathcal{O}(|U|^{2z} + d^2\cdot|U|^{z+1})}$.
 
 \begin{thm}
 \label{thm:complexityMRPG}
@@ -1957,7 +1957,10 @@ There is a regular $\epsilon$-optimal defender's strategy computable in time
 $\left(\frac{d\cdot|U|^z}{\epsilon}\right)^{\mathcal{O}(|U|^{2z} + d^2\cdot|U|^{z+1})}$.
 \end{thm}
 
-%- number of 1-commitments when all except root and \xi is ignored
+\begin{remark}
+As all the robots are homogenous, it would be possible to define the multi-robot model in such a way that multisets of nodes are considered instead of configurations.
+However, even though the number of possible multisets ${|U| + z - 1 \choose z}$ is strictly smaller than $|C|$, it would not make any significant improvement to the worst-case asymptotic complexity.
+\end{remark}
 
 \chapter{This is the end, my only friend, the end}
 
