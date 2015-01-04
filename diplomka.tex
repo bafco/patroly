@@ -1290,7 +1290,7 @@ In other words, the attacker can successfully attack target $t$ in the $i$-th st
 Therefore, $val \leq 1 - (2|U|)^{-1}$.
 
 We see that even approximating the value of the game up to the error $(4|U|)^{-1}$ requires exponential time in the worst-case scenario unless \textbf{P}=\textbf{NP}.
-And computing an $(2|U|)^{-1}$-optimal strategy is at least that hard.
+And computing a $(2|U|)^{-1}$-optimal strategy is at least that hard.
 \end{remark}
 
 \chapter{Multi-Robot Patrolling Games}
@@ -1305,7 +1305,7 @@ At the end of this chapter, we present an algorithm for computing a regular $\ep
 
 As described in Subsection \ref{subsec:multi}, the multi-robot setting can be studied under many possible reasonable restrictions.
 In \cite{multi-robot}, the authors established two dimension in which the robots can be coordinated: in computing and executing the patrolling strategy, and in partitioning the environment.
-We chose to study the most general model, which corresponds to \emph{joint strategy} (one strategy regarding the movement of all the robots is computed centrally) with \emph{full assignment} (each robot can potentially visit every node).
+We chose to study the least restrictive model, which corresponds to \emph{joint strategy} (one strategy regarding the movement of all the robots is computed centrally) with \emph{full assignment} (each robot can potentially visit every node).
 
 The main reason for choosing this model is that we are interested in the "most" optimal strategy---any unnecessary restrictions might lower the value of the game.
 Example \ref{ex:joint} shows a game where a joint strategy yields strictly larger value than any disjointed strategy.
@@ -1319,7 +1319,7 @@ A \emph{multi-robot patrolling game (MRPG)} is a tuple $\mathcal{G} = (U, E, T, 
 \noindent
 We consider all robots to be homogeneous and we denote them as $r_1, \dots, r_z$.
 In every moment of a play, every robot is located in some node.
-We define a \emph{configuration} to be an $z$-tuple of nodes specifying the positions of the robots \cite{multi-robot}.
+We define a \emph{configuration} to be a $z$-tuple of nodes specifying the positions of the robots~\cite{multi-robot}.
 We denote it by $c = (c_1, \dots, c_z)$, where $c_i \in U$ is the position of the robot $r_i$.
 We denote by $C = U^z$ the set of all configurations.
 
@@ -1965,7 +1965,36 @@ As all the robots are homogenous, it would be possible to define the multi-robot
 However, even though the number of possible multisets ${|U| + z - 1 \choose z}$ is strictly smaller than $|C|$, it would not make any significant improvement to the worst-case asymptotic complexity.
 \end{remark}
 
-\chapter{This is the end, my only friend, the end}
+\chapter{Conclusions and Future Work}
+
+The purpose of this thesis was to extend the previous results for patrolling games (provide a more efficient algorithm to solve instances of such games) as well as to define a more general model and apply the achieved results to it.
+
+First, we looked into the simple model of patrolling games with one defender and one attacker.
+We built on past results such as the existence of an $\epsilon$-optimal defender's strategy and a doubly exponential algorithm to compute such a strategy.
+We reformulated some statements with more detailed proofs.
+That allowed us to utilize the concept of characteristics to factorize the state space of the automaton encoding an $\epsilon$-optimal strategy.
+We provided an algorithm for computing an $\epsilon$-optimal strategy in only quadratically exponential time.
+
+Second, we generalized the model of patrolling games by equipping the defender with multiple homogeneous robots.
+We studied the least restrictive model where a single defender's strategy determines the movement of all robots and each robot can potentially traverse the whole game graph.
+We adapted the results for single-robot patrolling games to multi-robot patrolling games and provided an algorithm to compute an $\epsilon$-optimal strategy for any MRPG.
+The resulting automaton encoding the strategy is doubly exponential in the number of robots.
+%To the best of our knowledge, this is the first algorithm which can an $\epsilon$-optimal strategy for MRPG among all history-dependent strategies.
+
+There is a lot of space for future research in this area.
+Generalization of our model is possible in many different directions.
+Target-specific attack length has been already addressed in \cite{iti2}.
+Introducing sensing capabilities for robots should be straightforward---only a simple change in the definition of a defended run should be needed.
+A more challenging generalization of the model would be multiple attackers.
+Also, a multi-robot model with heterogeneous robots or more restrictive environment could be considered.
+
+As long as it takes improving the computational complexity, we see opportunities in reducing the state space of the automaton.
+This might be achieved by a different equivalence relation.
+For example, we still do not know whether, in general, the automaton's state-space can be bounded above by the number of different $1$-commitments, i.e. no two states would have the same probability distributions in their root. However, we believe that this cannot be done.
+Inspecting the properties of optimal strategies might reveal new ways for more efficient algorithms.
+Finally, some advanced results from other fields might significantly reduce the time needed to determine whether a set of characteristics is complete.
+
+%find some lower bound on the number of needed checkes whether a tuple of characteristics are successors of another characteristic
 
 %centralne riadena strategia -> future work sa moze ubrat tymto (inym) smerom
 
