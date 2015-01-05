@@ -60,7 +60,14 @@ And last but not least, I am grateful to my brother, Mgr. Michal Abaffy, for per
 \end{ThesisThanks}
 
 \begin{ThesisAbstract}
-Blablabla
+Patrolling games are two-player games played on graphs.
+One player, the attacker, aims at attacking some of the nodes, while the other player, the defender, tries to protect those nodes by visiting them.
+The defender has to randomize as her strategy and position are both known to the attacker.
+
+We provide a quadratically exponential algorithm which computes an $\epsilon$-optimal defender's strategy for a given patrolling game and a given precision $\epsilon$.
+Further, we extend the model of patrolling games by allowing multiple patrolling robots.
+We provide an algorithm to compute an $\epsilon$-optimal defender's strategy in doubly exponential time in the number of robots.
+
 \end{ThesisAbstract}
 
 \begin{ThesisKeyWords}
@@ -92,7 +99,7 @@ The last section of this chapter we dedicate to the pioneers who set important d
 In this chapter, we present the basics of game theory. The definitions and content used here are inspired by \cite{fudenberg}, \cite{polak} and \cite{gameTheory}.
 
 Game theory is a mathematical study of decision making. It studies games as well-defined mathematical objects.
-A \emph{strategic form game} (or simply a \emph{game}) is played between \emph{players} $P_1, \dots, P_n, n \geq 2$.
+A \emph{game} is played between \emph{players} $P_1, \dots, P_n, n \geq 2$.
 Each player $P_i$ has a non-empty set $S_i$ of \emph{pure strategies}. A strategy can be seen as an algorithm telling the player what to do throughout a play of the game.
 The outcome of the game is an element from the set
 $\mathcal{S} = \prod_{i=1}^n S_i$
@@ -100,7 +107,7 @@ and is called a \emph{strategy profile}.
 Each strategy profile represents some value for every player.
 Therefore, every player $P_i$ has his own \emph{utility function} $U_i: \mathcal{S} \to \mathbb{R}$ which assigns \emph{payoffs} to strategy profiles.
 The higher the player's payoff of a strategy profile, the better the profile for the player.
-The above representation of a game is called normal form. The normal game is usually represented by a matrix and is mostly used when a strategy represents a single action.
+The above representation of a game is called normal (or strategic) form. The normal game is usually represented by a matrix and is mostly used when a strategy represents a single action.
 
 The extensive form of a game is appropriate to formalize games with time sequencing of \emph{moves}.
 Here, games are played on trees, where each node with its outgoing edges represents a point of choice for a player.
@@ -125,7 +132,7 @@ Different solution concepts were designed for specific game models. We are espec
 
 \section{Security Games}
 
-Security games are two-player games in which \emph{defender} allocates resources to guard targets against an \emph{attacker} (also called \emph{adversary} or \emph{intruder}), who aims to attack some target.\footnote{In the rest of the paper, we denote the defender with "she" and the attacker with "he".}
+Security games are two-player games in which \emph{defender} allocates resources to guard targets against an \emph{attacker} (also called \emph{adversary} or \emph{intruder}), who aims to attack some target.\footnote{In the rest of the paper, we refer to the defender as "she" and to the attacker as "he".}
 Players' utilities are determined by the attacked target and the position of defender's resources during the attack.
 If the target is defended (attack is unsuccessful), defender's utility increases and attacker's utility decreases.
 Although one player's gain means other player's loss, security games are non-zero sum games in general.
@@ -149,7 +156,7 @@ Routes) security system \cite{armor}.
 It has been deployed since August 2007 at the Los Angeles International Airport (LAX).
 It is used for randomizing allocation of checkpoints on the roadways and assigning canine patrol routes within the terminals.
 
-The second application, deployed by Federal Air Marshals Service (FAMS), is called \emph{IRIS} (Intelligent Randomization In Scheduling) \cite{iris}.
+The second application, deployed by the Federal Air Marshals Service (FAMS), is called \emph{IRIS} (Intelligent Randomization In Scheduling) \cite{iris}.
 IRIS helps to create a flight coverage schedule for armed marshals who can defeat terrorist attacks.
 Scheduling constraints in IRIS are much more complex than in ARMOR as the marshals are limited by their location and timing constraints.
 Although IRIS was developed for FAMS, it provides a general framework for solving patrolling scheduling problems in other transportation networks as well, e.g. in New York City subway system.
@@ -167,8 +174,8 @@ The last real-world security application we mention is \emph{TRUSTS} (Tactical R
 The main purpose of TRUSTS is fare-evasion deterrence in urban proof-of-payment transit systems.
 In these systems, passengers are legally, but not physically, required to purchase tickets.
 Patrol units move about the system and fine fare-evading passengers.
-The optimization objective is to maximize the total revenue (ticket sales plus fines) to the government.
-In \cite{trusts2}, the authors extend the TRUSTS system to incorporate also crime prevention and counter-terrorism.
+The optimization objective is to maximize the total revenue (ticket sales plus penalties) to the government.
+In \cite{trusts2}, the authors\linebreak extend the TRUSTS system to incorporate also crime prevention and counter-terrorism.
 
 \section{Introduction to Patrolling Games}
 \label{sec:PG}
@@ -1673,7 +1680,7 @@ $$\sigma_\epsilon^{reg}(h) =
    \end{cases}$$
 To better understand this definition, observe the case when $h$ is only a single configuration, i.e. $h = r(q_0)$.
 We have that $\sigma_\epsilon^{reg}(r(q_0)) = \xi(q_0)$.
-We see that the behaviour of the strategy in the first two steps (for histories of length $0$ and $1$) is encoded by the initial state $q_0$.
+Notice that the behaviour of the strategy in the first two steps (for histories of length $0$ and $1$) is encoded by the initial state $q_0$.
 To determine what to play in histories $h$ of length at least $2$, the correct state has to be computed based on the transition function $\delta$ and the input $h^+$.
 
 Based on the properties of the translation process between patrolling games and stochastic games, it can be shown that $\sigma_\epsilon^{reg}$ is the same as $\sigma[\theta_\emph{Max}^{ml}]$ obtained from $\theta_\emph{Max}^{ml}$.
@@ -1698,7 +1705,7 @@ In SRPGs, a characteristic contained all the information needed to determine the
 In MRPGs, an analogous definition of a characteristic of a state (probability of reaching a certain node in the next $k$ steps) would not suffice---probabilities of visiting each particular node in the next step do not contain enough information to determine the probability distribution over the configurations in the next step.
 Also, the current configuration cannot be determined by its cover.
 Therefore, we extend the definition of a characteristic to contain this additional information---the current configuration and the probability distribution over configurations in the next step.
-Note that these two properties can be represented by a $1$-commitment.
+\mbox{Note that these two properties can be represented by a $1$-commitment.}
 
 We start by defining a characteristic as a general mathematical object.
 Then, we map essential properties of a state to such an object.
