@@ -11,6 +11,7 @@
 \usepackage{tikz}
 \tikzset{ every node/.style={circle,fill=gray!15,draw,minimum size=1.5em,inner sep=2.5pt}}
 \usepackage{array}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 
 \usepackage[document]{algorithm}
 \newfloat{algorithm}{t}{lop}
@@ -405,7 +406,29 @@ The authors present an efficient linear program called CASS (Solver for Continuo
 % alarms
 % euclidian??
 
-%TODO - tabulka!
+\subsection{Comparison of related work}
+
+\begin{table}[h]
+\renewcommand\thetable{1}
+\hspace{-6pt}
+\begin{tabular}{|  c || C{1.225cm} | C{1.83cm} | C{1.45cm} | C{0.865cm} | C{3.22cm} |}
+\hline
+	& unified attack length	& defender's strategy	& multiple robots	& zero-sum game & special properties \\
+\hline \hline
+\cite{perimeter}, \cite{perimeter2}, \cite{perimeter3}	& yes	& stochastic	& yes	& yes	& graph is a circle, all nodes are targets \\
+\hline
+\cite{arbitrary}, \cite{powerlessIntruder}	& no	& finite-memory	& no	& no	& robot has sensing capabilities \\
+\hline
+\cite{multi-robot} & no	& stochastic	& yes	& yes & targets have different values \\
+\hline
+\cite{movingTargets} & yes	& stochastic	& no	& no	& targets move over the nodes in time \\
+\hline
+this thesis & yes	& infinite-memory	& yes	& yes	& \\
+\hline
+\end{tabular}
+\caption{Comparison of models in related works}
+\end{table}
+
 
 
 \chapter{Patrolling Games}
