@@ -72,7 +72,7 @@ We present an algorithm to compute an $\epsilon$-optimal defender's strategy in 
 \end{ThesisAbstract}
 
 \begin{ThesisKeyWords}
-patrolling games, game theory, complexity, algorithm, optimal strategy, $\epsilon$-optimality, oriented graph, multiple robots, multi-robot, characteristic, Stackelberg model
+patrolling games, game theory, complexity, algorithm, optimal strategy, $\epsilon$-optimality, oriented graph, multiple robots, characteristic, Stackelberg model
 \end{ThesisKeyWords}
 
 \MainMatter
@@ -94,7 +94,7 @@ Many different models of patrolling games have been already defined and studied.
 Some of them are covered in more detail in Section $\ref{sec:patrolLiterature}$.
 The model we adopted is from \cite{miso}.
 We model a patrolling game as a zero-sum (or strictly competitive) game.
-The game is played on a directed graph which represents the possible locations and moves of the defender.
+The game is played on a directed graph, which represents the possible locations and moves of the defender.
 Some of the nodes are valuable targets.
 The defender starts in some target and moves along the edges, trying to protect the targets.
 Each step takes one time unit.
@@ -408,6 +408,10 @@ The authors present an efficient linear program called CASS (Solver for Continuo
 
 \subsection{Comparison of related work}
 
+For clarity, we summarize the basic properties of the previously described patrolling game models in Table \ref{table1}.
+We do not include the model from \cite{line} as it deviates from all the other models in a significant way.
+
+\vspace{-3pt}
 \begin{table}[h]
 \renewcommand\thetable{1}
 \hspace{-6pt}
@@ -419,7 +423,7 @@ The authors present an efficient linear program called CASS (Solver for Continuo
 \hline
 \cite{arbitrary}, \cite{powerlessIntruder}	& no	& finite-memory	& no	& no	& robot has sensing capabilities \\
 \hline
-\cite{multi-robot} & no	& stochastic	& yes	& yes & targets have different values \\
+\cite{multi-robot} & no	& stochastic	& yes	& yes & targets may have different values \\
 \hline
 \cite{movingTargets} & yes	& stochastic	& no	& no	& targets move over the nodes in time \\
 \hline
@@ -427,6 +431,7 @@ this thesis & yes	& infinite-memory	& yes	& yes	& \\
 \hline
 \end{tabular}
 \caption{Comparison of models in related works}
+\label{table1}
 \end{table}
 
 
@@ -1678,6 +1683,7 @@ The base case ($k = 1$) directly follows from Lemma \ref{lem:differenceMRPG} and
 Let us denote the difference $R[\sigma, h, t, k] - R[\sigma_\epsilon, h, t, k]$ by $\Delta$.
 For $k \geq 2$, we have \pagebreak%TODO
 \begin{eqnarray}
+\hspace{-3.3pt}
 \Delta
   &=& \sum_{c \in C_t}(\sigma(h)(c) - \sigma_\epsilon(h)(c)) +	\nonumber \\
   & &\hspace{-16.6pt} + \sum_{c\in C \smallsetminus C_t}(\sigma(h)(c)\cdot R[\sigma, hc, t, k - 1] - \sigma_\epsilon(h)(c)\cdot R[\sigma_\epsilon, hc, t, k - 1])	\nonumber \\
@@ -2039,9 +2045,9 @@ Also, a multi-robot model with heterogeneous robots or more restrictive environm
 
 As long as it takes improving the computational complexity, we see opportunities in reducing the state space of the automaton.
 This might be achieved by a different equivalence relation.
-For example, we still do not know whether, in general, the automaton's state-space can be bounded above by the number of different $1$-commitments, i.e. no two states would have the same probability distributions in their root. However, we believe that this cannot be done.
+For example, we still do not know whether, in general, the automaton's state-space can be bounded above by the number of different $1$-commitments, i.e. no two states would have the same probability distribution in their root. However, we believe that this cannot be done.
 Inspecting the properties of optimal strategies might reveal new ways for more efficient algorithms.
-Finally, some advanced results from other fields might significantly reduce the time needed to determine whether a set of characteristics is complete.
+Finally, applying some advanced results from other fields of mathematics might significantly reduce the time needed to determine whether a set of characteristics is complete.
 
 \def\us{\char`\_}
 
